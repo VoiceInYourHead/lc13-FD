@@ -143,8 +143,8 @@
 /datum/job/agent/captain
 	title = "Agent Captain"
 	selection_color = "#BB9999"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 4
+	spawn_positions = 4
 	outfit = /datum/outfit/job/agent/captain
 	display_order = JOB_DISPLAY_ORDER_CAPTAIN
 
@@ -156,13 +156,7 @@
 	job_important = "You are an Agent Captain. As an experienced Agent, you are expected to disseminate important information and use your experience lead other Agents."
 
 	job_abbreviation = "CPT"
-
-	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 20,
-		PRUDENCE_ATTRIBUTE = 30,
-		TEMPERANCE_ATTRIBUTE = 30,
-		JUSTICE_ATTRIBUTE = 20,
-	)
+	normal_attribute_level = 40
 
 /datum/outfit/job/agent/captain
 	name = "Agent Captain"
