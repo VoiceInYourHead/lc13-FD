@@ -38,11 +38,12 @@ GLOBAL_VAR_INIT(wcorp_enemy_faction, "") //decides which faction WCorp will be u
 				to_chat(world, span_userdanger("Round will end in a draw after 40 minutes.</span>"))
 				addtimer(CALLBACK(src, PROC_REF(rcorp_announce)), 3 MINUTES)
 
-			//Limbus Labs
-			if("limbus_labs")
+
+			//Limbus Labs, uncomment in case of merge conflicts
+			/*if("limbus_labs")
 				addtimer(CALLBACK(src, PROC_REF(roundendwarning)), 60 MINUTES)
 				addtimer(CALLBACK(src, PROC_REF(endround)), 70 MINUTES)
-				to_chat(world, span_userdanger("Shift will last 70 minutes."))
+				to_chat(world, span_userdanger("Shift will last 70 minutes."))*/
 
 
 			//W-Corp stuff
@@ -78,10 +79,11 @@ GLOBAL_VAR_INIT(wcorp_enemy_faction, "") //decides which faction WCorp will be u
 	SSticker.force_ending = 1
 	to_chat(world, span_userdanger("Shift has ended."))
 
-/datum/game_mode/combat/proc/roundendwarning()
+//Limbus Labs, uncomment in case of merge conflicts
+/*/datum/game_mode/combat/proc/roundendwarning()
 	switch (SSmaptype.maptype)
 		if("limbus_labs")
-			minor_announce("Reminder that 10 minutes are left in the shift. Please wrap up all research and file all paperwork. Overtime has not been authorized for this shift." , "Automatic Limbus Company Punchclock ")
+			minor_announce("Reminder that 10 minutes are left in the shift. Please wrap up all research and file all paperwork. Overtime has not been authorized for this shift." , "Automatic Limbus Company Punchclock ")*/
 
 
 //Gamemode stuff

@@ -21,7 +21,7 @@ SUBSYSTEM_DEF(maptype)
 	var/list/autopossess = list("rcorp", "limbus_labs")
 
 	//These end after a certain number of minutes.
-	var/list/autoend = list("rcorp", "wcorp", "limbus_labs")
+	var/list/autoend = list("rcorp", "wcorp") //, "limbus_labs" - uncomment in case of merge conflicts
 
 	//This map is city stuff
 	var/list/citymaps = list("wonderlabs", "city")
