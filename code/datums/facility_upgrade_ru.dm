@@ -158,7 +158,7 @@
 	name = UPGRADE_AGENT_STATS
 	category = "Agent"
 	value = 0
-	max_value = 30
+	max_value = 40
 	var/value_increase = 10
 
 /datum/facility_upgrade/agent_spawn_stats_bonus/Upgrade()

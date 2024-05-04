@@ -3896,7 +3896,6 @@
 #include "code\modules\vending\youtool.dm"
 #include "code\modules\zombie\items.dm"
 #include "code\modules\zombie\organs.dm"
-#include "fd\agent_ru.dm"
 #include "icons\fonts\font.dm"
 #include "interface\interface.dm"
 #include "interface\menu.dm"
@@ -4177,4 +4176,7 @@
 #include "ModularTegustation\tegu_xenobio_blackcross\black_extracts.dm"
 #include "ModularTegustation\tegu_xenobio_blackcross\slime_code.dm"
 #include "ModularTegustation\zTegu_overwrite\tegu_overwrite_vars.dm"
+#include "fd\__DEFINES\icon_smoothing_ru.dm"
+#include "fd\agent_ru.dm"
+#include "fd\turfs.dm"
 // END_INCLUDE
