@@ -23,7 +23,7 @@
 
 /obj/machinery/door/unpowered/fd
 	icon = 'fd/icons/mojave_structures/doors.dmi'
-	name = "base state ms13 door"
+	name = "base state FD door"
 	pixel_x = -16
 	pixel_y = -8
 	layer = ABOVE_MOB_LAYER
@@ -301,7 +301,7 @@
 // Window/Open doors //
 
 /obj/machinery/door/unpowered/fd/seethrough
-	name = "generic ms13 see-through door"
+	name = "generic FD see-through door"
 	glass = TRUE
 	opacity = 0
 	var/passthrough_chance = 80
