@@ -149,6 +149,9 @@
 	///AI controller that controls this atom. type on init, then turned into an instance during runtime
 	var/datum/ai_controller/ai_controller
 
+	///Should we ignore any attempts to auto align? Mappers should edit this
+	var/manual_align = FALSE
+
 /**
  * Called when an atom is created in byond (built in engine proc)
  *
