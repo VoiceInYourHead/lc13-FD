@@ -34,3 +34,8 @@
 #define SMOOTH_GROUP_FD_GLASS S_OBJ_FO(30)			///obj/structure/ms13/glassfloor
 
 #define SMOOTH_GROUP_FD_OPENSPACE S_OBJ_FO(31)			///turf/open/openspace/ms13
+
+#define SMOOTH_GROUP_FD_TABLE_METAL S_OBJ_FO(32)			///obj/structure/table/ms13
+#define SMOOTH_GROUP_FD_TABLE_WOOD S_OBJ_FO(33)			///obj/structure/table/ms13/wood
+#define SMOOTH_GROUP_FD_TABLE_SMALL S_OBJ_FO(34)			///obj/structure/table/ms13/metal/small
+#define SMOOTH_GROUP_FD_TABLE_PLAYER S_OBJ_FO(35) 	 	///obj/structure/table/ms13/metal/cobbled

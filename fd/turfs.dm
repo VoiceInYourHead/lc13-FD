@@ -938,3 +938,143 @@
 
 /obj/effect/turf_decal/fd/covering/paint/blue
 	icon_state = "paint_blue"
+
+/obj/structure/sign/poster/fd
+	name = "city poster"
+	desc = "Display your deepest thoughts on a wall."
+	icon = 'fd/icons/mojave_objects/posters.dmi'
+	pixel_y = 30
+
+/obj/structure/sign/poster/fd/Initialize()
+	. = ..()
+	AddElement(/datum/element/wall_mount)
+
+/obj/structure/sign/poster/fd/war
+	name = "recruitment poster"
+	desc = "A wall poster with an soldier plastered across it."
+	icon_state = "NCR_1"
+
+/obj/structure/sign/poster/fd/war2
+	name = "recruitment poster"
+	desc = "A colorful poster attempting to recuit YOU to the some kind of army. It is exclusively in red, white, and blue- as to remind you where you are, seemingly."
+	icon_state = "NCR_2"
+
+/obj/structure/sign/poster/fd/tattered
+	name = "tattered poster"
+	desc = "An old and torn poster. It has a city horizon printed across it and says something about corporations. Whatever that has to do with anything."
+	icon_state = "corporate"
+
+/obj/structure/sign/poster/fd/handgun
+	name = "handgun advertisement poster"
+	desc = "A dirty'd up advertisement poster. There appears to be a Colt 10mm handgun being sold to you. There is a very patriotic soldier at the bottom of it."
+	icon_state = "handgun"
+
+/obj/structure/sign/poster/fd/protect
+	name = "tech advertisement"
+	desc = "This poster has a odd robot figure on it. Probably from the time before the AI war."
+	icon_state = "protectron"
+
+/obj/structure/sign/poster/fd/vacation
+	name = "vacation poster"
+	desc = "On this poster is a lovely island with a palm tree on it, with calm seas behind it. There is some scratched out text at the top that mentions 'vacations'."
+	icon_state = "vacation"
+
+/obj/structure/sign/poster/fd/moon
+	name = "moon poster"
+	desc = "A dark poster, featuring a very familiar sky pie. How calming."
+	icon_state = "moon"
+
+/obj/structure/sign/poster/fd/planet
+	name = "planet poster"
+	desc = "A poster with a planet in the center of it. It looks green- teeming with life."
+	icon_state = "planet"
+
+/obj/structure/sign/poster/fd/pinup
+	name = "pinup poster"
+	desc = "A tall poster with an attractive woman on it. She appears to be in a party outfit and dancing."
+	icon_state = "pinup_1"
+
+/obj/structure/sign/poster/fd/pinup_2
+	name = "pinup poster"
+	desc = "A poster with a woman on it. She has very unnatural and vibrant hair with a revealing outfit."
+	icon_state = "pinup_2"
+
+/obj/structure/sign/poster/fd/pinup_3
+	name = "pinup poster"
+	desc = "A poster with a woman on it. She is wearing a very fluffy dress and is sitting down, staring at your soul."
+	icon_state = "pinup_3"
+
+// Flags //
+
+/obj/structure/fd/wall_decor
+	name = "Base type FD decor"
+	desc = "This shouldn't be on a wall, bro."
+	icon = 'fd/icons/mojave_structures/wall_decor.dmi'
+	pixel_y = 32
+	density = FALSE
+	anchored = TRUE
+
+/obj/structure/fd/wall_decor/CanAllowThrough(atom/movable/mover, turf/target)
+	. = ..()
+	if(locate(/obj/structure/fd/wall_decor) in get_turf(mover))
+		return TRUE
+
+/obj/structure/fd/wall_decor/clock
+	name = "wall clock"
+	desc = "A wall mounted clock. Frozen in time- this died long ago with the rest of the world."
+	icon_state = "clock"
+
+/obj/structure/fd/wall_decor/clock/Initialize(mapload)
+	. = ..()
+	if(prob(25))
+		dir = pick(GLOB.cardinals)
+
+/obj/structure/fd/wall_decor/cross
+	name = "cross"
+	desc = "A big wooden cross."
+	icon_state = "cross"
+
+/obj/structure/fd/wall_decor/calendar
+	name = "calendar"
+	desc = "A calendar turned to October XXXX, there's some random circled dates on here."
+	icon_state = "calendar"
+	max_integrity = 40
+
+/obj/structure/fd/wall_decor/calendar/blank
+	name = "calendar"
+	desc = "A calendar that doesn't have any particular year labeled on it. Makes more sense today than it did back then."
+	icon_state = "calendar_blank"
+
+/obj/structure/fd/wall_decor/sign
+	name = "notice sign"
+	desc = "A sign with clear intentions. NOTICE... Notice what?"
+	icon_state = "notice_sign"
+	max_integrity = 100
+
+/obj/structure/fd/wall_decor/sign/danger
+	name = "danger sign"
+	desc = "DANGER. The text is apparent. But surely it's not relevant to you right now."
+	icon_state = "danger_sign"
+
+
+/obj/structure/fd/wall_decor/exit
+	name = "exit sign"
+	desc = "An exit sign in red, pointing you to the exit of the building incase of an emergency."
+	icon_state = "exit"
+
+/obj/structure/fd/wall_decor/wallscreen
+	name = "wallscreens"
+	desc = "Three monitors stuck to the wall, in-case you needed more monitors."
+	icon_state = "wallscreen"
+
+// Misc posters //
+
+/obj/structure/fd/wall_decor/poster/fallout
+	icon_state = "poster_fallout"
+
+/obj/structure/fd/wall_decor/poster/wecan
+	icon_state = "poster_wecan"
+/obj/structure/fd/wall_decor/poster/wanted
+	name = "wanted poster"
+	desc = "A posted detailing that someone's end should be coming soon. Financial compensation to those reponsible."
+	icon_state = "wanted_poster"
