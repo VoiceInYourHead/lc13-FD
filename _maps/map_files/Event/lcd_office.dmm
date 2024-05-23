@@ -3,9 +3,11 @@
 "ar" = (/obj/structure/fd/trash/papers,/obj/structure/fd/trash/papers/one,/turf/open/floor/wood/fd/carpet/shaggy/green,/area/centcom)
 "av" = (/obj/structure/noticeboard/fd/cork{icon_state = "nboard01"},/obj/structure/table/fd/metal/alt,/turf/open/floor/fd/tile/large/white,/area/space)
 "az" = (/obj/structure/fd/rug/mat/welcome{dir = 8},/turf/open/floor/fd/tile/large/black,/area/centcom)
+"aE" = (/obj/machinery/iv_drip/saline{pixel_x = 1},/turf/open/floor/fd/metal/pipe,/area/space)
 "aN" = (/obj/structure/fd/rug/fancy{dir = 4},/turf/open/floor/wood/fd/fancy,/area/space)
 "aQ" = (/obj/structure/chair/fd/metal{pixel_x = -4; pixel_y = 14},/turf/open/floor/fd/tile/large/navy,/area/centcom)
 "aV" = (/obj/structure/fd/wall_decor/cross,/turf/open/floor/wood/fd/common,/area/centcom)
+"bc" = (/obj/structure/bed/roller,/turf/open/floor/fd/metal/pipe,/area/space)
 "bd" = (/obj/structure/chair/comfy/fd/ergo{dir = 4},/obj/structure/fd/wall_decor/clock,/turf/open/floor/wood/fd/fancy,/area/space)
 "be" = (/obj/structure/fd/toilet{dir = 4},/turf/open/floor/fd/tile/large/white,/area/centcom)
 "bf" = (/obj/structure/fd/trash/papers,/obj/structure/fd/trash/papers/two,/turf/open/floor/wood/fd/mosaic,/area/centcom)
@@ -19,6 +21,7 @@
 "bJ" = (/obj/structure/fd/cable/black,/obj/structure/fd/wall_decor/poster/wanted{pixel_x = 10; pixel_y = 29},/obj/structure/sign/poster/fd/handgun,/turf/open/floor/fd/tile/large/black,/area/centcom)
 "bK" = (/turf/open/floor/fd/metal/plate,/area/space)
 "bP" = (/obj/structure/chair/comfy/fd/ergo{dir = 1},/turf/open/floor/wood/fd/fancy,/area/space)
+"bQ" = (/obj/structure/table/fd/metal/grate,/obj/structure/table/fd/metal/grate{pixel_y = 20},/turf/open/floor/fd/tile/blue/long,/area/space)
 "bR" = (/obj/structure/railing/fd/solo{dir = 4},/turf/open/floor/fd/concrete/industrial/walkway,/area/centcom)
 "bU" = (/obj/structure/fd/rug/fancy{dir = 4},/obj/structure/table/fd/no_smooth/large/wood,/obj/structure/table/fd/no_smooth/wood/end{pixel_x = -17},/obj/structure/fd/pot/plant{pixel_x = -17; pixel_y = 8},/obj/item/taperecorder{pixel_x = 4; pixel_y = 4},/turf/open/floor/wood/fd/mosaic,/area/centcom)
 "bX" = (/obj/effect/landmark/abnospawn/lowsec,/turf/open/floor/fd/metal/warning,/area/space)
@@ -67,8 +70,10 @@
 "fb" = (/obj/effect/turf_decal/fd/covering/paint/blue,/turf/closed/indestructible/reinforced/brick/darker,/area/centcom)
 "fd" = (/turf/open/floor/plating/fd/roof/metal/rusty,/area/space)
 "ft" = (/obj/structure/fd/storage/large/shelf,/turf/open/floor/fd/tile/large/white,/area/space)
+"fu" = (/obj/machinery/vending/prosthetic,/turf/open/floor/fd/metal,/area/space)
 "fw" = (/obj/machinery/door/poddoor{id = "containment5_entrance"; name = "Containment 5 - ENTRANCE"},/turf/open/floor/fd/metal,/area/space)
 "fy" = (/obj/structure/fd/storage/bookshelf{pixel_y = -9},/turf/open/floor/wood/fd/common,/area/space)
+"fD" = (/obj/machinery/chem_dispenser,/turf/open/floor/fd/tile,/area/space)
 "fH" = (/turf/open/floor/plating/fd/roof,/area/space)
 "fO" = (/obj/machinery/door/unpowered/fd/seethrough/metal{dir = 4},/turf/open/floor/fd/tile/full/navy,/area/centcom)
 "ga" = (/turf/closed/indestructible/reinforced/brick,/area/space)
@@ -87,6 +92,7 @@
 "hk" = (/obj/effect/turf_decal/fd/covering/wallpaper/red,/turf/closed/indestructible/reinforced/metal/vault,/area/space)
 "hp" = (/obj/machinery/door/unpowered/fd/wood/blue{dir = 4},/turf/open/floor/fd/tile/full/navy,/area/centcom)
 "hs" = (/obj/structure/fd/rug/mat/rubber,/turf/open/floor/fd/metal/pipe,/area/space)
+"hC" = (/obj/structure/table/fd/no_smooth/counter/metal{dir = 1},/turf/open/floor/fd/tile,/area/space)
 "hD" = (/obj/item/clothing/glasses/welding{pixel_x = -4; pixel_y = -13},/turf/open/floor/fd/metal/plate,/area/space)
 "hI" = (/obj/structure/fd/pallet,/obj/structure/fd/brickstack{pixel_x = -3; pixel_y = 5},/turf/open/floor/plating/fd/roof,/area/centcom)
 "hK" = (/obj/machinery/conveyor{dir = 8; id = "garbage"},/turf/open/floor/fd/metal/pipe,/area/space)
@@ -102,6 +108,7 @@
 "ix" = (/turf/open/floor/wood/fd/wide,/area/centcom)
 "iL" = (/obj/structure/chair/fd/overlaypickup/plastic,/turf/open/floor/fd/tile/large/black,/area/centcom)
 "iM" = (/obj/structure/fd/cable/black,/turf/open/floor/fd/metal/walkway,/area/space)
+"iP" = (/obj/machinery/chem_master,/turf/open/floor/fd/tile,/area/space)
 "iS" = (/obj/structure/table/fd/no_smooth/large/pool{dir = 4},/turf/open/floor/wood/fd/fancy,/area/space)
 "iT" = (/turf/open/floor/fd/metal/grate/border,/area/space)
 "iY" = (/obj/structure/railing/fd/solo/industrial{dir = 4},/obj/structure/fd/cable/black/connector{dir = 1},/turf/open/floor/fd/metal,/area/space)
@@ -134,6 +141,7 @@
 "lc" = (/turf/open/floor/fd/concrete/industrial,/area/space)
 "ll" = (/obj/structure/chair/comfy/fd/diner{dir = 4},/turf/open/floor/fd/metal/grate/alt,/area/space)
 "lm" = (/obj/machinery/door/unpowered/fd/seethrough/metal{dir = 8},/turf/open/floor/wood/fd/mosaic,/area/space)
+"lw" = (/obj/machinery/sleeper/syndie,/turf/open/floor/fd/tile/blue,/area/space)
 "ly" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/concrete/small,/area/space)
 "lA" = (/obj/structure/chair/office/fd/green{dir = 1},/turf/open/floor/fd/tile/large/white,/area/space)
 "lK" = (/obj/structure/chair/office/fd/blue{dir = 8},/turf/open/floor/wood/fd/carpet/shaggy/green,/area/centcom)
@@ -159,6 +167,7 @@
 "mZ" = (/turf/open/floor/plasteel/stairs{dir = 1},/area/centcom)
 "na" = (/obj/structure/fd/rug/mat/rubber{pixel_x = -7; pixel_y = 6},/turf/open/floor/plating/fd/roof,/area/centcom)
 "nc" = (/obj/machinery/door/poddoor{id = "containment3_entrance"; name = "Containment 3 - ENTRANCE"},/turf/open/floor/fd/metal,/area/space)
+"nd" = (/obj/structure/closet/secure_closet/chemical{req_access = null},/turf/open/floor/fd/tile/fancy,/area/space)
 "nj" = (/obj/machinery/telecomms/server/presets/supply,/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "nq" = (/turf/open/floor/wood/fd/fancy,/area/centcom)
 "nu" = (/obj/structure/fd/cable/black{dir = 1; pixel_y = 7},/turf/open/floor/fd/concrete/small,/area/space)
@@ -168,14 +177,16 @@
 "nC" = (/obj/structure/table/fd/low_wall/vault,/obj/structure/fd/frame/vault{dir = 1},/obj/structure/window/fd/reinforced/white{dir = 1},/obj/structure/fd/frame/vault,/obj/structure/window/fd/reinforced/white,/turf/open/floor/fd/metal/border,/area/space)
 "nN" = (/obj/structure/chair/comfy/fd/diner{dir = 4; pixel_y = 10},/turf/open/floor/wood/fd/fancy,/area/space)
 "nR" = (/obj/structure/chair/comfy/fd/diner{dir = 8},/turf/open/floor/fd/metal/grate/alt,/area/space)
+"nS" = (/obj/structure/filingcabinet/fd{pixel_x = -6},/obj/structure/filingcabinet/fd{pixel_x = 7},/turf/open/floor/fd/tile/blue/long,/area/space)
 "oj" = (/obj/structure/filingcabinet/fd{pixel_x = -6},/obj/structure/filingcabinet/fd{pixel_x = 7},/turf/open/floor/fd/metal/grate/border/warning,/area/space)
 "oq" = (/obj/structure/table/fd/no_smooth/large/wood/desk,/obj/structure/fd/pot/plant{pixel_x = -5; pixel_y = 15},/obj/structure/fd/phone,/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom)
 "ow" = (/obj/structure/fd/storage/trashcan{pixel_x = 8},/turf/open/floor/fd/tile/large/white,/area/space)
-"oC" = (/turf/open/floor/fd/metal/border{dir = 1},/area/space)
+"oC" = (/obj/effect/turf_decal/fd/covering/paint/blue,/turf/closed/indestructible/reinforced/metal/vault,/area/space)
 "oF" = (/obj/structure/fd/cable/black,/obj/structure/fd/trash/papers/two,/turf/open/floor/fd/metal,/area/space)
 "oI" = (/obj/structure/chair/comfy/fd/diner{dir = 1},/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
 "oK" = (/obj/machinery/conveyor{dir = 8; id = "garbage"},/turf/open/floor/fd/metal/pipe/intersection,/area/space)
 "oO" = (/obj/structure/fd/rug/rubber{dir = 4},/turf/open/floor/plating/fd/roof,/area/centcom)
+"pl" = (/obj/structure/table/fd/no_smooth/counter/metal{dir = 1},/turf/open/floor/fd/tile/fancy,/area/space)
 "pr" = (/turf/open/floor/wood/fd/carpet/green,/area/centcom)
 "pv" = (/obj/structure/chair/fd/overlaypickup/plastic,/obj/structure/noticeboard/fd/cork{icon_state = "nboard04"},/turf/open/floor/fd/tile/large/white,/area/space)
 "pC" = (/obj/structure/fd/phone{pixel_x = -7; pixel_y = 11},/obj/item/clipboard{pixel_x = 5; pixel_y = 3},/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom)
@@ -198,6 +209,7 @@
 "rh" = (/obj/structure/sign/poster/fd/war2,/turf/open/floor/wood/fd/common,/area/centcom)
 "rk" = (/obj/effect/turf_decal/bot,/obj/effect/decal/cleanable/dirt,/obj/machinery/telecomms/bus/preset_four,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "rl" = (/turf/open/floor/wood/fd/carpet/blue,/area/centcom)
+"ry" = (/obj/structure/bed/pod,/obj/structure/bed/pod{pixel_y = 11},/obj/item/bedsheet/medical,/obj/item/bedsheet/medical{pixel_y = 12},/turf/open/floor/fd/metal/pipe,/area/space)
 "rC" = (/obj/effect/turf_decal/bot,/obj/effect/decal/cleanable/dirt,/obj/machinery/telecomms/processor/preset_three,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "rG" = (/obj/effect/turf_decal/bot,/obj/machinery/ntnet_relay,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "rK" = (/obj/machinery/door/poddoor{id = "containment5_cage"; name = "Containment 5 - CAGE"},/turf/open/floor/fd/metal,/area/space)
@@ -214,6 +226,7 @@
 "sn" = (/obj/structure/fd/rug/mat/rubber{pixel_y = 20},/turf/open/floor/fd/tile,/area/centcom)
 "so" = (/obj/structure/table/fd/no_smooth/metal,/obj/item/folder{pixel_y = 8},/obj/item/folder{pixel_x = 2},/turf/open/floor/wood/fd/carpet/blue,/area/centcom)
 "sr" = (/obj/structure/noticeboard/fd/cork{icon_state = "nboard01"},/turf/open/floor/wood/fd/carpet/shaggy/green,/area/centcom)
+"sy" = (/obj/structure/table/fd/no_smooth/large/metal{dir = 4},/turf/open/floor/fd/tile/blue/long,/area/space)
 "sz" = (/obj/structure/fd/phone{pixel_x = 11},/turf/open/floor/wood/fd/common,/area/space)
 "sB" = (/obj/structure/table/fd/metal/heavy,/obj/structure/noticeboard/fd/cork{icon_state = "nboard01"},/obj/machinery/photocopier{pixel_y = 10},/turf/open/floor/fd/tile/large/white,/area/space)
 "sC" = (/obj/machinery/conveyor{dir = 8; id = "garbage"},/obj/item/soap,/turf/open/floor/fd/metal/pipe,/area/space)
@@ -254,6 +267,7 @@
 "vz" = (/obj/structure/fd/wall_decor/sign/danger,/turf/open/floor/fd/metal/walkway{dir = 1},/area/space)
 "vH" = (/obj/structure/railing/fd/solo/industrial{dir = 8},/turf/open/floor/fd/metal,/area/space)
 "vK" = (/obj/structure/fd/wall_decor/exit,/obj/structure/table/fd/metal/grate,/turf/open/floor/fd/tile/large/navy,/area/centcom)
+"vM" = (/obj/structure/table/fd/metal/small,/turf/open/floor/fd/tile/fancy,/area/space)
 "vP" = (/obj/structure/fd/trash/papers/three,/obj/structure/fd/trash/papers/two,/turf/open/floor/wood/fd/common,/area/space)
 "vV" = (/turf/open/floor/plasteel/stairs/right,/area/centcom)
 "vW" = (/obj/structure/fd/rug/mat/rubber,/obj/structure/fd/storage/trashcan,/turf/open/floor/fd/metal/grate/alt,/area/space)
@@ -279,10 +293,12 @@
 "xj" = (/obj/structure/table/fd/metal/alt,/obj/structure/fd/rug/rubber{dir = 1},/turf/open/floor/fd/tile,/area/centcom)
 "xm" = (/obj/structure/railing/fd/wood{dir = 1},/turf/open/floor/plating/grass,/area/space)
 "xo" = (/obj/structure/flora/ausbushes/pointybush,/turf/open/floor/plating/grass,/area/space)
+"xD" = (/obj/structure/fd/storage/shelf,/turf/open/floor/fd/tile/fancy,/area/space)
 "xM" = (/obj/structure/table/fd/metal/heavy,/obj/structure/fd/trash/papers/one,/obj/structure/fd/trash/papers/three,/obj/structure/fd/phone/black{pixel_x = -7; pixel_y = 11},/turf/open/floor/fd/metal,/area/space)
 "xQ" = (/turf/open/floor/fd/metal/grate,/area/space)
 "xT" = (/turf/open/floor/fd/concrete/industrial/walkway/corner{dir = 8},/area/centcom)
 "xW" = (/obj/structure/table/fd/metal/heavy,/obj/machinery/button/door/indestructible{id = "containment1_cage"; name = "CAGE"; pixel_y = 9},/obj/machinery/button/door/indestructible{id = "containment1_entrance"; name = "ENTRANCE"; pixel_y = -1},/turf/open/floor/fd/tile/large/white,/area/space)
+"yb" = (/obj/machinery/chem_heater,/turf/open/floor/fd/tile/fancy,/area/space)
 "ye" = (/obj/effect/turf_decal/bot,/obj/effect/decal/cleanable/dirt,/obj/machinery/telecomms/bus/preset_one,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "yi" = (/obj/structure/fd/cable/black/curve{dir = 8},/obj/structure/filingcabinet/fd{pixel_x = -6},/obj/structure/filingcabinet/fd{pixel_x = 7},/turf/open/floor/fd/metal/grate/border/warning,/area/space)
 "yp" = (/turf/open/floor/wood/fd/common,/area/centcom)
@@ -308,6 +324,7 @@
 "Ak" = (/obj/structure/table/fd/no_smooth/large/wood/desk/alt{dir = 1; pixel_x = -5},/obj/item/pen{pixel_x = 11; pixel_y = 10},/turf/open/floor/wood/fd/carpet/shaggy/green,/area/centcom)
 "Am" = (/turf/open/openspace/fd,/area/space)
 "An" = (/obj/machinery/conveyor{dir = 1; id = "garbage"},/obj/structure/plasticflaps,/turf/open/floor/fd/metal/pipe{dir = 1},/area/space)
+"Ao" = (/turf/open/floor/fd/tile/blue,/area/space)
 "Av" = (/turf/open/floor/fd/metal/walkway,/area/space)
 "AC" = (/obj/structure/reagent_dispensers/fueltank/large,/turf/open/floor/fd/metal/grate,/area/space)
 "AE" = (/turf/open/floor/fd/concrete,/area/centcom)
@@ -317,6 +334,7 @@
 "AT" = (/obj/structure/chair/office/fd/blue{dir = 4},/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom)
 "Ba" = (/obj/structure/chair/comfy/fd/diner{dir = 1},/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/concrete/industrial,/area/space)
 "Bd" = (/obj/structure/chair/office/fd/red{dir = 8},/turf/open/floor/fd/tile/large/white,/area/space)
+"Bj" = (/obj/structure/table/optable,/obj/machinery/defibrillator_mount{pixel_y = 26},/turf/open/floor/fd/tile/fancy,/area/space)
 "Bl" = (/obj/effect/turf_decal/fd/covering/paint/gray,/turf/closed/indestructible/reinforced/metal/vault,/area/space)
 "Bo" = (/obj/structure/railing/fd/solo{dir = 1},/obj/structure/fd/pallet/stack,/obj/structure/fd/trash/glass/basic{pixel_y = -20},/turf/open/floor/plating/fd/roof,/area/centcom)
 "Bp" = (/obj/structure/fd/cable/black/curve{dir = 4},/turf/open/floor/fd/tile/large/black,/area/centcom)
@@ -339,6 +357,7 @@
 "Dg" = (/obj/structure/fd/cable/black,/obj/structure/fd/rug/rubber{dir = 1},/turf/open/floor/fd/metal/grate/alt,/area/space)
 "Dl" = (/obj/effect/turf_decal/bot,/obj/machinery/telecomms/receiver/preset_right,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "Do" = (/obj/structure/filingcabinet/fd{pixel_x = -6},/obj/structure/filingcabinet/fd{pixel_x = 7},/turf/open/floor/fd/tile/large/white,/area/space)
+"Du" = (/obj/structure/table/fd/no_smooth/large/metal{dir = 4},/turf/open/floor/fd/tile/blue,/area/space)
 "Dv" = (/obj/structure/chair/comfy/fd/diner{dir = 1},/turf/open/floor/fd/concrete/industrial,/area/space)
 "Dz" = (/obj/structure/fd/storage/bookshelf,/turf/open/floor/wood/fd/fancy,/area/centcom)
 "DC" = (/turf/open/floor/plasteel/stairs/left,/area/centcom)
@@ -352,6 +371,7 @@
 "Ei" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/concrete/cable,/area/space)
 "Ej" = (/obj/structure/flora/ausbushes/fullgrass,/turf/open/floor/plating/grass,/area/space)
 "Ek" = (/obj/machinery/vending/cigarette,/turf/open/floor/fd/concrete/cable,/area/space)
+"El" = (/obj/structure/table/fd/metal/alt,/turf/open/floor/fd/tile/blue/long,/area/space)
 "Em" = (/obj/structure/fd/rug/rubber{dir = 1},/turf/open/floor/fd/concrete/industrial,/area/space)
 "EC" = (/obj/item/folder/blue{pixel_y = 8},/turf/open/floor/wood/fd/carpet/green,/area/centcom)
 "ED" = (/obj/structure/chair/office/fd/blue,/turf/open/floor/fd/tile/large/white,/area/space)
@@ -359,6 +379,7 @@
 "EL" = (/obj/structure/fd/cable/black/connector{dir = 1},/turf/open/floor/fd/concrete/small,/area/space)
 "EO" = (/obj/structure/fd/rug/rubber{dir = 4},/turf/open/floor/fd/tile/large/black,/area/centcom)
 "ET" = (/obj/structure/fd/storage/large/shelf/wood{dir = 8},/turf/open/floor/wood/fd/mosaic,/area/centcom)
+"EU" = (/turf/open/floor/fd/tile/fancy,/area/space)
 "Ff" = (/obj/structure/fd/wall_decor/wallscreen,/turf/open/floor/fd/metal/grate,/area/space)
 "Fk" = (/obj/structure/fd/wall_decor/clock,/turf/open/floor/wood/fd/fancy,/area/centcom)
 "Fq" = (/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
@@ -385,6 +406,7 @@
 "Hb" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/metal,/area/space)
 "Hf" = (/turf/open/floor/fd/tile/long,/area/centcom)
 "Hg" = (/obj/structure/fd/cable/black,/turf/open/floor/fd/metal,/area/space)
+"Hn" = (/obj/machinery/sleeper/syndie,/turf/open/floor/fd/metal/grate/alt,/area/space)
 "Hq" = (/obj/structure/sign/poster/fd/moon,/turf/open/floor/wood/fd/mosaic,/area/centcom)
 "Hv" = (/obj/machinery/door/poddoor{id = "containment2_cage"; name = "Containment 2 - CAGE"},/turf/open/floor/fd/metal,/area/space)
 "Hw" = (/obj/structure/fd/cable/black,/turf/open/floor/fd/tile/large/navy,/area/centcom)
@@ -448,6 +470,7 @@
 "LP" = (/obj/machinery/conveyor{dir = 8; id = "garbage"},/obj/structure/sign/poster/fd/handgun,/turf/open/floor/fd/metal/pipe,/area/space)
 "LW" = (/turf/open/floor/plasteel/stairs/medium,/area/centcom)
 "Mb" = (/obj/structure/fd/trash/bricks{pixel_x = -10},/turf/open/floor/plating/fd/roof,/area/centcom)
+"Mc" = (/obj/machinery/vending/medical,/turf/open/floor/fd/metal/plate,/area/space)
 "Mf" = (/obj/structure/fd/storage/bookshelf{pixel_y = -9},/turf/open/floor/wood/fd/fancy,/area/space)
 "Mh" = (/obj/item/paper_bin{pixel_y = 7},/obj/item/pen{pixel_y = 9},/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom)
 "Ml" = (/obj/machinery/conveyor{dir = 4; id = "garbage"},/turf/open/floor/fd/metal/pipe,/area/space)
@@ -461,6 +484,7 @@
 "MO" = (/obj/structure/railing/fd/solo/industrial{dir = 4; plane = -41},/obj/structure/table/fd/metal/small,/obj/item/storage/box/lights/mixed{pixel_y = 12},/obj/item/storage/box/lights/tubes{pixel_y = 4},/turf/open/floor/fd/metal,/area/space)
 "MS" = (/obj/structure/fd/cable/black/curve{dir = 4},/obj/structure/fd/wall_decor/calendar,/turf/open/floor/fd/metal,/area/space)
 "MX" = (/obj/machinery/door/poddoor{id = "containment6_cage"; name = "Containment 6 - CAGE"},/turf/open/floor/fd/metal,/area/space)
+"MY" = (/obj/structure/table/fd/no_smooth/large/metal/desk/alt,/turf/open/floor/fd/tile/fancy,/area/space)
 "MZ" = (/turf/closed/indestructible/reinforced/metal/vault_alt,/area/space)
 "Nb" = (/obj/structure/fd/cable/black,/obj/structure/fd/rug/rubber{dir = 4},/obj/structure/fd/rug/mat/rubber{pixel_x = -8},/turf/open/floor/fd/tile/large/navy,/area/centcom)
 "Nc" = (/obj/structure/table/fd/low_wall/vault,/obj/structure/fd/frame/vault{dir = 4},/obj/structure/fd/frame/vault{dir = 8},/obj/structure/window/fd/reinforced/white{dir = 4},/obj/structure/window/fd/reinforced/white{dir = 8},/turf/open/floor/fd/metal/border{dir = 8},/area/space)
@@ -479,6 +503,7 @@
 "Om" = (/obj/structure/table/fd/no_smooth/large/metal/desk,/obj/item/modular_computer/laptop/preset/civilian{pixel_x = 7; pixel_y = 9},/turf/open/floor/wood/fd/carpet/green,/area/centcom)
 "On" = (/obj/structure/railing/fd/solo{dir = 1},/obj/structure/railing/fd/solo{dir = 4},/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
 "Or" = (/obj/structure/fd/storage/shelf,/turf/open/floor/fd/metal/grate,/area/space)
+"OA" = (/turf/open/floor/fd/tile/long,/area/space)
 "OB" = (/turf/open/floor/plating/fd/roof,/area/centcom)
 "OK" = (/obj/structure/chair/comfy/fd/ergo{dir = 8},/turf/open/floor/wood/fd/fancy,/area/space)
 "OL" = (/obj/structure/flora/bush,/turf/open/floor/plating/fd/ground/snow,/area/space)
@@ -502,6 +527,7 @@
 "PZ" = (/obj/structure/fd/rug/rubber{dir = 4},/turf/open/floor/fd/concrete/small,/area/space)
 "Qa" = (/obj/structure/sink/fd{dir = 8},/turf/open/floor/fd/tile/navy,/area/space)
 "Qe" = (/obj/structure/railing/fd/solo,/obj/structure/railing/fd/solo{dir = 8},/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
+"Qp" = (/obj/structure/table/fd/metal/grate,/obj/structure/table/fd/metal/grate{pixel_y = 20},/turf/open/floor/fd/tile/blue,/area/space)
 "Qt" = (/obj/structure/table/fd/no_smooth/metal,/turf/open/floor/plating/fd/roof,/area/centcom)
 "Qv" = (/obj/structure/sink/fd{dir = 4},/obj/structure/mirror/fd{dir = 4},/turf/open/floor/fd/tile,/area/centcom)
 "Qx" = (/obj/structure/fd/trash/glass/cans{pixel_x = -3; pixel_y = -7},/turf/open/floor/plating/fd/ground/sidewalk,/area/centcom)
@@ -513,12 +539,15 @@
 "QO" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/metal/grate,/area/space)
 "QQ" = (/turf/closed/indestructible/reinforced/brick/gray,/area/space)
 "QY" = (/obj/machinery/door/unpowered/fd/metal/alt{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom)
+"Rc" = (/obj/machinery/computer/operating,/turf/open/floor/fd/tile/fancy,/area/space)
 "Rd" = (/turf/open/floor/wood/fd/common,/area/space)
 "Rm" = (/obj/machinery/door/unpowered/fd/wood,/turf/open/floor/wood/fd/fancy,/area/centcom)
 "Rq" = (/obj/structure/table/fd/no_smooth/large/metal/desk{dir = 4; pixel_x = 3},/obj/item/clipboard{pixel_y = 13},/turf/open/floor/wood/fd/carpet/shaggy/green,/area/centcom)
 "Rs" = (/obj/structure/fd/cable/black/connector,/turf/open/floor/fd/concrete/small,/area/space)
 "Rt" = (/obj/structure/fd/wall_decor/clock{pixel_y = 37},/obj/structure/fd/wall_decor/calendar{pixel_y = 24},/obj/structure/table/fd/no_smooth/wood,/obj/item/reagent_containers/food/drinks/bottle/champagne{pixel_x = 4; pixel_y = 23},/obj/item/storage/box/drinkingglasses{pixel_x = -2; pixel_y = 7},/turf/open/floor/wood/fd/mosaic,/area/centcom)
 "Rv" = (/obj/structure/fd/pallet{pixel_x = 5},/turf/open/floor/plating/fd/roof,/area/centcom)
+"RG" = (/turf/open/floor/fd/tile/blue/long,/area/space)
+"RH" = (/obj/structure/table/fd/no_smooth/large/metal/desk,/turf/open/floor/fd/tile/fancy,/area/space)
 "RI" = (/obj/structure/fd/cable/black/connector{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom)
 "RK" = (/obj/machinery/door/poddoor{id = "containment2_entrance"; name = "Containment 2 - ENTRANCE"},/turf/open/floor/fd/metal,/area/space)
 "RL" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/tile/large/white,/area/space)
@@ -527,7 +556,9 @@
 "RX" = (/obj/structure/table/fd/metal/heavy,/obj/machinery/button/door/indestructible{id = "containment3_cage"; name = "CAGE"; pixel_y = 9},/obj/machinery/button/door/indestructible{id = "containment3_entrance"; name = "ENTRANCE"; pixel_x = -13; pixel_y = 9},/turf/open/floor/fd/tile/large/white,/area/space)
 "RY" = (/obj/structure/fd/cable/black,/turf/open/floor/fd/tile/large/white,/area/space)
 "Sd" = (/obj/structure/table/fd/no_smooth/metal,/obj/structure/noticeboard/fd/cork,/turf/open/floor/fd/tile/large/white,/area/space)
+"Se" = (/obj/structure/table/rolling/fd,/turf/open/floor/fd/tile/blue,/area/space)
 "Sn" = (/obj/machinery/telecomms/server/presets/science,/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
+"Sq" = (/turf/open/floor/fd/tile,/area/space)
 "St" = (/obj/structure/table/fd/no_smooth/large/wood/desk{dir = 4; pixel_y = -9; plane = -43},/obj/item/modular_computer/laptop/preset/civilian,/turf/open/floor/wood/fd/common,/area/space)
 "Sy" = (/obj/structure/fd/wall_decor/sign/danger,/obj/structure/fd/trash/cardboard{pixel_x = -13; pixel_y = 6},/turf/open/floor/wood/fd/wide,/area/centcom)
 "SG" = (/obj/structure/table/rolling/fd,/turf/open/floor/fd/tile/navy,/area/space)
@@ -542,6 +573,7 @@
 "Ti" = (/obj/machinery/conveyor/inverted{dir = 10; id = "garbage"},/turf/open/floor/fd/metal/pipe/corner{dir = 1},/area/space)
 "Tl" = (/obj/machinery/door/unpowered/fd/metal/red{dir = 8},/turf/open/floor/wood/fd/wide,/area/space)
 "Tm" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/concrete/small,/area/space)
+"Ts" = (/obj/machinery/stasis,/turf/open/floor/fd/tile/blue,/area/space)
 "Tu" = (/obj/structure/fd/trash/books/pile,/turf/open/floor/fd/metal/stayclear,/area/space)
 "Tx" = (/obj/machinery/conveyor/inverted{dir = 6; id = "garbage"},/turf/open/floor/fd/metal/pipe/corner{dir = 8},/area/space)
 "TB" = (/obj/machinery/door/poddoor{id = "containment4_cage"; name = "Containment 4 - CAGE"},/turf/open/floor/fd/metal,/area/space)
@@ -568,6 +600,7 @@
 "VC" = (/obj/structure/flora/tree/jungle/small,/turf/open/floor/plating/grass,/area/space)
 "VD" = (/obj/structure/fd/trash/books/pile{pixel_x = 6},/turf/open/floor/wood/fd/carpet/shaggy,/area/space)
 "VE" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom)
+"VG" = (/obj/structure/fd/storage/large/medical,/turf/open/floor/fd/tile/blue,/area/space)
 "VN" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/tile/large/navy,/area/centcom)
 "VO" = (/turf/open/floor/fd/tile,/area/centcom)
 "VP" = (/turf/closed/indestructible/reinforced/metal/vault,/area/space)
@@ -929,21 +962,21 @@ QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPcoZnVfVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPbKXBbKVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPihibZNVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPVPVPVPVPVPVPVPVPVPVPVPVPBlMZMZMZBlBlAnVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhVPqhqhqhqhVPOrUMqNKZFfdAQHVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhqhqhqhqhqhVPdobKbKhDeWKbibBlBlMZMZBlVPhkhkhkhkhkhkVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPMZVPVPVPMZVPqhqhqhqhqhqhVPqhqhqhqhVPdobKmebKyQMOWyoKLPhKsCTxVPkrTbTbTbDDmbhkhkVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhVPqhqhVPoCqhoCoCVPVPVPqhqhqhqhVPkiwKkUbKdockQDKUeoeobsibVPvvTbhkTbYxTbMpeyVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhVPqhqhVPqhqhqhqhqhVPVPqhqhqhqhVPACTOTOpZZahsMlFsMlwSMlTiVPkrTbbdPmTbPmezrQVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhVPqhqhqhqhqhBlBlBlBlBlBlBlBlPLSZBlBlBlBlBljujujuBlBlBlRdYTwPKdszRdOKVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhqhqhqhqhqhqhkDkDkDkDkDGbkDkDkDkDyEkDkDGbkDkDkDkDkDYhTbRdttttVDStOKVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhVPqhqhqhqhqhqhIlNTNTbKIlGbIlbKNTFYNTbKIlkmIlbKNTNTIlYhaNRdttttttRdbPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhqhqhqhqhqhVPBlMZBlBlBlMZBlVPlclclcVPBlBlbKBlBlVPVPVPvPklRdklRdbZPmVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhVPqhqhqhqhqhVPVCTCXYGkGkMxEGVPkDkDkDVPUmgWBPcUyYVPVPhXTbPmbPTbWMRdTbVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhVPqhqhqhqhqhVPXPznFqgjFqtxJWBlIlikIlVPTuSZxQPLVlVPVPnNTbhkTbKITbfyMfVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhVPVPqhVPVPVPVPByFqqmnvQeFqFSlcbKikbKVPojojyAcUyiVPVPIrTbTbaNiSTbVPVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhqhqhqhqhqhVPwDXHnvnvnvyxFSlcNTikNTVPPLSZQOLlSZVPVPVPVPVPVPVPVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
-QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPqhqhqhqhqhqhqhqhqhqhqhVPNWFqOnnvcbFqFSlcNTikNTBlojojQOojojVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPoCoCoCoCoCoCVPVPVPVPVPVPBlMZMZMZBlBlAnVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPxDfDMYEUiPxDVPbQQpQpbQVPOrUMqNKZFfdAQHVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPOASqOAOASqOAOARGAoAoRGVPdobKbKhDeWKbibBlBlMZMZBlVPhkhkhkhkhkhkVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPMZoCVPoCMZVPybSqvMEUSqndVPcocococoVPdobKmebKyQMOWyoKLPhKsCTxVPkrTbTbTbDDmbhkhkVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPRcBjVPBjRcVPoCSqoCplhCVPVPRGAoAoRGVPkiwKkUbKdockQDKUeoeobsibVPvvTbhkTbYxTbMpeyVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPbKIloCIlbKVPRGRGRGRGRGVPVPRGAoAoRGVPACTOTOpZZahsMlFsMlwSMlTiVPkrTbbdPmTbPmezrQVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPRGRGElRGIloCAoAoAoAoAoBlBlBlBlBlBlBlBlPLSZBlBlBlBlBljujujuBlBlBlRdYTwPKdszRdOKVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPAoAoAoAoNTRGAoEUEUEUAoYhkDkDkDkDkDGbkDkDkDkDyEkDkDGbkDkDkDkDkDYhTbRdttttVDStOKVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPTslwAoTsHnoCAoEUoCEUAoYhIlNTNTbKIlGbIlbKNTFYNTbKIlkmIlbKNTNTIlYhaNRdttttttRdbPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPSeAoAoAoNTRGAoEUEURHAoVPBlMZBlBlBlMZBlVPlclclcVPBlBlbKBlBlVPVPVPvPklRdklRdbZPmVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPAoAoAoVGNTVPAoAoDuAoAoVPVCTCXYGkGkMxEGVPkDkDkDVPUmgWBPcUyYVPVPhXTbPmbPTbWMRdTbVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPTslwAoTsHnVPRGRGRGRGnSVPXPznFqgjFqtxJWBlIlikIlVPTuSZxQPLVlVPVPnNTbhkTbKITbfyMfVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPAoAoAoAoIloCoCRGoCoCoCVPByFqqmnvQeFqFSlcbKikbKVPojojyAcUyiVPVPIrTbTbaNiSTbVPVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPsyRGRGRGbKIlNTNTNTfuMcVPwDXHnvnvnvyxFSlcNTikNTVPPLSZQOLlSZVPVPVPVPVPVPVPVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
+QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPcococoryaEVPbccococobcVPNWFqOnnvcbFqFSlcNTikNTBlojojQOojojVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPVPVPVPVPVPVPVPVPVPVPVPVPuiDRFqlLFqoIJWVPNTikNTZTitoFmWPLEhVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPPjuimKxmDXFJPdVPNTikNTVPAJIlPYojojVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
 QNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNVPVPVPVPBlMZMZBlVPbKikbKVPBlMZMZBlVPVPQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQNQN
