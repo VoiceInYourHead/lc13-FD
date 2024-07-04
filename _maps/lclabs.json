@@ -8,13 +8,15 @@
 	"traits": [
 		{
 			"Up": 1,
-			"Baseturf": "/turf/open/floor/plating/asteroid",
-			"Linkage": "Cross"
+			"Linkage": "Cross",
+			"Baseturf": "/turf/open/floor/plating/fd/ground/mountain",
+			"Gravity": true
 		},
 		{
 			"Down": -1,
-			"Baseturf": "/turf/open/openspace/fd",
-			"Linkage": "Cross"
+			"Baseturf": "/turf/open/openspace",
+			"Linkage": "Cross",
+			"Gravity": true
 		}
 	],
 	"space_ruin_levels": 0,
