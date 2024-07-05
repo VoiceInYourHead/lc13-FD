@@ -361,3 +361,46 @@
 	icon_state = "metal_grate_mirrored_closed"
 	door_type = "metal_grate_mirrored"
 	has_damage_overlay = FALSE
+
+/obj/machinery/door/airlock/fd
+	name = "mechanical door"
+	desc = "The very pinnacle of door technology. Even after all this time, still usually reliably opens and closes! Don't stick your head in it."
+	icon = 'fd/icons/airlocks/generic.dmi'
+	overlays_file = 'fd/icons/airlocks/overlays.dmi'
+	normal_integrity = 800 // big metal door
+	armor = list(MELEE = 100, BULLET = 100, LASER = 100, ENERGY = 100, BOMB = 100, BIO = 100, FIRE = 100, ACID = 100)
+	security_level = 1
+	layer = 4.5
+	closingLayer = CLOSED_DOOR_LAYER
+	hackProof = TRUE
+	fd_flags_1 = LOCKABLE_1
+	doorOpen = 'fd/sound/doorblast_open.ogg'
+	doorClose = 'fd/sound/doorblast_close.ogg'
+	resistance_flags = INDESTRUCTIBLE
+
+/obj/machinery/door/airlock/fd/Bumped(atom/movable/AM)
+	return
+
+//TEMP AIRLOCK LOCKING (will be replaced by hacking)
+/obj/machinery/door/airlock/fd/attackby(obj/item/I, mob/living/M, params)
+	. = ..()
+	if(locked && !(M.a_intent = INTENT_HARM))
+		to_chat(M, "<span class='warning'> The [name] is locked.</span>")
+		playsound(src, 'fd/sound/door_locked.ogg', 50, TRUE)
+		return
+
+/obj/machinery/door/airlock/fd/attack_hand(mob/living/M)
+	if(locked)
+		to_chat(M, "<span class='warning'> The [name] is locked.</span>")
+		playsound(src, 'fd/sound/door_locked.ogg', 50, TRUE)
+		return
+	if(.)
+		return
+	if(flags_1 & LOCKABLE_1)
+		to_chat(M, span_warning("The [name] is locked."))
+		playsound(src, 'fd/sound/door_locked.ogg', 50, TRUE)
+		return
+	. = ..()
+
+/obj/machinery/door/airlock/fd/screwdriver_act(mob/living/user, obj/item/tool)
+	return

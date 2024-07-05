@@ -166,7 +166,7 @@
 /obj/structure/window/fd/reinforced
 	name = "base FD reinforced window pane"
 	desc = "A window protected by metal bars."
-	max_integrity = 250
+	max_integrity = 800
 	armor = list(MELEE = 75, BULLET = 75, LASER = 75, ENERGY = 75, BOMB = 25, BIO = 100, FIRE = 80, ACID = 100)
 	receive_ricochet_chance_mod = 0.75
 	damage_deflection = 20

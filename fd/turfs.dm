@@ -890,53 +890,61 @@
 /turf/open/openspace/fd/Initialize()
 	. = ..()
 	icon = 'icons/turf/floors.dmi'
-	icon_state = "invisible" //Reset to original icon so it doesn't darken things when viewed in game.
+	icon_state = "transparent" //Reset to original icon so it doesn't darken things when viewed in game.
+	update_icon()
 
 //Wallpapers and Wall Coverings
 
-/obj/effect/turf_decal/fd/covering
+/obj/structure/fd/wall_decor/covering
 	icon = 'fd/icons/wallcovering.dmi'
+	layer = TURF_DECAL_LAYER
 
 //Wallpapers
 
-/obj/effect/turf_decal/fd/covering/wallpaper/green
+/obj/structure/fd/wall_decor/covering/wallpaper
+	pixel_y = 32
+
+/obj/structure/fd/wall_decor/covering/wallpaper/green
 	icon_state = "wallpaper_green"
 
-/obj/effect/turf_decal/fd/covering/wallpaper/blue
+/obj/structure/fd/wall_decor/covering/wallpaper/blue
 	icon_state = "wallpaper_blue"
 
-/obj/effect/turf_decal/fd/covering/wallpaper/blue/stripes
+/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes
 	icon_state = "wallpaper_stripes"
 
-/obj/effect/turf_decal/fd/covering/wallpaper/red
+/obj/structure/fd/wall_decor/covering/wallpaper/red
 	icon_state = "wallpaper_red"
 
 //Tiles
 
-/obj/effect/turf_decal/fd/covering/tiles/blue
+/obj/structure/fd/wall_decor/covering/tiles/blue
 	icon_state = "tiles_cyan"
 
-/obj/effect/turf_decal/fd/covering/tiles/white
+/obj/structure/fd/wall_decor/covering/tiles/white
 	icon_state = "tiles_white"
 
 //Paint
 
-/obj/effect/turf_decal/fd/covering/paint/gray
+/obj/structure/fd/wall_decor/covering/paint
+	pixel_y = 32
+
+/obj/structure/fd/wall_decor/covering/paint/gray
 	icon_state = "paint_gray"
 
-/obj/effect/turf_decal/fd/covering/paint/white
+/obj/structure/fd/wall_decor/covering/paint/white
 	icon_state = "paint_white"
 
-/obj/effect/turf_decal/fd/covering/paint/red
+/obj/structure/fd/wall_decor/covering/paint/red
 	icon_state = "paint_red"
 
-/obj/effect/turf_decal/fd/covering/paint/yellow
+/obj/structure/fd/wall_decor/covering/paint/yellow
 	icon_state = "paint_yellow"
 
-/obj/effect/turf_decal/fd/covering/paint/green
+/obj/structure/fd/wall_decor/covering/paint/green
 	icon_state = "paint_green"
 
-/obj/effect/turf_decal/fd/covering/paint/blue
+/obj/structure/fd/wall_decor/covering/paint/blue
 	icon_state = "paint_blue"
 
 /obj/structure/sign/poster/fd
