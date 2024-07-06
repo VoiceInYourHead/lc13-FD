@@ -896,12 +896,15 @@
 //Wallpapers and Wall Coverings
 
 /obj/structure/fd/wall_decor/covering
+	name = "wall covering"
 	icon = 'fd/icons/wallcovering.dmi'
 	layer = TURF_DECAL_LAYER
 
 //Wallpapers
 
 /obj/structure/fd/wall_decor/covering/wallpaper
+
+	name = "wallpaper"
 	pixel_y = 32
 
 /obj/structure/fd/wall_decor/covering/wallpaper/green
@@ -927,6 +930,7 @@
 //Paint
 
 /obj/structure/fd/wall_decor/covering/paint
+	name = "wall paint"
 	pixel_y = 32
 
 /obj/structure/fd/wall_decor/covering/paint/gray
