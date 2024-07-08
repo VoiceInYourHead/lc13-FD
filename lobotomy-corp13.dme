@@ -3907,6 +3907,7 @@
 #include "fd\frill.dm"
 #include "fd\limbus_teleporter.dm"
 #include "fd\low_wall.dm"
+#include "fd\roadblock_office.dm"
 #include "fd\rugs.dm"
 #include "fd\signs.dm"
 #include "fd\tables.dm"

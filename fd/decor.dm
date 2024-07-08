@@ -45,7 +45,7 @@
 	if(dir == NORTH)
 		layer = ABOVE_ALL_MOB_LAYER
 
-	AddElement(/datum/element/climbable, climb_time = 3 SECONDS, climb_stun = 0, jump_over = TRUE, jump_north = 12, jump_south = 17, jump_sides = 12)
+	AddElement(/datum/element/climbable, climb_time = 3 SECONDS, climb_stun = 0)
 
 /obj/structure/railing/fd/solo
 	name = "guard rail"
