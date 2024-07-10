@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(maptype)
 	var/list/autoend = list("rcorp", "wcorp") //, "limbus_labs" - uncomment in case of merge conflicts
 
 	//This map is city stuff
-	var/list/citymaps = list("wonderlabs", "city")
+	var/list/citymaps = list("wonderlabs", "city", "limbus_labs")
 
 	//This is for maps that incorporate space
 	var/list/spacemaps = list("skeld")
