@@ -877,6 +877,9 @@
 	. = ..()
 	add_overlay(image('fd/icons/mojave_turfs/64x/ice_border.dmi', icon_state, TURF_LAYER_ICE_BORDER, pixel_x = -16, pixel_y = -16))
 
+/turf/open/water/deep/freshwater/safe/IsSafe()
+	return TRUE
+
 //Openspace
 
 //This functions like normal openspace but prevents placing lattice, so people cannot cheese catwalks or floors clear across the map.

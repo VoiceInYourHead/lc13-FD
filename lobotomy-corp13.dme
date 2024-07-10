@@ -3908,6 +3908,7 @@
 #include "fd\limbus_teleporter.dm"
 #include "fd\lock_code.dm"
 #include "fd\low_wall.dm"
+#include "fd\players_distortion.dm"
 #include "fd\roadblock_office.dm"
 #include "fd\rugs.dm"
 #include "fd\signs.dm"
