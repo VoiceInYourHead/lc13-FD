@@ -23,7 +23,7 @@
 								JUSTICE_ATTRIBUTE = 20
 								)
 	loadalways = FALSE
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	rank_title = "ZO"
 	job_abbreviation = "LSO"
 
@@ -74,7 +74,7 @@
 								JUSTICE_ATTRIBUTE = 60
 								)
 	loadalways = FALSE
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	rank_title = "SiCPT"
 	job_abbreviation = "LSC"
 

@@ -2,9 +2,6 @@
 //To be used with the fd_flags_1 variable; kinda equivalent to the TG flags_1
 //WILL NOT WORK OUTSIDE OF THIS FOLDER
 
-// For objects able to be locked, slap this on and it should work, preventing you from interacting
-#define LOCKABLE_1 (1<<0)
-
 //from base of atom/set_density(): (new_value)
 #define COMSIG_ATOM_SET_DENSITY "atom_set_density"
 

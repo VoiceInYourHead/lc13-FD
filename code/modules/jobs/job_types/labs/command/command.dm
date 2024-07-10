@@ -15,7 +15,7 @@
 
 	display_order = 1
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_abbreviation = "ExMGR"
 	job_important = "You are the District Manager. Your job is to ensure everybody is following proper procedure."
 

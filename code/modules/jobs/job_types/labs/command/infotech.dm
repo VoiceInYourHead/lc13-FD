@@ -16,7 +16,7 @@
 
 	display_order = 6.1
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are the Information Systems Tech. Your job is to build, operate and maintain computer systems in the lab."
 
 /datum/job/ist/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)

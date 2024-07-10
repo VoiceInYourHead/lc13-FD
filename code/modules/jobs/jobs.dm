@@ -48,6 +48,11 @@ GLOBAL_LIST_INIT(command_positions, list(
 	"Lead Researcher",
 	"High Security Commander",
 	"Low Security Commander",
+
+	//LCDA addition
+	"LCDA 9 Lead Investigator",
+	"LCDA 9 Investigator",
+	"LCA Consultant",
 	))
 
 
@@ -62,6 +67,9 @@ GLOBAL_LIST_INIT(medical_positions, list(
 	"Nurse Practitioner",
 	"Pharmacist",
 	"Emergency Medical Technician",
+
+	//LCDA addition
+	"LCDA 9 Stationary Doctor",
 	))
 
 
@@ -110,6 +118,12 @@ GLOBAL_LIST_INIT(service_positions, list(
 	"Containment Engineer",
 	"LC Chef",
 	"LC Janitor",
+
+	//LCDA addition
+	"HHPP Owner",
+	"HHPP Worker",
+	"Stasher",
+	"Workshop Owner",
 	))
 
 
@@ -181,6 +195,12 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Damage Mitigation Officer",
 	"Damage Exasperation Officer",
 	"Internal Police",
+
+	//LCDA addition
+	"LCCB Team Leader",
+	"LCCB Team Operative",
+	"Roadblock Office Leader",
+	"Roadblock Office Fixer",
 	))
 
 

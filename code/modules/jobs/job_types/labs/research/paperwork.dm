@@ -16,7 +16,7 @@
 
 	display_order = 6.1
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are the research archivist. Your goal is to assist Research in filing paperwork."
 	job_notice = "Make 3 copies of each report, one for the manager, one for Asset protection, and one for the LR which will then be put into the vault."
 	job_abbreviation = "ARCH"

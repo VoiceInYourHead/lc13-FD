@@ -16,7 +16,7 @@
 
 	display_order = 6.5
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a Researcher. Your job is to interact with abnormalities, write down notes based on how they reacted, and report your findings to the Senior Researcher or the office workers."
 	job_abbreviation = "RES"
 

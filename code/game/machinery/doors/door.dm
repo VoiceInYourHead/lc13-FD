@@ -229,9 +229,9 @@
 		try_to_weld(I, user)
 		return TRUE
 */
-	else if(!(I.item_flags & NOBLUDGEON) && user.a_intent != INTENT_HARM)
+/*	else if(!(I.item_flags & NOBLUDGEON) && user.a_intent != INTENT_HARM)
 		try_to_activate_door(user)
-		return TRUE
+		return TRUE */
 	return ..()
 
 /obj/machinery/door/take_damage(damage_amount, damage_type = BRUTE, sound_effect = 1, attack_dir)

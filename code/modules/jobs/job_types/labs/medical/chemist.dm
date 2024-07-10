@@ -20,7 +20,7 @@
 
 
 	display_order = 5.2
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a pharmacist hired by LCB. Your job is to make the medicine used by the Medical Zone."
 	job_abbreviation = "PHAR"
 

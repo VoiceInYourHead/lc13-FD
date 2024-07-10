@@ -28,5 +28,6 @@
 	for(var/obj/structure/fd/limbus_corridor/BT in AllLimbusTeleporters)
 		if(BT.id == src.id_target)
 			icon_state = "airlockactive"
-			if(do_after(AM, 5 SECONDS, target = src))
+			if(do_after(AM, 3 SECONDS, target = src))
+				icon_state = "airlock"
 				AM.forceMove(BT.loc) //Teleport to location with correct id.

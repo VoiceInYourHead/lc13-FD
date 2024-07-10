@@ -20,7 +20,7 @@
 
 
 	display_order = 5.1
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a surgeon hired by LCB. Your job is to revive people and perform surgery on them."
 	job_abbreviation = "SUR"
 

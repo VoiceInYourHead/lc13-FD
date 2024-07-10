@@ -15,7 +15,7 @@
 
 	display_order = 11
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a limbus Containment Engineer. Assist in repairing the containment zones in low security and high security"
 	rank_title = "MZO"
 	job_abbreviation = "CE"

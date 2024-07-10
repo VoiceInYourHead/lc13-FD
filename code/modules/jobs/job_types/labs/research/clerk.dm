@@ -17,7 +17,7 @@
 
 	display_order = 999
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a LC Staff Member. You have little responsibilities, but are encouraged to assist research."
 	job_abbreviation = "STF"
 

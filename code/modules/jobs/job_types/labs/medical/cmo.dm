@@ -18,7 +18,7 @@
 
 	display_order = 5
 	alt_titles = list("Medical Director", "Medical Officer")
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are the Chief Medical Officer. You run the Medical Zone and coordinate the medical department."
 
 	job_abbreviation = "CMO"

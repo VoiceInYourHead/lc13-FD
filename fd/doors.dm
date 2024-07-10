@@ -1,7 +1,3 @@
-/atom
-	//FD edit; flags specifically used for PM13 content
-	var/fd_flags_1 = NONE
-
 ///Setter for the `density` variable to append behavior related to its changing.
 /atom/proc/set_density(new_value)
 	SHOULD_CALL_PARENT(TRUE)
@@ -34,7 +30,6 @@
 	max_integrity = 1000
 	armor = list(MELEE = 50, BULLET = 80, LASER = 90, ENERGY = 90, BOMB = 30, BIO = 100, FIRE = 80, ACID = 100)
 	damage_deflection = 15
-	fd_flags_1 = LOCKABLE_1
 	var/door_type = null
 	var/solidity = SOLID
 	var/frametype = "metal"
@@ -205,13 +200,30 @@
 	if(.)
 		return
 	if(do_after(M, 0.5 SECONDS, interaction_key = DOAFTER_SOURCE_DOORS))
+		if(locked_up)
+			to_chat(usr, "<span class='warning'>[src] is locked!</span>")
+			return FALSE
 		try_to_activate_door(M)
 
 /obj/machinery/door/unpowered/fd/attackby(obj/item/I, mob/living/M, params)
 	. = ..()
-	if(!open)
-		update_icon()
-		return ((obj_flags & CAN_BE_HIT) && I.attack_atom(src, M, params))
+	if(istype(I, /obj/item/door_key))
+		var/obj/item/door_key/key = I
+		if(lock_id != key.key_id)
+			to_chat(usr, "<span class='warning'>[key] aren't matching [src]'s lock!</span>")
+			return FALSE
+		if(locked_up)
+			to_chat(usr, "<span class='warning'>You unlocked the [src]!</span>")
+			locked_up = FALSE
+			return TRUE
+		if(!locked_up)
+			to_chat(usr, "<span class='warning'>You locked the [src]!</span>")
+			locked_up = TRUE
+			return TRUE
+	else if(!locked_up && do_after(M, 1.5 SECONDS, interaction_key = DOAFTER_SOURCE_DOORS))
+		open = TRUE
+		try_to_activate_door(M)
+		return TRUE
 
 /obj/machinery/door/unpowered/fd/do_animate(animation)
 	return
@@ -373,7 +385,6 @@
 	layer = 4.5
 	closingLayer = CLOSED_DOOR_LAYER
 	hackProof = TRUE
-	fd_flags_1 = LOCKABLE_1
 	doorOpen = 'fd/sound/doorblast_open.ogg'
 	doorClose = 'fd/sound/doorblast_close.ogg'
 	resistance_flags = INDESTRUCTIBLE
@@ -395,10 +406,6 @@
 		playsound(src, 'fd/sound/door_locked.ogg', 50, TRUE)
 		return
 	if(.)
-		return
-	if(flags_1 & LOCKABLE_1)
-		to_chat(M, span_warning("The [name] is locked."))
-		playsound(src, 'fd/sound/door_locked.ogg', 50, TRUE)
 		return
 	. = ..()
 

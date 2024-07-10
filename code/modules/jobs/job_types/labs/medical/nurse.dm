@@ -20,7 +20,7 @@
 	liver_traits = list(TRAIT_MEDICAL_METABOLISM)
 
 	display_order = 5.3
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a nurse hired by LCB. You help the other members of the Medical Zone tend to the patients."
 	job_abbreviation = "NP"
 

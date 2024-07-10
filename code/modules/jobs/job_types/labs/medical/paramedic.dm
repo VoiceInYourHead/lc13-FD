@@ -20,7 +20,7 @@
 
 
 	display_order = 5.4
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a paramedic hired by LCB. You retrieve the bodies of badly damaged or killed LCB members to be treated in the Medical Zone."
 	job_abbreviation = "EMT"
 

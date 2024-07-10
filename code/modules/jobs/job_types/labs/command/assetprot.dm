@@ -16,7 +16,7 @@
 	display_order = 2
 	alt_titles = list()
 	job_abbreviation = "OVR"
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are the LC Asset Protection. Your job is to make sure that all assets are taken care of, and that no abnormalites are suppressed. Report to the Executives (Admins) as needed."
 
 /datum/job/asset_protection/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)

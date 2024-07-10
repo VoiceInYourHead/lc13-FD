@@ -15,7 +15,7 @@
 
 	display_order = 11.2
 	alt_titles = list()
-	maptype = "limbus_labs"
+//	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
 	job_important = "You are a limbus company chef. Make food for the staff; and grow plants in the back."
 	job_abbreviation = "CHF"
 
