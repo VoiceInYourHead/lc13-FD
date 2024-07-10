@@ -43,7 +43,7 @@
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	glasses = /obj/item/clothing/glasses/sunglasses/big
-	backpack_contents = list(/obj/item/door_key/roadblock = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1)
+	backpack_contents = list(/obj/item/door_key/roadblock = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -91,7 +91,7 @@
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	glasses = /obj/item/clothing/glasses/orange
-	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1)
+	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel

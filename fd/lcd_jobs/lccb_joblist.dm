@@ -45,7 +45,7 @@
 	glasses = /obj/item/clothing/glasses/sunglasses/big
 	head = /obj/item/clothing/head/beret/sec/lccb_commander
 	gloves = /obj/item/clothing/gloves/color/black
-	backpack_contents = list(/obj/item/door_key/lcda=1)
+	backpack_contents = list(/obj/item/door_key/lcda=1, /obj/item/storage/wallet/random_ahn)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -96,6 +96,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/beret/sec
 	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list(/obj/item/storage/wallet/random_ahn)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
