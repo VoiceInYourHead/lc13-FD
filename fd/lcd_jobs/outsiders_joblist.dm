@@ -32,6 +32,9 @@
 /obj/item/door_key/hhpp
 	key_id = "HHPP"
 
+/obj/item/ego_weapon/city/awl/no_attributes
+	attribute_requirements = list()
+
 /datum/outfit/job/hhpp_owner
 	name = "HHPP Owner"
 	jobtype = /datum/job/hhpp_owner
@@ -42,8 +45,8 @@
 	head = /obj/item/clothing/head/that
 	glasses = /obj/item/clothing/glasses/monocle
 	gloves = /obj/item/clothing/gloves/color/latex
-	backpack_contents = list(/obj/item/door_key/hhpp = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
-	belt = /obj/item/ego_weapon/city/awl
+	backpack_contents = list(/obj/item/door_key/hhpp = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/pda = 1, /obj/item/storage/wallet/random_ahn = 1)
+	belt = /obj/item/ego_weapon/city/awl/no_attributes
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -84,7 +87,7 @@
 	shoes = /obj/item/clothing/shoes/sneakers/black
 	head = /obj/item/clothing/head/bowler
 	gloves = /obj/item/clothing/gloves/color/latex
-	backpack_contents = list(/obj/item/door_key/hhpp = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/door_key/hhpp = 1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -140,7 +143,7 @@
 	suit = /obj/item/clothing/suit/armor/ego_gear/he/uturn/lcda
 	gloves = /obj/item/clothing/gloves/color/black
 	glasses = /obj/item/clothing/glasses/welding
-	backpack_contents = list(/obj/item/door_key/stasher = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/door_key/stasher = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -189,7 +192,7 @@
 	shoes = /obj/item/clothing/shoes/workboots/mining
 	head = /obj/item/clothing/head/soft/black
 	glasses = /obj/item/clothing/glasses/welding
-	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel

@@ -1,5 +1,5 @@
 /obj/item/storage/wallet/random_ahn/PopulateContents()
-	for(var/i in 1 to 7)
+	for(var/i in 1 to 10)
 		new /obj/item/stack/spacecash/c500(src)
 
 //LCDA DOCTOR
@@ -58,7 +58,7 @@
 	l_hand = /obj/item/storage/firstaid/medical
 	suit = /obj/item/clothing/suit/armor/ego_gear/city/kcorp_sci/lcda
 	glasses = /obj/item/clothing/glasses/regular/circle
-	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack/medic
 	satchel = /obj/item/storage/backpack/satchel/med
@@ -110,7 +110,7 @@
 	suit = /obj/item/clothing/suit/armor/ego_gear/limbus_labs/jacket
 	glasses = /obj/item/clothing/glasses/monocle
 	head = /obj/item/clothing/head/beret/black
-	backpack_contents = list(/obj/item/door_key/lcda=1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/door_key/lcda=1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -171,7 +171,7 @@
 	suit = /obj/item/clothing/suit/armor/ego_gear/city/mirae/lcda
 	glasses = /obj/item/clothing/glasses/sunglasses/big
 	gloves = /obj/item/clothing/gloves/color/black
-	backpack_contents = list(/obj/item/door_key/lcda=1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/door_key/lcda=1, /obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
@@ -222,7 +222,7 @@
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = /obj/item/clothing/suit/armor/ego_gear/city/misc/second
 	glasses = /obj/item/clothing/glasses/orange
-	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn)
+	backpack_contents = list(/obj/item/clothing/accessory/lawyers_badge/fixer = 1, /obj/item/storage/wallet/random_ahn = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel

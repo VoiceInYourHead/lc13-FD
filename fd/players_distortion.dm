@@ -192,7 +192,6 @@
 /mob/living/simple_animal/hostile/abnormality/kqe/fd_distortion/death()
 	can_act = FALSE
 	icon_state = icon_dead
-	..()
 
 /mob/living/simple_animal/hostile/abnormality/kqe/fd_distortion/Stagger()
 	can_act = FALSE
