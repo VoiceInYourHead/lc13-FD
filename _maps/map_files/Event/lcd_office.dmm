@@ -1312,7 +1312,7 @@
 "MH" = (/obj/effect/turf_decal/siding/wood{dir = 8},/obj/machinery/door/unpowered/fd/wood/mirrored/blue{dir = 8; lock_id = "ROOM 6"},/obj/structure/fd/wall_decor/covering/wallpaper/red,/turf/open/floor/wood/fd/common,/area/centcom)
 "MI" = (/obj/structure/fd/wall_decor/calendar,/obj/structure/fd/wall_decor/covering/wallpaper/green,/turf/open/floor/wood/fd/wide,/area/centcom)
 "MK" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/table/fd/metal/alt,/obj/machinery/chem_dispenser/drinks{pixel_y = 18},/obj/item/storage/box/drinkingglasses{pixel_x = -5; pixel_y = 7; plane = -41},/turf/open/floor/fd/metal/grate/alt,/area/centcom)
-"ML" = (/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
+"ML" = (/obj/machinery/telecomms/server/presets/common,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "MM" = (/obj/structure/table/fd/metal/heavy,/obj/item/reagent_containers/food/condiment/flour{pixel_x = 4; pixel_y = 11},/obj/item/reagent_containers/food/condiment/mayonnaise{pixel_x = -3; pixel_y = 5},/obj/item/reagent_containers/spray/cleaner{pixel_x = 6},/turf/open/floor/fd/tile/fancy,/area/centcom)
 "MN" = (/obj/structure/railing/fd/solo{dir = 4},/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom)
 "MO" = (/obj/structure/railing/fd/solo/industrial{dir = 4; plane = -41},/obj/structure/table/fd/metal/small,/obj/item/storage/box/lights/mixed{pixel_y = 12},/obj/item/storage/box/lights/tubes{pixel_y = 4},/obj/effect/turf_decal/stripes/line{dir = 4},/turf/open/floor/fd/metal,/area/centcom)

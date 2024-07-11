@@ -1,9 +1,6 @@
-/obj/item/storage/wallet/random_ahn
-	icon_state = "random_wallet"
-
-/obj/item/storage/wallet/random/random_ahn/PopulateContents()
-	new /obj/item/stack/spacecash/c500(src, rand(5,20))
-	icon_state = "wallet"
+/obj/item/storage/wallet/random_ahn/PopulateContents()
+	for(var/i in 1 to 7)
+		new /obj/item/stack/spacecash/c500(src)
 
 //LCDA DOCTOR
 

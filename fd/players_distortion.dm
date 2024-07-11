@@ -1,18 +1,91 @@
 #define FRAGMENT_SONG_COOLDOWN (14 SECONDS)
 
+//Toggle Sprite
+/obj/effect/proc_holder/spell/targeted/change_sprite
+	name = "Change Appearance \[TO TWO\]"
+	desc = "Changes your appearance to something else."
+
+	charge_max = 10
+	clothes_req = 0
+
+	message = span_notice("You changed your sprite!")
+	range = -1
+	include_user = 1
+	var/state = 1
+
+/obj/effect/proc_holder/spell/targeted/change_sprite/cast(list/targets, mob/living/simple_animal/user = usr)
+
+	if(state == 1)
+		name = "Change Appearance \[TO TWO\]"
+		user.icon = null //change to the needed file or remove
+		user.icon_state = null //same here
+		user.icon_living = null //same here
+		user.icon_dead = null //same here
+		user.pixel_x = 0
+		user.pixel_y = 0
+		state = 2
+		return TRUE
+	if(state == 2)
+		name = "Change Appearance \[TO THREE\]"
+		user.icon = null //change to the needed file or remove
+		user.icon_state = null //same here
+		user.icon_living = null //same here
+		user.icon_dead = null //same here
+		user.pixel_x = 0
+		user.pixel_y = 0
+		state = 3
+		return TRUE
+	if(state == 3)
+		name = "Change Appearance \[TO ONE\]"
+		user.icon = null //change to the needed file or remove
+		user.icon_state = null //same here
+		user.icon_living = null //same here
+		user.icon_dead = null //same here
+		user.pixel_x = 0
+		user.pixel_y = 0
+		state = 1
+		return TRUE
+
+/obj/effect/proc_holder/spell/targeted/change_sprite/mermaid
+
+/obj/effect/proc_holder/spell/targeted/change_sprite/mermaid/cast(list/targets, mob/living/simple_animal/user = usr)
+
+	if(state == 1)
+		name = "Change Appearance \[TO TWO\]"
+		user.icon = 'fd/icons/swift_distortion.dmi'
+		user.icon_state = "pmermaid_standing"
+		user.icon_living = "pmermaid_standing"
+		user.icon_dead = null
+		user.pixel_x = -12
+		user.pixel_y = -12
+		visible_message(span_warning("[user] поднимается из воды, обнажив свою изящную фигуру..."))
+		state = 2
+		return TRUE
+	if(state == 2)
+		name = "Change Appearance \[TO ONE\]"
+		user.icon = 'fd/icons/swift_distortion.dmi'
+		user.icon_state = "pmermaid_laying"
+		user.icon_living = "pmermaid_laying"
+		user.icon_dead = null
+		user.pixel_x = -12
+		user.pixel_y = -12
+		visible_message(span_warning("[user] вновь прячет свой торс в воду..."))
+		state = 1
+		return TRUE
+
 /mob/living/simple_animal/hostile/abnormality/fragment/fd_distortion
 	name = "Mermaid"
 	desc = "A limbless distortion ressembling a mermaid. Their heart shaped eyes look at you with both love and jealousy."
-	icon = 'ModularTegustation/Teguicons/48x32.dmi'
-	icon_state = "pmermaid_standing"
-	icon_living = "pmermaid_standing"
-	icon_dead = "pmermaid_laying" //she shouldn't die while contained so this is more of a placeholder death icon
+	icon = 'fd/icons/swift_distortion.dmi'
+	icon_state = "pmermaid_laying"
+	icon_living = "pmermaid_laying"
+	icon_dead = null
 	portrait = "piscine"
 	death_sound = 'sound/abnormalities/piscinemermaid/waterjump.ogg'
 	attack_sound = 'sound/abnormalities/piscinemermaid/splashattack.ogg'
 	del_on_death = FALSE
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 4000
+	health = 4000
 	pixel_x = -12
 	base_pixel_x = -12
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 2)
@@ -28,6 +101,12 @@
 	faction = list("hostile")
 
 	var/suffocation_range = 1
+	song_damage = 10 // Dealt 8 times
+
+/mob/living/simple_animal/hostile/abnormality/fragment/fd_distortion/Initialize()
+	. = ..()
+	var/obj/effect/proc_holder/spell/targeted/change_sprite/mermaid/sprite = new
+	src.AddSpell(sprite)
 
 /mob/living/simple_animal/hostile/abnormality/fragment/fd_distortion/Life()
 	. = ..()
@@ -80,7 +159,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/fragment/fd_distortion/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
-	icon = 'ModularTegustation/Teguicons/64x64.dmi'
+	icon = 'fd/icons/swift_distortion.dmi'
 	icon_living = "pmermaid_breach"
 	icon_dead = "pmermaid_slain"
 	icon_state = icon_living
