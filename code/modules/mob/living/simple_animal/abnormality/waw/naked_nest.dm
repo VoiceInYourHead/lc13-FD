@@ -43,6 +43,16 @@
 	environment_smash = ENVIRONMENT_SMASH_NONE
 	death_message = "collapses as its residents flee."
 	death_sound = 'sound/effects/dismember.ogg'
+
+	observation_prompt = "In the beginning, a serpent tempted Eve with a bite of the forbidden fruit an act which cast Man out of the Garden of Eden. <br>\
+		Now all that remains of that fruit is a rotten, decayed mass squirming with more evil serpents."
+	observation_choices = list("Cover your mouth", "Take a bite")
+	correct_choices = list("Take a bite")
+	observation_success_message = "Mankind's sin began long ago but it was never the serpent that was evil, it only followed its nature as did Man. <br>\
+		The serpents within the fruit paused and entered into your mouth with the bite, and evil took root - \
+		it's hard to blame them for mistaking you for being the same as the fruit that has long been their home."
+	observation_fail_message = "They could infect you at any time through any orifice, you best leave in a hurry."
+
 	var/serpentsnested = 4
 	var/origin_cooldown = 0
 
@@ -292,6 +302,7 @@
 
 /mob/living/simple_animal/hostile/naked_nested/proc/Nest()
 	var/mob/living/simple_animal/hostile/abnormality/naked_nest/N = new(get_turf(src))
+	N.core_enabled = FALSE
 	for(var/atom/movable/AM in src) //morph code
 		AM.forceMove(N)
 	N.ChangeResistances(damage_coeff)
@@ -397,6 +408,9 @@
 	return
 
 /obj/item/organ/naked_nest/proc/HatchNest(mob/living/carbon/human/host)
+	//If you have melting love and naked nest, melting loves blessing gets priority
+	if(TransformOverride(host))
+		return
 	var/mob/living/simple_animal/hostile/naked_nested/N = new(host.loc) //there was a issue with several converted naked nests getting the same damage coeffs so convert proc had to be moved here.
 	NestedItems(N, host.get_item_by_slot(ITEM_SLOT_SUITSTORE))
 	NestedItems(N, host.get_item_by_slot(ITEM_SLOT_BELT))
@@ -406,6 +420,14 @@
 		N.UpdateArmor() //moved to creature proc since changing armor values in the status effect resulted in all naked nested having their armor values changed. Even admin spawned ones.
 	playsound(get_turf(host), 'sound/misc/soggy.ogg', 20, 1)
 	QDEL_IN(host, 2)
+
+/obj/item/organ/naked_nest/proc/TransformOverride(mob/living/carbon/human/H)
+	if(H && H.has_status_effect(/datum/status_effect/display/melting_love_blessing))
+		to_chat(H, span_warning("Something in your head writhes as pink slime starts to pour out of your mouth."))
+		H.deal_damage(800, BLACK_DAMAGE)
+		H.remove_status_effect(/datum/status_effect/display/melting_love_blessing)
+		if(!H || H.stat == DEAD)
+			return TRUE
 
 /obj/item/organ/naked_nest/proc/NestedItems(mob/living/simple_animal/hostile/naked_nested/nest, obj/item/nested_item)
 	if(nested_item)

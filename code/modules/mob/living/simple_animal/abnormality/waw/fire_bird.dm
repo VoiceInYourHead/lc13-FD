@@ -37,6 +37,17 @@
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 	friendly_verb_continuous = "grazes"
 	friendly_verb_simple = "grazes"
+
+	observation_prompt = "You can only hunt it wearing a thick blindfold, but even through the fabric you can track it by the light that manages to seep through and by the heat it radiates. <br>\
+		In your hands you carry a bow nocked with an arrow, it's your last one. <br>\
+		You've been pursuing your prey for days, you..."
+	observation_choices = list("Fire an arrow", "Do nothing") //awaiting extra answers functionality //"Take off your blindfold" should be a third option
+	correct_choices = list("Do nothing")
+	observation_success_message = "You watch and wait as the light and heat pass until only cold and darkness reign in the forest. <br>\
+		Feeling safe, you remove your blindfold and find on the ground one of its radiant feathers. <br>\
+		Bravo brave hunter, have you found what you were seeking?"
+	observation_fail_message = "You fire an arrow at what you percieve to be the source of the light and miss entirely. <br>You return empty-handed like so many hunters before you."
+
 	var/pulse_cooldown
 	var/pulse_cooldown_time = 1 SECONDS
 	var/pulse_damage = 10
@@ -131,7 +142,7 @@
 /mob/living/simple_animal/hostile/abnormality/fire_bird/proc/crispynugget()
 	pulse_cooldown = world.time + pulse_cooldown_time
 	for(var/mob/living/carbon/human/L in livinginview(48, src))
-		L.apply_damage(pulse_damage, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+		L.deal_damage(pulse_damage, RED_DAMAGE)
 
 /mob/living/simple_animal/hostile/abnormality/fire_bird/proc/retaliatedash()
 	if(dash_cooldown > world.time)
@@ -180,7 +191,7 @@
 			if(L in been_hit)
 				continue
 			visible_message(span_boldwarning("[src] blazes through [L]!"))
-			L.apply_damage(dash_damage, WHITE_DAMAGE, null, L.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+			L.deal_damage(dash_damage, WHITE_DAMAGE)
 			new /obj/effect/temp_visual/cleave(get_turf(L))
 			if(L.sanity_lost) // TODO: TEMPORARY AS HELL
 				L.adjustFireLoss(999)

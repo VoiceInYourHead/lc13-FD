@@ -6,6 +6,7 @@
 	icon_state = "faelantern"
 	icon_living = "faelantern_fairy"
 	icon_dead = "faelantern_egg"
+	core_icon = "faelantern_egg"
 	portrait = "faelantern"
 	maxHealth = 1200
 	health = 1200
@@ -24,6 +25,7 @@
 	del_on_death = FALSE
 	death_message = "creaks and crumbles into its core."
 	ranged = TRUE
+	ranged_cooldown_time = 1.5 SECONDS
 
 	work_damage_amount = 5
 	work_damage_type = WHITE_DAMAGE
@@ -38,6 +40,19 @@
 	gift_message = "The fairy extends an olive branch towards you."
 
 	abnormality_origin = ABNORMALITY_ORIGIN_LIMBUS
+
+	observation_prompt = "In the middle of a quiet and peaceful forest, a delicate tree branch is placed. <br>\
+		A small fairy with a green glow sits atop it. <br>\
+		Saying no words, the fairy waves at you, inviting you to come over and take a break. <br>\
+		It looked like it was smiling, and it might have been dancing."
+	observation_choices = list("Take a momentary break", "Move on without resting", "Take a break where you're standing")
+	correct_choices = list("Move on without resting", "Take a break where you're standing")
+	observation_success_message = "This is no time to be careless and stop here. <br>\
+		Tree branches came at you to halt you from leaving, but you narrowly dodged them. <br>\
+		You knew the real meaning of the fairy's gesture: <br>\
+		\"There's no such thing as a free gift\"." //waiting for update to allow other answers
+	observation_fail_message = "The fairy's smile stretches into an eerie grin. You shouldn't have trusted its appearance and now you'll have to pay the price."
+
 	var/can_act = FALSE
 	var/break_threshold = 450
 	var/broken = FALSE
@@ -90,6 +105,7 @@
 /mob/living/simple_animal/hostile/abnormality/faelantern/OpenFire()
 	if(!can_act)
 		return
+	..()
 	if(lure_cooldown <= world.time)
 		if(fairy_enabled)
 			FairyLure()
@@ -163,10 +179,10 @@
 
 /mob/living/simple_animal/hostile/abnormality/faelantern/proc/FairyLure(target)//lure AOE
 	can_act = FALSE
-	lure_cooldown = world.time +lure_cooldown_time
+	lure_cooldown = world.time + lure_cooldown_time
 	playsound(src, 'sound/abnormalities/faelantern/faelantern_giggle.ogg', 100, 0)
 	for(var/mob/living/carbon/human/victim in view(8, src))
-		victim.apply_damage(lure_damage, WHITE_DAMAGE, null, spread_damage = TRUE)
+		victim.apply_damage(lure_damage, WHITE_DAMAGE)
 		if(victim in lured_list || victim.stat >= SOFT_CRIT)
 			continue
 		if(get_attribute_level(victim, TEMPERANCE_ATTRIBUTE) > 40)
@@ -236,7 +252,7 @@
 			if(WEST)
 				R.pixel_x -= 16
 		for(var/mob/living/L in T)
-			L.apply_damage(root_damage, RED_DAMAGE, null, spread_damage = TRUE)
+			L.deal_damage(root_damage, RED_DAMAGE)
 	qdel(src)
 
 //AI controller, FIXME: reduce duplicate code

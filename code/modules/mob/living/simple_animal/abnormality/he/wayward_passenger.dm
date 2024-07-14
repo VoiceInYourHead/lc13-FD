@@ -5,6 +5,7 @@
 	icon_state = "wayward"
 	icon_living = "wayward_breach"
 	icon_dead = "wayward_dead"
+	core_icon = "waywardpass_egg"
 	portrait = "wayward_passenger"
 	del_on_death = FALSE
 	maxHealth = 1200
@@ -51,6 +52,27 @@
 		/datum/action/innate/abnormality_attack/wayward_tele,
 		/datum/action/innate/abnormality_attack/wayward_dash,
 	)
+
+	observation_prompt = "Seated on a train, you see a poor passenger, stranded between dimensions. <br>\
+		Most will never realize that this person ever disappeared. <br>\
+		Well, a certain company would know, <br>\
+		but they’ll simply pretend that the passenger never existed. <br>\
+		Lost and abandoned, tossed out like trash, <br>\
+		having no place left in the City."
+	observation_choices = list("Sit still", "Guide them out")
+	correct_choices = list("Guide them out")
+	observation_success_message = "You take a few steps, and the passenger follows. <br>\
+		As you draw closer to what appears to be an exit, the passenger bows down as though to show you gratitude. <br>\
+		You heard something fall; it left behind a gift. <br>\
+		Looks like it wasn't lost after all. It may have been an employee that happened to be patrolling the area. <br>\
+		Maybe you didn't guide it—maybe it was merely following you to make sure that you found the right exit."
+	observation_fail_message = "It idly stared in your direction. <br>\
+		Then, it began shambling for you, realizing something. <br>\
+		As it drew closer, you were able to identify <br>\
+		that the being was an employee of a certain transport company, not a passenger. <br>\
+		The ID card on its chest gave it away. <br>\
+		This stranded employee was approaching you, <br>\
+		preparing to go through the motions."
 
 	//teleport vars
 	var/teleport_cooldown
@@ -251,7 +273,7 @@
 			playsound(L, attack_sound, 75, 1)
 			var/turf/LT = get_turf(L)
 			new /obj/effect/temp_visual/kinetic_blast(LT)
-			L.apply_damage(60, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+			L.deal_damage(60, RED_DAMAGE)
 			been_hit += L
 	for(var/obj/vehicle/sealed/mecha/V in turfs_to_hit)
 		if(V in been_hit)
@@ -281,4 +303,4 @@
 
 /obj/effect/portal/abno_warp/Initialize()
 	QDEL_IN(src, 3 SECONDS)
-	..()
+	return ..()

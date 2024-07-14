@@ -58,6 +58,16 @@
 		/mob/living/simple_animal/hostile/abnormality/nihil = 1.5,
 	)
 
+	observation_prompt = "I made a mistake, I put my trust in someone I shouldn't have and my world paid the price for my indiscretion. <br>\
+		Was I wrong to call them friend? <br>Were they really my friend, all along?"
+	observation_choices = list("You were wrong", "It wasn't wrong")
+	correct_choices = list("It wasn't wrong")
+	observation_success_message = "If that's the case, then why did balance, why did justice, fail me? <br>\
+		Why did my world burn if I truly did not make a mistake? <br>It still hurts, but, if you're right then maybe I can put my trust in you..."
+	observation_fail_message = "It was the most precious relationship to me... <br>\
+		That's why I lost; I fell to my beloved companion... <br>\
+		I should have killed them when I had the chance! <br>Sinners!! <br>Embodiments of evil..!"
+
 	var/friendly = TRUE
 	var/list/friend_ship = list()
 	var/instability = 0
@@ -76,6 +86,7 @@
 	var/stunned = FALSE
 	var/ending = FALSE
 	var/hunted_target
+	var/nihil_present = FALSE
 
 	//PLAYABLES ACTIONS
 	attack_action_types = list(
@@ -155,7 +166,7 @@
 				continue
 			if(istype(L, /mob/living/simple_animal/hostile/azure_hermit) || istype(L, /mob/living/simple_animal/hostile/azure_stave))
 				continue
-			L.apply_damage(30, WHITE_DAMAGE, null, L.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+			L.deal_damage(30, WHITE_DAMAGE)
 			var/obj/effect/temp_visual/eldritch_smoke/ES = new(get_turf(L))
 			ES.color = COLOR_GREEN
 			to_chat(L, span_warning("The Azure hermit's magic being channeled through [src] racks your mind!"))
@@ -213,7 +224,7 @@
 	if(!stunned)
 		return
 	status_flags &= ~GODMODE
-	adjustBruteLoss(-maxHealth)
+	adjustBruteLoss(-maxHealth, forced = TRUE)
 	stunned = FALSE
 	icon_state = icon_living
 	desc = "A large red monster with white bandages hanging from it. Its flesh oozes a bubble acid."
@@ -225,9 +236,11 @@
 	..()
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/Found(atom/A)
-	if(istype(A, /mob/living/simple_animal/hostile/azure_stave)) // 1st Priority
+	if(istype(A, /mob/living/simple_animal/hostile/abnormality/nihil)) // 1st Priority
 		return TRUE
-	if(istype(A, /mob/living/simple_animal/hostile/azure_hermit)) // 2nd Priority
+	if(istype(A, /mob/living/simple_animal/hostile/azure_stave)) // 2nd Priority
+		return TRUE
+	if(istype(A, /mob/living/simple_animal/hostile/azure_hermit)) // 3rd Priority
 		return TRUE
 	return FALSE // Everything Else
 
@@ -252,7 +265,7 @@
 	if(!isliving(target) || (get_dist(target, src) > 1))
 		return
 	var/mob/living/L = target
-	L.apply_damage(rand(10, 15), BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+	L.deal_damage(rand(10, 15), BLACK_DAMAGE)
 	if(!istype(target, /mob/living/simple_animal/hostile/azure_hermit))
 		return
 	var/mob/living/simple_animal/hostile/azure_hermit/AZ = target
@@ -328,6 +341,8 @@
 	. = TRUE
 	if(!datum_reference)
 		friendly = FALSE
+	if(nihil_present) //nihil is here and we must fight them!
+		return ..()
 	if(friendly)
 		instability += 10
 		icon_state = icon_living
@@ -476,7 +491,7 @@
 	can_act = FALSE
 	SLEEP_CHECK_DEATH(1 SECONDS)
 	breach_affected = list()
-	adjustBruteLoss(-maxHealth)
+	adjustBruteLoss(-maxHealth, forced = TRUE)
 	toggle_ai(AI_OFF)
 	status_flags |= GODMODE
 	dir = EAST
@@ -488,11 +503,11 @@
 	ending = TRUE
 	can_act = FALSE
 	target.gib(TRUE)
-	adjustBruteLoss(-maxHealth)
+	adjustBruteLoss(-maxHealth, forced = TRUE)
 	toggle_ai(AI_OFF)
 	status_flags |= GODMODE
 	density = FALSE
-	say("Justice and balance finaly restored. We...")
+	say("Justice and balance finally restored. We...")
 	SLEEP_CHECK_DEATH(2 SECONDS)
 	animate(src, alpha = 0, time = 5)
 	new /obj/effect/temp_visual/guardian/phase(get_turf(src))
@@ -533,7 +548,7 @@
 		Teleport(src.datum_reference.landmark)
 		breach_affected = list()
 		toggle_ai(AI_OFF)
-		adjustBruteLoss(-maxHealth)
+		adjustBruteLoss(-maxHealth, forced = TRUE)
 		can_act = TRUE
 		return FALSE
 	say("GR-RRAHHH!!!")
@@ -542,13 +557,18 @@
 	SLEEP_CHECK_DEATH(15 SECONDS)
 	status_flags &= ~GODMODE
 	icon_state = icon_living
-	adjustBruteLoss(-maxHealth)
+	adjustBruteLoss(-maxHealth, forced = TRUE)
 	visible_message(span_warning("[src] gets back up!"))
 	can_act = TRUE
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/death(gibbed)
 	if(!datum_reference)
 		return ..()
+	if(nihil_present)
+		adjustBruteLoss(-999999)
+		visible_message(span_boldwarning("Oh no, [src] has been defeated!"))
+		INVOKE_ASYNC(src, PROC_REF(petrify), 500000)
+		return FALSE
 	if(ending)
 		return FALSE
 	INVOKE_ASYNC(src, PROC_REF(Downed))
@@ -560,6 +580,77 @@
 	death()
 	return FALSE
 
+//Nihil Event Code
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/EventStart()
+	set waitfor = FALSE
+	NihilModeEnable()
+	ChangeResistances(list(RED_DAMAGE = 0, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0))
+	SLEEP_CHECK_DEATH(6 SECONDS)
+	say("This is really bad...")
+	SLEEP_CHECK_DEATH(6 SECONDS)
+	say("With this, we can restore balance to the world...")
+	SLEEP_CHECK_DEATH(6 SECONDS)
+	say("We can't lose this time!")
+	SLEEP_CHECK_DEATH(6 SECONDS)
+	say("For the Justice and Balance of this Land!")
+	ChangeResistances(list(RED_DAMAGE = 0.3, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5))
+
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/NihilModeEnable()
+	NihilIconUpdate()
+	nihil_present = TRUE
+	friendly = TRUE
+	fear_level = ZAYIN_LEVEL
+	faction = list("neutral")
+	for(var/mob/living/simple_animal/hostile/azure_hermit/badguy in world)
+		badguy.gib(TRUE)
+
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/NihilIconUpdate()
+	name = "Magical Girl of Courage"
+	desc = "A real magical girl!"
+	icon = 'ModularTegustation/Teguicons/32x32.dmi'
+	icon_state = "wrath"
+	pixel_x = 0
+	base_pixel_x = 0
+	pixel_y = 0
+	base_pixel_y = 0
+
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/petrify(statue_timer)
+	if(!isturf(loc))
+		MoveStatue()
+	AIStatus = AI_OFF
+	src.icon = 'ModularTegustation/Teguicons/96x64.dmi'
+	icon_state = "wrath"
+	pixel_x = -32
+	base_pixel_x = -32
+	var/obj/structure/statue/petrified/magicalgirl/S = new(loc, src, statue_timer)
+	S.name = "Lapidified Wrath"
+	ADD_TRAIT(src, TRAIT_NOBLEED, MAGIC_TRAIT)
+	SLEEP_CHECK_DEATH(1)
+	S.icon = src.icon
+	S.icon_state = src.icon_state
+	S.pixel_x = -32
+	S.base_pixel_x = -32
+	var/newcolor = list(rgb(77,77,77), rgb(150,150,150), rgb(28,28,28), rgb(0,0,0))
+	S.add_atom_colour(newcolor, FIXED_COLOUR_PRIORITY)
+	stat = DEAD
+	return TRUE
+
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/MoveStatue()
+	var/list/teleport_potential = list()
+	if(!LAZYLEN(GLOB.department_centers))
+		for(var/mob/living/L in GLOB.mob_living_list)
+			if(L.stat == DEAD || L.z != z || L.status_flags & GODMODE)
+				continue
+			teleport_potential += get_turf(L)
+	if(!LAZYLEN(teleport_potential))
+		var/turf/P = pick(GLOB.department_centers)
+		teleport_potential += P
+	var/turf/teleport_target = pick(teleport_potential)
+	new /obj/effect/temp_visual/guardian/phase(get_turf(src))
+	new /obj/effect/temp_visual/guardian/phase/out(teleport_target)
+	forceMove(teleport_target)
+
+//Rival's code
 /mob/living/simple_animal/hostile/azure_hermit
 	name = "Hermit of the Azure Forest"
 	desc = "Please make way, I am here to meet a dear friend."
@@ -633,7 +724,7 @@
 			return
 		if(SW.health > 400)
 			playsound(SW, 'sound/abnormalities/wrath_servant/hermit_attack_hard.ogg', 75, FALSE, 15, falloff_distance = 5)
-			SW.apply_damage(100, WHITE_DAMAGE, null, SW.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE) // We win these
+			SW.deal_damage(100, WHITE_DAMAGE) // We win these
 			var/list/show_area = list()
 			show_area |= view(3, src)
 			for(var/turf/sT in show_area)
@@ -710,7 +801,7 @@
 		if(faction_check_mob(L))
 			continue
 		new /obj/effect/temp_visual/small_smoke/halfsecond(get_turf(L))
-		L.apply_damage(40, WHITE_DAMAGE, null, L.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+		L.deal_damage(40, WHITE_DAMAGE)
 	can_act = TRUE
 	return
 
@@ -723,7 +814,7 @@
 	SLEEP_CHECK_DEATH(20 SECONDS)
 	status_flags &= ~GODMODE
 	icon_state = icon_living
-	adjustBruteLoss(-maxHealth)
+	adjustBruteLoss(-maxHealth, forced = TRUE)
 	density = TRUE
 
 /mob/living/simple_animal/hostile/azure_hermit/death()
@@ -778,7 +869,7 @@
 	icon = 'ModularTegustation/Teguicons/tegu_effects.dmi'
 	icon_state = "wrath_acid"
 	random_icon_states = list("wrath_acid")
-	mergeable_decal = TRUE
+	mergeable_decal = FALSE
 	var/duration = 2 MINUTES
 	var/delling = FALSE
 
@@ -787,11 +878,17 @@
 	START_PROCESSING(SSobj, src)
 	duration += world.time
 
+/obj/effect/decal/cleanable/wrath_acid/Destroy()
+	if(!delling)
+		STOP_PROCESSING(SSobj, src)
+	return ..()
+
 /obj/effect/decal/cleanable/wrath_acid/process(delta_time)
 	if(world.time > duration)
 		Remove()
 
 /obj/effect/decal/cleanable/wrath_acid/proc/Remove()
+	delling = TRUE
 	STOP_PROCESSING(SSobj, src)
 	animate(src, time = (5 SECONDS), alpha = 0)
 	QDEL_IN(src, 5 SECONDS)
@@ -804,6 +901,10 @@
 			sleep(2)
 		if(!step_to(src, get_step(src, direction), 0))
 			break
+	var/turf/T = get_turf(src)
+	for(var/obj/effect/decal/cleanable/wrath_acid/w in T)
+		if(w != src && !QDELETED(w))
+			qdel(w)
 
 /obj/effect/decal/cleanable/wrath_acid/Crossed(atom/movable/AM)
 	. = ..()
@@ -829,7 +930,7 @@
 
 /obj/effect/gibspawner/generic/silent/wrath_acid
 	gibtypes = list(/obj/effect/decal/cleanable/wrath_acid)
-	gibamounts = list(3)
+	gibamounts = list(1)
 
 /obj/effect/gibspawner/generic/silent/wrath_acid/bad
 	gibtypes = list(/obj/effect/decal/cleanable/wrath_acid/bad)
@@ -858,7 +959,7 @@
 	if(!isliving(owner))
 		return
 	var/mob/living/status_holder = owner
-	status_holder.apply_damage(5, BLACK_DAMAGE, null, status_holder.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+	status_holder.deal_damage(5, BLACK_DAMAGE)
 	if(!ishuman(status_holder))
 		return
 	if((status_holder.sanityhealth <= 0) || (status_holder.health <= 0))

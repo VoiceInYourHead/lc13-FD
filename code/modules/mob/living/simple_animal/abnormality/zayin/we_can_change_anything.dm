@@ -44,6 +44,16 @@
 		/mob/living/simple_animal/hostile/abnormality/cleaner = 1.5,
 	)
 
+	observation_prompt = "Is your child a troublemaker who cries all the time? We can change that! <br>\
+		Don’t like how you look? Are you too fat? Too skinny? We can change that! <br>\
+		Is your house suffering from an outage because you don’t have the money to pay for the power bill? <br>\
+		We can change that!<br>\
+		It’s quite simple. Just open up the machine, step inside, and press the button to make it shut."
+	observation_choices = list("Enter the machine")
+	correct_choices = list("Enter the machine")
+	observation_success_message = "You step inside the machine, it's just as comfortable as advertised. <br>\
+		Now everything will be just fine."
+
 	var/grinding = FALSE
 	var/grind_duration = 5 SECONDS
 	var/grind_damage = 2 // Dealt 100 times
@@ -92,7 +102,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/we_can_change_anything/Worktick(mob/living/carbon/human/user)
 	if(!sacrifice)
-		user.apply_damage(5, RED_DAMAGE, null, user.run_armor_check(null, RED_DAMAGE)) // say goodbye to your kneecaps chucklenuts!
+		user.deal_damage(5, RED_DAMAGE) // say goodbye to your kneecaps chucklenuts!
 	else
 		do_shaky_animation(1)
 		playsound(get_turf(src), 'sound/abnormalities/we_can_change_anything/change_generate.ogg', 50, FALSE)
@@ -101,7 +111,7 @@
 				ramping_speed -= 0.2
 			if(8 to 20)
 				ramping_speed -= 0.5
-		user.apply_damage(8, RED_DAMAGE, null, user.run_armor_check(null, RED_DAMAGE)) // say goodbye to a bit more than your kneecaps... (total damage is 800 RED).
+		user.deal_damage(8, RED_DAMAGE) // say goodbye to a bit more than your kneecaps... (total damage is 800 RED).
 		total_damage += 8
 
 /mob/living/simple_animal/hostile/abnormality/we_can_change_anything/SpeedWorktickOverride(mob/living/carbon/human/user, work_speed, init_work_speed, work_type)
@@ -191,7 +201,7 @@
 			sound_cooldown = 0
 			playsound(src, 'sound/abnormalities/change/change_ding.ogg', 50)
 		for(var/mob/living/carbon/human/victim in get_turf(src))
-			victim.apply_damage(grind_damage, RED_DAMAGE, null, victim.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+			victim.deal_damage(grind_damage, RED_DAMAGE)
 			if(victim.health <= 0)
 				victim.gib()
 		stoplag(1)

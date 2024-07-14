@@ -26,6 +26,17 @@
 	gift_message = "I hope you're pleased with this!"
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
+	observation_prompt = "This place is so gloomy, everyone always seems so sad and they don't smile. <br>\
+		It's lonely to be sad, so, this little lady has been secretly giving them all presents filled with friends! <br>\
+		Did they like the surprise?"
+	observation_choices = list("Tell the truth", "Lie and say they did")
+	correct_choices = list("Tell the truth")
+	observation_success_message = "Oh, that's sad... <br>Even if they're my friends, that doesn't mean they're your friends as well. <br>\
+		I won't give you a present, but, could you stay and play with me some more today?"
+	observation_fail_message = "I'm glad! <br>I wish I could have seen their faces, I bet they were so surprised! <br>\
+		You look lonely too, I hope my present will make you laugh as well!"
+
+
 /mob/living/simple_animal/hostile/abnormality/laetitia/NeutralEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
 	var/datum/status_effect/pranked/P = user.has_status_effect(STATUS_EFFECT_PRANKED)
@@ -142,7 +153,7 @@
 	var/atom/throw_target = get_edge_target_turf(status_holder, rand_dir)
 	if(!status_holder.anchored)
 		status_holder.throw_at(throw_target, rand(1, 3), 7, status_holder)
-	status_holder.apply_damage(200, RED_DAMAGE, null, status_holder.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)//Usually a kill, you can block it if you're good
+	status_holder.deal_damage(200, RED_DAMAGE)//Usually a kill, you can block it if you're good
 
 /datum/status_effect/pranked/proc/TriggerPrank()
 	//immediately set to 10 seconds, don't shorten if less than 10 seconds remaining

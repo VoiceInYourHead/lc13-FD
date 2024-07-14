@@ -43,6 +43,11 @@
 	gift_message = "But if you were to consume them, perhaps, you would display more sarira than Buddha himself..."
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
+	observation_prompt = "Are you a monk?"
+	observation_choices = list("I am no longer a monk")
+	correct_choices = list("I am no longer a monk")
+	observation_success_message = "A demon shall never reach Heaven."
+
 	var/datum/looping_sound/cloudedmonk_ambience/soundloop
 	var/charging = FALSE
 	var/revving_charge = FALSE
@@ -56,7 +61,8 @@
 	var/damage_taken
 
 	attack_action_types = list(
-		/datum/action/innate/abnormality_attack/toggle/monk_charge
+		/datum/action/innate/abnormality_attack/toggle/monk_charge,
+		/datum/action/innate/change_icon_monk,
 	)
 
 /datum/action/innate/abnormality_attack/toggle/monk_charge
@@ -69,11 +75,31 @@
 	toggle_message = span_colossus("You will now triple charge at the target you click on if damaged enough.")
 	button_icon_toggle_deactivated = "kog_charge"
 
+
+/datum/action/innate/change_icon_monk
+	name = "Toggle Icon"
+	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
+
+/datum/action/innate/change_icon_monk/Activate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/32x48.dmi'
+		owner.icon_state = "cloudedmonk"
+		active = 1
+
+/datum/action/innate/change_icon_monk/Deactivate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/32x48.dmi'
+		owner.icon_state = "pretamonk"
+		active = 0
+
 //init
 /mob/living/simple_animal/hostile/abnormality/clouded_monk/Initialize()
 	. = ..()
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(OnMobDeath)) // Hell
-	soundloop = new(list(src), FALSE)
+	if(SSmaptype.maptype != "limbus_labs")
+		soundloop = new(list(src), FALSE)
 
 /mob/living/simple_animal/hostile/abnormality/clouded_monk/Destroy()
 	UnregisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH)
@@ -239,7 +265,7 @@
 				shake_camera(src, 2, 3)
 				if(ishuman(L))
 					var/mob/living/carbon/human/H = A
-					H.apply_damage(charge_damage,RED_DAMAGE, null, H.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+					H.deal_damage(charge_damage, RED_DAMAGE)
 					if(H.health < 0)
 						H.gib()
 						adjustBruteLoss(-heal_amount)

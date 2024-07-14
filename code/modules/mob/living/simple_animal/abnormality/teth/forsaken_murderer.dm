@@ -95,8 +95,42 @@
 	 */
 	gift_type =  /datum/ego_gifts/regret
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
+
+	/**
+	* Final observation code. These variables should be self-explanatory.
+	*/
+	observation_prompt = "Around his neck is a rope. It is up to you to cut his rope."
+	observation_choices = list("Cut the rope.", "Don't cut the rope.")
+	correct_choices = list("Don't cut the rope.")
+	observation_success_message = "His neck snaps, granting him silence and eternal rest."
+	observation_fail_message = "\"You think I'm pathetic, huh? But is you people who are really pathetic. Because you get killed. By people like me.\""
+
 	//Unique variable im defining for this abnormality. This is the timer for their during work emotes.
 	var/work_emote_cooldown = 0
+
+	attack_action_types = list(
+		/datum/action/innate/change_icon_forsaken,
+	)
+
+
+/datum/action/innate/change_icon_forsaken
+	name = "Toggle Icon"
+	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
+
+/datum/action/innate/change_icon_forsaken/Activate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
+		owner.icon_state = "forsakenmurdererinert"
+		active = 1
+
+/datum/action/innate/change_icon_forsaken/Deactivate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
+		owner.icon_state = "forsakenmurdererbreach"
+		active = 0
+
 
 //When work type is bad the qliphoth counter lowers with no chance.
 /mob/living/simple_animal/hostile/abnormality/forsaken_murderer/FailureEffect(mob/living/carbon/human/user, work_type, pe)

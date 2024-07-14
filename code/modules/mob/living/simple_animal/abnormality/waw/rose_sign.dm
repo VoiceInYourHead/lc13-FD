@@ -6,6 +6,7 @@
 	icon_state = "rose_sign"
 	icon_living = "rose_sign"
 	icon_dead = "rosesign_egg"
+	core_icon = "rosesign_egg"
 	portrait = "rose_sign"
 	del_on_death = FALSE
 	gender = NEUTER
@@ -34,6 +35,23 @@
 	)
 	gift_type = /datum/ego_gifts/rosa
 	abnormality_origin = ABNORMALITY_ORIGIN_LIMBUS
+
+	observation_prompt = "What does this signboard say? <br>\
+		It hangs itself on a tree, trying to make its content known. <br>\
+		Its desperation is almost pitiable."
+	observation_choices = list("Pick a rose", "Unravel the brambles")
+	correct_choices = list("Pick a rose")
+	observation_success_message = "You pick a rose out of it. <br>\
+		With closer examination, you notice <br>\
+		that it has an intestinal texture. <br>\
+		What is a flower-shaped organ for?"
+	observation_fail_message = "As you try to untangle the vines, <br>\
+		sallow bits of flesh fall off. <br>\
+		The thorny brambles you thought were a source of constricting pain <br>\
+		ironically had been keeping the body together. <br>\
+		The body writhes as its flesh falls apart. <br>\
+		Blossoms of flowers sprawled on the ground substitute its screams."
+
 	var/list/work_roses = list()
 	var/list/work_damages = list()
 	var/list/summoned_roses = list()
@@ -151,7 +169,7 @@
 /mob/living/simple_animal/hostile/abnormality/rose_sign/WorktickFailure(mob/living/carbon/human/user)
 	if(LAZYLEN(work_damages))//are there any children under work damages? Apply all of the damages!
 		for(var/damtype in work_damages)
-			user.apply_damage(work_damages[damtype], damtype, null, user.run_armor_check(null, damtype), spread_damage = TRUE)
+			user.deal_damage(work_damages[damtype], damtype)
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/rose_sign/proc/WorkSpeech(list/lines, list/speech_styles)
@@ -292,7 +310,7 @@
 	pixel_y = 0
 
 /obj/effect/rose_target/Initialize()
-	..()
+	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(GrabAttack)), 3 SECONDS)
 
 /obj/effect/rose_target/proc/GrabAttack()
@@ -301,7 +319,7 @@
 	alpha = 1
 	for(var/mob/living/carbon/human/H in view(3, src))//big, big AOE
 		grabbed = TRUE
-		H.apply_damage(boom_damage, BLACK_DAMAGE, null, H.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+		H.deal_damage(boom_damage, BLACK_DAMAGE)
 		if(H.buckled)//Otherwise it would rip people off their crucifixes. Not too exploitable
 			continue
 		H.forceMove(get_turf(src))//pulls them all to the target
@@ -332,7 +350,7 @@
 	for(var/turf/T in view(0, target_turf))
 		new /obj/effect/temp_visual/thornspike(T)
 		for(var/mob/living/L in T)
-			L.apply_damage(root_damage, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+			L.deal_damage(root_damage, BLACK_DAMAGE)
 			if(L.stat == DEAD)
 				if(L.has_status_effect(/datum/status_effect/stacking/crownthorns))//Stops a second crucifix from appearing
 					L.remove_status_effect(STATUS_EFFECT_THORNS)
@@ -411,7 +429,7 @@
 	var/mob/living/simple_animal/hostile/abnormality/rose_sign/master
 
 /obj/structure/rose_work/Initialize()
-	..()
+	. = ..()
 	picked_color = pick(RED_DAMAGE, WHITE_DAMAGE, BLACK_DAMAGE, PALE_DAMAGE)
 	icon_state = "rose_" + picked_color
 	desc = "The heavier your sins, the deeper the color of petals will be."
@@ -454,7 +472,7 @@
 	if(killed)
 		master.datum_reference.qliphoth_change(-1)
 	master.work_roses -= src
-	..()
+	return ..()
 
 //debuff definition
 /datum/status_effect/stacking/crownthorns
@@ -525,7 +543,7 @@
 	layer = ABOVE_MOB_LAYER
 
 /obj/structure/rose_crucifix/Initialize()
-	..()
+	. = ..()
 	if(prob(25))//TODO: make this from a white rose
 		add_overlay(mutable_appearance('ModularTegustation/Teguicons/32x32.dmi', "crucify_white", -ABOVE_MOB_LAYER))
 	else

@@ -2,6 +2,7 @@
 #define STATUS_EFFECT_PARABLE /datum/status_effect/quiet/parable
 #define STATUS_EFFECT_WIFE_STORY /datum/status_effect/quiet/wife
 #define STATUS_EFFECT_DEMENTIA_RAMBLINGS /datum/status_effect/quiet/dementia
+
 /mob/living/simple_animal/hostile/abnormality/quiet_day
 	name = "A Quiet Day"
 	desc = "An old weather damaged bench, it feels oddly nostalgic to you. Like a spring day at the side of a lake."
@@ -10,7 +11,7 @@
 	maxHealth = 451
 	health = 451
 	threat_level = ZAYIN_LEVEL
-
+	faction = list("hostile", "neutral")
 	//Bad for stat gain, but the damage is negligable and there's a nice bonus at the end
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 60,
@@ -25,9 +26,7 @@
 		/datum/ego_datum/weapon/nostalgia,
 		/datum/ego_datum/armor/nostalgia,
 	)
-
-	faction = list("hostile", "neutral")
-
+	gift_type =  /datum/ego_gifts/nostalgia
 
 	grouped_abnos = list(
 		/mob/living/simple_animal/hostile/abnormality/mhz = 1.5,
@@ -39,7 +38,21 @@
 	harvest_phrase = span_notice("%ABNO looks curiously at %VESSEL for a moment. You blink, and suddenly, it seems to contain a shadowy substance.")
 	harvest_phrase_third = "%ABNO glances at %PERSON. Suddenly, %VESSEL seems to be more full."
 
-	gift_type =  /datum/ego_gifts/nostalgia
+	observation_prompt = "The shadow of an old man seems to be contemplating about something. <br>\
+		\"Don\'t you ever wish you could go back to those better times? To be able to enjoy life to the fullest? <br>\
+		To relive the best moments of your life again? <br>\
+		To remember her face? To remember that young man's name? <br>\
+		Perhaps it's foolish of me to ask for this. I want to hear your opinion, young\'in. <br>\
+		Would it be worth chasing after those old, familiar memories?\""
+	observation_choices = list("It's not wrong.", "Perhaps it's better to move on.")
+	correct_choices = list("Perhaps it's better to move on.")
+	observation_success_message = "\"I suppose you're right after all.\" <br>\
+		\"If I can't even remember their names and faces, what worth even are those memories?\" <br>\
+		\"Go on. Leave before you forget too.\""
+	observation_fail_message = "\"Indeed. There's no harm, right?\" <br>\
+		\"...Yet why can't I remember her face?\" <br>\
+		As you're about to leave, you hear the old man croak out something. \"Who are you again?\""
+
 	var/buff_given
 	var/datum/looping_sound/quietday_ambience/soundloop
 
@@ -107,6 +120,33 @@
 
 	var/pink_speaktimer = null
 
+	can_buckle = TRUE
+	var/currently_talking = FALSE
+
+/mob/living/simple_animal/hostile/abnormality/quiet_day/examine()
+	. = ..()
+	if(currently_talking)
+		. += span_notice("You could shove [src] to stop his talking... but that would be rude.")
+
+/mob/living/simple_animal/hostile/abnormality/quiet_day/post_buckle_mob(mob/living/M)
+	M.layer = layer + 0.1
+	M.pixel_x += 14
+	M.setDir(SOUTH)
+
+/mob/living/simple_animal/hostile/abnormality/quiet_day/post_unbuckle_mob(mob/living/M)
+	M.layer = initial(M.layer)
+	M.pixel_x -= 14
+
+/mob/living/simple_animal/hostile/abnormality/quiet_day/attack_hand(mob/living/carbon/human/M)
+	if(M.a_intent == "help" || !currently_talking)
+		return ..()
+
+	visible_message(span_notice("[M] asks [src] to stop telling the story."), \
+					span_notice("[M] asks you to stop telling the story."), null, null, M)
+	to_chat(M, span_notice("You ask [src] to stop telling the story."))
+	playsound(loc, 'sound/weapons/thudswoosh.ogg', 50, TRUE, -1)
+	currently_talking = FALSE
+
 /mob/living/simple_animal/hostile/abnormality/quiet_day/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	if(pe == 0)
 		return
@@ -116,12 +156,13 @@
 /mob/living/simple_animal/hostile/abnormality/quiet_day/proc/TalkStart(mob/living/carbon/human/user)
 	flick("quiet_fadein", src)
 	icon_state = "quiet_ghost"
+	currently_talking = TRUE
 	switch(buff_given)
 		if(ABNORMALITY_WORK_INSTINCT)
 			for(var/line in war_story)
 				say(line)
 				SLEEP_CHECK_DEATH(50)
-				if(PlayerCheck(user))
+				if(!PlayerInView(user))
 					ResetIcon()
 					return
 
@@ -129,7 +170,7 @@
 			for(var/line in parable)
 				say(line)
 				SLEEP_CHECK_DEATH(50)
-				if(PlayerCheck(user))
+				if(!PlayerInView(user))
 					ResetIcon()
 					return
 
@@ -137,7 +178,7 @@
 			for(var/line in wife)
 				say(line)
 				SLEEP_CHECK_DEATH(50)
-				if(PlayerCheck(user))
+				if(!PlayerInView(user))
 					ResetIcon()
 					return
 
@@ -147,7 +188,7 @@
 				dementia -= current
 				say(current)
 				SLEEP_CHECK_DEATH(50)
-				if(PlayerCheck(user))
+				if(!PlayerInView(user))
 					dementia = initial(dementia)
 					ResetIcon()
 					return
@@ -173,13 +214,14 @@
 /mob/living/simple_animal/hostile/abnormality/quiet_day/proc/ResetIcon()
 	flick("quiet_fadeout", src)
 	icon_state = "quiet_day"
+	currently_talking = FALSE
 
-/mob/living/simple_animal/hostile/abnormality/quiet_day/proc/PlayerCheck(mob/living/carbon/human/user)
-	if(!(user in view(5, src)))
-		say("Ah, I supposed we can continue this another time.")
+/mob/living/simple_animal/hostile/abnormality/quiet_day/proc/PlayerInView(mob/living/carbon/human/user)
+	if(currently_talking && (user in view(5, src)))
 		return TRUE
-	else
-		return FALSE
+
+	say("Ah, I suppose we can continue this another time.")
+	return FALSE
 
 /mob/living/simple_animal/hostile/abnormality/quiet_day/BreachEffect(mob/living/carbon/human/user, breach_type)
 	if(breach_type == BREACH_PINK)
@@ -282,4 +324,4 @@
 
 /mob/living/simple_animal/hostile/abnormality/quiet_day/Destroy()
 	QDEL_NULL(soundloop)
-	..()
+	return ..()

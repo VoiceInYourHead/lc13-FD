@@ -36,6 +36,13 @@
 	gift_message = "Everyone has their own sweet orange tree in their heart."
 	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK
 
+	observation_prompt = "Whenever I enter this containment cell, I find myself whisked away to Never Never Land by Peter Pan to join his merry band of Lost Boys. <br>\
+		I had forgotten all about him when I grew up, I want to stay longer..."
+	observation_choices = list("Stay", "Leave")
+	correct_choices = list("Leave")
+	observation_success_message = "Second to the right, and straight on till morning, I found my way back to where I'm supposed to - there's still work to be done."
+	observation_fail_message = "If no one comes to get me, I'll remain here - never noticing the passing of time..."
+
 	var/datum/looping_sound/orangetree_ambience/soundloop
 
 //Spawn/Del Procs
@@ -45,7 +52,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/orange_tree/Destroy()
 	QDEL_NULL(soundloop)
-	..()
+	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/orange_tree/PostSpawn()
 	..()
@@ -193,7 +200,7 @@
 	duration = 50
 
 /obj/effect/temp_visual/dancing_lights/Initialize()
-	..()
+	. = ..()
 	animate(src, alpha = rand(125,200), time = 5)
 	addtimer(CALLBACK(src, PROC_REF(fade_out)), 5)
 

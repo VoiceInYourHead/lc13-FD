@@ -4,6 +4,7 @@
 	icon = 'ModularTegustation/Teguicons/48x48.dmi'
 	icon_state = "generalbee"
 	icon_living = "generalbee"
+	core_icon = "gbee_egg"
 	speak_emote = list("buzzes")
 	pixel_x = -8
 	base_pixel_x = -8
@@ -49,6 +50,31 @@
 	var/combat_map = FALSE
 	var/datum/action/innate/toggle_artillery_sight/sight_ability
 
+	var/list/beespawn = list()
+
+	attack_action_types = list(
+		/datum/action/innate/change_icon_gbee,
+	)
+
+
+/datum/action/innate/change_icon_gbee
+	name = "Toggle Icon"
+	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
+
+/datum/action/innate/change_icon_gbee/Activate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/48x48.dmi'
+		owner.icon_state = "generalbee"
+		active = 1
+
+/datum/action/innate/change_icon_gbee/Deactivate()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		owner.icon = 'ModularTegustation/Teguicons/48x96.dmi'
+		owner.icon_state = "general_breach"
+		active = 0
+
 /mob/living/simple_animal/hostile/abnormality/general_b/Login()
 	. = ..()
 	if(!. || !client)
@@ -59,11 +85,18 @@
 	. = ..()
 	var/obj/effect/proc_holder/ability/aimed/artillery_shell/general/shell_ability = new
 	src.AddSpell(shell_ability)
+	var/datum/action/spell_action/ability/item/A = shell_ability.action
+	A.set_item = src //it wants an /obj/item though so its kinda bad but i dont really feel like figuring it out
 	sight_ability = new
 	sight_ability.Grant(src)
 	if(IsCombatMap())
 		combat_map = TRUE
 		sight_ability.new_sight = SEE_TURFS
+		if(SSmaptype.maptype == "limbus_labs")
+			var/mob/living/simple_animal/hostile/soldier_bee/V = new(get_turf(src))
+			beespawn+=V
+			V = new(get_turf(src))
+			beespawn+=V
 	else
 		sight_ability.new_sight = SEE_TURFS | SEE_THRU
 
@@ -228,6 +261,22 @@
 	attack_verb_simple = "bite"
 	attack_sound = 'sound/weapons/bite.ogg'
 	speak_emote = list("buzzes")
+
+/mob/living/simple_animal/hostile/soldier_bee/Initialize()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		faction = list("neutral")
+
+/mob/living/simple_animal/hostile/soldier_bee/Login()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		faction = list("hostile")
+
+/mob/living/simple_animal/hostile/soldier_bee/Logout()
+	. = ..()
+	if(SSmaptype.maptype == "limbus_labs")
+		faction = list("neutral")
+
 
 /* Artillery bees */
 /mob/living/simple_animal/hostile/artillery_bee
@@ -426,7 +475,10 @@
 
 /obj/effect/beeshell/Initialize()
 	. = ..()
-	addtimer(CALLBACK(src, PROC_REF(explode)), 3.5 SECONDS)
+	if(SSmaptype.maptype == "limbus_labs")
+		addtimer(CALLBACK(src, PROC_REF(explode)), 5 SECONDS)
+	else
+		addtimer(CALLBACK(src, PROC_REF(explode)), 3.5 SECONDS)
 
 /obj/effect/beeshell/New(loc, ...)
 	. = ..()
@@ -439,8 +491,10 @@
 	for(var/mob/living/L in view(2, src))
 		if(faction_check(faction, L.faction, FALSE))
 			continue
-		L.apply_damage(boom_damage*0.5, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
-		L.apply_damage(boom_damage*0.5, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+		if(SSmaptype.maptype == "limbus_labs")
+			L.deal_damage(boom_damage*0.5, list(RED_DAMAGE, BLACK_DAMAGE))
+		else
+			L.deal_damage(boom_damage, list(RED_DAMAGE, BLACK_DAMAGE))
 		if(L.health < 0)
 			L.gib()
 	new /obj/effect/temp_visual/explosion(get_turf(src))

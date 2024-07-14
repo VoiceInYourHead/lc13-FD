@@ -31,15 +31,24 @@
 	)
 	abnormality_origin = ABNORMALITY_ORIGIN_ORIGINAL
 
+	observation_prompt = "Letters addressed to various addresses and recipients litter the containment cell. <br>\
+		Occasionally, some of the letters flutter in the air, as if a breeze has come through the cell. <br>\
+		A new batch of letters comes flooding out of the mailbox, one lands right in front of you, with your name on it."
+	observation_choices = list("Open the letter", "Ignore it")
+	correct_choices = list("Open the letter")
+	observation_success_message = "You open the letter, but the inside is blank. <br>\
+		Looking at the envelope, you notice that it is labelled \"RETURN TO SENDER\" <br>\
+		You put the envelope back in the mailbox, and find a gift inside."
+	observation_fail_message = "You know better than to fall for the tricks of an abnormality. <br>You walk out of the cell, never knowing what was in that latter."
+
 	var/cooldown
 	var/cooldown_time = 10 SECONDS
 	var/spawned_effects = list()
 
 /mob/living/simple_animal/hostile/abnormality/mailpile/Destroy()
-	..()
 	for(var/obj/effect/VFX in spawned_effects)
-		VFX.Destroy()
-	return
+		qdel(VFX)
+	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/mailpile/Initialize(mapload)
 	. = ..()
@@ -56,7 +65,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/mailpile/proc/DeliveryRepress(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(cooldown < world.time)
+	if(cooldown > world.time)
 		to_chat(user, span_warning("You realized you have made a grave mistake as envelopes start flying out of the mailbox towards you."))
 		user.Stun(10 SECONDS)
 		var/letterssave = list()
@@ -419,7 +428,7 @@
 /obj/item/mailpaper/trapped/urgent/Trap()
 	audible_message(span_warning("We are going to kill you."))
 	for(var/mob/living/carbon/human/H in hearers(7, src))
-		H.apply_damage(50, WHITE_DAMAGE, null, H.run_armor_check(null, WHITE_DAMAGE))
+		H.deal_damage(50, WHITE_DAMAGE)
 	return ..()
 
 /obj/item/mailpaper/trapped/flashbang

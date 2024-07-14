@@ -56,6 +56,7 @@
 		// Personal
 		/obj/item/managerbullet = /obj/item/clothing/suit/armor/ego_gear/realization/farmwatch,
 		/obj/item/storage/box/fireworks/dangerous = /obj/item/clothing/suit/armor/ego_gear/realization/spicebush,//from smuggler's satchels
+		/obj/item/food/fish/salt_water/tuna_pallid = /obj/item/clothing/suit/armor/ego_gear/realization/gasharpoon,
 		// Other
 		/obj/item/ego_weapon/paradise = /obj/item/toy/plush/ayin, // He-he
 		/obj/item/toy/plush/hokma = /obj/item/toy/plush/benjamin,
@@ -131,7 +132,7 @@
 	for(var/attribute in user.attributes)
 		stat_total += get_raw_level(user, attribute)
 
-	if(stat_total <= 500) // ~125 in all stats required
+	if(stat_total < 500) // ~125 in all stats required
 		to_chat(user, span_warning("You are too weak to use this machine."))
 		return
 

@@ -27,6 +27,18 @@
 	)
 	gift_type =  /datum/ego_gifts/syrinx
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
+
+	observation_prompt = "The baby never cries. <br>It kept that way forever. <br>\
+		As a lack of words doesn't necessarily mean a lack of emotions, a lack of crying doesn't mean lack of desire. <br>\
+		Since time unknown, the baby has had a mouth. <br>The baby who does not understand cries, expresses hunger, and causes pain for the others. <br>You..."
+	observation_choices = list("Call its name.", "Didn't call its name.")
+	correct_choices = list("Call its name.")
+	observation_success_message = "No one else knows the name of the fetus. <br>\
+		But you know. <br>You called its name. <br>\
+		The unstoppable desire shut its mouth for a while. <br>Even only for a short time, the desire silenced."
+	observation_fail_message = "The fetus is still crying. <br>\
+		You plugged your ears silently. <br>No sound is heard."
+
 	var/mob/living/carbon/human/calling = null
 
 /mob/living/simple_animal/hostile/abnormality/fetus/ZeroQliphoth(mob/living/carbon/human/user)
@@ -84,7 +96,7 @@
 		if(L.stat == DEAD)
 			continue
 		to_chat(L, span_warning("The crying hurts your head..."))
-		L.apply_damage(20, WHITE_DAMAGE, null, L.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+		L.deal_damage(20, WHITE_DAMAGE)
 		L.playsound_local(get_turf(L), 'sound/abnormalities/fetus/crying.ogg', 50, FALSE)
 
 	addtimer(CALLBACK(src, PROC_REF(check_players)), 30 SECONDS)

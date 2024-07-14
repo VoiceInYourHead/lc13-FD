@@ -40,6 +40,14 @@
 	gift_type =  /datum/ego_gifts/inheritance
 	abnormality_origin = "Artbook"
 
+	observation_prompt = "The miller, my old master, when he passed he left his mill, his donkey and myself to his three sons. <br>\
+		I was left to the youngest and the elders denied him any right to the mill. <br>I felt for the poor lad and so, I turned the young master into a Prince, <br>\
+		and one day a King. <br>I can do the same for you - Are you ready to claim your inheritance?"
+	observation_choices = list("Yes", "No")
+	correct_choices = list("Yes")
+	observation_success_message = "Excellent, by my paw you shall make a fine master, envy of all your peers!"
+	observation_fail_message = "Bah! When will someone worthy arrive?"
+
 	//Work/misc Vars
 	var/list/stats = list(
 		FORTITUDE_ATTRIBUTE,
@@ -279,10 +287,10 @@
 	icon_state = icon_aggro
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/proc/Finisher(mob/living/target) //This is super easy to avoid
-	target.apply_damage(50, PALE_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE)) //50% of your health in red damage
+	target.apply_damage(50, PALE_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE) //50% of your health in red damage
 	to_chat(target, span_danger("[src] is trying to cut you in half!"))
 	if(!ishuman(target))
-		target.apply_damage(100, PALE_DAMAGE, null, target.run_armor_check(null, PALE_DAMAGE)) //bit more than usual DPS in pale damage
+		target.deal_damage(100, PALE_DAMAGE) //bit more than usual DPS in pale damage
 		return
 	if(target.health > 0)
 		return

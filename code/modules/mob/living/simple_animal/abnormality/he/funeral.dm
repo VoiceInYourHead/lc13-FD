@@ -45,6 +45,12 @@
 	gift_message = "The butterflies are waiting for the end of the world."
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
+	observation_prompt = "A tall butterfly-faced man stands before, clad in an undertakers's garment. <br>\
+		Between the two of you is a coffin and he gestures you towards it with all 3 of his hands."
+	observation_choices = list("Enter the coffin", "Don't enter the coffin")
+	correct_choices = list("Enter the coffin", "Don't enter the coffin") //waiting for multiple correct answers functionality
+	observation_success_message = "The coffin is waiting for its rightful owner but you feel mourned all the same. <br>Butterflies surround you as you make to leave." //temporary
+
 	var/gun_cooldown
 	var/gun_cooldown_time = 4 SECONDS
 	var/gun_damage = 60
@@ -118,7 +124,7 @@
 	for(var/turf/T in line_of_sight)
 		if(DensityCheck(T))
 			return
-	cooler_target.apply_damage(gun_damage, WHITE_DAMAGE, null, cooler_target.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+	cooler_target.deal_damage(gun_damage, WHITE_DAMAGE)
 	visible_message(span_danger("[cooler_target] is hit by butterflies!"))
 	//No longer because fuck you.
 	if(ishuman(target))

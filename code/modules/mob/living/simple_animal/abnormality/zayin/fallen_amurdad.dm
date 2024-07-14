@@ -25,6 +25,13 @@
 	gift_message = "The lifeless body of amurdad hands you a flower."
 	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK
 
+	observation_prompt = "The sweet stench of rot and decay hit you before you noticed the source was the bleeding person covered in plants. <br>\
+		His lips gape open and close like a fish's and what little strength he has in his limbs, he uses to beckons you closer..."
+	observation_choices = list("Get closer and listen", "Leave")
+	correct_choices = list("Get closer and listen")
+	observation_success_message = "You bend down and lend your ear to his mouth... <br>You hear the words you've been waiting your whole life to hear."
+	observation_fail_message = "The man clearly needs help, you rush to find a medic."
+
 	var/seed_list = list(
 		/obj/item/seeds/grass/fairy/amurdad,
 		/obj/item/seeds/apple/gold/amurdad,
@@ -447,7 +454,7 @@
 			return ..()
 		damage_mod = LV.toxLethality * 100
 	metabolization_rate = max(volume * REAGENTS_METABOLISM, REAGENTS_METABOLISM)
-	M.apply_damage(volume*REAGENTS_METABOLISM*damage_mod, RED_DAMAGE, null, M.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+	M.deal_damage((volume * REAGENTS_METABOLISM * damage_mod), RED_DAMAGE)
 	if(ishuman(M))
 		if(DT_PROB(3, 6))
 			var/mob/living/carbon/human/H = M

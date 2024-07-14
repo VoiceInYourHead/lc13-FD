@@ -26,6 +26,14 @@
 	)
 	gift_type = /datum/ego_gifts/metal
 	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK
+
+	observation_prompt = "It's an ordinary office fan, made of metal. <br>It's turned off for now and you're feeling warm. <br>\
+		Turn it on?"
+	observation_choices = list("Leave it off", "Set it to 1", "Set it to 2", "Set it to 3") //Waiting for multiple answers
+	correct_choices = list("Set it to 3")
+	observation_success_message = "You set it to its highest setting. <br>The breeze feels pleasant, a nap would be nice..."
+	observation_fail_message = "It's not enough, you're still too hot."
+
 	var/list/safe = list()
 	var/list/warning = list()
 	var/list/danger = list()
@@ -161,7 +169,7 @@
 		return
 	if(stacks <= 10)
 		return
-	owner.apply_damage((stacks / 5), RED_DAMAGE, null, owner.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+	owner.deal_damage((stacks / 5), RED_DAMAGE)
 	owner.playsound_local(owner, 'sound/effects/book_burn.ogg', 25, TRUE)
 
 /datum/status_effect/stacking/fanhot/on_remove()
