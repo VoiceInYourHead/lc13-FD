@@ -94,6 +94,8 @@ SUBSYSTEM_DEF(lobotomy_corp)
 	var/max_core_options = 3
 	/// Points used for facility upgrades
 	var/lob_points = 2
+	/// Stats for Era/Do after an ordeal is done
+	var/ordeal_stats = 0
 
 	/// If TRUE - will not count deaths for auto restart
 	var/auto_restart_in_progress = FALSE
@@ -245,7 +247,7 @@ SUBSYSTEM_DEF(lobotomy_corp)
 	qliphoth_meter = 0
 	var/abno_amount = all_abnormality_datums.len
 	var/player_count = AvailableAgentCount()
-	qliphoth_max = (player_count > 1 ? 4 : 3) + player_count + GLOB.Sephirahordealspeed // Some extra help on non solo rounds
+	qliphoth_max = round((player_count > 1 ? 4 : 3) + player_count*1.5 + GLOB.Sephirahordealspeed) // Some extra help on non solo rounds
 	qliphoth_state += 1
 	for(var/datum/abnormality/A in all_abnormality_datums)
 		if(istype(A.current))
@@ -316,7 +318,7 @@ SUBSYSTEM_DEF(lobotomy_corp)
 		return FALSE
 	var/list/available_ordeals = list()
 	for(var/datum/ordeal/O in all_ordeals[next_ordeal_level])
-		if(O.can_run)
+		if(O.AbleToRun())
 			available_ordeals += O
 	if(!LAZYLEN(available_ordeals))
 		return FALSE
