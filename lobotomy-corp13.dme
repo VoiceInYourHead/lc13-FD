@@ -3939,6 +3939,7 @@
 #include "fd\agent_ru.dm"
 #include "fd\chairs.dm"
 #include "fd\decor.dm"
+#include "fd\dice_roll.dm"
 #include "fd\doors.dm"
 #include "fd\frill.dm"
 #include "fd\limbus_teleporter.dm"
