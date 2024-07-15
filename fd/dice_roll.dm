@@ -8,7 +8,6 @@
 	icon = 'fd/icons/dice_roll.dmi'
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "dice_failure"
-	duration = 10
 
 /obj/effect/temp_visual/dice_fail/super
 	icon_state = "dice_true_failure"
@@ -17,7 +16,6 @@
 	icon = 'fd/icons/dice_roll.dmi'
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "dice_success"
-	duration = 10
 
 /obj/effect/temp_visual/dice_success/super
 	icon_state = "dice_true_success"
