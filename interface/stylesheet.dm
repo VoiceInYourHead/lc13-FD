@@ -87,7 +87,8 @@ h1.alert, h2.alert		{color: #000000;}
 .suicide				{color: #ff5050;	font-style: italic;}
 .green					{color: #03ff39;}
 .nicegreen				{color: #14a833;}
-.cult					{color: #973e3b;}
+.cult					{color: #800080;}
+.occult					{color: #800080;	font-weight: bold;  font-style: italic;}
 .cultlarge				{color: #973e3b;	font-weight: bold;	font-size: 3;}
 .narsie					{color: #973e3b;	font-weight: bold;	font-size: 15;}
 .narsiesmall			{color: #973e3b;	font-weight: bold;	font-size: 6;}
