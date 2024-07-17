@@ -110,6 +110,7 @@
 	damage_type = BURN
 	speed = 2
 	range = 6
+	impact_effect_type = /obj/effect/temp_visual/small_smoke
 
 /obj/projectile/ego_bullet/smokepipe_ezra/on_hit(atom/target, blocked)
 	. = ..()
@@ -152,6 +153,7 @@
 /obj/item/gun/ego_gun/city/smokepipe_ezra/process(delta_time)
 	if(shotsleft <= 0)
 		smoke -= 20
+		STOP_PROCESSING(SSobj, src)
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra/reload_ego(mob/user)
 	is_reloading = TRUE
@@ -201,6 +203,12 @@
 			addtimer(CALLBACK(src, PROC_REF(Unbuff), user), 50 SECONDS)
 		if(smoke < smoke_max)
 			smoke += 5
+		user.add_movespeed_modifier(/datum/movespeed_modifier/debuff_ezra)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/debuff_ezra), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/datum/movespeed_modifier/debuff_ezra
+	variable = TRUE
+	multiplicative_slowdown = 2
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra/proc/Unbuff(mob/living/carbon/human/user)
 	to_chat(user, span_notice("Как бы не был хорош тот миг, стоит возвращаться в наши серые будни..."))
@@ -210,4 +218,169 @@
 	if(smoke < needed_smoke_basic)
 		to_chat(user, span_warning("У тебя недостаточно дыма для этого."))
 		return FALSE
+	START_PROCESSING(SSobj, src)
+	..()
+
+/obj/item/ammo_casing/caseless/ezra_basic
+	name = "casing"
+	desc = "A casing."
+	projectile_type = /obj/projectile/ego_bullet/ezra_basic
+
+/obj/projectile/ego_bullet/ezra_basic
+	name = "bullet"
+	icon_state = "gumball"
+	color = "#333333"
+	damage = 60
+
+/obj/item/ammo_casing/caseless/ezra_fire
+	name = "casing"
+	desc = "A casing."
+	projectile_type = /obj/projectile/ego_bullet/ezra_fire
+
+/obj/projectile/ego_bullet/ezra_fire
+	name = "bullet"
+	icon_state = "fireball"
+	damage = 30
+
+/obj/projectile/ego_bullet/ezra_fire/on_hit(atom/target, blocked)
+	..()
+	for(var/mob/living/L in range(1, target))
+		new /obj/effect/temp_visual/fire/fast(get_turf(L))
+		L.apply_damage(25, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+		L.adjust_fire_stacks(5)
+		L.IgniteMob()
+
+/obj/item/ammo_casing/caseless/ezra_impact
+	name = "casing"
+	desc = "A casing."
+	projectile_type = /obj/projectile/ego_bullet/ezra_impact
+
+/obj/projectile/ego_bullet/ezra_impact
+	name = "bullet"
+	icon_state = "gumball"
+	color = "#333333"
+	damage = 80
+
+/obj/projectile/ego_bullet/ezra_impact/on_hit(atom/target, blocked)
+	..()
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		var/atom/throw_target = get_edge_target_turf(C, pick(GLOB.alldirs))
+		C.throw_at(throw_target, 2, 4)
+
+/obj/item/ammo_casing/caseless/ezra_stun
+	name = "casing"
+	desc = "A casing."
+	projectile_type = /obj/projectile/ego_bullet/ezra_stun
+
+/obj/projectile/ego_bullet/ezra_stun
+	name = "bullet"
+	icon_state = "gumball"
+	color = "#5f5440"
+	damage = 10
+
+/obj/projectile/ego_bullet/ezra_stun/on_hit(atom/target, blocked)
+	..()
+	if(iscarbon(target))
+		var/mob/living/carbon/C = target
+		C.set_confusion(max(5, C.get_confusion()))
+		C.adjustStaminaLoss(80, TRUE, TRUE)
+		for(var/turf/T in range(1, C))
+			new /obj/effect/temp_visual/small_smoke(T)
+
+/obj/item/gun/ego_gun/city/ezra_cannon
+	name = "big cannon"
+	desc = "A 1 round cannon, kinda looks like Thumb shotgun, but even scarier and deadlier."
+	icon = 'fd/icons/mojave_guns/guns_inventory.dmi'
+	lefthand_file = 'fd/icons/mojave_guns/guns_inhand_left.dmi'
+	righthand_file = 'fd/icons/mojave_guns/guns_inhand_right.dmi'
+	icon_state = "sawedoff"
+	inhand_icon_state = "sawedoff"
+	force = 15
+	ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
+	weapon_weight = WEAPON_HEAVY
+	fire_sound = 'sound/weapons/ego/cannon.ogg'
+	fire_delay = 60 SECONDS
+	shotsleft = 1
+	reloadtime = 2 MINUTES
+	attribute_requirements = list()
+	var/list/shot_choice = list("стандартный", "зажигательный", "ударный", "подавляющий")
+	var/current_shot = "стандартный"
+	var/fire_shots = 3
+	var/stun_shots = 10
+	var/heavy_shots = 3
+
+/obj/item/gun/ego_gun/city/ezra_cannon/AltClick(mob/user)
+	..()
+	var/load = input(user, "Выберите нужный снаряд!", "Заряжаем...") as null|anything in shot_choice
+	if(!load)
+		return FALSE
+	switch(load)
+		if("стандартный")
+			current_shot = "стандартный"
+			to_chat(user, span_notice("Ты зарядил [load] снаряд в пушку!"))
+			ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
+			chambered = new ammo_type(src)
+			return TRUE
+		if("зажигательный")
+			if(fire_shots <= 0)
+				current_shot = "стандартный"
+				ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
+				chambered = new ammo_type(src)
+				to_chat(user, span_danger("У тебя кончился данный тип боеприпасов! Заряжаем обычные!"))
+				return FALSE
+			current_shot = "зажигательный"
+			to_chat(user, span_notice("Ты зарядил [load] снаряд в пушку!"))
+			ammo_type = /obj/item/ammo_casing/caseless/ezra_fire
+			chambered = new ammo_type(src)
+			return TRUE
+		if("ударный")
+			if(heavy_shots <= 0)
+				current_shot = "стандартный"
+				ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
+				chambered = new ammo_type(src)
+				to_chat(user, span_danger("У тебя кончился данный тип боеприпасов! Заряжаем обычные!"))
+				return FALSE
+			current_shot = "ударный"
+			to_chat(user, span_notice("Ты зарядил [load] снаряд в пушку!"))
+			ammo_type = /obj/item/ammo_casing/caseless/ezra_impact
+			chambered = new ammo_type(src)
+			return TRUE
+		if("подавляющий")
+			if(stun_shots <= 0)
+				current_shot = "стандартный"
+				ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
+				chambered = new ammo_type(src)
+				to_chat(user, span_danger("У тебя кончился данный тип боеприпасов! Заряжаем обычные!"))
+				return FALSE
+			current_shot = "подавляющий"
+			to_chat(user, span_notice("Ты зарядил [load] снаряд в пушку!"))
+			ammo_type = /obj/item/ammo_casing/caseless/ezra_stun
+			chambered = new ammo_type(src)
+			return TRUE
+
+/obj/item/gun/ego_gun/city/ezra_cannon/examine(mob/user)
+	. = ..()
+	. += span_notice("На данный момент, в пушку заряжен [current_shot] снаряд.")
+	. += span_notice("У тебя в запасе осталось ещё [fire_shots] зажигательных, [heavy_shots] ударных, и [stun_shots] подавляющих снарядов.")
+
+/obj/item/gun/ego_gun/city/ezra_cannon/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
+	if(fire_shots < 1)
+		to_chat(user, span_warning("Зажигательные кончились!"))
+		return FALSE
+	if(heavy_shots < 1)
+		to_chat(user, span_warning("Ударные кончились!"))
+		return FALSE
+	if(stun_shots < 1)
+		to_chat(user, span_warning("Подавляющие кончились!"))
+		return FALSE
+	..()
+
+/obj/item/gun/ego_gun/city/ezra_cannon/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
+	if(current_shot == "зажигательный")
+		fire_shots -= 1
+	if(current_shot == "ударный")
+		heavy_shots -= 1
+	if(current_shot == "подавляющий")
+		stun_shots -= 1
 	..()
