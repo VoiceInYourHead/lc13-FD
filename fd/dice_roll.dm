@@ -1,3 +1,7 @@
+/mob/living
+	var/roll_buff = 0
+	var/roll_buff_max = 40
+
 /obj/effect/temp_visual/dice_roll
 	icon = 'fd/icons/dice_roll.dmi'
 	layer = ABOVE_ALL_MOB_LAYER
@@ -51,6 +55,9 @@
 		return FALSE
 //execution
 	var/roll = rand(1,100)
+	if(roll > player_stat && user.roll_buff > 0)
+		to_chat(user,"<span class='danger'>Бросок не очень удачный, но посмотрим, что мы сможем сделать с вдохновением...</span>")
+		roll -= user.roll_buff
 	sound_to_playing_players('fd/sound/dice_better.wav')
 	new /obj/effect/temp_visual/dice_roll(get_turf(user))
 	if(do_after(user, 2 SECONDS))
