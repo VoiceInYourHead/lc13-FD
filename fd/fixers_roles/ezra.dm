@@ -298,7 +298,7 @@
 	inhand_icon_state = "sawedoff"
 	force = 15
 	ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
-	weapon_weight = WEAPON_HEAVY
+	weapon_weight = WEAPON_MEDIUM
 	fire_sound = 'sound/weapons/ego/cannon.ogg'
 	fire_delay = 60 SECONDS
 	shotsleft = 1
@@ -309,6 +309,8 @@
 	var/fire_shots = 3
 	var/stun_shots = 10
 	var/heavy_shots = 3
+
+	var/needed_att = 40
 
 /obj/item/gun/ego_gun/city/ezra_cannon/AltClick(mob/user)
 	..()
@@ -374,6 +376,13 @@
 	if(stun_shots < 1)
 		to_chat(user, span_warning("Подавляющие кончились!"))
 		return FALSE
+	var/player_temp = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
+	if(player_temp < needed_att)
+		if(prob(30))
+			to_chat(user, span_userdanger("ЗАКЛИНИЛО. ЗАРАЗА!"))
+			playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
+			if(do_after(user, 30 SECONDS, src))
+				playsound(user, 'sound/weapons/gun/rifle/bolt_out.ogg', 100, TRUE)
 	..()
 
 /obj/item/gun/ego_gun/city/ezra_cannon/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
@@ -383,4 +392,15 @@
 		heavy_shots -= 1
 	if(current_shot == "подавляющий")
 		stun_shots -= 1
+
+	var/player_temp = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
+	if(player_temp < needed_att)
+		if(prob(30))
+			recoil = 5
+			shake_camera(user, recoil + 1, recoil)
+			user.slip(5, user.loc, GALOSHES_DONT_HELP, 0, FALSE)
+			var/obj/item/gun/ego_gun/city/ezra_cannon/held_item = user.get_active_held_item()
+			to_chat(user, "<span class='danger'>Ты роняешь [held_item] на землю не совладав с отдачей!</span>")
+			recoil = 0
+			user.dropItemToGround(held_item)
 	..()

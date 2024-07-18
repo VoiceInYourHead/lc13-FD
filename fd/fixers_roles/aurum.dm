@@ -128,7 +128,7 @@
 		for(var/mob/living/carbon/human/affected in targets)
 			if(affected != ab_operator)
 				if(faction_check(affected.faction, ab_operator.faction))
-					if(affected.sanity_lost == TRUE)
+					if(affected.sanity_lost)
 						affected.sanityhealth = affected.maxSanity
 					affected.adjustSanityLoss(-50)
 					affected.say(pick("В бой!", "Мы прямо за тобой, Золотой!", "Всё или ничего!", "Покажем, что мы можем!", "Ещё не время отчаиваться...", "У нас ещё может что-то получиться...", "Мы только начали!", "Покажем им!", "Это наш последний шанс...", "Надеюсь, мы получим за это двойной оклад!"))
