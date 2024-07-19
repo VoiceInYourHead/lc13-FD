@@ -1,8 +1,8 @@
 //main role code
 
 /mob/living
-	var/fire_stack = 0
-	var/max_fire_stack = 20
+	var/flame_stacks = 0
+	var/max_flame_stacks = 20
 
 /datum/job/thorne
 	title = "Gawain Thorne"
@@ -58,24 +58,24 @@
 
 /obj/effect/proc_holder/spell/aoe_turf/flame_circle_thorne
 	name = "Fire Cascade"
-	desc = "Heats the air around you."
+	desc = "Создаёт вокруг смертоносный огненный смерч, раскидывая врагов. Требует 5ед. пламени!"
 	charge_max = 30 SECONDS
 	clothes_req = FALSE
 	invocation_type = "none"
 	range = 2
 	action_icon = 'icons/mob/actions/actions_ecult.dmi'
 	action_icon_state = "fire_ring"
-	var/cost = 5
+	var/cost = 6
 
 	var/maxthrow = 5
 	var/repulse_force = MOVE_FORCE_EXTREMELY_STRONG
 
 /obj/effect/proc_holder/spell/aoe_turf/flame_circle_thorne/cast(list/targets, mob/living/user = usr)
-	if(user.fire_stack < cost)
-		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.fire_stack]/[cost]"))
+	if(user.flame_stacks < cost)
+		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.flame_stacks]/[cost]"))
 		return FALSE
 	INVOKE_ASYNC(src, PROC_REF(fire_cascade), user,range)
-	user.fire_stack -= cost
+	user.flame_stacks -= cost
 
 	var/list/thrownatoms = list()
 	var/atom/throwtarget
@@ -128,8 +128,8 @@
 	var/cost = 10
 
 /obj/effect/proc_holder/spell/pointed/dragon_breath_thorne/cast(list/targets, mob/living/user)
-	if(user.fire_stack < cost)
-		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.fire_stack]/[cost]"))
+	if(user.flame_stacks < cost)
+		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.flame_stacks]/[cost]"))
 		return FALSE
 	for(var/X in targets)
 		var/T
@@ -143,7 +143,7 @@
 		INVOKE_ASYNC(src, PROC_REF(fire_line), user,T)
 		T = line_target(25, range, X, user)
 		INVOKE_ASYNC(src, PROC_REF(fire_line), user,T)
-	user.fire_stack -= cost
+	user.flame_stacks -= cost
 	return ..()
 
 /obj/effect/proc_holder/spell/pointed/dragon_breath_thorne/proc/line_target(offset, range, atom/at , atom/user)
@@ -180,3 +180,151 @@
 			hit_list += M
 			M.take_damage(45, MELEE, 1)
 		sleep(1.5)
+
+//equipment
+
+/obj/item/ego_weapon/city/fist_thorne
+	name = "liu combat gloves"
+	icon_state = "liufist"
+	desc = "A gauntlet used by Liu Sections 4,5 and 6. Requires martial arts training to make use of."
+	force = 20
+	attack_speed = 0.7
+	damtype = RED_DAMAGE
+	attribute_requirements = list()
+	var/chain = 0
+	var/activated
+	hitsound = 'sound/weapons/fixer/generic/fist1.ogg'
+
+	var/combo_time
+	var/combo_wait = 3 SECONDS
+
+/obj/item/ego_weapon/city/fist_thorne/examine(mob/user)
+	. = ..()
+	. += span_nicegreen("Это оружие имеет лёгкие и тяжёлые атаки. Нажмите по перчатке в руке, или же используйте клавишу активации чтобы переключаться между ними. Используйте их в следующих комбинациях:")
+	. += span_info("ЛЛЛЛЛ - быстрое комбо из пяти атак, отбрасывающее врага последним ударом. Даёт два стака пламени.")
+	. += span_info("Т 	  - размашистая тяжёлая атака с задержкой, наносящая на 1.5х урона больше и наносящая значительный урон выносливости. Не даёт пламени.")
+	. += span_info("ЛТ 	  - поджигает единичную цель. Тратит два стака пламени.")
+	. += span_info("ЛЛТ	  - последняя атака в этом комбо наносит 2х больше урона. Даёт два стака пламени.")
+	. += span_info("ЛЛЛТ  - наносит средний урон, за последней атакой следует тактический уход в сторону. Даёт два стака пламени.")
+	. += span_info("ЛЛЛЛТ - быстрое комбо с финалом в виде размашистого тяжёлого удара с задержкой, наносящего в 2х больше урона. Даёт четыре стака пламени.")
+
+/obj/item/ego_weapon/city/fist_thorne/attack_self(mob/living/carbon/user)
+	if(activated)
+		activated = FALSE
+		to_chat(user, span_danger("Ты решил вернуться к лёгким атакам."))
+	else
+		activated = TRUE
+		to_chat(user, span_danger("Ты приготовил тяжёлый удар!"))
+
+/obj/item/ego_weapon/city/fist_thorne/attack(mob/living/target, mob/living/user)
+	if(!CanUseEgo(user))
+		return
+
+	if(world.time > combo_time)
+		chain = 0
+	combo_time = world.time + combo_wait
+
+	var/during_windup //can't attack during windup
+	if(during_windup)
+		return
+
+	//Setting chain and attack speed to 0
+	chain+=1
+	attack_speed = initial(attack_speed)
+
+	//Teh Chain of attacks. See the examine for what each chain does.
+
+	switch(chain)
+		if(1)
+			if(activated) //H - Solar Plexus attack
+				to_chat(user, span_danger("Ты собираешься бить в солнечное сплетение..."))
+				during_windup = TRUE
+				if(do_after(user, 5, target))
+					during_windup = FALSE
+					force *= 1.5
+					hitsound = 'sound/weapons/fixer/generic/gen2.ogg'
+					if(ishuman(target))
+						target.Paralyze(20)
+				else
+					during_windup = FALSE
+					return
+
+		if(2)
+			if(activated) //LH - Fire AOE
+				to_chat(user, span_danger("Ты направляешь свой огонь в кулак..."))
+				hitsound = 'sound/weapons/fixer/generic/gen2.ogg'
+				if(user.flame_stacks >= 2)
+					target.adjust_fire_stacks(5)
+					target.IgniteMob()
+					user.flame_stacks -= 2
+				target.apply_damage(force*0.5, damtype, null, target.run_armor_check(null, damtype), spread_damage = TRUE)
+
+		if(3)
+			if(activated) //LLH - Higher damage windup attack
+				to_chat(user, span_danger("Ты готовишь сильный удар."))
+				during_windup = TRUE
+				if(do_after(user, 5, target))
+					during_windup = FALSE
+					force *= 2
+					hitsound = 'sound/weapons/fixer/generic/gen2.ogg'
+					if(user.flame_stacks < user.max_flame_stacks)
+						user.flame_stacks += 2
+				else
+					during_windup = FALSE
+					return
+
+		if(4)
+			if(activated) //LLLH - Fast hit and jump back
+				to_chat(user, span_danger("Ты готовишься бить и скакать..."))
+				force *= 1.5
+				hitsound = 'sound/weapons/fixer/generic/gen2.ogg'
+				hopback(user)
+				if(user.flame_stacks < user.max_flame_stacks)
+					user.flame_stacks += 2
+
+		if(5)
+			if(!activated)
+				knockback(target, user)
+				hitsound = 'sound/weapons/fixer/generic/finisher2.ogg'
+				if(user.flame_stacks < user.max_flame_stacks)
+					user.flame_stacks += 2
+			else
+				force*=2
+				to_chat(user, span_danger("ТЫ БЬЁШЬ ЕГО СО ВСЕЙ СИЛОЙ ЧТО У ТЕБЯ ЕСТЬ!"))
+				hitsound = 'sound/weapons/fixer/generic/finisher2.ogg'
+				if(user.flame_stacks < user.max_flame_stacks)
+					user.flame_stacks += 4
+					if(user.flame_stacks > user.max_flame_stacks)
+						user.flame_stacks = user.max_flame_stacks
+			chain=0
+
+	//Special attacks are slower.
+	if(attack_speed == initial(attack_speed) && activated)
+		attack_speed = 2
+	. = ..()
+
+	//Reset Everything
+	if(activated)
+		chain=0
+		to_chat(user, span_danger("Цепь ударов сброшена."))
+		activated = FALSE
+	force = initial(force)
+	hitsound = initial(hitsound)
+
+/obj/item/ego_weapon/city/fist_thorne/proc/knockback(mob/living/target, mob/living/user)
+	var/atom/throw_target = get_edge_target_turf(target, user.dir)
+	if(!target.anchored)
+		var/whack_speed = (prob(60) ? 1 : 4)
+		target.throw_at(throw_target, rand(1, 3), whack_speed, user)
+
+/obj/item/ego_weapon/city/fist_thorne/proc/hopback(mob/living/carbon/user)
+	var/dodgelanding
+	if(user.dir == 1)
+		dodgelanding = locate(user.x, user.y - 2, user.z)
+	if(user.dir == 2)
+		dodgelanding = locate(user.x, user.y + 2, user.z)
+	if(user.dir == 4)
+		dodgelanding = locate(user.x - 2, user.y, user.z)
+	if(user.dir == 8)
+		dodgelanding = locate(user.x + 2, user.y, user.z)
+	user.throw_at(dodgelanding, 3, 2, spin = FALSE)
