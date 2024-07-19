@@ -154,7 +154,7 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "slash"
 	pixel_x = -32
-	duration = 20
+	duration = 30
 
 /obj/effect/temp_visual/dir_setting/big_slash/setDir(dir)
 	. = ..()
@@ -176,10 +176,6 @@
 
 /obj/effect/temp_visual/dir_setting/big_slash/proc/fade_out()
 	animate(src, alpha = 0, time = duration-10)
-
-/obj/effect/temp_visual/dir_setting/big_slash/alt
-	duration = 30
-	icon_state = "slash_alt"
 
 /obj/item/ego_weapon/city/zweihander/aurum
 	name = "zweihander"
@@ -273,7 +269,6 @@
 			if(taunts >= 3)
 				new /obj/effect/temp_visual/dir_setting/big_slash(get_step(user,user.dir), user.dir)
 				Smash(user, target)
-				new /obj/effect/temp_visual/dir_setting/big_slash/alt(get_step(user,user.dir), user.dir)
 				taunts -= 3
 		if("big slash")
 			if(taunts >= 5)
