@@ -56,39 +56,6 @@
 /obj/item/gun/ego_gun/city/thumb/capo/libra_stolen
 	name = "modified thumb rifle"
 	desc = "A rifle used by thumb Capos. The gun is inlaid with silver and were much lightened for it's user."
-	force = 50
+	force = 30
 	projectile_damage_multiplier = 5		//50 damage per bullet
 	attribute_requirements = list()
-	var/needed_minimum = 40
-	var/player_temp = 0
-
-/obj/item/gun/ego_gun/city/thumb/capo/libra_stolen/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
-	player_temp = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
-	if(player_temp < needed_minimum)
-		if(prob(50))
-			var/debuff = pick("weapon drop", "weapon jammed")
-			switch(debuff)
-				if("weapon drop")
-					to_chat(user, span_danger("Отдача неприятно бьёт в руку. Останется синяк."))
-					var/hitzone = user.held_index_to_dir(user.active_hand_index) == "r" ? BODY_ZONE_R_ARM : BODY_ZONE_L_ARM
-					user.apply_damage(10, RED_DAMAGE, hitzone, spread_damage = FALSE)
-					user.visible_message("<span class='warning'>[user] скалится в болезненной гримасе.</span>")
-				if("weapon jammed")
-					to_chat(user, span_userdanger("АЙ. ПАЛЕЦ."))
-					playsound(user, 'sound/weapons/empty.ogg', 100, TRUE)
-					if(do_after(user, 5 SECONDS, src))
-						playsound(user, 'sound/weapons/gun/rifle/bolt_out.ogg', 100, TRUE)
-	..()
-
-/obj/item/gun/ego_gun/city/thumb/capo/libra_stolen/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
-	player_temp = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
-	if(player_temp < needed_minimum)
-		if(prob(50))
-			recoil = 5
-			shake_camera(user, recoil + 1, recoil)
-			user.slip(5, user.loc, GALOSHES_DONT_HELP, 0, FALSE)
-			var/obj/item/gun/ego_gun/city/thumb/capo/libra_stolen/held_item = user.get_active_held_item()
-			to_chat(user, "<span class='danger'>Ты роняешь [held_item] на землю от ужасной отдачи!</span>")
-			recoil = 0
-			user.dropItemToGround(held_item)
-	..()

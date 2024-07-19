@@ -230,7 +230,7 @@
 	name = "bullet"
 	icon_state = "gumball"
 	color = "#333333"
-	damage = 60
+	damage = 80
 
 /obj/item/ammo_casing/caseless/ezra_fire
 	name = "casing"
@@ -240,7 +240,7 @@
 /obj/projectile/ego_bullet/ezra_fire
 	name = "bullet"
 	icon_state = "fireball"
-	damage = 30
+	damage = 40
 
 /obj/projectile/ego_bullet/ezra_fire/on_hit(atom/target, blocked)
 	..()
@@ -259,7 +259,7 @@
 	name = "bullet"
 	icon_state = "gumball"
 	color = "#333333"
-	damage = 80
+	damage = 100
 
 /obj/projectile/ego_bullet/ezra_impact/on_hit(atom/target, blocked)
 	..()
@@ -277,7 +277,7 @@
 	name = "bullet"
 	icon_state = "gumball"
 	color = "#5f5440"
-	damage = 10
+	damage = 20
 
 /obj/projectile/ego_bullet/ezra_stun/on_hit(atom/target, blocked)
 	..()

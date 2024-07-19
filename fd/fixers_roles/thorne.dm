@@ -74,6 +74,7 @@
 	if(user.flame_stacks < cost)
 		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.flame_stacks]/[cost]"))
 		return FALSE
+	user.say("Возрадуйся, ибо ты победил. Познай мой огонь!!!")
 	INVOKE_ASYNC(src, PROC_REF(fire_cascade), user,range)
 	user.flame_stacks -= cost
 
@@ -131,6 +132,7 @@
 	if(user.flame_stacks < cost)
 		to_chat(user, span_danger("У тебя недостаточно стаков пламени для применения данной способности! [user.flame_stacks]/[cost]"))
 		return FALSE
+	user.say("Жар моего сердца это последнее, что тебе суждено узреть!!!")
 	for(var/X in targets)
 		var/T
 		T = line_target(-25, range, X, user)
@@ -198,8 +200,9 @@
 	var/combo_time
 	var/combo_wait = 3 SECONDS
 
-/obj/item/ego_weapon/city/fist_thorne/examine(mob/user)
+/obj/item/ego_weapon/city/fist_thorne/examine(mob/living/user)
 	. = ..()
+	. += span_warning("Прямо сейчас, у тебя [user.flame_stacks] из [user.max_flame_stacks] стаков пламени!")
 	. += span_nicegreen("Это оружие имеет лёгкие и тяжёлые атаки. Нажмите по перчатке в руке, или же используйте клавишу активации чтобы переключаться между ними. Используйте их в следующих комбинациях:")
 	. += span_info("ЛЛЛЛЛ - быстрое комбо из пяти атак, отбрасывающее врага последним ударом. Даёт два стака пламени.")
 	. += span_info("Т 	  - размашистая тяжёлая атака с задержкой, наносящая на 1.5х урона больше и наносящая значительный урон выносливости. Не даёт пламени.")
@@ -261,7 +264,7 @@
 
 		if(3)
 			if(activated) //LLH - Higher damage windup attack
-				to_chat(user, span_danger("Ты готовишь сильный удар."))
+				to_chat(user, span_danger("Ты готовишь сильную атаку."))
 				during_windup = TRUE
 				if(do_after(user, 5, target))
 					during_windup = FALSE

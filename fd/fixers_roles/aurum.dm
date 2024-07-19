@@ -71,7 +71,11 @@
 	include_user = 1
 
 /obj/effect/proc_holder/spell/targeted/defensive_stance/cast(list/targets, mob/living/user = usr)
-	user.say("Я - ВАШ ЩИТ! Держитесь позади!")
+	user.say(pick("Я - ВАШ ЩИТ! Держитесь позади!!!", \
+					"Меч мой - щит мне и братьям моим...",
+					"Мой эфес прочнее чем любой доспех!!!",
+					"Не сомневайтесь во мне, ведь я есть Золото!!!",
+					"Мой клинок создан для того, что бы не дать коснуться вам меня!!!"))
 	if (ishuman(user))
 		var/mob/living/carbon/human/human = user
 		human.add_movespeed_modifier(/datum/movespeed_modifier/def_stance)
@@ -154,7 +158,7 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "slash"
 	pixel_x = -32
-	duration = 30
+	duration = 20
 
 /obj/effect/temp_visual/dir_setting/big_slash/setDir(dir)
 	. = ..()
@@ -181,7 +185,7 @@
 	name = "zweihander"
 	desc = "A zweihander used by the zwei association."
 	special = "Use in hand to buff your defense, and those of everyone around you."
-	icon_state = "zwei_vet"
+	icon_state = "zwei"
 	force = 55
 	attack_speed = 2
 	damtype = RED_DAMAGE
@@ -199,6 +203,28 @@
 	var/attack_mode = "standart"
 
 /obj/item/ego_weapon/city/zweihander/aurum/attack_self(mob/living/carbon/human/user)
+	switch(attack_mode)
+		if("standart")
+			attack_mode = "slash"
+			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
+			return TRUE
+		if("slash")
+			attack_mode = "big slash"
+			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
+			return TRUE
+		if("big slash")
+			attack_mode = "standart"
+			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
+			return TRUE
+
+/obj/item/ego_weapon/city/zweihander/aurum/examine(mob/user)
+	. = ..()
+	. += span_notice("Каждая активация меча накапливает шкалу таунта.")
+	. += span_notice("Переключайтесь между режимами с помощью Alt-Click, чтобы тратить их.")
+	. += span_notice("На данный момент, шкала таунта равна [taunts].")
+	. += span_notice("А выставленный режим - [attack_mode].")
+
+/obj/item/ego_weapon/city/zweihander/aurum/AltClick(mob/living/carbon/human/user)
 	if(!CanUseEgo(user))
 		return
 
@@ -206,7 +232,10 @@
 		return
 	ready = FALSE
 	user.Immobilize(1 SECONDS)
-	user.say("ДЕРЖАТЬ ЛИНИЮ!!!")
+	user.say(pick("ДЕРЖАТЬ ЛИНИЮ!!!", \
+					"Я буду защищать вас - ценой всего!!!",
+					"Пока я рядом, лезвие меча не даст вас в обиду!!!",
+					"Фаланга - не дрогнуть!!!"))
 
 	if(taunts < taunts_max)
 		taunts += 1
@@ -233,29 +262,6 @@
 		to_chat(L, span_notice("Защита всё!"))
 
 	addtimer(CALLBACK(src, PROC_REF(Cooldown), user), 15 SECONDS)
-
-/obj/item/ego_weapon/city/zweihander/aurum/examine(mob/user)
-	. = ..()
-	. += span_notice("Каждая активация меча накапливает шкалу таунта.")
-	. += span_notice("Переключайтесь между режимами с помощью Alt-Click, чтобы тратить их.")
-	. += span_notice("На данный момент, шкала таунта равна [taunts].")
-	. += span_notice("А выставленный режим - [attack_mode].")
-
-/obj/item/ego_weapon/city/zweihander/aurum/AltClick(mob/user)
-	..()
-	switch(attack_mode)
-		if("standart")
-			attack_mode = "slash"
-			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
-			return TRUE
-		if("slash")
-			attack_mode = "big slash"
-			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
-			return TRUE
-		if("big slash")
-			attack_mode = "standart"
-			to_chat(user, span_notice("Ты переключился на '[attack_mode]'!"))
-			return TRUE
 
 /obj/item/ego_weapon/city/zweihander/aurum/attack(mob/living/target, mob/living/carbon/human/user)
 	. = ..()
