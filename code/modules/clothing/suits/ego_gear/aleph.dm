@@ -15,10 +15,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "paradise"
 	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 70, BLACK_DAMAGE = 70, PALE_DAMAGE = 70) // 280
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/justitia
@@ -27,10 +27,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "justitia"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 50, BLACK_DAMAGE = 50, PALE_DAMAGE = 80) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/star
@@ -40,10 +40,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "star"
 	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 70, BLACK_DAMAGE = 60, PALE_DAMAGE = 40) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/da_capo
@@ -53,10 +53,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "da_capo"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 100, BLACK_DAMAGE = 60, PALE_DAMAGE = 20) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/mimicry
@@ -65,10 +65,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "mimicry"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 50, BLACK_DAMAGE = 50, PALE_DAMAGE = 60) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/twilight
@@ -78,10 +78,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "twilight"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 80, PALE_DAMAGE = 80) // 300
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 120,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 120,
+							WILLPOWER_STAT = 120,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 120
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/adoration
@@ -91,10 +91,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "adoration"
 	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 50, BLACK_DAMAGE = 70, PALE_DAMAGE = 50) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/smile
@@ -104,10 +104,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 50, BLACK_DAMAGE = 80, PALE_DAMAGE = 60) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/blooming
@@ -117,10 +117,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 80, BLACK_DAMAGE = 0, PALE_DAMAGE = 80) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/flowering
@@ -130,10 +130,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 80, BLACK_DAMAGE = 30, PALE_DAMAGE = 90) // 280
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 120
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/praetorian
@@ -142,10 +142,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "praetorian"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 40)	//Armor was made before the abnormality.
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/mockery
@@ -154,10 +154,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "mockery"
 	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 30, BLACK_DAMAGE = 80, PALE_DAMAGE = 60) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/censored
@@ -166,10 +166,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "censored"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 40, BLACK_DAMAGE = 80, PALE_DAMAGE = 60)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/soulmate
@@ -178,10 +178,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "soulmate"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 50, BLACK_DAMAGE = 40, PALE_DAMAGE = 70)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 
@@ -191,10 +191,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "space"
 	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 80, BLACK_DAMAGE = 80, PALE_DAMAGE = 50)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/nihil
@@ -204,10 +204,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "nihil"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 70, BLACK_DAMAGE = 70, PALE_DAMAGE = 40) // 240 - 300, 15 per upgrade; caps out at 70,80,80,70
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80, //+10 per upgrade to all, only 5 to temperance
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80, //+10 per upgrade to all, only 5 to temperance
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 	var/equipped
 	var/list/powers = list("hatred", "despair", "greed", "wrath")
@@ -250,7 +250,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/nihil/proc/IncreaseAttributes(user, current_suit)
 	for(var/atr in attribute_requirements)
-		if(atr == TEMPERANCE_ATTRIBUTE)
+		if(atr == OBSERVATION_STAT)
 			attribute_requirements[atr] += 5
 		else
 			attribute_requirements[atr] += 10
@@ -279,10 +279,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "spring"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 60) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 	var/mob/current_holder
 	var/current_season = "winter"
@@ -401,10 +401,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "distortion"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 70, BLACK_DAMAGE = 80, PALE_DAMAGE = 50) // 280
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/willing
@@ -413,10 +413,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "willing"
 	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 40) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/pink
@@ -425,8 +425,8 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "pink"
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 70, BLACK_DAMAGE = 70, PALE_DAMAGE = 50) // 240
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)

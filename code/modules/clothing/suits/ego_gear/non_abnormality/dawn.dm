@@ -4,10 +4,10 @@
 	icon_state = "dawnleader"
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 50, BLACK_DAMAGE = 20, PALE_DAMAGE = 20)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/dawn
@@ -16,10 +16,10 @@
 	icon_state = "dawn"
 	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 40, BLACK_DAMAGE = 10, PALE_DAMAGE = 0)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/dawn/vet

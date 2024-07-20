@@ -17,10 +17,10 @@
 
 	//They actually need this for their weapons
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 100,
-		PRUDENCE_ATTRIBUTE = 100,
-		TEMPERANCE_ATTRIBUTE = 100,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 100,
+		WILLPOWER_STAT = 100,
+		OBSERVATION_STAT = 100,
+		REFLEXES_STAT = 100,
 	)
 
 /datum/job/veteran/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)

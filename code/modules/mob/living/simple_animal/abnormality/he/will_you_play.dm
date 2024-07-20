@@ -89,7 +89,7 @@
 	user.deal_damage(80, RED_DAMAGE)
 
 	//Less than 80 fort and you lose an arm
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) <= 60)
+	if(get_attribute_level(user, STRENGTH_STAT) <= 60)
 		if(HAS_TRAIT(user, TRAIT_NODISMEMBER))
 			return
 		var/obj/item/bodypart/arm = pick(user.get_bodypart(BODY_ZONE_R_ARM), user.get_bodypart(BODY_ZONE_L_ARM))
@@ -99,7 +99,7 @@
 			return
 
 /mob/living/simple_animal/hostile/abnormality/willyouplay/proc/Lose(mob/living/carbon/human/user, work_type)
-	var/list/attribute_list = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	var/list/attribute_list = list(STRENGTH_STAT, WILLPOWER_STAT, OBSERVATION_STAT, REFLEXES_STAT)
 	var/statgain
 	if(user == last_worked)
 		statgain = -2

@@ -72,18 +72,18 @@ Civilian
 		stattotal = 20+min(stattotal, statgeneration3)
 
 		roundstart_attributes = list(
-									FORTITUDE_ATTRIBUTE = stattotal,
-									PRUDENCE_ATTRIBUTE = stattotal,
-									TEMPERANCE_ATTRIBUTE = stattotal,
-									JUSTICE_ATTRIBUTE = stattotal
+									STRENGTH_STAT = stattotal,
+									WILLPOWER_STAT = stattotal,
+									OBSERVATION_STAT = stattotal,
+									REFLEXES_STAT = stattotal
 									)
 		SScityevents.generated+=M.ckey
 	else
 		roundstart_attributes = list(
-									FORTITUDE_ATTRIBUTE = 20,
-									PRUDENCE_ATTRIBUTE = 20,
-									TEMPERANCE_ATTRIBUTE = 20,
-									JUSTICE_ATTRIBUTE = 20
+									STRENGTH_STAT = 20,
+									WILLPOWER_STAT = 20,
+									OBSERVATION_STAT = 20,
+									REFLEXES_STAT = 20
 									)
 	..()
 	add_skill_book(H)

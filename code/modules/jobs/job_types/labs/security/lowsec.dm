@@ -17,10 +17,10 @@
 
 	alt_titles = list()
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 20
 								)
 	loadalways = FALSE
 //	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS
@@ -68,10 +68,10 @@
 
 	alt_titles = list()
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 60
 								)
 	loadalways = FALSE
 //	maptype = "limbus_labs" //FD, UNCOMMENT IN CASE OF CONFLICTS

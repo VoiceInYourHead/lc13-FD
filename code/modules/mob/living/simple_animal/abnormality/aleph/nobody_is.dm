@@ -201,7 +201,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/WorkChance(mob/living/carbon/human/user, chance)
 	var/adjusted_chance = chance
-	var/brainpower = get_attribute_level(user, PRUDENCE_ATTRIBUTE)
+	var/brainpower = get_attribute_level(user, WILLPOWER_STAT)
 	if(brainpower < 100)
 		adjusted_chance -= (100 - brainpower) * 0.5
 	return adjusted_chance
@@ -209,7 +209,7 @@
 /mob/living/simple_animal/hostile/abnormality/nobody_is/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	if(Finisher(user)) //Checks if they are the chosen, and disguises as them if they are.
 		return
-	else if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 80)
+	else if(get_attribute_level(user, REFLEXES_STAT) < 80)
 		datum_reference.qliphoth_change(-1)
 	return
 

@@ -22,11 +22,11 @@ Defeating the murderer also surpresses the abnormality.
 		"Violence" = 35,
 	)
 	work_attribute_types = list(
-		"Nutrition" = FORTITUDE_ATTRIBUTE,
-		"Cleanliness" = PRUDENCE_ATTRIBUTE,
-		"Consensus" = PRUDENCE_ATTRIBUTE,
-		"Amusement" = TEMPERANCE_ATTRIBUTE,
-		"Violence" = JUSTICE_ATTRIBUTE,
+		"Nutrition" = STRENGTH_STAT,
+		"Cleanliness" = WILLPOWER_STAT,
+		"Consensus" = WILLPOWER_STAT,
+		"Amusement" = OBSERVATION_STAT,
+		"Violence" = REFLEXES_STAT,
 	)
 	max_boxes = 24
 	work_damage_amount = 12
@@ -224,13 +224,13 @@ Defeating the murderer also surpresses the abnormality.
 	switch(role)
 		if("coward")
 			stat_modifier = -75
-			stat = JUSTICE_ATTRIBUTE
+			stat = REFLEXES_STAT
 		if("broken")
 			stat_modifier = -100
-			stat = FORTITUDE_ATTRIBUTE
+			stat = STRENGTH_STAT
 		if("failed")
 			stat_modifier = -100
-			stat = PRUDENCE_ATTRIBUTE
+			stat = WILLPOWER_STAT
 		if("victim")
 			stat_modifier = -100
 			status_holder.adjust_all_attribute_bonuses(stat_modifier)

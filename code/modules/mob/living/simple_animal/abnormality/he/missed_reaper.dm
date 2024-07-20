@@ -60,9 +60,9 @@
 // Work Stuff
 /mob/living/simple_animal/hostile/abnormality/missed_reaper/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	DestroyLights()
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) >= 80)
+	if(get_attribute_level(user, REFLEXES_STAT) >= 80)
 		datum_reference.qliphoth_change(-1)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 60)
+	if(get_attribute_level(user, OBSERVATION_STAT) < 60)
 		KillUser(user)
 		return
 	if(user.sanity_lost)

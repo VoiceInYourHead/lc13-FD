@@ -212,7 +212,7 @@
 		work_chance -= 10
 	if(was_melting == MELTDOWN_CYAN)
 		work_chance -= 20
-	var/work_speed = 2 SECONDS / (1 + ((get_modified_attribute_level(user, TEMPERANCE_ATTRIBUTE) + datum_reference.understanding) / 100))
+	var/work_speed = 2 SECONDS / (1 + ((get_modified_attribute_level(user, OBSERVATION_STAT) + datum_reference.understanding) / 100))
 	switch(work_bonus)
 		if(EXTRACTION_KEY)
 			work_speed *= 0.9 //10% faster work

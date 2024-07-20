@@ -44,10 +44,10 @@
 	gift_overlay = FormatOverlay(user)
 	user.ego_gift_list[src.slot] = src
 	user.add_overlay(gift_overlay)
-	user.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, src.fortitude_bonus)
-	user.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, src.prudence_bonus)
-	user.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, src.temperance_bonus)
-	user.adjust_attribute_buff(JUSTICE_ATTRIBUTE, src.justice_bonus)
+	user.adjust_attribute_buff(STRENGTH_STAT, src.fortitude_bonus)
+	user.adjust_attribute_buff(WILLPOWER_STAT, src.prudence_bonus)
+	user.adjust_attribute_buff(OBSERVATION_STAT, src.temperance_bonus)
+	user.adjust_attribute_buff(REFLEXES_STAT, src.justice_bonus)
 	user.physiology.instinct_success_mod += src.instinct_mod
 	user.physiology.insight_success_mod += src.insight_mod
 	user.physiology.attachment_success_mod += src.attachment_mod
@@ -56,10 +56,10 @@
 
 /datum/ego_gifts/proc/Remove(mob/living/carbon/human/user)
 	user.cut_overlay(gift_overlay)
-	user.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, (src.fortitude_bonus * -1))
-	user.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, (src.prudence_bonus * -1))
-	user.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, (src.temperance_bonus * -1))
-	user.adjust_attribute_buff(JUSTICE_ATTRIBUTE, (src.justice_bonus * -1))
+	user.adjust_attribute_buff(STRENGTH_STAT, (src.fortitude_bonus * -1))
+	user.adjust_attribute_buff(WILLPOWER_STAT, (src.prudence_bonus * -1))
+	user.adjust_attribute_buff(OBSERVATION_STAT, (src.temperance_bonus * -1))
+	user.adjust_attribute_buff(REFLEXES_STAT, (src.justice_bonus * -1))
 	user.physiology.instinct_success_mod -= src.instinct_mod
 	user.physiology.insight_success_mod -= src.insight_mod
 	user.physiology.attachment_success_mod -= src.attachment_mod
@@ -102,14 +102,14 @@
 						return
 					switch(answer)
 						if("Body")
-							owner.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -5)
+							owner.adjust_attribute_buff(STRENGTH_STAT, -5)
 							to_chat(owner, span_notice("Least ye have not hid from this."))
 						if("Mind")
-							owner.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -5)
+							owner.adjust_attribute_buff(WILLPOWER_STAT, -5)
 							to_chat(owner, span_notice("Least ye have not hid from this."))
 						else
-							owner.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -5)
-							owner.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -5)
+							owner.adjust_attribute_buff(WILLPOWER_STAT, -5)
+							owner.adjust_attribute_buff(STRENGTH_STAT, -5)
 							to_chat(owner, span_userdanger("Even now you try and run? Clearly you are lacking in both!"))
 					to_chat(owner, span_warning("The once cool flames now burn your flesh!"))
 					owner.adjustBruteLoss(100)
@@ -124,10 +124,10 @@
 				dat += "<hr><br>"
 			// Attempted to make it a define and failed, so here it is
 			var/list/text_list = list(
-				"fortitude_bonus" = FORTITUDE_ATTRIBUTE,
-				"prudence_bonus" = PRUDENCE_ATTRIBUTE,
-				"temperance_bonus" = TEMPERANCE_ATTRIBUTE,
-				"justice_bonus" = JUSTICE_ATTRIBUTE,
+				"fortitude_bonus" = STRENGTH_STAT,
+				"prudence_bonus" = WILLPOWER_STAT,
+				"temperance_bonus" = OBSERVATION_STAT,
+				"justice_bonus" = REFLEXES_STAT,
 				"instinct_mod" = "Instinct Work",
 				"insight_mod" = "Insight Work",
 				"attachment_mod" = "Attachment Work",

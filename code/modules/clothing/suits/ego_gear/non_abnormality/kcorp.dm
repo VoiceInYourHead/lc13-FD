@@ -5,10 +5,10 @@
 	icon_state = "kcorp_l1"
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 20, BLACK_DAMAGE = 20, PALE_DAMAGE = 0)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/kcorp_l3
@@ -18,10 +18,10 @@
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 40, BLACK_DAMAGE = 40, PALE_DAMAGE = 20)
 	hat = /obj/item/clothing/head/ego_hat/helmet/kcorp_l3
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/kcorp_sci

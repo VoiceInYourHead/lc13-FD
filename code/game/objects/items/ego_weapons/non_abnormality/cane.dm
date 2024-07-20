@@ -10,10 +10,10 @@
 	attack_verb_simple = list("bash", "crush")
 
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 100,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 80,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 100,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 80,
 	)
 
 	charge = TRUE

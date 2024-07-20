@@ -71,7 +71,7 @@
 	var/list/agent_friends = list()
 
 /mob/living/simple_animal/hostile/abnormality/road_home/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) >= 60) //Apparently the original road home is fortitude but I already made scaredy cat fort and I'm too stubborn to change it.
+	if(get_attribute_level(user, REFLEXES_STAT) >= 60) //Apparently the original road home is fortitude but I already made scaredy cat fort and I'm too stubborn to change it.
 		datum_reference.qliphoth_change(-1)
 
 /mob/living/simple_animal/hostile/abnormality/road_home/FailureEffect(mob/living/carbon/human/user, work_type, pe)

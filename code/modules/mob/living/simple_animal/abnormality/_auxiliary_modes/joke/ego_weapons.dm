@@ -39,10 +39,10 @@
 		"purple" = "#FF00FF"
 	)
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 100,
-		PRUDENCE_ATTRIBUTE = 80,
-		TEMPERANCE_ATTRIBUTE = 80,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 100,
+		WILLPOWER_STAT = 80,
+		OBSERVATION_STAT = 80,
+		REFLEXES_STAT = 100,
 	)
 
 /obj/item/ego_weapon/chaosdunk/Initialize()
@@ -114,10 +114,10 @@
 	attack_verb_continuous = list("crushes", "devastates")
 	attack_verb_simple = list("crush", "devastate")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 
 	charge = TRUE
@@ -185,7 +185,7 @@
 	for(var/mob/living/L in livinginrange(2, target))
 		if(L.z != user.z)
 			continue
-		var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		aoe_damage *= justicemod
 		aoe_damage *= force_multiplier
@@ -215,10 +215,10 @@
 	attack_verb_simple = list("bashes", "clubs")
 	hitsound = 'sound/abnormalities/rudolta_buff/onrush1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 120,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 	)
 
 //Sukuna
@@ -234,10 +234,10 @@
 	attack_verb_simple = list("cleave", "dismantle")
 	hitsound = 'sound/weapons/black_silence/longsword_fin.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 120
 	)
 	var/ranged_cooldown
 	var/ranged_cooldown_time = 0.5 SECONDS
@@ -322,10 +322,10 @@
 	attack_verb_simple = list("pierce", "skew")
 	hitsound = 'sound/weapons/fixer/generic/spear2.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 120
 							)
 	charge_speed_cap = 8 //Charges significantly faster, but teleports back upon hitting something
 	force_per_tile = 4

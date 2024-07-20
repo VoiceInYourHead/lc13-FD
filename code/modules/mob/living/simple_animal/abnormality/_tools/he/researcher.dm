@@ -37,8 +37,8 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	stat_bonus = (0.1 * get_attribute_level(owner, TEMPERANCE_ATTRIBUTE)) //20 + 10% of the user's temperance is added as a bonus
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 20 + stat_bonus)
+	stat_bonus = (0.1 * get_attribute_level(owner, OBSERVATION_STAT)) //20 + 10% of the user's temperance is added as a bonus
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, 20 + stat_bonus)
 	RegisterSignal(status_holder, COMSIG_MOB_APPLY_DAMGE, PROC_REF(TakeDamage))
 	RegisterSignal(status_holder, COMSIG_WORK_COMPLETED, PROC_REF(OnWorkComplete))
 	damage_max = (status_holder.maxHealth + status_holder.maxSanity)
@@ -48,7 +48,7 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, (-20 - stat_bonus))
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, (-20 - stat_bonus))
 	UnregisterSignal(status_holder, COMSIG_MOB_APPLY_DAMGE)
 	UnregisterSignal(status_holder, COMSIG_WORK_COMPLETED)
 	to_chat(status_holder, span_nicegreen("The research notes vanish."))

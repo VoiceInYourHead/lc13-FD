@@ -164,7 +164,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/distortedform/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 100)
+	if(get_attribute_level(user, REFLEXES_STAT) < 100)
 		if(pe > datum_reference.neutral_boxes) // Not work failure, we don't need to call TWO melts
 			addtimer(CALLBACK(src, PROC_REF(CauseMelts)), 10)
 	return

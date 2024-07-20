@@ -1287,8 +1287,8 @@
 
 /mob/living/carbon/human/updatehealth()
 	if(LAZYLEN(attributes))
-		maxHealth = max(1, DEFAULT_HUMAN_MAX_HEALTH + round(get_attribute_level(src, FORTITUDE_ATTRIBUTE) * FORTITUDE_MOD + get_stat_bonus(src, FORTITUDE_ATTRIBUTE, no_neg = FALSE)))
-		maxSanity = max(1, DEFAULT_HUMAN_MAX_SANITY + round(get_attribute_level(src, PRUDENCE_ATTRIBUTE) * PRUDENCE_MOD + get_stat_bonus(src, PRUDENCE_ATTRIBUTE, no_neg = FALSE)))
+		maxHealth = max(1, DEFAULT_HUMAN_MAX_HEALTH + round(get_attribute_level(src, STRENGTH_STAT) * STRENGTH_MOD + get_stat_bonus(src, STRENGTH_STAT, no_neg = FALSE)))
+		maxSanity = max(1, DEFAULT_HUMAN_MAX_SANITY + round(get_attribute_level(src, WILLPOWER_STAT) * WILLPOWER_MOD + get_stat_bonus(src, WILLPOWER_STAT, no_neg = FALSE)))
 	. = ..()
 	dna?.species.spec_updatehealth(src)
 	sanityhealth = maxSanity - sanityloss

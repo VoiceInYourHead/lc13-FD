@@ -162,7 +162,7 @@
 		return
 	var/damage = I.force
 	if(ishuman(user))
-		damage *= 1 + (get_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+		damage *= 1 + (get_attribute_level(user, REFLEXES_STAT)/100)
 	ReflectDamage(user, I.damtype, damage)
 
 //Reflect Code
@@ -254,14 +254,14 @@
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 5)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 5)
 	return ..()
 
 /datum/status_effect/stacking/talisman/add_stacks(stacks_added)
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 5 * stacks_added) //max of 25
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 5 * stacks_added) //max of 25
 	return ..()
 
 /datum/status_effect/stacking/talisman/threshold_cross_effect()
@@ -277,7 +277,7 @@
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -5 * stacks)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -5 * stacks)
 	if(safe_removal == TRUE)
 		safe_removal = FALSE
 		return ..()
@@ -309,21 +309,21 @@
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -7 * stacks)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -7 * stacks)
 	return ..()
 
 /datum/status_effect/stacking/curse_talisman/add_stacks(stacks_added)
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -7 * stacks_added) //max of -42
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -7 * stacks_added) //max of -42
 	return ..()
 
 /datum/status_effect/stacking/curse_talisman/on_remove()
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 7 * stacks)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 7 * stacks)
 	return ..()
 
 /atom/movable/screen/alert/status_effect/curse_talisman

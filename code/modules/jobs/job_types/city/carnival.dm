@@ -18,10 +18,10 @@
 	allow_bureaucratic_error = FALSE
 	maptype = list("wonderlabs", "city")
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 
 

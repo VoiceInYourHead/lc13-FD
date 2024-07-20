@@ -276,8 +276,8 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 10)
-	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 10)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, 10)
+	status_holder.adjust_attribute_buff(WILLPOWER_STAT, 10)
 	connected_abno = locate(/mob/living/simple_animal/hostile/abnormality/parasite_tree) in GLOB.abnormality_mob_list
 	if(!connected_abno)
 		return
@@ -298,8 +298,8 @@
 	if(!ishuman(owner))
 		return ..()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -10)
-	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -10)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, -10)
+	status_holder.adjust_attribute_buff(WILLPOWER_STAT, -10)
 	if(!connected_abno)
 		return ..()
 	connected_abno.blessed -= src

@@ -28,10 +28,10 @@
 	job_abbreviation = "DOC"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 20
 								)
 
 /datum/job/lcda_doctor/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -89,10 +89,10 @@
 	job_abbreviation = "CON"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 20
 								)
 
 /datum/job/lcda_scientist/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -139,10 +139,10 @@
 	job_abbreviation = "LDR"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 60
 								)
 
 /datum/job/lcda_lead/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -201,10 +201,10 @@
 	job_abbreviation = "INV"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 40
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 40
 								)
 
 /datum/job/lcda_detective/after_spawn(mob/living/carbon/human/H, mob/M)

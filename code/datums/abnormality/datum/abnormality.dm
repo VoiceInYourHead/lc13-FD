@@ -268,8 +268,8 @@
 	acquired_chance *= user.physiology.work_success_mod
 
 	//Calculating workchance. This is meant to be somewhat log
-	var/player_temperance = get_modified_attribute_level(user, TEMPERANCE_ATTRIBUTE)
-	acquired_chance += TEMPERANCE_SUCCESS_MOD *((0.07*player_temperance-1.4)/(0.07*player_temperance+4))
+	var/player_temperance = get_modified_attribute_level(user, OBSERVATION_STAT)
+	acquired_chance += OBSERVATION_SUCCESS_MOD *((0.07*player_temperance-1.4)/(0.07*player_temperance+4))
 	acquired_chance += understanding // Adds up to 6-10% [Threat Based] work chance based off works done on it. This simulates Observation Rating which we lack ENTIRELY and as such has inflated the overall failure rate of abnormalities.
 	switch(console.work_bonus)
 		if(EXTRACTION_KEY)

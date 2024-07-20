@@ -50,7 +50,7 @@
 
 /obj/effect/mob_spawn/human/supplypod/r_corp/raven_call/special(mob/living/carbon/human/new_spawn)
 	..()
-	new_spawn.adjust_attribute_level(JUSTICE_ATTRIBUTE, 60)
+	new_spawn.adjust_attribute_level(REFLEXES_STAT, 60)
 
 //Rhino Mobspawner
 /obj/effect/mob_spawn/human/supplypod/r_corp/rhino_call

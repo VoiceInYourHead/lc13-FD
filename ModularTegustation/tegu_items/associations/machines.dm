@@ -161,10 +161,10 @@
 	density = TRUE
 	resistance_flags = INDESTRUCTIBLE
 	var/list/stats = list(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 //Very dumb way to implement "empty hand AND full hand."

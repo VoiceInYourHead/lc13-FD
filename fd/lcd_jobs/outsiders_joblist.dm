@@ -18,10 +18,10 @@
 	job_abbreviation = "CIV"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 20
 								)
 
 /datum/job/hhpp_owner/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -72,10 +72,10 @@
 	job_abbreviation = "CIV"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 20
 								)
 
 /datum/outfit/job/hhpp
@@ -113,10 +113,10 @@
 	job_abbreviation = "CIV"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 40
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 40
 								)
 
 /datum/job/stasher/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -172,10 +172,10 @@
 	minimal_access = list(ACCESS_ENGINE)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 20
 								)
 
 /datum/job/workshop_worker/after_spawn(mob/living/carbon/human/H, mob/M)

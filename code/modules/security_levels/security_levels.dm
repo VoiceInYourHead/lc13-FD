@@ -155,15 +155,15 @@ GLOBAL_VAR_INIT(security_level, SEC_LEVEL_GREEN)
 	if(!ishuman(owner))
 		qdel(src)
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, temperance)
-	H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, justice)
+	H.adjust_attribute_bonus(OBSERVATION_STAT, temperance)
+	H.adjust_attribute_bonus(REFLEXES_STAT, justice)
 
 /datum/status_effect/seclevel/on_remove()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -temperance)
-	H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -justice)
+	H.adjust_attribute_bonus(OBSERVATION_STAT, -temperance)
+	H.adjust_attribute_bonus(REFLEXES_STAT, -justice)
 	. = ..()
 
 /datum/status_effect/seclevel/level1

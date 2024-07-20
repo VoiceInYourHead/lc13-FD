@@ -50,10 +50,10 @@
 
 	//Work/misc Vars
 	var/list/stats = list(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 	pet_bonus = "meows" //saves a few lines of code by allowing funpet() to be called by attack_hand()
 	var/mob/living/carbon/human/blessed_human = null

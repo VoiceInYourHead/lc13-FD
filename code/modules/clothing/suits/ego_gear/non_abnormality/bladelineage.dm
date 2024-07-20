@@ -5,10 +5,10 @@
 	icon_state = "bladelineagesalsu"
 	slowdown = -0.25
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 55,
-							PRUDENCE_ATTRIBUTE = 55,
-							TEMPERANCE_ATTRIBUTE = 55,
-							JUSTICE_ATTRIBUTE = 55
+							STRENGTH_STAT = 55,
+							WILLPOWER_STAT = 55,
+							OBSERVATION_STAT = 55,
+							REFLEXES_STAT = 55
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/blade_lineage_cutthroat
@@ -17,10 +17,10 @@
 	icon_state = "bladelineage_cuttthroat"
 	slowdown = -0.40
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 70,
-							PRUDENCE_ATTRIBUTE = 70,
-							TEMPERANCE_ATTRIBUTE = 70,
-							JUSTICE_ATTRIBUTE = 70
+							STRENGTH_STAT = 70,
+							WILLPOWER_STAT = 70,
+							OBSERVATION_STAT = 70,
+							REFLEXES_STAT = 70
 							)
 
 
@@ -30,9 +30,9 @@
 	icon_state = "bladelineageadmin"
 	slowdown = -0.6
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 

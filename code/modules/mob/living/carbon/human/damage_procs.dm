@@ -65,7 +65,7 @@
 	else if(!sanity_lost && sanityhealth <= 0)
 		sanity_lost = TRUE
 		apply_status_effect(/datum/status_effect/panicked)
-		var/highest_atr = PRUDENCE_ATTRIBUTE
+		var/highest_atr = WILLPOWER_STAT
 		if(LAZYLEN(attributes))
 			var/highest_level = -1
 			for(var/i in shuffle(attributes))
@@ -87,22 +87,22 @@
 	playsound(loc, 'sound/effects/sanity_lost.ogg', 75, TRUE, -1)
 	var/warning_text = "[src] shakes for a moment..."
 	var/datum/status_effect/panicked_type/status_effect_type
-	if(SSmaptype.maptype in SSmaptype.citymaps && attribute == JUSTICE_ATTRIBUTE)
-		attribute = TEMPERANCE_ATTRIBUTE // Justice panics default to temerance panics on city, no containment cells.
+	if(SSmaptype.maptype in SSmaptype.citymaps && attribute == REFLEXES_STAT)
+		attribute = OBSERVATION_STAT // Justice panics default to temerance panics on city, no containment cells.
 	switch(attribute)
-		if(FORTITUDE_ATTRIBUTE)
+		if(STRENGTH_STAT)
 			ai_controller = /datum/ai_controller/insane/murder
 			warning_text = "[src] screams for a moment, murderous intent shining in [p_their()] eyes."
 			status_effect_type = /datum/status_effect/panicked_type/murder
-		if(PRUDENCE_ATTRIBUTE)
+		if(WILLPOWER_STAT)
 			ai_controller = /datum/ai_controller/insane/suicide
 			warning_text = "[src] stops moving entirely, [p_they()] lost all hope..."
 			status_effect_type = /datum/status_effect/panicked_type/suicide
-		if(TEMPERANCE_ATTRIBUTE)
+		if(OBSERVATION_STAT)
 			ai_controller = /datum/ai_controller/insane/wander
 			warning_text = "[src] twitches for a moment, [p_their()] eyes looking for [SSmaptype.maptype in SSmaptype.citymaps ? "a way out" : "an exit"]."
 			status_effect_type = /datum/status_effect/panicked_type/wander
-		if(JUSTICE_ATTRIBUTE)
+		if(REFLEXES_STAT)
 			ai_controller = /datum/ai_controller/insane/release
 			warning_text = "[src] laughs for a moment, as [p_they()] start[p_s()] approaching nearby containment zones."
 			status_effect_type = /datum/status_effect/panicked_type/release

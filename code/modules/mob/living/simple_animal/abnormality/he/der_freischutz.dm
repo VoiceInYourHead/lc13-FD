@@ -160,7 +160,7 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/der_freischutz/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 60)
+	if(get_attribute_level(user, REFLEXES_STAT) < 60)
 		datum_reference.qliphoth_change(-1)
 	return
 

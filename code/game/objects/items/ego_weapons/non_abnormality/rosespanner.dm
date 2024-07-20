@@ -49,7 +49,7 @@
 	if(overcharged)
 		to_chat(user, span_danger("You overcharged your weapon!."))
 
-	var/aoe = force * (1 + (get_attribute_level(user, JUSTICE_ATTRIBUTE))/100)
+	var/aoe = force * (1 + (get_attribute_level(user, REFLEXES_STAT))/100)
 	for(var/turf/T in view(2, target))
 		new /obj/effect/temp_visual/small_smoke/halfsecond(get_turf(T))
 		for(var/mob/living/L in T)
@@ -70,10 +70,10 @@
 	force = 44
 	attack_speed = 1
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 7	//Takes fucking forever, you can charge it a little faster
@@ -87,10 +87,10 @@
 	force = 88	//Slow but rosespanners a detriment, so
 	attack_speed = 2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 10	//Takes fucking forever, you can charge it a little faster
@@ -104,10 +104,10 @@
 	force = 44	//Slow but rosespanners a detriment, so
 	attack_speed = 1.2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 14	//slow weapon, you can charge it faster

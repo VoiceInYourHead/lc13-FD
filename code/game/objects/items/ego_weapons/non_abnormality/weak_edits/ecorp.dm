@@ -2,10 +2,10 @@
 /obj/item/ego_weapon/city/wedge/weak
 	force = 35
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 //Some guy got mad at me for wanting to make these white for Ecorp.
@@ -15,10 +15,10 @@
 	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 //Yuna's Cello Case
@@ -26,10 +26,10 @@
 	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 //Salvador's Zweihander
@@ -37,42 +37,42 @@
 	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 //Cane is here too, mostly just need to lower requirements
 /obj/item/ego_weapon/city/charge/cane/cane/weak
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/ego_weapon/city/charge/cane/claw/weak
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/ego_weapon/city/charge/cane/fist/weak
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/ego_weapon/city/charge/cane/briefcase/weak
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 

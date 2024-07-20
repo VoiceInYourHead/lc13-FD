@@ -41,10 +41,10 @@
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		stat_bonus = (0.1 * get_attribute_level(owner, JUSTICE_ATTRIBUTE)) //10 + 10% of the user's justice is added as a bonus
-		stat_bonus2 = (0.15 * get_attribute_level(owner, FORTITUDE_ATTRIBUTE)) //15 + 15% of the user's fortitude is added as a bonus
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 10 + stat_bonus)
-		H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 15 + stat_bonus2)
+		stat_bonus = (0.1 * get_attribute_level(owner, REFLEXES_STAT)) //10 + 10% of the user's justice is added as a bonus
+		stat_bonus2 = (0.15 * get_attribute_level(owner, STRENGTH_STAT)) //15 + 15% of the user's fortitude is added as a bonus
+		H.adjust_attribute_buff(REFLEXES_STAT, 10 + stat_bonus)
+		H.adjust_attribute_buff(STRENGTH_STAT, 15 + stat_bonus2)
 
 /datum/status_effect/display/aspiration/tick()
 	. = ..()
@@ -96,13 +96,13 @@
 	ADD_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, STATUS_EFFECT_TRAIT)
 	ADD_TRAIT(owner, TRAIT_NOSOFTCRIT, STATUS_EFFECT_TRAIT)
 	ADD_TRAIT(owner, TRAIT_NOHARDCRIT, STATUS_EFFECT_TRAIT)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 20 + (2 * stat_bonus)) //total of 3 times the original bonus
+	H.adjust_attribute_buff(REFLEXES_STAT, 20 + (2 * stat_bonus)) //total of 3 times the original bonus
 
 /datum/status_effect/display/aspiration/proc/SuperRageEnable()
 	var/mob/living/carbon/human/H = owner
 	to_chat(H, span_userdanger("Your heart... It's too much!"))
 	H.playsound_local(get_turf(H), 'sound/abnormalities/nothingthere/heartbeat2.ogg', 50, 0, 3)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 20 + (2 * stat_bonus)) //total of 5 times the original bonus
+	H.adjust_attribute_buff(REFLEXES_STAT, 20 + (2 * stat_bonus)) //total of 5 times the original bonus
 
 	raging = TRUE
 	rage_safe_time = world.time + initial(rage_safe_time)
@@ -115,19 +115,19 @@
 	REMOVE_TRAIT(owner, TRAIT_IGNOREDAMAGESLOWDOWN, STATUS_EFFECT_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_NOSOFTCRIT, STATUS_EFFECT_TRAIT)
 	REMOVE_TRAIT(owner, TRAIT_NOHARDCRIT, STATUS_EFFECT_TRAIT)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -20 - (2 * stat_bonus))
+	H.adjust_attribute_buff(REFLEXES_STAT, -20 - (2 * stat_bonus))
 
 /datum/status_effect/display/aspiration/proc/SuperRageDisable()
 	var/mob/living/carbon/human/H = owner
 	raging = FALSE
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -20 - (2 * stat_bonus))
+	H.adjust_attribute_buff(REFLEXES_STAT, -20 - (2 * stat_bonus))
 
 /datum/status_effect/display/aspiration/on_remove()
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -10 - stat_bonus)
-		H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -15 - stat_bonus2)
+		H.adjust_attribute_buff(REFLEXES_STAT, -10 - stat_bonus)
+		H.adjust_attribute_buff(STRENGTH_STAT, -15 - stat_bonus2)
 	if(ferventbeats)
 		RageDisable()
 	if(raging)

@@ -38,10 +38,10 @@
 	attack_verb_simple = list("punches", "jabs", "slaps")
 	hitsound = 'sound/weapons/punch1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 40,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 40,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 
 /obj/item/ego_weapon/city/yun/fist/melee_attack_chain(mob/user, atom/target, params)

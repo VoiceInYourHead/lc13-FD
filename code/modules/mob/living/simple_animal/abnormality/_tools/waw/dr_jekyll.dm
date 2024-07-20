@@ -48,14 +48,14 @@
 	ability.Grant(owner)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, -30)
+		H.adjust_attribute_bonus(WILLPOWER_STAT, -30)
 
 /datum/status_effect/display/dr_jekyll/on_remove()
 	. = ..()
 	ability.Remove(owner)
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, 30)
+		H.adjust_attribute_bonus(WILLPOWER_STAT, 30)
 
 /datum/status_effect/display/dr_jekyll/tick()
 	SanityCheck()

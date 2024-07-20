@@ -6,10 +6,10 @@
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 10, BLACK_DAMAGE = 10, PALE_DAMAGE = 20)
 	slowdown = -0.2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/shi/vet
@@ -18,10 +18,10 @@
 	icon_state = "shivet"
 	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 20, BLACK_DAMAGE = 20, PALE_DAMAGE = 30)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/shi/director
@@ -30,10 +30,10 @@
 	icon_state = "shileader"
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 20, BLACK_DAMAGE = 20, PALE_DAMAGE = 50)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 //Shi Section 5
@@ -44,10 +44,10 @@
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 10)
 	slowdown = -0.4
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/shilimbus/vet
@@ -56,10 +56,10 @@
 	icon_state = "shiassassinvet"
 	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 20)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/shilimbus/director
@@ -68,9 +68,9 @@
 	icon_state = "shiassassinleader"
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 20, BLACK_DAMAGE = 20, PALE_DAMAGE = 30)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 

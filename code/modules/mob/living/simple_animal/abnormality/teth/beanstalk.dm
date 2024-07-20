@@ -39,14 +39,14 @@
 
 //Performing instinct work at >4 fortitude starts a special work
 /mob/living/simple_animal/hostile/abnormality/beanstalk/AttemptWork(mob/living/carbon/human/user, work_type)
-	if((get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 80) && (work_type == ABNORMALITY_WORK_INSTINCT))
+	if((get_attribute_level(user, STRENGTH_STAT) >= 80) && (work_type == ABNORMALITY_WORK_INSTINCT))
 		work_damage_amount = 25 //hope you put on some armor
 		climbing = TRUE
 	return TRUE
 
 //When working at <2 Temperance and Prudence, or when panicking it is an instant death.
 /mob/living/simple_animal/hostile/abnormality/beanstalk/PostWorkEffect(mob/living/carbon/human/user, work_type, pe)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40 && get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 40 || user.sanity_lost)
+	if(get_attribute_level(user, OBSERVATION_STAT) < 40 && get_attribute_level(user, WILLPOWER_STAT) < 40 || user.sanity_lost)
 		user.Stun(30 SECONDS)
 		step_towards(user, src)
 		sleep(0.5 SECONDS)

@@ -383,14 +383,14 @@
 
 /mob/living/simple_animal/hostile/abnormality/nothing_there/WorkChance(mob/living/carbon/human/user, chance)
 	var/adjusted_chance = chance
-	var/fort = get_attribute_level(user, FORTITUDE_ATTRIBUTE)
+	var/fort = get_attribute_level(user, STRENGTH_STAT)
 	if(fort < 100)
 		adjusted_chance -= (100 - fort) * 0.5
 	return adjusted_chance
 
 /mob/living/simple_animal/hostile/abnormality/nothing_there/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	worker = null
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 80)
+	if(get_attribute_level(user, REFLEXES_STAT) < 80)
 		if(!istype(disguise)) // Not work failure
 			datum_reference.qliphoth_change(-1)
 	return

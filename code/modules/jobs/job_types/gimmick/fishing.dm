@@ -19,10 +19,10 @@
 	senior_title = "Kingfisher"
 	ultra_senior_title = "The Fishmaster"
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 20
 								)
 	loadalways = FALSE
 	maptype = "fishing"

@@ -16,10 +16,10 @@
 	minimal_access = list()
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 100,
-								PRUDENCE_ATTRIBUTE = 100,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 100,
+								WILLPOWER_STAT = 100,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 60
 								)
 	rank_title = "SGT" // Keep SGT becaues they're akin to Rhinos, but without mechs.
 	job_important = "You take the role of heavy ranged infantry."
@@ -50,10 +50,10 @@
 	minimal_access = list(ACCESS_COMMAND)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 130,
-								PRUDENCE_ATTRIBUTE = 130,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 130,
+								WILLPOWER_STAT = 130,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 60
 								)
 	rank_title = "LT"
 	job_important = "You are the squad leader of the heavy ranged infantry division."

@@ -86,7 +86,7 @@
 /mob/living/simple_animal/hostile/abnormality/luna/WorkComplete(mob/living/carbon/human/user, work_type, pe)
 	if(work_type == "Performance")
 		datum_reference.qliphoth_change(-1)
-		if(get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 60)
+		if(get_attribute_level(user, WILLPOWER_STAT) < 60)
 			user.adjustSanityLoss(-500) // It's not stated in game but performing with level 3 prudence and lower make them instantly panic
 
 		//and half your HP.
@@ -210,15 +210,15 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 10)
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 10)
+	status_holder.adjust_attribute_buff(REFLEXES_STAT, 10)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, 10)
 
 /datum/status_effect/lunar/on_remove()
 	. = ..()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -10)
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -10)
+	status_holder.adjust_attribute_buff(REFLEXES_STAT, -10)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, -10)
 
 #undef STATUS_EFFECT_LUNAR

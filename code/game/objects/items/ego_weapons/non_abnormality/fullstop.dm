@@ -22,10 +22,10 @@
 	autofire = 0.12 SECONDS
 	spread = 10
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/gun/ego_gun/city/fullstop/pistol
@@ -37,10 +37,10 @@
 	fire_delay = 5
 	reloadtime = 1.3 SECONDS
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/gun/ego_gun/city/fullstop/sniper
@@ -56,10 +56,10 @@
 	shotsleft = 5
 	fire_delay = 30
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/gun/ego_gun/city/fullstop/deagle
@@ -73,8 +73,8 @@
 	shotsleft = 9
 	reloadtime = 1 SECONDS
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)

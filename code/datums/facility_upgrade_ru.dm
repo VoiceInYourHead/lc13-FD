@@ -153,7 +153,7 @@
 
 /datum/facility_upgrade/bullet_shield_increase/New()
 	. = ..()
-	max_value = DEFAULT_HUMAN_MAX_HEALTH + (100 * FORTITUDE_MOD)
+	max_value = DEFAULT_HUMAN_MAX_HEALTH + (100 * STRENGTH_MOD)
 	value = max_value * 0.25
 
 /datum/facility_upgrade/bullet_shield_increase/Upgrade()

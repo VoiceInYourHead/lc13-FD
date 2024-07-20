@@ -12,10 +12,10 @@
 	var/aoe_range
 	var/aoe_target
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 60,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 80,
+		STRENGTH_STAT = 60,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 80,
 	)
 
 /obj/item/ego_weapon/city/dawn/attack(mob/living/target, mob/living/user)

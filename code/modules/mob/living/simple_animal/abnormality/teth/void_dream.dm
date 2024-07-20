@@ -150,7 +150,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/voiddream/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40)
+	if(get_attribute_level(user, OBSERVATION_STAT) < 40)
 		user.drowsyness += 30
 		user.Sleeping(30 SECONDS) //Not a big fan of killing you, take a little nap.
 		playsound(get_turf(user), 'sound/abnormalities/voiddream/skill.ogg', 50, TRUE)

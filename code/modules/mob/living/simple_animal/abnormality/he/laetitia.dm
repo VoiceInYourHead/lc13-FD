@@ -110,7 +110,7 @@
 	return ..()
 
 /datum/status_effect/pranked/on_apply()
-	if(get_attribute_level(owner, PRUDENCE_ATTRIBUTE) >= 80)
+	if(get_attribute_level(owner, WILLPOWER_STAT) >= 80)
 		to_chat(owner, span_warning("You feel something slipped into your pocket."))
 	RegisterSignal(owner, COMSIG_WORK_STARTED, PROC_REF(WorkCheck))
 	return ..()
@@ -118,7 +118,7 @@
 /datum/status_effect/pranked/tick()
 	if(!(duration - world.time) <= 100) //at most a 10 second warning
 		return
-	if(prank_overlay && (get_attribute_level(owner, PRUDENCE_ATTRIBUTE) < 60))
+	if(prank_overlay && (get_attribute_level(owner, WILLPOWER_STAT) < 60))
 		return
 	if(!ishuman(owner))
 		return

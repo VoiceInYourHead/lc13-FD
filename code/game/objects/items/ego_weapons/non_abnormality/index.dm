@@ -14,10 +14,10 @@
 	var/prescript_target
 	var/weapon_owner
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 60,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 80,
+		STRENGTH_STAT = 60,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 80,
 	)
 
 /obj/item/ego_weapon/city/index/attack_self(mob/user)
@@ -89,10 +89,10 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	force = 56
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 
 //Just gonna set this to the big proxy weapon for requirement reasons
@@ -125,8 +125,8 @@
 	force = 130
 	attack_speed = 2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 120
 							)

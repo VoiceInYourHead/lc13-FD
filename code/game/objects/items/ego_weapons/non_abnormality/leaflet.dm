@@ -9,10 +9,10 @@
 	attack_verb_continuous = list("bashes", "crushes")
 	attack_verb_simple = list("bash", "crush")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 40,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 40,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 	var/durability = 25
 	var/max_durability = 25
@@ -75,9 +75,9 @@
 	icon_state = "leaflet_hammer"
 	force = 55
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 

@@ -119,7 +119,7 @@
 	multiplicative_slowdown = -1.5
 
 //LC13 Movespeeds
-/datum/movespeed_modifier/justice_attribute
+/datum/movespeed_modifier/reflex_stat
 	variable = TRUE
 	multiplicative_slowdown = 0
 

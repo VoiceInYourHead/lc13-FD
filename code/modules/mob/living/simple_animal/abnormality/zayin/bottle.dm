@@ -100,7 +100,7 @@
 
 	if(work_type == "Drink")
 		//it's just work speed
-		var/consume_speed = 2 SECONDS / (1 + ((get_attribute_level(user, TEMPERANCE_ATTRIBUTE) + datum_reference.understanding) / 100))
+		var/consume_speed = 2 SECONDS / (1 + ((get_attribute_level(user, OBSERVATION_STAT) + datum_reference.understanding) / 100))
 		to_chat(user, span_warning("You begin to drink the water..."))
 		datum_reference.working = TRUE
 		if(!do_after(user, consume_speed * max_boxes, target = user))
@@ -141,17 +141,17 @@
 
 	new /obj/item/ego_weapon/eyeball(get_turf(user))
 
-	var/fortitude = get_attribute_level(user, FORTITUDE_ATTRIBUTE)
-	var/prudence = get_attribute_level(user, PRUDENCE_ATTRIBUTE)
-	var/temperance = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
-	var/justice = get_attribute_level(user, JUSTICE_ATTRIBUTE)
+	var/fortitude = get_attribute_level(user, STRENGTH_STAT)
+	var/prudence = get_attribute_level(user, WILLPOWER_STAT)
+	var/temperance = get_attribute_level(user, OBSERVATION_STAT)
+	var/justice = get_attribute_level(user, REFLEXES_STAT)
 	if(temperance >= (fortitude + prudence + justice) / 1.5) // If your temperance is at least twice your average stat, you aren't hurt, but lose temperance.
 		to_chat(user, span_userdanger("The room is filling with water... but you feel oddly unconcerned."))
-		user.adjust_attribute_level(TEMPERANCE_ATTRIBUTE, 20 - temperance)
+		user.adjust_attribute_level(OBSERVATION_STAT, 20 - temperance)
 		// This is a PERMANENT stat change, VERY significant. But it can happen only once per round. You're The Protagonist, after all.
 		var/stat_change = 0
 		stat_change = temperance - 20
-		user.adjust_attribute_buff(JUSTICE_ATTRIBUTE, stat_change) // Gain benefit from what you lost.
+		user.adjust_attribute_buff(REFLEXES_STAT, stat_change) // Gain benefit from what you lost.
 		addtimer(CALLBACK(src, PROC_REF(DecayProtagonistBuff), user, stat_change), 20 SECONDS) // Short grace period. 10s of this happens while you're asleep.
 	else
 		to_chat(user, span_userdanger("The room is filling with water! Are you going to drown?!"))
@@ -174,9 +174,9 @@
 		return FALSE
 	var/factor = justice / 10
 	var/timing = 10 + max(0, (100 - factor * factor))
-	buffed.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -1)
+	buffed.adjust_attribute_buff(REFLEXES_STAT, -1)
 	if(prob(10))
-		buffed.adjust_attribute_level(JUSTICE_ATTRIBUTE, 1) // 10% chance for justice buff to become real justice as it decays.
+		buffed.adjust_attribute_level(REFLEXES_STAT, 1) // 10% chance for justice buff to become real justice as it decays.
 	addtimer(CALLBACK(src, PROC_REF(DecayProtagonistBuff), buffed, justice - 1), timing)
 
 /mob/living/simple_animal/hostile/abnormality/bottle/BreachEffect(mob/living/carbon/human/user, breach_type)
@@ -246,10 +246,10 @@
 	var/mob/living/carbon/human/status_holder = owner
 
 	to_chat(owner, span_danger("Something once important to you is gone now. You feel like crying."))
-	status_holder.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -scaling)
-	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -scaling)
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -scaling)
-	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -scaling)
+	status_holder.adjust_attribute_buff(STRENGTH_STAT, -scaling)
+	status_holder.adjust_attribute_buff(WILLPOWER_STAT, -scaling)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, -scaling)
+	status_holder.adjust_attribute_buff(REFLEXES_STAT, -scaling)
 
 /datum/status_effect/stacking/tears/stack_decay_effect()
 	if(!ishuman(owner))
@@ -258,10 +258,10 @@
 	var/mob/living/carbon/human/status_holder = owner
 
 	to_chat(owner, span_nicegreen("You feel your strength return to you."))
-	status_holder.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, scaling)
-	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, scaling)
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, scaling)
-	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, scaling)
+	status_holder.adjust_attribute_buff(STRENGTH_STAT, scaling)
+	status_holder.adjust_attribute_buff(WILLPOWER_STAT, scaling)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, scaling)
+	status_holder.adjust_attribute_buff(REFLEXES_STAT, scaling)
 
 /datum/status_effect/stacking/tears/less
 	tick_interval = 2 MINUTES

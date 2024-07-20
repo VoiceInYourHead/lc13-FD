@@ -16,10 +16,10 @@
 
 	/// Assoc list of round-start attributes
 	var/list/roundstart_attributes = list(
-									FORTITUDE_ATTRIBUTE = 0,
-									PRUDENCE_ATTRIBUTE = 0,
-									TEMPERANCE_ATTRIBUTE = 0,
-									JUSTICE_ATTRIBUTE = 0
+									STRENGTH_STAT = 0,
+									WILLPOWER_STAT = 0,
+									OBSERVATION_STAT = 0,
+									REFLEXES_STAT = 0
 									)
 
 	//Determines who can demote this position

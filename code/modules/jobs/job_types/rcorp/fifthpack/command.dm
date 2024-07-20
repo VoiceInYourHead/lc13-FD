@@ -42,10 +42,10 @@
 	exp_requirements = 1200
 	maptype = "rcorp_fifth"
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 	access = list(ACCESS_ARMORY, ACCESS_RND, ACCESS_COMMAND, ACCESS_MEDICAL)
 	minimal_access = list(ACCESS_ARMORY, ACCESS_RND, ACCESS_COMMAND, ACCESS_MEDICAL)

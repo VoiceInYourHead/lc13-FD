@@ -18,10 +18,10 @@
 	job_abbreviation = "LIBRA"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 50,
-								PRUDENCE_ATTRIBUTE = 50,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 50,
+								WILLPOWER_STAT = 50,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 80
 								)
 
 /datum/job/libra/after_spawn(mob/living/carbon/human/H, mob/M)

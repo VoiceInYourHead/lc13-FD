@@ -18,10 +18,10 @@
 	job_abbreviation = "GOLDEN"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 40
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 40
 								)
 
 /datum/job/aurum/after_spawn(mob/living/carbon/human/H, mob/M)

@@ -57,7 +57,7 @@
 
 	//If you're doing rep or temeprance then your work chance is your total buffs combined, and damage is increased too
 	if(chance == 0)
-		var/totalbuff = get_level_buff(user, FORTITUDE_ATTRIBUTE) + get_level_buff(user, PRUDENCE_ATTRIBUTE) + get_level_buff(user, TEMPERANCE_ATTRIBUTE) + get_level_buff(user, JUSTICE_ATTRIBUTE)
+		var/totalbuff = get_level_buff(user, STRENGTH_STAT) + get_level_buff(user, WILLPOWER_STAT) + get_level_buff(user, OBSERVATION_STAT) + get_level_buff(user, REFLEXES_STAT)
 		chance = totalbuff
 		work_damage_amount += totalbuff/10
 	return chance
@@ -75,21 +75,21 @@
 		say(pick(speak_list))
 
 		//Don't try it without any buffs.
-		if(get_level_buff(user, TEMPERANCE_ATTRIBUTE) <=0)
+		if(get_level_buff(user, OBSERVATION_STAT) <=0)
 			user.dust()
 			return
-		user.adjust_attribute_limit(get_level_buff(user, TEMPERANCE_ATTRIBUTE))
-		user.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -get_level_buff(user, TEMPERANCE_ATTRIBUTE))
+		user.adjust_attribute_limit(get_level_buff(user, OBSERVATION_STAT))
+		user.adjust_attribute_buff(OBSERVATION_STAT, -get_level_buff(user, OBSERVATION_STAT))
 
 	if(work_type == ABNORMALITY_WORK_REPRESSION)
 		say(pick(speak_list))
 
-		if(get_level_buff(user, JUSTICE_ATTRIBUTE) <=0)
+		if(get_level_buff(user, REFLEXES_STAT) <=0)
 			user.dust()
 			return
 
-		user.adjust_attribute_limit(get_level_buff(user, JUSTICE_ATTRIBUTE))
-		user.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -get_level_buff(user, JUSTICE_ATTRIBUTE))
+		user.adjust_attribute_limit(get_level_buff(user, REFLEXES_STAT))
+		user.adjust_attribute_buff(REFLEXES_STAT, -get_level_buff(user, REFLEXES_STAT))
 	return
 
 /mob/living/simple_animal/hostile/abnormality/skin_prophet/FailureEffect(mob/living/carbon/human/user, work_type, pe)

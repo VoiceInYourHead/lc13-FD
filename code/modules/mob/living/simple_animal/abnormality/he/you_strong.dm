@@ -318,10 +318,10 @@
 		COLOR_ASSEMBLY_PURPLE,
 	)
 	buff_type = pick(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 /obj/item/bodypart/r_leg/grown_strong/drop_limb(special)
@@ -368,10 +368,10 @@
 		COLOR_ASSEMBLY_PURPLE,
 	)
 	buff_type = pick(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 /obj/item/bodypart/l_leg/grown_strong/drop_limb(special)
@@ -418,10 +418,10 @@
 		COLOR_ASSEMBLY_PURPLE,
 	)
 	buff_type = pick(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 /obj/item/bodypart/r_arm/grown_strong/drop_limb(special)
@@ -473,10 +473,10 @@
 		COLOR_ASSEMBLY_PURPLE,
 	)
 	buff_type = pick(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 /obj/item/bodypart/l_arm/grown_strong/drop_limb(special)

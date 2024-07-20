@@ -92,7 +92,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/watchman/WorkChance(mob/living/carbon/human/user, chance)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) >= 60)
+	if(get_attribute_level(user, OBSERVATION_STAT) >= 60)
 		var/newchance = chance - 20 //You suck, die. I hate you
 		return newchance
 	return chance

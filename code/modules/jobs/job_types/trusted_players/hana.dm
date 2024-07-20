@@ -24,10 +24,10 @@
 
 	//Mostly for armor.
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 80,
-		TEMPERANCE_ATTRIBUTE = 80,
-		JUSTICE_ATTRIBUTE = 80,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 80,
+		OBSERVATION_STAT = 80,
+		REFLEXES_STAT = 80,
 	)
 
 /datum/job/hana/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
@@ -74,10 +74,10 @@
 
 	//Mostly for armor.
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 100,
-		PRUDENCE_ATTRIBUTE = 100,
-		TEMPERANCE_ATTRIBUTE = 100,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 100,
+		WILLPOWER_STAT = 100,
+		OBSERVATION_STAT = 100,
+		REFLEXES_STAT = 100,
 	)
 
 
@@ -101,10 +101,10 @@
 
 	//Mostly for armor.
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 60,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 60,
+		STRENGTH_STAT = 60,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 60,
 	)
 
 	job_important = "You are a Intern for the Hana association, Your only job is to assist the higher ups with their duities. \

@@ -170,7 +170,7 @@
 		datum_reference.max_boxes += 4
 		work_count = 0
 	if(work_type == "Write GOODBYE")
-		if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 60)//instant breach if below 3 justice
+		if(get_attribute_level(user, REFLEXES_STAT) < 60)//instant breach if below 3 justice
 			datum_reference.qliphoth_change(-2)//instant breach
 			to_chat(user, span_notice("The terminal’s light goes red, and warnings start to blare."))
 			say("Farewell. Farewell, FarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewell.")

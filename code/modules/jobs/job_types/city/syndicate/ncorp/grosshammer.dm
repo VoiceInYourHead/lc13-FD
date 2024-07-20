@@ -18,10 +18,10 @@
 	job_notice = "You may kill anyone with prosthetics, or anyone sympathetic to prosthetics."
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 100,
-								PRUDENCE_ATTRIBUTE = 100,
-								TEMPERANCE_ATTRIBUTE = 100,
-								JUSTICE_ATTRIBUTE = 100
+								STRENGTH_STAT = 100,
+								WILLPOWER_STAT = 100,
+								OBSERVATION_STAT = 100,
+								REFLEXES_STAT = 100
 								)
 
 /datum/job/grosshammer/after_spawn(mob/living/carbon/human/H, mob/M)

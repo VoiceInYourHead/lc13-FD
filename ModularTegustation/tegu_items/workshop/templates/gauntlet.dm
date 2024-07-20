@@ -23,7 +23,7 @@
 		to_chat(user, span_danger("You throw your entire body into this punch!"))
 		var/punch_damage = force
 		//I gotta regrab  justice here
-		var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		punch_damage *= justicemod
 

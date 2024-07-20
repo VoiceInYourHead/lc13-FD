@@ -47,7 +47,7 @@
 /obj/item/ammo_casing/caseless/ego_executive/ready_proj(atom/target, mob/living/user, quiet, zone_override = "", atom/fired_from)
 	..()
 	if(isgun(fired_from) && ishuman(user))
-		var/userjust = (get_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		BB.damage *= justicemod
 

@@ -96,28 +96,28 @@
 	switch(work_type)
 		if(ABNORMALITY_WORK_INSTINCT)
 			if(fort_havers.len < total_per_contract)
-				user.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, (fort_havers.len - 4)*-1 )
+				user.adjust_attribute_buff(STRENGTH_STAT, (fort_havers.len - 4)*-1 )
 				fort_havers |= user
 			else
 				return
 
 		if(ABNORMALITY_WORK_INSIGHT)
 			if(prud_havers.len < total_per_contract)
-				user.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, (prud_havers.len - 4)*-1 )
+				user.adjust_attribute_buff(WILLPOWER_STAT, (prud_havers.len - 4)*-1 )
 				prud_havers |= user
 			else
 				return
 
 		if(ABNORMALITY_WORK_ATTACHMENT)
 			if(temp_havers.len < total_per_contract)
-				user.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, (temp_havers.len - 4)*-1 )
+				user.adjust_attribute_buff(OBSERVATION_STAT, (temp_havers.len - 4)*-1 )
 				temp_havers |= user
 			else
 				return
 
 		if(ABNORMALITY_WORK_REPRESSION)
 			if(just_havers.len < total_per_contract)
-				user.adjust_attribute_buff(JUSTICE_ATTRIBUTE, (just_havers.len - 4)*-1 )
+				user.adjust_attribute_buff(REFLEXES_STAT, (just_havers.len - 4)*-1 )
 				just_havers |= user
 			else
 				return

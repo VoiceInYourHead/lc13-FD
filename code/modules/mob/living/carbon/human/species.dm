@@ -1393,7 +1393,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 				return FALSE
 		user.do_attack_animation(target, atk_effect)
 
-		var/damage = rand(user.dna.species.punchdamagelow, user.dna.species.punchdamagehigh) * (1 + (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE) + get_attribute_level(user, FORTITUDE_ATTRIBUTE)) / 100)
+		var/damage = rand(user.dna.species.punchdamagelow, user.dna.species.punchdamagehigh) * (1 + (get_modified_attribute_level(user, REFLEXES_STAT) + get_attribute_level(user, STRENGTH_STAT)) / 100)
 
 		var/obj/item/bodypart/affecting = target.get_bodypart(ran_zone(user.zone_selected))
 
@@ -1520,7 +1520,7 @@ GLOBAL_LIST_EMPTY(roundstart_races)
 
 	H.send_item_attack_message(I, user, hit_area, affecting)
 
-	var/justice_mod = 1 + (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+	var/justice_mod = 1 + (get_modified_attribute_level(user, REFLEXES_STAT)/100)
 	var/damage = I.force * justice_mod
 	if(istype(I, /obj/item/ego_weapon))
 		var/obj/item/ego_weapon/theweapon = I

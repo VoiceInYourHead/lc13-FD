@@ -166,11 +166,11 @@
 			to_chat(src, span_userdanger("The sculptor is in danger. It is now your duty to protect them!"))
 
 		threat_level = TETH_LEVEL
-		var/datum/attribute/user_attribute = sculptor.attributes[PRUDENCE_ATTRIBUTE]
+		var/datum/attribute/user_attribute = sculptor.attributes[WILLPOWER_STAT]
 		var/user_attribute_level = max(1, user_attribute.level)
 		if (user_attribute_level > PRUDENCE_CAP)
 			missing_prudence = user_attribute_level - PRUDENCE_CAP
-			src.sculptor.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, (missing_prudence) * -1)
+			src.sculptor.adjust_attribute_bonus(WILLPOWER_STAT, (missing_prudence) * -1)
 			to_chat(sculptor, span_red("You feel like your mind grows weaker as it has come out to protect you..."))
 
 	if (!IsContained() && protect_cooldown < world.time)
@@ -185,7 +185,7 @@
 		restorePrudence()
 
 /mob/living/simple_animal/hostile/abnormality/pygmalion/proc/restorePrudence()
-	sculptor.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, missing_prudence)
+	sculptor.adjust_attribute_bonus(WILLPOWER_STAT, missing_prudence)
 	missing_prudence = null
 	to_chat(sculptor, span_nicegreen("As soon as Pygmalion has fallen, You feel like your mind is back on track."))
 

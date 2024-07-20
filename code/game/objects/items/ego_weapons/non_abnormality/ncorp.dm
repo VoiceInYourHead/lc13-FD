@@ -70,10 +70,10 @@
 	icon_state = "mittlenagel"
 	force = 37
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/ego_weapon/city/ncorp_nail/huge
@@ -82,10 +82,10 @@
 	icon_state = "grossnagel"
 	force = 50
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/ego_weapon/city/ncorp_nail/grip
@@ -96,10 +96,10 @@
 	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 
@@ -148,10 +148,10 @@
 	force = 60
 	hitsound = 'sound/weapons/ego/shield1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/ego_weapon/city/ncorp_hammer/hand
@@ -162,10 +162,10 @@
 	attack_speed = 1
 	hitsound = 'sound/weapons/fixer/generic/fist2.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 //SHE WHO GRIPS
@@ -179,10 +179,10 @@
 
 	hitsound = 'sound/weapons/fixer/generic/fist2.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 
@@ -225,10 +225,10 @@
 	icon_state = "elektrumnagel"
 	force = 37
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/ego_weapon/city/ncorp_brassnail/huge
@@ -237,10 +237,10 @@
 	icon_state = "goldnagel"
 	force = 50
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 
 
@@ -250,10 +250,10 @@
 	icon_state = "rosenagel"
 	force = 50
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 	damtype = WHITE_DAMAGE
 

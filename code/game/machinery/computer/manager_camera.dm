@@ -294,10 +294,10 @@ GLOBAL_VAR_INIT(execution_enabled, FALSE)
 	if(ishuman(clicked_atom))
 		var/mob/living/carbon/human/H = clicked_atom
 		to_chat(user, span_notice("Agent level [get_user_level(H)]."))
-		to_chat(user, span_notice("Fortitude level [get_attribute_level(H, FORTITUDE_ATTRIBUTE)]."))
-		to_chat(user, span_notice("Prudence level [get_attribute_level(H, PRUDENCE_ATTRIBUTE)]."))
-		to_chat(user, span_notice("Temperance level [get_attribute_level(H, TEMPERANCE_ATTRIBUTE)]."))
-		to_chat(user, span_notice("Justice level [get_attribute_level(H, JUSTICE_ATTRIBUTE)]."))
+		to_chat(user, span_notice("Fortitude level [get_attribute_level(H, STRENGTH_STAT)]."))
+		to_chat(user, span_notice("Prudence level [get_attribute_level(H, WILLPOWER_STAT)]."))
+		to_chat(user, span_notice("Temperance level [get_attribute_level(H, OBSERVATION_STAT)]."))
+		to_chat(user, span_notice("Justice level [get_attribute_level(H, REFLEXES_STAT)]."))
 		return
 
 	if(istype(clicked_atom, /mob/living/simple_animal))

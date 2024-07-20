@@ -20,10 +20,10 @@
 	job_attribute_limit = 80
 	//80s in everything, they're barebones goobers
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 
 /datum/job/fixer/northdirector/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -71,10 +71,10 @@
 	job_attribute_limit = 60
 	//They actually need this for their weapons
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 60
 								)
 
 /datum/job/associate/after_spawn(mob/living/carbon/human/H, mob/M)

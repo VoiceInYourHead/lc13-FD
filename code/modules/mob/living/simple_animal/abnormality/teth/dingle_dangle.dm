@@ -43,13 +43,13 @@
 
 /mob/living/simple_animal/hostile/abnormality/dingledangle/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time, canceled)
 	//if your prudence is low, give a short hallucination, apply the buff, and lower counter.
-	if(get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 60) // below level 3
+	if(get_attribute_level(user, WILLPOWER_STAT) < 60) // below level 3
 		user.hallucination += 20
 		user.apply_status_effect(STATUS_EFFECT_DANGLE)
 		datum_reference.qliphoth_change(-1)
 		return ..()
 
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 80) // fort 4 or higher
+	if(get_attribute_level(user, STRENGTH_STAT) >= 80) // fort 4 or higher
 		return ..()
 
 	//I mean it does this in wonderlabs
@@ -84,11 +84,11 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 15)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 15)
 
 /datum/status_effect/dangle/on_remove()
 	. = ..()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -15)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -15)

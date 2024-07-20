@@ -348,7 +348,7 @@
 			return
 		..()
 		return
-	var/justice_mod = 1 + (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+	var/justice_mod = 1 + (get_modified_attribute_level(user, REFLEXES_STAT)/100)
 	HT.apply_status_effect(/datum/status_effect/you_happy_buff)
 	var/datum/status_effect/you_happy_buff/Y = HT.has_status_effect(/datum/status_effect/you_happy_buff)
 	Y.EnableBuff((force * justice_mod) * force_multiplier)
@@ -367,7 +367,7 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -buff_amount)
+	H.adjust_attribute_bonus(REFLEXES_STAT, -buff_amount)
 	return ..()
 
 /datum/status_effect/you_happy_buff/proc/EnableBuff(amount)
@@ -377,7 +377,7 @@
 		return
 	buff_amount = amount
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, amount)
+	H.adjust_attribute_bonus(REFLEXES_STAT, amount)
 
 
 /obj/item/ego_weapon/prohibited

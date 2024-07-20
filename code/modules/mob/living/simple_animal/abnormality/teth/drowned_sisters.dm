@@ -41,14 +41,14 @@
 /mob/living/simple_animal/hostile/abnormality/drownedsisters/AttemptWork(mob/living/carbon/human/user, work_type)	//Deals scaling work damage based off your stats.
 	if(breaching)
 		return FALSE
-	work_damage_amount = (get_attribute_level(user, PRUDENCE_ATTRIBUTE) -60) * -0.5
+	work_damage_amount = (get_attribute_level(user, WILLPOWER_STAT) -60) * -0.5
 	work_damage_amount = max(5, work_damage_amount)	//So you don't get healing
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/drownedsisters/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 // okay so according to the lore you're not really supposed to remember the stories she says so we're going to make it so your sanity goes back up
 	if(!user.sanity_lost && pe != 0)
-		user.adjustSanityLoss(-get_attribute_level(user, PRUDENCE_ATTRIBUTE))
+		user.adjustSanityLoss(-get_attribute_level(user, WILLPOWER_STAT))
 	..()
 	switch(work_type)
 		if(ABNORMALITY_WORK_INSTINCT)

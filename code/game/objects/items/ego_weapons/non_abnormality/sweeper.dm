@@ -11,10 +11,10 @@
 	attack_verb_simple = "stab"
 	hitsound = 'sound/effects/ordeals/indigo/stab_1.ogg'
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 40,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 40,
-		JUSTICE_ATTRIBUTE = 40,
+		STRENGTH_STAT = 40,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 40,
+		REFLEXES_STAT = 40,
 	)
 
 /obj/item/ego_weapon/city/sweeper/attack(mob/living/target, mob/living/carbon/human/user)
@@ -31,10 +31,10 @@
 	icon_state = "sweeper_sickle"
 	force = 37
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/ego_weapon/city/sweeper/hooksword
@@ -44,10 +44,10 @@
 	force = 55
 	attack_speed = 1.6
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/ego_weapon/city/sweeper/claw
@@ -57,8 +57,8 @@
 	force = 24
 	attack_speed = 0.6
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)

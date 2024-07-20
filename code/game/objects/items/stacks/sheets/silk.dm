@@ -12,7 +12,7 @@
 	var/turf/T = meat.drop_location()
 	if(ishuman(meat))
 		var/mob/living/carbon/human/H = meat
-		var/total = get_attribute_level(H, FORTITUDE_ATTRIBUTE) + get_attribute_level(H, PRUDENCE_ATTRIBUTE) + get_attribute_level(H, TEMPERANCE_ATTRIBUTE) + get_attribute_level(H, JUSTICE_ATTRIBUTE)
+		var/total = get_attribute_level(H, STRENGTH_STAT) + get_attribute_level(H, WILLPOWER_STAT) + get_attribute_level(H, OBSERVATION_STAT) + get_attribute_level(H, REFLEXES_STAT)
 
 		// Simple Human, 1 Simple.
 		// Advanced Human, 1 Advanced, 2 Simple

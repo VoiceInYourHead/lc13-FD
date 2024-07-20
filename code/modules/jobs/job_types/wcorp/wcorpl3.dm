@@ -22,10 +22,10 @@ GLOBAL_LIST_INIT(l3squads, list("Axe", "Buckler", "Cleaver"))
 	minimal_access = list()
 
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 100,
-		PRUDENCE_ATTRIBUTE = 100,
-		TEMPERANCE_ATTRIBUTE = 100,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 100,
+		WILLPOWER_STAT = 100,
+		OBSERVATION_STAT = 100,
+		REFLEXES_STAT = 100,
 	)
 	rank_title = "L3 CPT"
 	job_important = "You are a Captain of W-Corp's frontline infantry."

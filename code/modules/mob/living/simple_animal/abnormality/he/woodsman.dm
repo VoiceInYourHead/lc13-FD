@@ -324,7 +324,7 @@
 	can_act = TRUE
 
 /mob/living/simple_animal/hostile/abnormality/woodsman/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if (get_attribute_level(user, TEMPERANCE_ATTRIBUTE) >= 60)
+	if (get_attribute_level(user, OBSERVATION_STAT) >= 60)
 		datum_reference.qliphoth_change(-1)
 	return
 

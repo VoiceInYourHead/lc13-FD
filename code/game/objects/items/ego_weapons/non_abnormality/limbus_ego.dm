@@ -24,10 +24,10 @@
 	pierce_speed_cost = 1.0
 	pierce_force_cost = 15
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/ego_weapon/lance/sangre/attack(mob/living/target, mob/living/carbon/human/user)

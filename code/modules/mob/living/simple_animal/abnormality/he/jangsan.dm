@@ -62,10 +62,10 @@
 	var/weak_counter
 	pet_bonus = "meows" //saves a few lines of code by allowing funpet() to be called by attack_hand()
 	var/list/stats = list(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 //attack vars
 	var/bite_cooldown

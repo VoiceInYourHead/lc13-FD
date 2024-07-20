@@ -15,10 +15,10 @@
 	attack_verb_continuous = list("bashes", "crushes")
 	attack_verb_simple = list("bash", "crush")
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 120,
-		PRUDENCE_ATTRIBUTE = 120,
-		TEMPERANCE_ATTRIBUTE = 120,
-		JUSTICE_ATTRIBUTE = 120,
+		STRENGTH_STAT = 120,
+		WILLPOWER_STAT = 120,
+		OBSERVATION_STAT = 120,
+		REFLEXES_STAT = 120,
 	)
 	/// Are we currently using our ability?
 	var/using_ability = FALSE
@@ -80,8 +80,8 @@
 	force = 100
 	attack_speed = 1.2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 120,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 120,
+							WILLPOWER_STAT = 120,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 120
 							)

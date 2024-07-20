@@ -21,10 +21,10 @@
 	block_sound = 'sound/weapons/ego/burn_guard.ogg'
 	hit_message = "softened the blow by expelling some heat!"
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 	var/special_attack = FALSE
 	var/special_damage = 100

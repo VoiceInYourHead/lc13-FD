@@ -20,7 +20,7 @@
 	job_important = "You are an L-Corp Emergency Response Agent. Your job is to suppress Abnormalities. You cannot work. Use :h to talk on your departmental radio."
 	job_abbreviation = "ERA"
 
-	roundstart_attributes = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	roundstart_attributes = list(STRENGTH_STAT, WILLPOWER_STAT, OBSERVATION_STAT, REFLEXES_STAT)
 	var/normal_attribute_level = 20 // Scales with round time, facility upgrades, and ordeals done
 
 /datum/job/suppression/after_spawn(mob/living/carbon/human/outfit_owner, mob/M, latejoin = FALSE)
@@ -139,7 +139,7 @@
 
 
 /obj/item/suppressionupdate/proc/update_stats(mob/living/carbon/human/user)
-	var/list/attribute_list = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	var/list/attribute_list = list(STRENGTH_STAT, WILLPOWER_STAT, OBSERVATION_STAT, REFLEXES_STAT)
 
 	//I got lazy and this needs to be shipped out today
 	var/set_attribute = 20

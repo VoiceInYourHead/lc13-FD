@@ -22,10 +22,10 @@
 	job_abbreviation = "FTL"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 80
 								)
 
 /datum/job/lccb_teamleader/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -75,10 +75,10 @@
 	job_abbreviation = "OP"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 60
 								)
 
 /datum/job/lccb_team/after_spawn(mob/living/carbon/human/H, mob/M)

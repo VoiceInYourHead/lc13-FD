@@ -18,10 +18,10 @@
 
 	//They actually need this for their weapons
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 100,
-								PRUDENCE_ATTRIBUTE = 100,
-								TEMPERANCE_ATTRIBUTE = 100,
-								JUSTICE_ATTRIBUTE = 100
+								STRENGTH_STAT = 100,
+								WILLPOWER_STAT = 100,
+								OBSERVATION_STAT = 100,
+								REFLEXES_STAT = 100
 								)
 	job_important = "This is a role to assist existing offices in getting a foothold in the city. You are not to enter the backstreets alone."
 	job_notice = "You are to assist the offices in their backstreet endeavors. Cryoing to re-roll your association is not allowed and will result in a de-trusting. \

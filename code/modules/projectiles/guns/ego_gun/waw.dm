@@ -12,8 +12,8 @@
 	fire_sound = 'sound/weapons/gun/shotgun/shot_auto.ogg'
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/gun/ego_gun/hornet
@@ -30,7 +30,7 @@
 	reloadtime = 1.4 SECONDS
 	damtype = RED_DAMAGE
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80
 							)
 
 
@@ -47,8 +47,8 @@
 	fire_sound = 'sound/abnormalities/hatredqueen/attack.ogg'
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/gun/ego_gun/hatred/EgoAttackInfo(mob/user)
@@ -85,7 +85,7 @@
 	fire_sound = 'sound/abnormalities/freischutz/shoot.ogg'
 
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 80
+							OBSERVATION_STAT = 80
 							)
 	var/cached_multiplier
 
@@ -121,7 +121,7 @@
 	reloadtime = 0.7 SECONDS
 	fire_sound = 'sound/abnormalities/funeral/spiritgunwhite.ogg'
 	fire_sound_volume = 30
-	attribute_requirements = list(PRUDENCE_ATTRIBUTE = 80)
+	attribute_requirements = list(WILLPOWER_STAT = 80)
 	var/cached_multiplier
 
 /obj/item/gun/ego_gun/pistol/solemnlament/before_firing(atom/target, mob/user)
@@ -157,7 +157,7 @@
 	fire_sound = 'sound/abnormalities/funeral/spiritgunblack.ogg'
 	fire_sound_volume = 30
 	var/cached_multiplier
-	attribute_requirements = list(JUSTICE_ATTRIBUTE = 80)
+	attribute_requirements = list(REFLEXES_STAT = 80)
 
 /obj/item/gun/ego_gun/pistol/solemnvow/before_firing(atom/target, mob/user)
 	if(cached_multiplier)
@@ -192,7 +192,7 @@
 	fire_sound = 'sound/weapons/gun/smg/vp70.ogg'
 	autofire = 0.08 SECONDS
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80
 	)
 
 //Just a funny gold soda pistol. It was originally meant to just be a golden meme weapon, now it is the only pale gun, lol
@@ -211,7 +211,7 @@
 	fire_sound_volume = 70
 	ammo_type = /obj/item/ammo_casing/caseless/ego_executive
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 80
+							REFLEXES_STAT = 80
 	)
 
 
@@ -228,8 +228,8 @@
 	reloadtime = 1 SECONDS
 	fire_sound = 'sound/abnormalities/redhood/fire.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							REFLEXES_STAT = 60
 	)
 
 /obj/item/gun/ego_gun/ecstasy
@@ -246,8 +246,8 @@
 	shotsleft = 40
 	reloadtime = 1.8 SECONDS
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60
 	)
 
 /obj/item/gun/ego_gun/pistol/praetorian
@@ -263,8 +263,8 @@
 	reloadtime = 0.5 SECONDS
 	fire_sound_volume = 30
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							REFLEXES_STAT = 60
 	)
 
 /obj/item/gun/ego_gun/pistol/magic_pistol
@@ -279,7 +279,7 @@
 	reloadtime = 1.2 SECONDS
 	fire_sound = 'sound/abnormalities/freischutz/shoot.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 80
+							OBSERVATION_STAT = 80
 							)
 	var/cached_multiplier
 
@@ -310,7 +310,7 @@
 	reloadtime = 10 SECONDS
 	fire_sound = 'sound/weapons/gun/shotgun/shot_auto.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80
 							)
 
 /obj/item/gun/ego_gun/intentions
@@ -326,7 +326,7 @@
 	shotsleft = 50
 	reloadtime = 2.1 SECONDS
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 	)
 
 /obj/item/gun/ego_gun/aroma
@@ -340,7 +340,7 @@
 	fire_delay = 25
 	fire_sound = 'sound/weapons/ego/crossbow.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 	)
 
 /obj/item/gun/ego_gun/assonance
@@ -357,7 +357,7 @@
 	reloadtime = 1.6 SECONDS
 	fire_sound = 'sound/weapons/gun/smg/mp7.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 	)
 
 //It's a magic sword. Cope Egor
@@ -374,8 +374,8 @@
 	damtype = WHITE_DAMAGE
 	fire_delay = 12
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60
 	)
 
 /obj/item/gun/ego_gun/exuviae
@@ -390,8 +390,8 @@
 	fire_delay = 30 //5 less than the Rend Armor status effect
 	fire_sound = 'sound/misc/moist_impact.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							OBSERVATION_STAT = 60
 	)
 
 //Full manual bow-type E.G.O, must be loaded before firing.
@@ -408,8 +408,8 @@
 	//firing sound 1
 	fire_sound = 'sound/weapons/bowfire.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							REFLEXES_STAT = 60
 	)
 	var/drawn = 0
 	var/charge_effect = "fire a beam of electricity."
@@ -481,8 +481,8 @@
 	reloadtime = 1.6 SECONDS
 	fire_sound = 'sound/weapons/ego/cannon.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							OBSERVATION_STAT = 60
 	)
 
 /obj/item/gun/ego_gun/banquet/before_firing(atom/target,mob/user)
@@ -504,8 +504,8 @@
 	reloadtime = 1.4 SECONDS
 	fire_sound = 'sound/weapons/gun/shotgun/shot_auto.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/gun/ego_gun/my_own_bride
@@ -521,7 +521,7 @@
 	reloadtime = 1.4 SECONDS
 	fire_sound = 'sound/weapons/gun/rifle/leveraction.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80
 	)
 
 /obj/item/gun/ego_gun/hookah
@@ -539,7 +539,7 @@
 	autofire = 0.04 SECONDS
 	fire_sound_volume = 5
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 80
+							REFLEXES_STAT = 80
 	)
 
 /obj/item/gun/ego_gun/pistol/innocence
@@ -555,7 +555,7 @@
 	reloadtime = 2.1 SECONDS
 	fire_sound_volume = 20
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 	)
 
 /obj/item/gun/ego_gun/hypocrisy
@@ -571,7 +571,7 @@
 	fire_delay = 25
 	fire_sound = 'sound/weapons/ego/crossbow.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 	)
 	var/trap_cooldown = 0
 

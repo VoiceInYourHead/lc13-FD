@@ -456,7 +456,7 @@
 /obj/effect/proc_holder/ability/justice_and_balance/proc/Smash(mob/user, on_use_charges)
 	playsound(user, SFX[on_use_charges], 25*(4-on_use_charges))
 	var/temp_dam = damage
-	temp_dam *= 1 + (get_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+	temp_dam *= 1 + (get_attribute_level(user, REFLEXES_STAT)/100)
 	if(on_use_charges <= 1)
 		temp_dam *= 1.5
 	for(var/turf/open/T in range(3, user))
@@ -520,7 +520,7 @@
 		qdel(src)
 		return
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, stacks_added)
+	H.adjust_attribute_buff(REFLEXES_STAT, stacks_added)
 	stacks += stacks_added
 	linked_alert.desc = initial(linked_alert.desc)+"[stacks]!"
 	tick_interval = max(10 - (stacks/10), 0.1)
@@ -599,13 +599,13 @@
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	owner.color = COLOR_RED
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 10)
+	H.adjust_attribute_buff(REFLEXES_STAT, 10)
 
 /datum/status_effect/pbird/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	owner.color = null
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -10)
+	H.adjust_attribute_buff(REFLEXES_STAT, -10)
 
 /obj/effect/proc_holder/ability/petal_blizzard
 	name = "Petal Blizzard"
@@ -781,7 +781,7 @@
 /datum/status_effect/overheat/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 40)
+	H.adjust_attribute_buff(REFLEXES_STAT, 40)
 	H.apply_lc_burn(50)
 	var/datum/status_effect/stacking/lc_burn/B = H.has_status_effect(/datum/status_effect/stacking/lc_burn)
 	B.safety = FALSE
@@ -789,7 +789,7 @@
 /datum/status_effect/overheat/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -40)
+	H.adjust_attribute_buff(REFLEXES_STAT, -40)
 	H.remove_status_effect(STATUS_EFFECT_LCBURN)
 
 /* Yang - Duality */
@@ -851,20 +851,20 @@
 	var/mob/living/carbon/human/H = owner
 	H.physiology.white_mod *= 0.75
 	H.physiology.pale_mod *= 0.75
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 10)
+	H.adjust_attribute_buff(STRENGTH_STAT, 10)
+	H.adjust_attribute_buff(WILLPOWER_STAT, 10)
+	H.adjust_attribute_buff(OBSERVATION_STAT, 10)
+	H.adjust_attribute_buff(REFLEXES_STAT, 10)
 
 /datum/status_effect/duality_yang/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	H.physiology.white_mod /= 0.75
 	H.physiology.pale_mod /= 0.75
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -10)
+	H.adjust_attribute_buff(STRENGTH_STAT, -10)
+	H.adjust_attribute_buff(WILLPOWER_STAT, -10)
+	H.adjust_attribute_buff(OBSERVATION_STAT, -10)
+	H.adjust_attribute_buff(REFLEXES_STAT, -10)
 
 /*Child of the Galaxy - Our Galaxy */
 /obj/effect/proc_holder/ability/galaxy_gift
@@ -1195,12 +1195,12 @@
 /datum/status_effect/flesh2/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 20)
+	H.adjust_attribute_buff(REFLEXES_STAT, 20)
 
 /datum/status_effect/flesh2/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -20)
+	H.adjust_attribute_buff(REFLEXES_STAT, -20)
 
 /obj/effect/proc_holder/ability/nest
 	name = "Worm spawn"

@@ -1172,17 +1172,17 @@
 /datum/status_effect/display/dyscrasone_withdrawl/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -25)
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -25)
-	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -25)
-	L.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -25)
+	L.adjust_attribute_buff(STRENGTH_STAT, -25)
+	L.adjust_attribute_buff(WILLPOWER_STAT, -25)
+	L.adjust_attribute_buff(OBSERVATION_STAT, -25)
+	L.adjust_attribute_buff(REFLEXES_STAT, -25)
 
 /datum/status_effect/display/dyscrasone_withdrawl/on_remove()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 25)
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 25)
-	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 25)
-	L.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 25)
+	L.adjust_attribute_buff(STRENGTH_STAT, 25)
+	L.adjust_attribute_buff(WILLPOWER_STAT, 25)
+	L.adjust_attribute_buff(OBSERVATION_STAT, 25)
+	L.adjust_attribute_buff(REFLEXES_STAT, 25)
 	return ..()
 
 /datum/status_effect/stacking/pallid_noise

@@ -52,7 +52,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/silent_girl/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 60)
+	if(get_attribute_level(user, WILLPOWER_STAT) < 60)
 		GuiltEffect(user)
 	return
 

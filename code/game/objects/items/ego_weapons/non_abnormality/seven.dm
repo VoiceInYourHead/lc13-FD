@@ -21,10 +21,10 @@
 	var/hit_number
 	var/hit_target = 7
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 60,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 80,
-		JUSTICE_ATTRIBUTE = 60,
+		STRENGTH_STAT = 60,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 80,
+		REFLEXES_STAT = 60,
 	)
 
 
@@ -85,10 +85,10 @@
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	force = 45
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 
 //Director weapons. If you use both; you can actually get info on two targets at once, but it requires
@@ -102,10 +102,10 @@
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	force = 63
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/ego_weapon/city/seven/cane
@@ -119,10 +119,10 @@
 	force = 56	//Faster info gain,
 	hit_target = 3
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 100
 							)
 
 //Seven Fencing - Lack the Health gaining ability, and gain an ability similar to Capo, where they do bonus damage when attacking the same person.
@@ -137,10 +137,10 @@
 
 	var/fencing_target
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 
@@ -161,10 +161,10 @@
 	icon_state = "sevenfencing_vet"
 	force = 45
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/ego_weapon/city/seven_fencing/dagger
@@ -175,9 +175,9 @@
 	force = 32
 	attack_speed = 0.5
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 100
 							)
 

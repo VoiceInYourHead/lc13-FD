@@ -84,10 +84,10 @@
 	QDEL_IN(src, 10 SECONDS)
 
 /mob/living/simple_animal/hostile/abnormality/faelantern/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time, canceled)
-	if(work_type == ABNORMALITY_WORK_REPRESSION && get_modified_attribute_level(user, TEMPERANCE_ATTRIBUTE) > 40)
+	if(work_type == ABNORMALITY_WORK_REPRESSION && get_modified_attribute_level(user, OBSERVATION_STAT) > 40)
 		datum_reference.qliphoth_change(-1)
 		return
-	if(get_modified_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40)
+	if(get_modified_attribute_level(user, OBSERVATION_STAT) < 40)
 		datum_reference.qliphoth_change(-1)
 		return
 	return
@@ -185,7 +185,7 @@
 		victim.apply_damage(lure_damage, WHITE_DAMAGE)
 		if(victim in lured_list || victim.stat >= SOFT_CRIT)
 			continue
-		if(get_attribute_level(victim, TEMPERANCE_ATTRIBUTE) > 40)
+		if(get_attribute_level(victim, OBSERVATION_STAT) > 40)
 			continue
 		victim.apply_status_effect(STATUS_EFFECT_FAIRYLURE)
 		lured_list += victim

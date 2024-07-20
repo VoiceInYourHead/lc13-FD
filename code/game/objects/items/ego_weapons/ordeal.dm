@@ -17,10 +17,10 @@
 	hitsound = 'ModularTegustation/Tegusounds/claw/attack.ogg'
 	actions_types = list(/datum/action/item_action/switch_serum)
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 130,
-		PRUDENCE_ATTRIBUTE = 130,
-		TEMPERANCE_ATTRIBUTE = 130,
-		JUSTICE_ATTRIBUTE = 130,
+		STRENGTH_STAT = 130,
+		WILLPOWER_STAT = 130,
+		OBSERVATION_STAT = 130,
+		REFLEXES_STAT = 130,
 	)
 	var/serum = "K"
 	var/special_attack = FALSE
@@ -45,7 +45,7 @@
 /obj/item/ego_weapon/the_claw/equipped(mob/living/user)
 	. = ..()
 	to_chat(user, span_warning("[src] attaches itself to your body!"))
-	var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+	var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 	justicemod = 1 + userjust/100
 
 /obj/item/ego_weapon/the_claw/dropped()

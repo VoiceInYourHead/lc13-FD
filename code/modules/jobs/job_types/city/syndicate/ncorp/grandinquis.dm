@@ -23,10 +23,10 @@
 	job_notice = "You may kill anyone with prosthetics, or anyone sympathetic to prosthetics."
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 120,
-								PRUDENCE_ATTRIBUTE = 120,
-								TEMPERANCE_ATTRIBUTE = 120,
-								JUSTICE_ATTRIBUTE = 120
+								STRENGTH_STAT = 120,
+								WILLPOWER_STAT = 120,
+								OBSERVATION_STAT = 120,
+								REFLEXES_STAT = 120
 								)
 
 /datum/job/grandinquis/after_spawn(mob/living/carbon/human/H, mob/M)

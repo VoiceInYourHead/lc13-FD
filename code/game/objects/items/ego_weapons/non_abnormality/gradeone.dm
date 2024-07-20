@@ -13,10 +13,10 @@
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 120,
-		PRUDENCE_ATTRIBUTE = 100,
-		TEMPERANCE_ATTRIBUTE = 100,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 120,
+		WILLPOWER_STAT = 100,
+		OBSERVATION_STAT = 100,
+		REFLEXES_STAT = 100,
 	)
 	var/active
 	var/attackchoice

@@ -54,10 +54,10 @@
 		Then, it disappears with a smile."
 
 	var/list/stats = list(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 		)
 
 	var/lucky_counter

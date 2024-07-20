@@ -69,7 +69,7 @@
 	else
 		user.visible_message(span_warning("Staining Rose is content."))
 
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 100)
+	if(get_attribute_level(user, REFLEXES_STAT) < 100)
 		user.apply_status_effect(STATUS_EFFECT_SACRIFICE)
 		if(!(user in sacrificed))
 			sacrificed += user

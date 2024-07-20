@@ -273,8 +273,8 @@
 		return
 	var/mob/living/carbon/human/status_holder = owner
 	cantsee += status_holder
-	cantsee[status_holder] = get_attribute_level(status_holder, TEMPERANCE_ATTRIBUTE)/2
-	status_holder.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -cantsee[status_holder])
+	cantsee[status_holder] = get_attribute_level(status_holder, OBSERVATION_STAT)/2
+	status_holder.adjust_attribute_bonus(OBSERVATION_STAT, -cantsee[status_holder])
 	to_chat(status_holder, span_userdanger("The light of the bird burns your eyes!"))
 	RegisterSignal(status_holder, COMSIG_WORK_COMPLETED, PROC_REF(BlindedWork))
 
@@ -283,7 +283,7 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, cantsee[status_holder])
+	status_holder.adjust_attribute_bonus(OBSERVATION_STAT, cantsee[status_holder])
 	cantsee -= status_holder
 	to_chat(status_holder, span_nicegreen("The blinding light fades..."))
 	UnregisterSignal(status_holder, COMSIG_WORK_COMPLETED, PROC_REF(BlindedWork))

@@ -107,7 +107,7 @@ GLOBAL_LIST_EMPTY(army)
 				return FALSE
 			datum_reference.qliphoth_change(-1)
 			if((get_user_level(user)) < 4)
-				user.SanityLossEffect(TEMPERANCE_ATTRIBUTE)
+				user.SanityLossEffect(OBSERVATION_STAT)
 				return FALSE
 			protected_targets += user
 			user.apply_status_effect(STATUS_EFFECT_PROTECTION)

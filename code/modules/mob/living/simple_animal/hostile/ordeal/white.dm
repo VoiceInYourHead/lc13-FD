@@ -353,7 +353,7 @@
 		return
 	var/damage = I.force
 	if(ishuman(user))
-		damage *= 1 + (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE) / 100)
+		damage *= 1 + (get_modified_attribute_level(user, REFLEXES_STAT) / 100)
 	ReflectDamage(user, I.damtype, damage)
 
 // Black Fixer

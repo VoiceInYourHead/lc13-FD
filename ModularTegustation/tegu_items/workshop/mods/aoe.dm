@@ -12,7 +12,7 @@
 /obj/item/workshop_mod/aoe/ActivateEffect(obj/item/ego_weapon/template/T, special_count = 0, mob/living/target, mob/living/carbon/human/user)
 	for(var/mob/living/L in view(aoemod, get_turf(target)))
 		var/aoe_damage = T.force / 2
-		var/userjust = (get_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		aoe_damage*=justicemod
 		if(L == user)

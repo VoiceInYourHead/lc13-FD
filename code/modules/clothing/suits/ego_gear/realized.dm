@@ -4,10 +4,10 @@
 	icon = 'icons/obj/clothing/ego_gear/realization.dmi'
 	worn_icon = 'icons/mob/clothing/ego_gear/realized.dmi'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 	/// Type of realized ability, if any
 	var/obj/effect/proc_holder/ability/realized_ability = null

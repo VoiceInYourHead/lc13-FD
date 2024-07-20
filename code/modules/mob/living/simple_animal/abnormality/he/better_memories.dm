@@ -59,7 +59,7 @@
 
 // Those with low temperance will find a memory in the pile.
 /mob/living/simple_animal/hostile/abnormality/better_memories/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) <= 60)
+	if(get_attribute_level(user, OBSERVATION_STAT) <= 60)
 		datum_reference.qliphoth_change(-1)
 		user.apply_status_effect(MEMORY_DEBUFF)
 	return
@@ -537,8 +537,8 @@
 /datum/status_effect/display/better_memories_curse/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -30)
-	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -30)
+	L.adjust_attribute_buff(WILLPOWER_STAT, -30)
+	L.adjust_attribute_buff(OBSERVATION_STAT, -30)
 	L.physiology.work_success_mod -= 0.25
 	to_chat(owner, span_warning("You're distracted by memories of your past."))
 
@@ -561,8 +561,8 @@
 
 /datum/status_effect/display/better_memories_curse/on_remove()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 30)
-	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 30)
+	L.adjust_attribute_buff(WILLPOWER_STAT, 30)
+	L.adjust_attribute_buff(OBSERVATION_STAT, 30)
 	L.physiology.work_success_mod += 0.25
 	return ..()
 

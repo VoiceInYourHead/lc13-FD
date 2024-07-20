@@ -40,7 +40,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/spider/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	// If you do insight or have low prudence, fuck you and die for stepping on a spider
-	if((get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 40 || work_type == ABNORMALITY_WORK_INSIGHT) && !(GODMODE in user.status_flags))
+	if((get_attribute_level(user, WILLPOWER_STAT) < 40 || work_type == ABNORMALITY_WORK_INSIGHT) && !(GODMODE in user.status_flags))
 		icon_state = "spider_open"
 		var/obj/structure/spider/cocoon/casing = SpawnConnectedStructure(/obj/structure/spider/cocoon, pick(-1,0,1), pick(-1,0,1))
 		user.death()

@@ -127,7 +127,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/fairy_longlegs/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 40)
+	if(get_attribute_level(user, STRENGTH_STAT) < 40)
 		datum_reference.qliphoth_change(-2)
 	if (ignored) //refused his offer to take cover
 		say("Tch, this damn rain robs me of my food all the time.")

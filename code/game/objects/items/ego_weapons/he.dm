@@ -10,7 +10,7 @@
 	attack_verb_simple = list("slice", "saw", "rip")
 	hitsound = 'sound/abnormalities/helper/attack.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/grinder/attack(mob/living/target, mob/living/user)
@@ -19,7 +19,7 @@
 	if(!.)
 		return FALSE
 	//damage calculations
-	var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+	var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 	var/justicemod = 1 + userjust / 100
 	var/damage_dealt = force * justicemod * force_multiplier
 	var/list/been_hit = QDELETED(target) ? list() : list(target)
@@ -39,7 +39,7 @@
 	attack_verb_simple = list("attack", "bash", "till")
 	hitsound = 'sound/weapons/ego/harvest.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 	var/can_spin = TRUE
 	var/spinning = FALSE
@@ -69,7 +69,7 @@
 
 		for(var/mob/living/L in range(1, user))
 			var/aoe = 30
-			var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+			var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 			var/justicemod = 1 + userjust/100
 			aoe*=force_multiplier
 			aoe*=justicemod
@@ -90,7 +90,7 @@
 	attack_verb_simple = list("slice", "slash", "stab")
 	hitsound = 'sound/weapons/ego/axe2.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 	var/rage = FALSE
 
@@ -123,7 +123,7 @@
 	attack_verb_simple = list("punches", "jabs", "slaps")
 	hitsound = 'sound/weapons/punch1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 //ATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATAT
@@ -151,7 +151,7 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You rearm your blade."
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/naked_parry
 	var/realized_parry
@@ -233,7 +233,7 @@
 	attack_verb_simple = list("bashes", "clubs")
 	hitsound = 'sound/weapons/fixer/generic/club1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 /obj/item/ego_weapon/logging
 	name = "logging"
@@ -246,7 +246,7 @@
 	attack_verb_simple = list("chop")
 	hitsound = 'sound/abnormalities/woodsman/woodsman_attack.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/ramping = 1.5
 	var/smashing = FALSE
@@ -348,7 +348,7 @@
 		var/list/been_hit = list()
 		for(var/turf/T in area_of_effect)
 			new /obj/effect/temp_visual/smash_effect(T)
-			var/smash_damage = (i > 2 ? 40 : 10)*(1+(get_modified_attribute_level(user, JUSTICE_ATTRIBUTE)/100))
+			var/smash_damage = (i > 2 ? 40 : 10)*(1+(get_modified_attribute_level(user, REFLEXES_STAT)/100))
 			smash_damage*=force_multiplier
 			been_hit = user.HurtInTurf(T, been_hit, smash_damage, RED_DAMAGE)
 		if (i > 2)
@@ -370,7 +370,7 @@
 	attack_verb_simple = list("slash")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/courage/attack(mob/living/M, mob/living/user)
@@ -410,7 +410,7 @@
 	block_cooldown = 5 SECONDS //always 6 seconds total before blocking again
 	block_sound = 'sound/abnormalities/scaredycat/cateleport.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/shield/bravery/attack_self(mob/user)
@@ -448,7 +448,7 @@
 	attack_verb_simple = list("slash")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 	var/happy = FALSE
 
@@ -459,7 +459,7 @@
 	var/original_force = force
 	if(M == user && !happy && istype(user))
 		var/mob/living/carbon/human/H = user
-		var/justice_mod = 1 + (get_modified_attribute_level(H, JUSTICE_ATTRIBUTE)/100)
+		var/justice_mod = 1 + (get_modified_attribute_level(H, REFLEXES_STAT)/100)
 		H.adjustSanityLoss(force * justice_mod) //we artificially inflict the justice + force damage so it bypass armor. the sanity damage should always feel like a gamble even with armor.
 		missing_sanity = (1 - (H.sanityhealth / H.maxSanity)) * 40 //the weapon gets 40% of your missing % of sanity as force so 90% missing sanity means +36 force.
 		force = 0
@@ -490,7 +490,7 @@
 	attack_verb_simple = list("slice", "cleave", "chop")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/mini/alleyway
@@ -504,7 +504,7 @@
 	attack_verb_simple = list("slice", "cleave", "chop")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 /obj/item/ego_weapon/shield/giant
@@ -523,7 +523,7 @@
 	block_cooldown = 3 SECONDS
 	block_sound_volume = 30
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 //gains 0.25 force for every step you take, up to 100 damage. However it deals 0 damage by default, making it more useful as a sidearm rather than a main weapon.
@@ -539,7 +539,7 @@
 	attack_verb_simple = list("pierce", "stab")
 	hitsound = 'sound/weapons/fixer/generic/spear2.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/mob/current_holder
 
@@ -591,7 +591,7 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You rearm your E.G.O."
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/revelation
@@ -606,7 +606,7 @@
 	attack_verb_simple = list("slash", "slice", "rip", "cut")
 	hitsound = 'sound/weapons/ego/da_capo2.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 
 /obj/item/ego_weapon/revelation/attack(mob/living/target, mob/living/carbon/human/user)
@@ -629,7 +629,7 @@
 	attack_verb_simple = list("stab", "attack", "slash")
 	hitsound = 'sound/weapons/ego/rapier1.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/combo = 0
 	var/combo_time
@@ -690,7 +690,7 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You reposition your E.G.O."
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 /obj/item/ego_weapon/shield/legerdemain/attack_self(mob/user)//FIXME: Find a better way to use this override!
@@ -739,7 +739,7 @@
 		)
 	var/windup = 0
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/get_strong/Initialize()
@@ -809,7 +809,7 @@
 	attack_verb_continuous = list("bashes", "clubs")
 	attack_verb_simple = list("bashes", "clubs")
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/sacrifice = FALSE
 
@@ -830,7 +830,7 @@
 			sacrifice = FALSE
 		for(var/mob/living/L in livinginrange(1, target))
 			var/aoe = 50
-			var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+			var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 			var/justicemod = 1 + userjust/100
 			aoe*=justicemod
 			aoe*=force_multiplier
@@ -854,7 +854,7 @@
 	attack_verb_simple = list("slam", "attack")
 	hitsound = 'sound/abnormalities/ichthys/hammer1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 	var/dash_cooldown
@@ -913,7 +913,7 @@
 		if(L.z != user.z) // Not on our level
 			continue
 		var/aoe = 25
-		var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		aoe*=justicemod
 		aoe*=force_multiplier
@@ -939,7 +939,7 @@
 	attack_verb_simple = list("hack", "slash", "attack")
 	hitsound = 'sound/abnormalities/redshoes/RedShoes_Attack.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/sanguine/attack(mob/living/target, mob/living/carbon/human/user)
@@ -959,7 +959,7 @@
 	attack_verb_simple = list("grab", "pinch", "snip", "attack")
 	hitsound = 'sound/abnormalities/kqe/hitsound2.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 	charge = TRUE
@@ -1027,7 +1027,7 @@
 	attack_verb_simple = list("stab", "slash", "attack")
 	hitsound = 'sound/abnormalities/wayward_passenger/attack2.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 
 	charge = TRUE
@@ -1127,7 +1127,7 @@
 	attack_verb_simple = list("slice", "cleave", "chop")
 	hitsound = 'sound/abnormalities/pinocchio/attack.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/divinity
@@ -1142,7 +1142,7 @@
 	attack_verb_simple = list("stab", "slash", "attack")
 	hitsound = 'sound/weapons/fixer/generic/blade2.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/punishment_damage = 0
 	var/punishment_size = 0
@@ -1153,7 +1153,7 @@
 	var/datum/status_effect/stacking/slab/S = user.has_status_effect(/datum/status_effect/stacking/slab)
 	if(!S)
 		return
-	var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+	var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 	var/justicemod = 1 + userjust/100
 	punishment_damage = (force * justicemod)
 	punishment_size = max(2, (S.stacks / 3))//this is the same size as the AOE from theonite slab. Good luck lol
@@ -1204,7 +1204,7 @@
 	attack_verb_simple = list("stab", "slash", "attack")
 	hitsound = 'sound/abnormalities/fateloom/garrote_bloody.ogg'//it's a bit loud
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 	var/stored_target = FALSE
 	var/target_hits
@@ -1237,7 +1237,7 @@
 	attack_verb_simple = list("slice", "saw", "rip")
 	hitsound = 'sound/abnormalities/singingmachine/crunch.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/rhythm/attack_self(mob/living/carbon/human/user)
@@ -1269,7 +1269,7 @@
 	block_sound = 'sound/misc/moist_impact.ogg'
 	block_sound_volume = 200
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/roseate
@@ -1284,12 +1284,12 @@
 	attack_verb_simple = list("whip", "slap", "flick")
 	hitsound = 'sound/weapons/whip.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 
 /obj/item/ego_weapon/roseate/attack(mob/living/M, mob/living/user)//negative temperance multiplier
 	force = 35
-	var/usertemp = (get_attribute_level(user, TEMPERANCE_ATTRIBUTE))
+	var/usertemp = (get_attribute_level(user, OBSERVATION_STAT))
 	var/temperancemod = 1 + usertemp/200
 	force /= temperancemod
 	..()
@@ -1309,7 +1309,7 @@
 	attack_verb_simple = list("poke", "jab", "tear", "lacerate", "gore")
 	hitsound = 'sound/weapons/ego/spear1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/aedd//it's just a HE W.corp baton that deals red
@@ -1326,7 +1326,7 @@
 	attack_verb_continuous = list("bashes", "crushes")
 	attack_verb_simple = list("bash", "crush")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 	var/charged
 
@@ -1347,7 +1347,7 @@
 		charged = FALSE
 
 /obj/item/ego_weapon/aedd/proc/power_attack(mob/living/target, mob/living/user)
-	var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+	var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 	var/justicemod = 1 + userjust/100
 	target.apply_damage((force * justicemod), BLACK_DAMAGE, null, target.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
 	playsound(src, 'sound/abnormalities/thunderbird/tbird_charge.ogg', 50, TRUE)
@@ -1371,7 +1371,7 @@
 	attack_verb_simple = list("stab", "impale")
 	hitsound = 'sound/weapons/ego/spear1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/lance/split/LowerLance(mob/user)
@@ -1402,7 +1402,7 @@
 	attack_verb_simple = list("burn", "boil")
 	hitsound = 'sound/weapons/fixer/generic/fire1.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	charge_speed_cap = 3 //Charges slower, weaker overall while charging, dealing less damage at a full charge. But it has an AOE!
 	force_per_tile = 2
@@ -1444,7 +1444,7 @@
 	attack_verb_simple = list("burn", "boil")
 	hitsound = 'sound/weapons/fixer/generic/fire2.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/stored_projectiles = 0
 	var/projectile_max = 3
@@ -1495,7 +1495,7 @@
 		G.color = "#622F22"
 		G.fire()
 		G.damage*=force_multiplier
-		var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		G.damage*=justicemod
 		firing_cooldown = firing_cooldown_time + world.time
@@ -1528,7 +1528,7 @@
 	attack_verb_simple = list("poke", "slash")
 	hitsound = 'sound/weapons/fixer/generic/sword1.ogg'
 	attribute_requirements = list(
-		PRUDENCE_ATTRIBUTE = 40,
+		WILLPOWER_STAT = 40,
 	)
 	var/firing_cooldown = 0
 	var/hit_cooldown_time = 10 SECONDS
@@ -1636,7 +1636,7 @@
 	attack_verb_simple = list("stab", "impale")
 	hitsound = 'sound/weapons/ego/spear1.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	reach = 2
 	stuntime = 5	//Longer reach, gives you a short stun.
@@ -1708,7 +1708,7 @@
 	attack_verb_simple = list("whip", "lash", "tear")
 	hitsound = 'sound/weapons/whip.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/mini/voodoo
@@ -1723,7 +1723,7 @@
 	attack_verb_simple = list("stab", "slash", "attack")
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/mini/voodoo/attack(mob/living/target, mob/living/user)
@@ -1759,7 +1759,7 @@
 	attack_verb_simple = list("bashes", "clubs")
 	hitsound = 'sound/weapons/fixer/generic/baton2.ogg'
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 	var/charged = FALSE
 
@@ -1807,7 +1807,7 @@
 	attack_verb_simple = list("slice", "cleave", "chop")
 	hitsound = 'sound/weapons/ego/spear1.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/poise = 0
 	var/combo = 0
@@ -1870,7 +1870,7 @@
 	attack_verb_continuous = list("bonks", "bashes")
 	attack_verb_simple = list("bonk", "bash")
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 
 /obj/item/ego_weapon/uturn
@@ -1887,7 +1887,7 @@
 	attack_verb_simple = list("slash", "slice", "rip", "cut")
 	hitsound = 'sound/weapons/ego/da_capo2.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/ego_weapon/uturn/attack(mob/living/target, mob/living/user)
@@ -1907,7 +1907,7 @@
 			new /obj/effect/temp_visual/smash_effect(T2)
 			for(var/mob/living/L in T2)
 				var/aoe = 10
-				var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+				var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 				var/justicemod = 1 + userjust/100
 				aoe*=justicemod
 				aoe*=force_multiplier
@@ -1936,7 +1936,7 @@
 	attack_verb_simple = list("bashes", "clubs")
 	hitsound = 'sound/weapons/fixer/generic/club1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 	var/amount_filled
 	var/amount_max = 30
@@ -1994,5 +1994,5 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You rearm your E.G.O."
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)

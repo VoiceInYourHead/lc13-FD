@@ -19,10 +19,10 @@
 	minimal_access = list(ACCESS_ARMORY, ACCESS_RND, ACCESS_COMMAND, ACCESS_MEDICAL, ACCESS_MANAGER)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 100,
-								PRUDENCE_ATTRIBUTE = 100,
-								TEMPERANCE_ATTRIBUTE = 0,
-								JUSTICE_ATTRIBUTE = 100
+								STRENGTH_STAT = 100,
+								WILLPOWER_STAT = 100,
+								OBSERVATION_STAT = 0,
+								REFLEXES_STAT = 100
 								)
 	alt_titles = list("Commander")
 	rank_title = "CDR"
@@ -72,10 +72,10 @@
 	display_order = 1.1
 	exp_requirements = 1200
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 	access = list(ACCESS_ARMORY, ACCESS_RND, ACCESS_COMMAND, ACCESS_MEDICAL)
 	minimal_access = list(ACCESS_ARMORY, ACCESS_RND, ACCESS_COMMAND, ACCESS_MEDICAL)

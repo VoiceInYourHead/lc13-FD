@@ -11,12 +11,12 @@
 	attack_verb_continuous = list("cuts", "smacks", "bashes")
 	attack_verb_simple = list("cuts", "smacks", "bashes")
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 20, //It's 20 to keep clerks from using it
+		STRENGTH_STAT = 20, //It's 20 to keep clerks from using it
 	)
 
 /obj/item/ego_weapon/eyeball/attack(mob/living/target, mob/living/carbon/human/user)
-	var/userfort = (get_attribute_level(user, FORTITUDE_ATTRIBUTE))
-	var/fortitude_mod = clamp((userfort - 40) / 2 + 2, 0, 50) // 2 at 40 fortitude, 12 at 60 fortitude, 22 at 80 fortitude, 32 at 100 fortitude
+	var/userfort = (get_attribute_level(user, STRENGTH_STAT))
+	var/strength_mod = clamp((userfort - 40) / 2 + 2, 0, 50) // 2 at 40 fortitude, 12 at 60 fortitude, 22 at 80 fortitude, 32 at 100 fortitude
 	var/extra_mod = clamp((userfort - 80) * 1.3 + 2, 0, 28) // 2 at 80 fortitude, 28 at 100 fortitude
 	var/list/search_area = user.contents.Copy()
 	for(var/obj/item/storage/spare_space in search_area)
@@ -29,7 +29,7 @@
 			continue
 		extra_mod = 0
 		break
-	force = 20 + fortitude_mod + extra_mod
+	force = 20 + strength_mod + extra_mod
 	if(extra_mod > 0)
 		var/resistance = target.run_armor_check(null, damtype)
 		icon_state = "eyeball2"				// Cool sprite
@@ -65,10 +65,10 @@
 
 	attack_verb_continuous = list("slams", "bashes", "strikes")
 	attack_verb_simple = list("slams", "bashes", "strikes")
-	attribute_requirements = list(TEMPERANCE_ATTRIBUTE = 20) //pesky clerks!
+	attribute_requirements = list(OBSERVATION_STAT = 20) //pesky clerks!
 
 /obj/item/ego_weapon/mail_satchel/attack(atom/A, mob/living/user, proximity_flag, params)
-	var/usertemp = (get_attribute_level(user, TEMPERANCE_ATTRIBUTE))
+	var/usertemp = (get_attribute_level(user, OBSERVATION_STAT))
 	var/temperance_mod = clamp((usertemp - 20) / 3 + 2, 0, 20)
 	force = 12 + temperance_mod
 	..()
@@ -132,10 +132,10 @@
 	attack_verb_simple = list("clamp")
 	hitsound = 'sound/abnormalities/helper/attack.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 	var/ramping_speed = 0 //maximum of 20
 	var/ramping_damage = 0 //no maximum, will stack as long as people are attacking with it.
@@ -297,10 +297,10 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You rearm your blade."
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 100
 							)
 	var/combo = 0
 	var/combo_time
@@ -333,10 +333,10 @@
 	force = 80
 	attack_speed = 1.2
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 	aoe_damage = 30
 	aoe_range = 3

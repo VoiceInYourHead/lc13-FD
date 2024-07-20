@@ -71,10 +71,10 @@
 	ammo_type = /obj/item/ammo_casing/caseless/ego_hatred
 	fire_sound = 'sound/abnormalities/hatredqueen/attack.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 	var/can_blast = TRUE
 	var/blasting = FALSE
@@ -115,7 +115,7 @@
 	addtimer(CALLBACK(S, TYPE_PROC_REF(/obj/effect/qoh_sygil, fade_out)), 3 SECONDS)
 	if(do_after(user, 15, src))
 		var/aoe = blast_damage
-		var/userjust = (get_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		var/firsthit = TRUE //One target takes full damage
 		var/turf/stepturf = (get_step(get_step(user, user.dir), user.dir))

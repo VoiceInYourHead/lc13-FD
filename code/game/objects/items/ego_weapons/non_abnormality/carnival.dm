@@ -11,10 +11,10 @@
 	attack_verb_continuous = list("whacks", "slashes")
 	attack_verb_simple = list("whack", "slash")
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 60,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 60,
 	)
 
 	var/list/empowered_targets = list(

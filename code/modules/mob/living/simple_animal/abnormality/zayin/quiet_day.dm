@@ -272,7 +272,7 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 5 MINUTES
 	alert_type = /atom/movable/screen/alert/status_effect/quiet
-	var/attribute_buff = FORTITUDE_ATTRIBUTE
+	var/attribute_buff = STRENGTH_STAT
 
 /datum/status_effect/quiet/on_apply()
 	. = ..()
@@ -294,15 +294,15 @@
 
 //Parable
 /datum/status_effect/quiet/parable
-	attribute_buff = PRUDENCE_ATTRIBUTE
+	attribute_buff = WILLPOWER_STAT
 
 //Wife Story
 /datum/status_effect/quiet/wife
-	attribute_buff = TEMPERANCE_ATTRIBUTE
+	attribute_buff = OBSERVATION_STAT
 
 //Dementia
 /datum/status_effect/quiet/dementia
-	attribute_buff = JUSTICE_ATTRIBUTE
+	attribute_buff = REFLEXES_STAT
 
 
 #undef STATUS_EFFECT_WAR_STORY

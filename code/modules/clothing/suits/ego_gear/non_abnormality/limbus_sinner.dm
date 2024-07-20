@@ -25,6 +25,6 @@
 	flags_inv = NONE
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 40, BLACK_DAMAGE = 40, PALE_DAMAGE = 40)
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60
+							REFLEXES_STAT = 60,
+							OBSERVATION_STAT = 60
 							)

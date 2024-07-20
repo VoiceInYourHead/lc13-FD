@@ -6,10 +6,10 @@
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_POCKETS
 	w_class = WEIGHT_CLASS_SMALL
 	var/list/stats = list(
-		FORTITUDE_ATTRIBUTE,
-		PRUDENCE_ATTRIBUTE,
-		TEMPERANCE_ATTRIBUTE,
-		JUSTICE_ATTRIBUTE,
+		STRENGTH_STAT,
+		WILLPOWER_STAT,
+		OBSERVATION_STAT,
+		REFLEXES_STAT,
 	)
 
 /obj/item/potential_tester/afterattack(atom/target, mob/user, proximity_flag)
@@ -68,7 +68,7 @@
 
 
 	//max stats can't gain stats
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE)>=130)
+	if(get_attribute_level(user, OBSERVATION_STAT)>=130)
 		to_chat(user, span_danger("You feel like you won't gain anything."))
 		return
 
@@ -78,17 +78,17 @@
 	to_chat(user, "<span class='nicegreen'>You gain 1 potential!</span>")
 
 	//Adjust by an extra attribute under level 2
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE)<=40)
+	if(get_attribute_level(user, OBSERVATION_STAT)<=40)
 		user.adjust_all_attribute_levels(amount)
 		to_chat(user, "<span class='nicegreen'>You gain 1 potential!</span>")
 
 	//And one more under level 3
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE)<=60)
+	if(get_attribute_level(user, OBSERVATION_STAT)<=60)
 		user.adjust_all_attribute_levels(amount)
 		to_chat(user, "<span class='nicegreen'>You gain 1 potential!</span>")
 
 	//And one last one before L4
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE)<=80)
+	if(get_attribute_level(user, OBSERVATION_STAT)<=80)
 		user.adjust_all_attribute_levels(amount)
 		to_chat(user, "<span class='nicegreen'>You gain 1 potential!</span>")
 

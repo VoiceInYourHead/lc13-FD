@@ -7,8 +7,8 @@
 	slowdown = -0.1
 	flags_inv = null
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 55,
-							PRUDENCE_ATTRIBUTE = 55,
-							TEMPERANCE_ATTRIBUTE = 55,
-							JUSTICE_ATTRIBUTE = 55
+							STRENGTH_STAT = 55,
+							WILLPOWER_STAT = 55,
+							OBSERVATION_STAT = 55,
+							REFLEXES_STAT = 55
 							)

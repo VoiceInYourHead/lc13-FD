@@ -518,7 +518,7 @@
 	return power
 
 /proc/IsBetterWeapon(mob/living/carbon/human/H, obj/item/I, current_highest_force, considerRangedAttack = TRUE, applyJustice = FALSE)
-	var/justice = applyJustice ? get_modified_attribute_level(H, JUSTICE_ATTRIBUTE) : 0
+	var/justice = applyJustice ? get_modified_attribute_level(H, REFLEXES_STAT) : 0
 	return GetEffectiveItemForce(I, considerRangedAttack, justice) > current_highest_force
 
 /datum/ai_controller/insane/murder/proc/FindEnemies()
@@ -641,7 +641,7 @@
 
 /datum/ai_controller/insane/suicide/PerformIdleBehavior(delta_time)
 	var/mob/living/carbon/human/human_pawn = pawn
-	var/suicide_target = 6 + round(get_attribute_level(human_pawn, PRUDENCE_ATTRIBUTE) / 8)
+	var/suicide_target = 6 + round(get_attribute_level(human_pawn, WILLPOWER_STAT) / 8)
 	if(DT_PROB(10, delta_time))
 		current_behaviors += GET_AI_BEHAVIOR(lines_type)
 		human_pawn.jitteriness += 10

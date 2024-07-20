@@ -80,7 +80,7 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 3000		//Lasts 5 minutes
 	alert_type = /atom/movable/screen/alert/status_effect/ncorp
-	var/attribute_buff = FORTITUDE_ATTRIBUTE
+	var/attribute_buff = STRENGTH_STAT
 
 /datum/status_effect/ncorp/on_apply()
 	. = ..()
@@ -97,13 +97,13 @@
 /datum/status_effect/ncorp/fortitude
 
 /datum/status_effect/ncorp/prudence
-	attribute_buff = PRUDENCE_ATTRIBUTE
+	attribute_buff = WILLPOWER_STAT
 
 /datum/status_effect/ncorp/temperance
-	attribute_buff = TEMPERANCE_ATTRIBUTE
+	attribute_buff = OBSERVATION_STAT
 
 /datum/status_effect/ncorp/justice
-	attribute_buff = JUSTICE_ATTRIBUTE
+	attribute_buff = REFLEXES_STAT
 
 /obj/item/attribute_temporary/justicesmall
 	name = "ncorp small fading justice accelerator"
@@ -170,18 +170,18 @@
 /datum/status_effect/nstats/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 15)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 15)
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 15)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 15)
+	H.adjust_attribute_buff(REFLEXES_STAT, 15)
+	H.adjust_attribute_buff(OBSERVATION_STAT, 15)
+	H.adjust_attribute_buff(STRENGTH_STAT, 15)
+	H.adjust_attribute_buff(WILLPOWER_STAT, 15)
 
 /datum/status_effect/nstats/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -15)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -15)
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -15)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -15)
+	H.adjust_attribute_buff(REFLEXES_STAT, -15)
+	H.adjust_attribute_buff(OBSERVATION_STAT, -15)
+	H.adjust_attribute_buff(STRENGTH_STAT, -15)
+	H.adjust_attribute_buff(WILLPOWER_STAT, -15)
 
 //Focused Ncorp ampules
 #define STATUS_EFFECT_FORTITUDE_FOCUS /datum/status_effect/nfocus/fortitude
@@ -194,7 +194,7 @@
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 3000		//Lasts 5 minutes
 	alert_type = /atom/movable/screen/alert/status_effect/ncorp
-	var/attribute_buff = FORTITUDE_ATTRIBUTE
+	var/attribute_buff = STRENGTH_STAT
 
 /datum/status_effect/ncorp/on_apply()
 	. = ..()
@@ -211,13 +211,13 @@
 /datum/status_effect/nfocus/fortitude
 
 /datum/status_effect/nfocus/prudence
-	attribute_buff = PRUDENCE_ATTRIBUTE
+	attribute_buff = WILLPOWER_STAT
 
 /datum/status_effect/nfocus/temperance
-	attribute_buff = TEMPERANCE_ATTRIBUTE
+	attribute_buff = OBSERVATION_STAT
 
 /datum/status_effect/nfocus/justice
-	attribute_buff = JUSTICE_ATTRIBUTE
+	attribute_buff = REFLEXES_STAT
 
 /obj/item/attribute_temporary/justicebig
 	name = "ncorp large fading justice accelerator"

@@ -6,7 +6,7 @@
 	var/list/users = list()
 
 	max_boost = 50
-	given_attribute = JUSTICE_ATTRIBUTE
+	given_attribute = REFLEXES_STAT
 	given_status_effect = STATUS_EFFECT_SLAB
 	feedback_message = "You caress the slab, and blood painlessly flows from your fingers. The runes begin to glow."
 	full_boost_message = "That's enough."

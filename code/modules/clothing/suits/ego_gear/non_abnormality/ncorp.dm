@@ -5,10 +5,10 @@
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 20, BLACK_DAMAGE = 20, PALE_DAMAGE = 50)
 	hat = /obj/item/clothing/head/ego_hat/helmet/ncorp
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/ncorp/vet
@@ -19,10 +19,10 @@
 	hat = /obj/item/clothing/head/ego_hat/helmet/ncorp/vet
 	neck = /obj/item/clothing/neck/ego_neck/ncorp
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/city/grosshammmer
@@ -34,10 +34,10 @@
 	hat = /obj/item/clothing/head/ego_hat/helmet/ncorp/grosshammer
 	neck = /obj/item/clothing/neck/ego_neck/ncorp/grosshammer
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 100
 							)
 	clothing_flags = BLOCKS_SHOVE_KNOCKDOWN | NOSLIP
 
@@ -48,10 +48,10 @@
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 50, BLACK_DAMAGE = 60, PALE_DAMAGE = 70)
 	neck = /obj/item/clothing/neck/ego_neck/ncorp/commander
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 120
 							)
 
 /obj/item/clothing/head/ego_hat/helmet/ncorp

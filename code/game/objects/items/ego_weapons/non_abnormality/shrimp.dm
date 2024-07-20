@@ -10,10 +10,10 @@
 	weapon_weight = WEAPON_HEAVY
 	drag_slowdown = 3
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40,
-							PRUDENCE_ATTRIBUTE = 40,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40,
+							WILLPOWER_STAT = 40,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 	slowdown = 2
 	spread = 40
@@ -49,8 +49,8 @@
 	autofire = 0.01 SECONDS
 	projectile_damage_multiplier = 1.26
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 120,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 120,
+							WILLPOWER_STAT = 120,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 120
 							)

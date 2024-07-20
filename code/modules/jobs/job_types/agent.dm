@@ -24,7 +24,7 @@
 	job_abbreviation = "AGT"
 
 	/// Values set in after_spawn() depending on var/normal_attribute_level and abnormality number per total abnormality cells
-	roundstart_attributes = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	roundstart_attributes = list(STRENGTH_STAT, WILLPOWER_STAT, OBSERVATION_STAT, REFLEXES_STAT)
 	var/normal_attribute_level = 20 // Scales with round time & facility upgrades
 
 /datum/job/agent/after_spawn(mob/living/carbon/human/outfit_owner, mob/M, latejoin = FALSE)

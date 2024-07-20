@@ -21,10 +21,10 @@
 	minimal_access = list(ACCESS_FORENSICS_LOCKERS)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 80
 								)
 
 /datum/job/roadblock_leader/after_spawn(mob/living/carbon/human/H, mob/M)
@@ -72,10 +72,10 @@
 	minimal_access = list(ACCESS_FORENSICS_LOCKERS)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 60
 								)
 
 /datum/job/roadblock_fixer/after_spawn(mob/living/carbon/human/H, mob/M)

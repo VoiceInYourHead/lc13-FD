@@ -16,10 +16,10 @@
 	minimal_access = list()
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 60
 								)
 	rank_title = "SPC"
 	job_important = "You take the role of a stealth recon unit."
@@ -50,10 +50,10 @@
 	minimal_access = list(ACCESS_COMMAND)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 80,
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 80,
 								)
 	rank_title = "LT"
 	job_important = "You are the squad leader of the stealth recon division."

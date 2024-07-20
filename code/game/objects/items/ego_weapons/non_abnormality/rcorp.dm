@@ -11,10 +11,10 @@
 	attack_verb_continuous = list("stabs", "slices")
 	attack_verb_simple = list("stab", "slice")
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 55,
-		PRUDENCE_ATTRIBUTE = 55,
-		TEMPERANCE_ATTRIBUTE = 55,
-		JUSTICE_ATTRIBUTE = 55,
+		STRENGTH_STAT = 55,
+		WILLPOWER_STAT = 55,
+		OBSERVATION_STAT = 55,
+		REFLEXES_STAT = 55,
 	)
 
 /obj/item/ego_weapon/city/rabbit_blade/attack_self(mob/living/user)
@@ -43,10 +43,10 @@
 	righthand_file = 'icons/mob/inhands/weapons/swords_righthand.dmi'
 	force = 50
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 0,
-							JUSTICE_ATTRIBUTE = 100
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 0,
+							REFLEXES_STAT = 100
 							)
 
 /obj/item/ego_weapon/city/rabbit_blade/command/attack_self(mob/living/user)
@@ -75,10 +75,10 @@
 	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 	var/ranged_cooldown
 	var/ranged_cooldown_time = 1.3 SECONDS
@@ -105,10 +105,10 @@
 	icon_state = "rcorp_captainstaff"
 	force = 60
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 
@@ -116,10 +116,10 @@
 /obj/item/ego_weapon/city/rabbit_blade/raven
 	name = "R-corp raven dagger"
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40,
-							PRUDENCE_ATTRIBUTE = 40,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40,
+							WILLPOWER_STAT = 40,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 
 
@@ -221,10 +221,10 @@
 	attack_verb_continuous = list("stabs", "slices")
 	attack_verb_simple = list("stab", "slice")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 55,
-							PRUDENCE_ATTRIBUTE = 55,
-							TEMPERANCE_ATTRIBUTE = 55,
-							JUSTICE_ATTRIBUTE = 55
+							STRENGTH_STAT = 55,
+							WILLPOWER_STAT = 55,
+							OBSERVATION_STAT = 55,
+							REFLEXES_STAT = 55
 							)
 	var/teleporting
 

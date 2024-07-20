@@ -16,10 +16,10 @@
 	minimal_access = list()
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 50,
-								PRUDENCE_ATTRIBUTE = 50,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 130
+								STRENGTH_STAT = 50,
+								WILLPOWER_STAT = 50,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 130
 								)
 	rank_title = "SGT"
 	job_important = "You take the role of skirmishers."
@@ -50,10 +50,10 @@
 	minimal_access = list(ACCESS_COMMAND)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 70,
-								PRUDENCE_ATTRIBUTE = 70,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 130
+								STRENGTH_STAT = 70,
+								WILLPOWER_STAT = 70,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 130
 								)
 	rank_title = "LT"
 	job_important = "You are the squad leader of the skirmishing division."

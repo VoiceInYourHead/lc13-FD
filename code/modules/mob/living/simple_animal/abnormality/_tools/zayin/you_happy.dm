@@ -109,10 +109,10 @@
 /datum/status_effect/display/YMBH/proc/apply_buffs()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, bonus)
-		H.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, bonus)
-		H.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, bonus)
-		H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, bonus)
+		H.adjust_attribute_bonus(STRENGTH_STAT, bonus)
+		H.adjust_attribute_bonus(WILLPOWER_STAT, bonus)
+		H.adjust_attribute_bonus(OBSERVATION_STAT, bonus)
+		H.adjust_attribute_bonus(REFLEXES_STAT, bonus)
 		owner.cut_overlay(icon_overlay)
 		UpdateStatusDisplay()
 
@@ -120,9 +120,9 @@
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, -bonus)
-		H.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, -bonus)
-		H.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -bonus)
-		H.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -bonus)
+		H.adjust_attribute_bonus(STRENGTH_STAT, -bonus)
+		H.adjust_attribute_bonus(WILLPOWER_STAT, -bonus)
+		H.adjust_attribute_bonus(OBSERVATION_STAT, -bonus)
+		H.adjust_attribute_bonus(REFLEXES_STAT, -bonus)
 
 #undef STATUS_EFFECT_YMBH

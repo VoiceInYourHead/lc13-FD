@@ -76,18 +76,18 @@ GLOBAL_LIST_EMPTY(meat_list)
 /mob/living/simple_animal/hostile/abnormality/last_shot/WorkChance(mob/living/carbon/human/user, chance)
 	//Sorry bucko, give into the pleasures of flesh. Bonuses for low temp
 	var/newchance = chance
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) <= 80)
+	if(get_attribute_level(user, OBSERVATION_STAT) <= 80)
 		newchance += 20
-	else if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) >= 100)
+	else if(get_attribute_level(user, OBSERVATION_STAT) >= 100)
 		newchance -= 20
 
 	work_damage_amount = initial(work_damage_amount)
 
 	//Fort or justice too low? take more damage.
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) <= 100)
+	if(get_attribute_level(user, REFLEXES_STAT) <= 100)
 		work_damage_amount*=2
 
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) <= 100)
+	if(get_attribute_level(user, STRENGTH_STAT) <= 100)
 		work_damage_amount*=2
 
 	return newchance

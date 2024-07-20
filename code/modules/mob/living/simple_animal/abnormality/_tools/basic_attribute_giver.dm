@@ -7,7 +7,7 @@
 	/// The maximum boost that users can get from using this tool
 	var/max_boost = 100
 	/// The attribute thats given to the user
-	var/given_attribute = FORTITUDE_ATTRIBUTE
+	var/given_attribute = STRENGTH_STAT
 	/// The status effect given to the user upon first consumption
 	var/given_status_effect = null
 	/// The feedback message you get from using the tool

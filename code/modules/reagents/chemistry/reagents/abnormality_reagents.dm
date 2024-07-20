@@ -29,10 +29,10 @@
 		return
 	var/mob/living/carbon/human/H = L
 	if((stat_changes[1] || stat_changes[2] || stat_changes[3] || stat_changes[4]) != 0)
-		H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, stat_changes[1])
-		H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, stat_changes[2])
-		H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, stat_changes[3])
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, stat_changes[4])
+		H.adjust_attribute_buff(STRENGTH_STAT, stat_changes[1])
+		H.adjust_attribute_buff(WILLPOWER_STAT, stat_changes[2])
+		H.adjust_attribute_buff(OBSERVATION_STAT, stat_changes[3])
+		H.adjust_attribute_buff(REFLEXES_STAT, stat_changes[4])
 	if((armor_mods[1] || armor_mods[2] || armor_mods[3] || armor_mods[4]) != 0)
 		H.physiology.armor = H.physiology.armor.modifyRating(red = armor_mods[1], white = armor_mods[2], black = armor_mods[3], pale = armor_mods[4])
 	if((damage_mods[1] || damage_mods[2] || damage_mods[3] || damage_mods[4]) != 1)
@@ -46,10 +46,10 @@
 		return
 	var/mob/living/carbon/human/H = L
 	if((stat_changes[1] || stat_changes[2] || stat_changes[3] || stat_changes[4]) != 0)
-		H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -stat_changes[1])
-		H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -stat_changes[2])
-		H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -stat_changes[3])
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -stat_changes[4])
+		H.adjust_attribute_buff(STRENGTH_STAT, -stat_changes[1])
+		H.adjust_attribute_buff(WILLPOWER_STAT, -stat_changes[2])
+		H.adjust_attribute_buff(OBSERVATION_STAT, -stat_changes[3])
+		H.adjust_attribute_buff(REFLEXES_STAT, -stat_changes[4])
 	if((armor_mods[1] || armor_mods[2] || armor_mods[3] || armor_mods[4]) != 0)
 		H.physiology.armor = H.physiology.armor.modifyRating(red = -armor_mods[1], white = -armor_mods[2], black = -armor_mods[3], pale = -armor_mods[4])
 	if((damage_mods[1] || damage_mods[2] || damage_mods[3] || damage_mods[4]) != 1)

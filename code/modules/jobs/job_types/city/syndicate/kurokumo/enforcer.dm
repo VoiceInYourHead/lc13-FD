@@ -19,10 +19,10 @@
 	job_notice = "Avoid killing other players for no reason. Multilation is on the table. "
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 
 /datum/job/kuroenforcer/after_spawn(mob/living/carbon/human/H, mob/M)

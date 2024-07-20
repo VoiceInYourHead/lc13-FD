@@ -36,7 +36,7 @@
 	icon_state = "swindle"
 	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = 0) // 20
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40)
+							STRENGTH_STAT = 40)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/ringing
 	name = "ringing"
@@ -44,7 +44,7 @@
 	icon_state = "ringing"
 	armor = list(RED_DAMAGE = -30, WHITE_DAMAGE = -20, BLACK_DAMAGE = 60, PALE_DAMAGE = 0) // 10
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/divinity
@@ -53,7 +53,7 @@
 	icon_state = "divinity"
 	armor = list(RED_DAMAGE = -20, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = 70) // 10
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 40
+							REFLEXES_STAT = 40
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/destiny
@@ -62,7 +62,7 @@
 	icon_state = "destiny"
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 30, BLACK_DAMAGE = -20, PALE_DAMAGE = 20) // 70
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/giant_tree_branch
@@ -71,7 +71,7 @@
 	icon_state = "sap"
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = -20, BLACK_DAMAGE = 30, PALE_DAMAGE = 10) // 70
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/isolation
@@ -81,7 +81,7 @@
 	icon_state = "shelter"
 	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 20, BLACK_DAMAGE = 0, PALE_DAMAGE = 20) // 70
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 //WAW
@@ -91,7 +91,7 @@
 	icon_state = "windup"
 	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 50, BLACK_DAMAGE = 10, PALE_DAMAGE = 70) // 140
 	attribute_requirements = list(
-							JUSTICE_ATTRIBUTE = 80
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/tools/hyde
@@ -101,5 +101,5 @@
 	icon_state = "hyde"
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 30, BLACK_DAMAGE = 40, PALE_DAMAGE = 30) // 140
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 80
+							WILLPOWER_STAT = 80
 							)

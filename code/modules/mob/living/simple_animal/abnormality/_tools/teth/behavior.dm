@@ -32,18 +32,18 @@
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		stat_bonus = (0.15 * get_attribute_level(owner, JUSTICE_ATTRIBUTE)) //15 + 15% of the user's justice is added as a bonus
-		stat_penalty = (0.1 * get_attribute_level(owner, PRUDENCE_ATTRIBUTE)) //10 + 10% of the user's temperance is removed as a penalty
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 15 + stat_bonus)
-		H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -10 - stat_penalty)
+		stat_bonus = (0.15 * get_attribute_level(owner, REFLEXES_STAT)) //15 + 15% of the user's justice is added as a bonus
+		stat_penalty = (0.1 * get_attribute_level(owner, WILLPOWER_STAT)) //10 + 10% of the user's temperance is removed as a penalty
+		H.adjust_attribute_buff(REFLEXES_STAT, 15 + stat_bonus)
+		H.adjust_attribute_buff(WILLPOWER_STAT, -10 - stat_penalty)
 		RegisterSignal(H, COMSIG_HUMAN_INSANE, PROC_REF(UserInsane))
 
 /datum/status_effect/display/behavior/on_remove()
 	. = ..()
 	if(ishuman(owner))
 		var/mob/living/carbon/human/H = owner
-		H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -15 - stat_bonus)
-		H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 10 + stat_penalty)
+		H.adjust_attribute_buff(REFLEXES_STAT, -15 - stat_bonus)
+		H.adjust_attribute_buff(WILLPOWER_STAT, 10 + stat_penalty)
 		UnregisterSignal(H, COMSIG_HUMAN_INSANE)
 
 /datum/status_effect/display/behavior/proc/UserInsane()

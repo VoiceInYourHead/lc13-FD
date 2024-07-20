@@ -17,10 +17,10 @@
 	job_notice = "Avoid killing other players without a reason."
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 60,
-								PRUDENCE_ATTRIBUTE = 60,
-								TEMPERANCE_ATTRIBUTE = 60,
-								JUSTICE_ATTRIBUTE = 60
+								STRENGTH_STAT = 60,
+								WILLPOWER_STAT = 60,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 60
 								)
 
 /datum/job/soldato/after_spawn(mob/living/carbon/human/H, mob/M)

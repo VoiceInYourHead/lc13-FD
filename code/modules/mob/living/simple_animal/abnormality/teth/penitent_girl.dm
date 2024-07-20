@@ -42,14 +42,14 @@
 //Work Mechanics
 /mob/living/simple_animal/hostile/abnormality/penitentgirl/AttemptWork(mob/living/carbon/human/user, work_type)
 	//Prudence too high, random damage type time.
-	if(get_attribute_level(user, PRUDENCE_ATTRIBUTE) >= 40)
+	if(get_attribute_level(user, WILLPOWER_STAT) >= 40)
 		work_damage_type = pick(WHITE_DAMAGE, RED_DAMAGE, BLACK_DAMAGE, PALE_DAMAGE)
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/penitentgirl/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	// you are going to cut your own leg off
 	work_damage_type = initial(work_damage_type)
-	if((get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40) && (get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 40))
+	if((get_attribute_level(user, OBSERVATION_STAT) < 40) && (get_attribute_level(user, WILLPOWER_STAT) < 40))
 		user.deal_damage(250, WHITE_DAMAGE) //DIE!
 
 	if(user.sanity_lost)

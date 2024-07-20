@@ -53,7 +53,7 @@
 //Work Procs
 // any work performed with level <4 Fort and Temperance lowers qliphoth
 /mob/living/simple_animal/hostile/abnormality/babayaga/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if((get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 80) && (get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 80))
+	if((get_attribute_level(user, OBSERVATION_STAT) < 80) && (get_attribute_level(user, STRENGTH_STAT) < 80))
 		datum_reference.qliphoth_change(-1)
 		SpawnMobs()
 

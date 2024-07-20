@@ -83,7 +83,7 @@
 	RegisterSignal(SSdcs, COMSIG_GLOB_ABNORMALITY_BREACH, PROC_REF(OnAbnoBreach))
 
 /mob/living/simple_animal/hostile/abnormality/scaredy_cat/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
+	if(get_attribute_level(user, STRENGTH_STAT) >= 60)
 		datum_reference.qliphoth_change(-1)
 	return
 

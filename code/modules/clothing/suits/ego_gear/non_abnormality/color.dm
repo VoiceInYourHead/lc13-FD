@@ -4,8 +4,8 @@
 	icon_state = "breverb"
 	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 70, BLACK_DAMAGE = 70, PALE_DAMAGE = 90)
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 120,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 120
+							STRENGTH_STAT = 120,
+							WILLPOWER_STAT = 120,
+							OBSERVATION_STAT = 120,
+							REFLEXES_STAT = 120
 							)

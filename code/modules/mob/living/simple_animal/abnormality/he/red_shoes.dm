@@ -133,7 +133,7 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/red_shoes/PostWorkEffect(mob/living/carbon/human/user, work_type, pe)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 60)
+	if(get_attribute_level(user, OBSERVATION_STAT) < 60)
 		Apply_Desire(user)
 		user.adjustSanityLoss(500)
 		user.visible_message(span_userdanger("[user] ignores [p_their()] orders and continually glances at The Red Shoes. Now [p_theyre()] reaching out their hand to take the shoes."), span_userdanger("What lovely shoes..."))
@@ -197,7 +197,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/red_shoes/proc/UnPossess(mob/living/carbon/human/user)//called on death() and BreachEffect()
 	if(HAS_AI_CONTROLLER_TYPE(user, /datum/ai_controller/insane/red_possess))
-		user.SanityLossEffect(FORTITUDE_ATTRIBUTE)
+		user.SanityLossEffect(STRENGTH_STAT)
 
 //BreachEffect and combat
 /mob/living/simple_animal/hostile/abnormality/red_shoes/BreachEffect(mob/living/carbon/human/user, breach_type)
@@ -261,10 +261,10 @@
 		qdel(src)
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	var/usertemp = (get_attribute_level(status_holder, TEMPERANCE_ATTRIBUTE))
+	var/usertemp = (get_attribute_level(status_holder, OBSERVATION_STAT))
 	var/desire_damage = clamp((80 - (usertemp / 2)),80, 10)//deals between 80 and 10 white damage depending on your temperance attribute when applied.
 	status_holder.deal_damage(desire_damage, WHITE_DAMAGE) //DIE!
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, -50)//By using bonuses, this lowers your maximum prudence
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, -50)//By using bonuses, this lowers your maximum prudence
 	if(status_holder.sanity_lost)
 		qdel(src)
 		return
@@ -274,7 +274,7 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, 50)//Return prudence back to normal
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, 50)//Return prudence back to normal
 	if(status_holder.sanity_lost)
 		QDEL_NULL(owner.ai_controller)
 		status_holder.ai_controller = /datum/ai_controller/insane/red_possess
@@ -336,7 +336,7 @@
 			return
 	if(!ishuman(living_pawn))
 		return
-	walkspeed -= (max(0.95,((get_attribute_level(living_pawn, JUSTICE_ATTRIBUTE)) * 0.01)))//one-hundreth of a second for every point of justice, capped at 95
+	walkspeed -= (max(0.95,((get_attribute_level(living_pawn, REFLEXES_STAT)) * 0.01)))//one-hundreth of a second for every point of justice, capped at 95
 	addtimer(CALLBACK(src, PROC_REF(Movement), controller), walkspeed SECONDS, TIMER_UNIQUE)
 	if(isturf(target.loc) && living_pawn.Adjacent(target))
 		finish_action(controller, TRUE)
@@ -347,10 +347,10 @@
 	var/mob/living/simple_animal/hostile/abnormality/red_shoes/target = controller.blackboard[BB_INSANE_CURRENT_ATTACK_TARGET]
 	if(!target)
 		if(living_pawn)//there's a runtime if you panic right next to it
-			living_pawn.SanityLossEffect(FORTITUDE_ATTRIBUTE)//switch to a murder panic
+			living_pawn.SanityLossEffect(STRENGTH_STAT)//switch to a murder panic
 		return
 	if(!LAZYLEN(current_path))
-		living_pawn.SanityLossEffect(FORTITUDE_ATTRIBUTE)//ditto
+		living_pawn.SanityLossEffect(STRENGTH_STAT)//ditto
 		return
 	var/target_turf = current_path[1]
 	step_towards(living_pawn, target_turf)

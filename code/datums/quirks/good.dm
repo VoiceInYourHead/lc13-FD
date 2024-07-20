@@ -26,10 +26,10 @@
 
 /datum/quirk/skilled/on_spawn()
 	var/mob/living/carbon/human/H = quirk_holder
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 5)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 5)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 5)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 5)
+	H.adjust_attribute_buff(STRENGTH_STAT, 5)
+	H.adjust_attribute_buff(WILLPOWER_STAT, 5)
+	H.adjust_attribute_buff(OBSERVATION_STAT, 5)
+	H.adjust_attribute_buff(REFLEXES_STAT, 5)
 
 // Special quirks end
 

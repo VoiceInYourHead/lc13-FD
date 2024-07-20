@@ -211,7 +211,7 @@
 	ChangeResistances(list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 0.5))
 
 /mob/living/simple_animal/hostile/abnormality/dreaming_current/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 60)
+	if(get_attribute_level(user, STRENGTH_STAT) < 60)
 		datum_reference.qliphoth_change(-1)
 	return
 

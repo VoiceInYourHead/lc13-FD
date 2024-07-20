@@ -542,7 +542,7 @@
 				finish_action(controller, TRUE)
 				return FALSE
 
-			var/move_delay = max(0.8, 0.2 + living_pawn.cached_multiplicative_slowdown - (get_modified_attribute_level(living_pawn, JUSTICE_ATTRIBUTE) * movement_mod))
+			var/move_delay = max(0.8, 0.2 + living_pawn.cached_multiplicative_slowdown - (get_modified_attribute_level(living_pawn, REFLEXES_STAT) * movement_mod))
 			controller.timerid_wander = addtimer(CALLBACK(src, PROC_REF(MoveInPath), controller), move_delay, TIMER_STOPPABLE)
 			return TRUE
 	controller.pathing_attempts = 0
@@ -683,7 +683,7 @@
 					controller.pathing_attempts = 0
 				else
 					controller.pathing_attempts++
-			var/move_delay = max(0.8, 0.2 + living_pawn.cached_multiplicative_slowdown - (get_modified_attribute_level(living_pawn, JUSTICE_ATTRIBUTE) * 0.002))
+			var/move_delay = max(0.8, 0.2 + living_pawn.cached_multiplicative_slowdown - (get_modified_attribute_level(living_pawn, REFLEXES_STAT) * 0.002))
 			addtimer(CALLBACK(src, PROC_REF(MoveInPath), living_pawn), move_delay)
 			return TRUE
 	controller.pathing_attempts = 0

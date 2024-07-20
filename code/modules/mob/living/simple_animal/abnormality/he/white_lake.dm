@@ -43,21 +43,21 @@
 		The ballerina turns away from you and continues her dance, ignoring you."
 
 /mob/living/simple_animal/hostile/abnormality/whitelake/WorkChance(mob/living/carbon/human/user, chance)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
+	if(get_attribute_level(user, STRENGTH_STAT) >= 60)
 		var/newchance = chance - 10 //You suck, die. I hate you
 		return newchance
 	return chance
 
 /mob/living/simple_animal/hostile/abnormality/whitelake/SuccessEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 60)		//Right in the zone
+	if(get_attribute_level(user, STRENGTH_STAT) < 60)		//Right in the zone
 		user.Apply_Gift(new gift_type)	//It's a gift now! Free shit! And there are absolutely, positively no downsides, nope!
 		to_chat(user, span_nicegreen("A cute crown appears on your head!"))
 
 /mob/living/simple_animal/hostile/abnormality/whitelake/FailureEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
 	datum_reference.qliphoth_change(-1)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)	//Lower it again.
+	if(get_attribute_level(user, STRENGTH_STAT) >= 60)	//Lower it again.
 		datum_reference.qliphoth_change(-1)
 	return
 
@@ -75,7 +75,7 @@
 /mob/living/simple_animal/hostile/abnormality/whitelake/proc/BreachAttack(mob/living/carbon/human/H)
 	set waitfor = FALSE
 	new /obj/effect/temp_visual/whitelake(get_turf(H))
-	var/userfort = (get_attribute_level(H, FORTITUDE_ATTRIBUTE))
+	var/userfort = (get_attribute_level(H, STRENGTH_STAT))
 	var/damage_dealt = clamp((0 + (userfort / 2)), 30, 65)//deals between 30 and 60 white damage depending on your fortitude attribute when applied.
 	H.deal_damage(damage_dealt, WHITE_DAMAGE)
 

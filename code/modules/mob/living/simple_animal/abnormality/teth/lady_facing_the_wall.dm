@@ -71,7 +71,7 @@
 	if(work_type == ABNORMALITY_WORK_ATTACHMENT)
 		datum_reference.qliphoth_change(-1)
 
-	if((get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40) && !(GODMODE in user.status_flags))
+	if((get_attribute_level(user, OBSERVATION_STAT) < 40) && !(GODMODE in user.status_flags))
 		flick("ladyfacingthewall_active", src)
 		user.adjustSanityLoss(user.maxSanity)
 		user.apply_status_effect(/datum/status_effect/panicked_lvl_4)

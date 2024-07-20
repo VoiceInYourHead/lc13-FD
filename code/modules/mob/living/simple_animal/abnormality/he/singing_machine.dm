@@ -81,7 +81,7 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 			bonusRed = minceRed // Should be stronger, for when working it is EXTRA dangerous.
 			manual_emote("makes a horrible grinding noise!") // Oh boy, it's mad.
 			playsound(src, 'sound/abnormalities/singingmachine/chew.ogg', 60, 0, 3)
-	else if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 80 || get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 60)
+	else if(get_attribute_level(user, STRENGTH_STAT) >= 80 || get_attribute_level(user, OBSERVATION_STAT) < 60)
 		statChecked = 1 // I see you've failed one of the stat checks, but have also chosen not to feed yourself to the machine.
 	return ..()
 
@@ -218,9 +218,9 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, -5)
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, -5)
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 10)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, -5)
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, -5)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 10)
 	status_holder.physiology.white_mod *= 1.1
 
 /datum/status_effect/display/singing_machine/tick()
@@ -233,9 +233,9 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, 5)
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, 5)
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -10)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, 5)
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, 5)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -10)
 	status_holder.physiology.white_mod /= 1.1
 
 #undef STATUS_EFFECT_MUSIC

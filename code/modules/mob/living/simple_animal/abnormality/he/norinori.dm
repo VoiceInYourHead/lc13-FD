@@ -130,7 +130,7 @@
 /mob/living/simple_animal/hostile/abnormality/norinori/funpet(mob/petter)
 	if(!IsContained())
 		return
-	if(get_attribute_level(petter, TEMPERANCE_ATTRIBUTE) <= 60)
+	if(get_attribute_level(petter, OBSERVATION_STAT) <= 60)
 		KillCheck(petter)
 	else
 		datum_reference.qliphoth_change(-1)

@@ -15,10 +15,10 @@
 	shotsleft = 5		//Based off the Mas 36, That's what my Girlfriend things it looks like. Holds 5 bullets.
 	reloadtime = 5 SECONDS
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 60,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 60,
 	)
 
 /obj/item/gun/ego_gun/city/thumb/attack(mob/living/target, mob/living/carbon/human/user)
@@ -36,10 +36,10 @@
 	force = 50
 	projectile_damage_multiplier = 5		//50 damage per bullet
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 //Sottoacpo
@@ -51,10 +51,10 @@
 	force = 20	//It's a pistol
 	ammo_type = /obj/item/ammo_casing/caseless/thumbshell	//Does 10 damage
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 
 //wepaons are kinda uninteresting
@@ -80,8 +80,8 @@
 	attack_verb_simple = list("beat")
 	hitsound = 'sound/weapons/fixer/generic/club1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)

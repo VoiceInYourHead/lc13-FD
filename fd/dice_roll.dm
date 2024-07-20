@@ -34,7 +34,7 @@
 	message = span_notice("Ты кинул кубик!")
 	range = -1
 	include_user = 1
-	var/list/attributes_rolling = list("Мужество", "Мудрость", "Выдержка", "Справедливость")
+	var/list/attributes_rolling = list("Сила", "Воля", "Наблюдательность", "Рефлексы", "Интеллект", "Точность")
 	var/player_stat = 0
 
 /obj/effect/proc_holder/spell/targeted/dice_roll/cast(list/targets, mob/living/user = usr)
@@ -43,14 +43,18 @@
 	if(!phrase)
 		return FALSE
 	var/wanted_attribute = input(user, "Выберите нужную вам характеристику", "Бросаем...") as null|anything in attributes_rolling
-	if(wanted_attribute == "Мужество")
-		player_stat = get_attribute_level(user, FORTITUDE_ATTRIBUTE)
-	if(wanted_attribute == "Мудрость")
-		player_stat = get_attribute_level(user, PRUDENCE_ATTRIBUTE)
-	if(wanted_attribute == "Выдержка")
-		player_stat = get_attribute_level(user, TEMPERANCE_ATTRIBUTE)
-	if(wanted_attribute == "Справедливость")
-		player_stat = get_attribute_level(user, JUSTICE_ATTRIBUTE)
+	if(wanted_attribute == "Сила")
+		player_stat = get_attribute_level(user, STRENGTH_STAT)
+	if(wanted_attribute == "Воля")
+		player_stat = get_attribute_level(user, WILLPOWER_STAT)
+	if(wanted_attribute == "Наблюдательность")
+		player_stat = get_attribute_level(user, OBSERVATION_STAT)
+	if(wanted_attribute == "Рефлексы")
+		player_stat = get_attribute_level(user, REFLEXES_STAT)
+	if(wanted_attribute == "Интеллект")
+		player_stat = get_attribute_level(user, INTELLECT_STAT)
+	if(wanted_attribute == "Точность")
+		player_stat = get_attribute_level(user, PRECISION_STAT)
 	if(!wanted_attribute)
 		return FALSE
 //execution

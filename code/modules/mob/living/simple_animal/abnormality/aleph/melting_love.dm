@@ -345,7 +345,7 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 30)
+	status_holder.adjust_attribute_buff(OBSERVATION_STAT, 30)
 	connected_abno = locate(/mob/living/simple_animal/hostile/abnormality/melting_love) in GLOB.abnormality_mob_list
 
 /datum/status_effect/display/melting_love_blessing/tick()
@@ -367,7 +367,7 @@
 
 /datum/status_effect/display/melting_love_blessing/proc/Dissolve(mob/living/carbon/human/H)
 	if(H)
-		H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -30)
+		H.adjust_attribute_buff(OBSERVATION_STAT, -30)
 		if(H.stat == DEAD)
 			var/mob/living/simple_animal/hostile/slime/big/new_mob = new(owner.loc)
 			NestedItems(new_mob, H.get_item_by_slot(ITEM_SLOT_SUITSTORE))

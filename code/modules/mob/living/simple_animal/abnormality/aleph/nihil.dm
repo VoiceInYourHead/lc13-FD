@@ -688,20 +688,20 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, -10 * stacks_added)
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, -10 * stacks_added)
-	status_holder.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -10 * stacks_added)
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, -10 * stacks_added)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, -10 * stacks_added)
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, -10 * stacks_added)
+	status_holder.adjust_attribute_bonus(OBSERVATION_STAT, -10 * stacks_added)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, -10 * stacks_added)
 
 /datum/status_effect/stacking/void/on_remove()
 	. = ..()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, 10 * stacks)
-	status_holder.adjust_attribute_bonus(PRUDENCE_ATTRIBUTE, 10 * stacks)
-	status_holder.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, 10 * stacks)
-	status_holder.adjust_attribute_bonus(JUSTICE_ATTRIBUTE, 10 * stacks)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, 10 * stacks)
+	status_holder.adjust_attribute_bonus(WILLPOWER_STAT, 10 * stacks)
+	status_holder.adjust_attribute_bonus(OBSERVATION_STAT, 10 * stacks)
+	status_holder.adjust_attribute_bonus(REFLEXES_STAT, 10 * stacks)
 	to_chat(owner, span_nicegreen("You feel normal again."))
 	if(owner.client)
 		owner.remove_client_colour(/datum/client_colour/monochrome)

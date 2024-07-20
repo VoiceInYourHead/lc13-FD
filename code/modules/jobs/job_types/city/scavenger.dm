@@ -18,10 +18,10 @@ Scavenger
 	allow_bureaucratic_error = FALSE
 	maptype = "city"
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 40
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 40
 								)
 	paycheck = 0
 
@@ -42,18 +42,18 @@ Scavenger
 		var/stattotal = 20 + min(statgeneration1, statgeneration2)
 
 		roundstart_attributes = list(
-									FORTITUDE_ATTRIBUTE = stattotal,
-									PRUDENCE_ATTRIBUTE = stattotal,
-									TEMPERANCE_ATTRIBUTE = stattotal,
-									JUSTICE_ATTRIBUTE = stattotal
+									STRENGTH_STAT = stattotal,
+									WILLPOWER_STAT = stattotal,
+									OBSERVATION_STAT = stattotal,
+									REFLEXES_STAT = stattotal
 									)
 		SScityevents.generated+=M.ckey
 	else
 		roundstart_attributes = list(
-									FORTITUDE_ATTRIBUTE = 20,
-									PRUDENCE_ATTRIBUTE = 20,
-									TEMPERANCE_ATTRIBUTE = 20,
-									JUSTICE_ATTRIBUTE = 20
+									STRENGTH_STAT = 20,
+									WILLPOWER_STAT = 20,
+									OBSERVATION_STAT = 20,
+									REFLEXES_STAT = 20
 									)
 	..()
 	add_skill_book(H)

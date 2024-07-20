@@ -227,7 +227,7 @@
 	beamloop.max_loops = 0
 	var/beam_stage = 1
 	var/beam_damage = 10
-	var/justice = get_attribute_level(H, JUSTICE_ATTRIBUTE)
+	var/justice = get_attribute_level(H, REFLEXES_STAT)
 	justice /= 100
 	justice++
 	beam_damage *= justice
@@ -535,12 +535,12 @@
 /datum/status_effect/yinboost/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 20)
+	H.adjust_attribute_buff(REFLEXES_STAT, 20)
 
 /datum/status_effect/yinboost/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -20)
+	H.adjust_attribute_buff(REFLEXES_STAT, -20)
 
 /datum/status_effect/duality_yin
 	id = "EGO_YIN2"
@@ -560,20 +560,20 @@
 	var/mob/living/carbon/human/H = owner
 	H.physiology.red_mod *= 0.75
 	H.physiology.black_mod *= 0.75
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 10)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 10)
+	H.adjust_attribute_buff(STRENGTH_STAT, 10)
+	H.adjust_attribute_buff(WILLPOWER_STAT, 10)
+	H.adjust_attribute_buff(OBSERVATION_STAT, 10)
+	H.adjust_attribute_buff(REFLEXES_STAT, 10)
 
 /datum/status_effect/duality_yin/on_remove()
 	. = ..()
 	var/mob/living/carbon/human/H = owner
 	H.physiology.red_mod /= 0.75
 	H.physiology.black_mod /= 0.75
-	H.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -10)
-	H.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -10)
+	H.adjust_attribute_buff(STRENGTH_STAT, -10)
+	H.adjust_attribute_buff(WILLPOWER_STAT, -10)
+	H.adjust_attribute_buff(OBSERVATION_STAT, -10)
+	H.adjust_attribute_buff(REFLEXES_STAT, -10)
 
 /* The Road Home - Forever Home */
 /obj/effect/proc_holder/ability/aimed/house_spawn

@@ -24,10 +24,10 @@ GLOBAL_LIST_INIT(association_jobs, list(
 
 	//They actually need this for their weapons
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 120,
-		PRUDENCE_ATTRIBUTE = 120,
-		TEMPERANCE_ATTRIBUTE = 120,
-		JUSTICE_ATTRIBUTE = 120,
+		STRENGTH_STAT = 120,
+		WILLPOWER_STAT = 120,
+		OBSERVATION_STAT = 120,
+		REFLEXES_STAT = 120,
 	)
 
 	var/list/antagroles = list(

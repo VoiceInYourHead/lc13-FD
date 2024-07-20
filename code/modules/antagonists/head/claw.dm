@@ -10,10 +10,10 @@
 	var/outfit_type = /datum/outfit/claw
 	show_to_ghosts = TRUE
 	antag_attributes = list(
-		FORTITUDE_ATTRIBUTE = 130,
-		PRUDENCE_ATTRIBUTE = 130,
-		TEMPERANCE_ATTRIBUTE = 130,
-		JUSTICE_ATTRIBUTE = 130
+		STRENGTH_STAT = 130,
+		WILLPOWER_STAT = 130,
+		OBSERVATION_STAT = 130,
+		REFLEXES_STAT = 130
 		)
 
 /datum/antagonist/claw/on_gain()
@@ -63,7 +63,7 @@
 	ADD_TRAIT(M, TRAIT_NOFIRE, "Claw")
 	ADD_TRAIT(M, TRAIT_NODISMEMBER, "Claw")
 	ADD_TRAIT(M, TRAIT_SANITYIMMUNE, "Claw")
-	M.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 250) // Half of Arbiter, you're the claw not getting hit is part of your training
+	M.adjust_attribute_buff(STRENGTH_STAT, 250) // Half of Arbiter, you're the claw not getting hit is part of your training
 
 /datum/antagonist/claw/remove_innate_effects(mob/living/mob_override)
 	var/mob/living/carbon/human/M = mob_override || owner.current
@@ -79,7 +79,7 @@
 	REMOVE_TRAIT(M, TRAIT_NOFIRE, "Claw")
 	REMOVE_TRAIT(M, TRAIT_NODISMEMBER, "Claw")
 	REMOVE_TRAIT(M, TRAIT_SANITYIMMUNE, "Claw")
-	M.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -250)
+	M.adjust_attribute_buff(STRENGTH_STAT, -250)
 
 /datum/outfit/claw
 	name = "Claw"

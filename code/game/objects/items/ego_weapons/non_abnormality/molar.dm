@@ -11,10 +11,10 @@
 	attack_verb_simple = list("slice", "saw", "rip")
 	hitsound = 'sound/abnormalities/helper/attack.ogg'
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 60,
-		TEMPERANCE_ATTRIBUTE = 60,
-		JUSTICE_ATTRIBUTE = 60,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 60,
+		OBSERVATION_STAT = 60,
+		REFLEXES_STAT = 60,
 	)
 
 /obj/item/ego_weapon/city/molar/attack(mob/living/target, mob/living/carbon/human/user)
@@ -35,8 +35,8 @@
 	force = 38
 	attack_speed = 0.7
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,	//She's got bad temperance, get it? Because temperance is another word for not drinking alcohol?
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 100,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,	//She's got bad temperance, get it? Because temperance is another word for not drinking alcohol?
+							REFLEXES_STAT = 80
 							)

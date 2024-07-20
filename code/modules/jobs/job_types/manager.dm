@@ -18,7 +18,7 @@
 	minimal_access = list(ACCESS_COMMAND, ACCESS_MANAGER)
 
 	job_attribute_limit = 60
-	roundstart_attributes = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE = 60, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	roundstart_attributes = list(STRENGTH_STAT, WILLPOWER_STAT = 60, OBSERVATION_STAT, REFLEXES_STAT)
 	job_important = "You are the Manager. Your goal is to provide overwatch to Agents and Clerks while guiding the facility's progress. You are able to choose arriving Abnormalities, buy facility upgrades, and apply buffs through your camera console."
 
 	job_abbreviation = "MGR"

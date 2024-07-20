@@ -29,10 +29,10 @@ GLOBAL_LIST_INIT(captain_departments, list(
 	allow_bureaucratic_error = FALSE
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 20,
-								PRUDENCE_ATTRIBUTE = 20,
-								TEMPERANCE_ATTRIBUTE = 20,
-								JUSTICE_ATTRIBUTE = 20
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 20,
+								REFLEXES_STAT = 20
 								)
 	maptype = "wonderlabs"
 	var/normal_attribute_level = 20 // Scales with round time

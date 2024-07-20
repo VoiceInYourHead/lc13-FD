@@ -12,7 +12,7 @@
 	damtype = BLACK_DAMAGE
 	fire_sound = 'sound/weapons/gun/rifle/shot_alt.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/pistol/gaze
@@ -29,7 +29,7 @@
 	weapon_weight = WEAPON_HEAVY
 	fire_sound_volume = 70
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/galaxy
@@ -45,7 +45,7 @@
 	weapon_weight = WEAPON_MEDIUM
 	fire_sound_volume = 70
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/homing = FALSE
 
@@ -80,7 +80,7 @@
 	weapon_weight = WEAPON_HEAVY
 	fire_sound_volume = 70
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/jam_cooldown
 	var/jam_cooldown_time //this will actually be semi-randomized just so you can get the true surprise jam experience while red buddy is chasing you
@@ -153,7 +153,7 @@
 
 	autofire = 0.35 SECONDS
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/transmission
@@ -168,7 +168,7 @@
 	reloadtime = 1.4 SECONDS
 	fire_sound = 'sound/weapons/gun/rifle/shot_alt.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/song
@@ -184,7 +184,7 @@
 	spread = 8
 	autofire = 0.15 SECONDS
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/pistol/songmini
@@ -200,7 +200,7 @@
 	spread = 8
 	autofire = 0.3 SECONDS
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/wedge
@@ -214,7 +214,7 @@
 
 	fire_sound = 'sound/weapons/gun/rifle/shot_alt.ogg'
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/pistol/swindle
@@ -233,7 +233,7 @@
 	reloadtime = 1.5 SECONDS
 	fire_sound = 'sound/weapons/gun/pistol/shot.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)
 
 /obj/item/gun/ego_gun/ringing
@@ -248,7 +248,7 @@
 	spread = 25
 	fire_sound = 'sound/weapons/gun/pistol/shot_alt.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 40
+							OBSERVATION_STAT = 40
 							)
 	var/spamcheck = 0
 	var/list/voicespan = list(SPAN_COMMAND)
@@ -287,7 +287,7 @@
 	fire_sound = 'sound/weapons/ego/ecstasy.ogg'
 	autofire = 0.08 SECONDS
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							WILLPOWER_STAT = 40
 	)
 
 
@@ -303,5 +303,5 @@
 	shotsleft = 1
 	reloadtime = 1.4 SECONDS
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40
 							)

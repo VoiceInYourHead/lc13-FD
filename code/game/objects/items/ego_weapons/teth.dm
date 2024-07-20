@@ -221,7 +221,7 @@
 	attack_verb_simple = list("swipe", "slash")
 	hitsound = 'sound/weapons/fixer/generic/sword3.ogg'
 	attribute_requirements = list(
-							TEMPERANCE_ATTRIBUTE = 20
+							OBSERVATION_STAT = 20
 							)
 	var/ranged_cooldown
 	var/ranged_cooldown_time = 1.3 SECONDS
@@ -308,7 +308,7 @@
 		return
 	if(proximity_flag && (LAZYLEN(traps) < traplimit))
 		var/obj/effect/temp_visual/lanterntrap/trap = new(T, user, src, mode)
-		var/userjust = (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_modified_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		trap.damage_multiplier*=justicemod
 		trap.damage_multiplier*=force_multiplier

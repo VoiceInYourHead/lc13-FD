@@ -62,7 +62,7 @@
 /obj/item/khpboost/attack_self(mob/living/carbon/human/user)
 	..()
 	to_chat(user, span_notice("You inject the syringe and instantly feel stronger."))
-	user.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 20)
+	user.adjust_attribute_buff(STRENGTH_STAT, 20)
 	qdel(src)
 
 // For Asset Reclimation

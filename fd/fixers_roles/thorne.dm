@@ -22,10 +22,10 @@
 	job_abbreviation = "THORN"
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 55,
-								PRUDENCE_ATTRIBUTE = 45,
-								TEMPERANCE_ATTRIBUTE = 35,
-								JUSTICE_ATTRIBUTE = 65
+								STRENGTH_STAT = 55,
+								WILLPOWER_STAT = 45,
+								OBSERVATION_STAT = 35,
+								REFLEXES_STAT = 65
 								)
 
 /datum/job/thorne/after_spawn(mob/living/carbon/human/H, mob/M)

@@ -19,10 +19,10 @@
 	reloadtime = 2.1 SECONDS
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 
 /obj/item/gun/ego_gun/adoration
@@ -39,10 +39,10 @@
 	fire_delay = 10
 
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 	var/mode = 0
 
@@ -80,10 +80,10 @@
 	fire_sound_volume = 50
 	fire_delay = 10
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 100,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 100,
+							REFLEXES_STAT = 80
 							)
 	var/wrath
 	var/despair
@@ -117,7 +117,7 @@
 
 /obj/item/gun/ego_gun/nihil/proc/IncreaseAttributes(user, current_suit)
 	for(var/atr in attribute_requirements)
-		if(atr == TEMPERANCE_ATTRIBUTE)
+		if(atr == OBSERVATION_STAT)
 			attribute_requirements[atr] += 5
 		else
 			attribute_requirements[atr] += 10
@@ -153,10 +153,10 @@
 	zoom_amt = 10
 	zoom_out_amt = 13
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 100,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 100,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 80
 							)
 	var/mob/current_holder
 

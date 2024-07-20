@@ -112,7 +112,7 @@
 	animate(src, transform = init_transform, time = 5)
 
 /mob/living/simple_animal/hostile/abnormality/bluestar/AttemptWork(mob/living/carbon/human/user, work_type)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 80)
+	if(get_attribute_level(user, OBSERVATION_STAT) < 80)
 		datum_reference.qliphoth_change(-1)
 		playsound(src, 'sound/abnormalities/bluestar/pulse.ogg', 25, FALSE, 28)
 		user.death()
@@ -122,7 +122,7 @@
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/bluestar/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 100)
+	if(get_attribute_level(user, WILLPOWER_STAT) < 100)
 		datum_reference.qliphoth_change(-1)
 	if(user.sanity_lost)
 		datum_reference.qliphoth_change(-1)

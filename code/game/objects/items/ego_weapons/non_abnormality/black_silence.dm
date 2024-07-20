@@ -15,10 +15,10 @@
 	attack_verb_simple = list("tap", "pat")
 	hitsound = 'sound/effects/hit_punch.ogg'
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 120,
-		PRUDENCE_ATTRIBUTE = 120,
-		TEMPERANCE_ATTRIBUTE = 120,
-		JUSTICE_ATTRIBUTE = 120,
+		STRENGTH_STAT = 120,
+		WILLPOWER_STAT = 120,
+		OBSERVATION_STAT = 120,
+		REFLEXES_STAT = 120,
 	)
 	actions_types = list(/datum/action/item_action/toggle_iff)
 	var/special_cooldown

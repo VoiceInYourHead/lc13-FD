@@ -39,10 +39,10 @@
 
 	job_attribute_limit = 60
 	roundstart_attributes = list(
-		FORTITUDE_ATTRIBUTE = 20,
-		PRUDENCE_ATTRIBUTE = 20,
-		TEMPERANCE_ATTRIBUTE = 20,
-		JUSTICE_ATTRIBUTE = 20,
+		STRENGTH_STAT = 20,
+		WILLPOWER_STAT = 20,
+		OBSERVATION_STAT = 20,
+		REFLEXES_STAT = 20,
 	)
 
 /datum/job/command/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)

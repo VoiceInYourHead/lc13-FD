@@ -28,10 +28,10 @@
 	attack_verb_continuous = list("bashes", "crushes")
 	attack_verb_simple = list("bash", "crush")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 80
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 80
 							)
 
 	charge_cost = 3
@@ -55,10 +55,10 @@
 	attack_verb_continuous = list("cleaves", "cuts")
 	attack_verb_simple = list("cleave", "cut")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 4
@@ -82,10 +82,10 @@
 	attack_verb_continuous = list("slashes", "pokes")
 	attack_verb_simple = list("slash", "poke")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 80,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 3
@@ -97,7 +97,7 @@
 	sleep(0.2 SECONDS)
 	for(var/mob/living/L in range(1, src))
 		var/aoe = 25
-		var/userjust = (get_attribute_level(user, JUSTICE_ATTRIBUTE))
+		var/userjust = (get_attribute_level(user, REFLEXES_STAT))
 		var/justicemod = 1 + userjust/100
 		aoe*=justicemod
 		if(L == user || ishuman(L))
@@ -118,10 +118,10 @@
 	attack_verb_continuous = list("slices", "stabs")
 	attack_verb_simple = list("slice", "stab")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 8
@@ -157,10 +157,10 @@
 	attack_verb_continuous = list("cleaves", "slashes", "carves")
 	attack_verb_simple = list("cleave", "slash", "carve")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 5
@@ -183,10 +183,10 @@
 	attack_verb_continuous = list("smashes", "crushes", "shatters")
 	attack_verb_simple = list("smash", "crush", "shatter")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 8
@@ -218,10 +218,10 @@
 	attack_verb_continuous = list("cleaves", "cuts")
 	attack_verb_simple = list("cleave", "cut")
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 80,
+							REFLEXES_STAT = 60
 							)
 
 	charge_cost = 16

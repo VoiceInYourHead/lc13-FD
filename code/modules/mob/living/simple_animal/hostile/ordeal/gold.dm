@@ -822,7 +822,7 @@
 		return
 	var/damage = I.force
 	if(ishuman(user))
-		damage *= 1 + (get_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+		damage *= 1 + (get_attribute_level(user, REFLEXES_STAT)/100)
 	ReflectDamage(user, I.damtype, damage)
 
 /mob/living/simple_animal/hostile/ordeal/NT_corrosion/adjustHealth(amount, updating_health = TRUE, forced = FALSE)

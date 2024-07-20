@@ -90,7 +90,7 @@
 
 	if(PA)
 		PA.IncreaseTolerance()
-	else if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 60 || work_type == "Touch")
+	else if(get_attribute_level(user, OBSERVATION_STAT) < 60 || work_type == "Touch")
 		if(LAZYFIND(datum_reference.transferable_var, agent_ckey )) //if they were already drugged before we basically drug them to death for trying to pull that shit again
 			DrugOverdose(user, agent_ckey)
 			return ..()
@@ -208,7 +208,7 @@
 		if(!H.sanity_lost)
 			return
 		var/nirvana = FALSE
-		if(get_attribute_level(H, TEMPERANCE_ATTRIBUTE) < 60) //if they have under 60 temp they actually get all the stats from overdose, otherwise they just get fucked.
+		if(get_attribute_level(H, OBSERVATION_STAT) < 60) //if they have under 60 temp they actually get all the stats from overdose, otherwise they just get fucked.
 			nirvana = TRUE
 		DrugOverdose(H, H.ckey, nirvana)
 		LoseTarget()

@@ -17,10 +17,10 @@
 	minimal_access = list(ACCESS_RND)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 100
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 100
 								)
 	rank_title = "SPC"
 	job_important = "You take the role of a scout support unit."
@@ -38,10 +38,10 @@
 	spawn_positions = 2
 	display_order = 8.1
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 80
 								)
 	outfit = /datum/outfit/job/raven/support
 	job_important = "You take the role of an intelligence support unit."
@@ -68,10 +68,10 @@
 	minimal_access = list(ACCESS_RND, ACCESS_COMMAND)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 130
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 130
 								)
 	rank_title = "CPT"
 	job_important = "You are the captain of the intelligence division."

@@ -11,10 +11,10 @@
 	attack_verb_simple = list("cuts", "slices")
 	hitsound = 'sound/weapons/fixer/hana_slash.ogg'
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 80,
-		PRUDENCE_ATTRIBUTE = 80,
-		TEMPERANCE_ATTRIBUTE = 80,
-		JUSTICE_ATTRIBUTE = 100,
+		STRENGTH_STAT = 80,
+		WILLPOWER_STAT = 80,
+		OBSERVATION_STAT = 80,
+		REFLEXES_STAT = 100,
 	)
 	var/mode = 1
 

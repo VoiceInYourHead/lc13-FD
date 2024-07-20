@@ -5,7 +5,7 @@
 	icon_state = "vivavoce"
 
 	max_boost = 50
-	given_attribute = TEMPERANCE_ATTRIBUTE
+	given_attribute = OBSERVATION_STAT
 	given_status_effect = STATUS_EFFECT_ROLECALL
 	feedback_message = "You pick up the phone and hear nothing, but you feel as if someone is behind you."
 	full_boost_message = "It's silent."

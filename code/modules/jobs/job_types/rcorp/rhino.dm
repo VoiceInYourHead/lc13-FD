@@ -17,10 +17,10 @@
 	minimal_access = list(ACCESS_ARMORY, ACCESS_CENT_GENERAL)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 40,
-								PRUDENCE_ATTRIBUTE = 40,
-								TEMPERANCE_ATTRIBUTE = 40,
-								JUSTICE_ATTRIBUTE = 40
+								STRENGTH_STAT = 40,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 40
 								)
 	rank_title = "SGT"
 	job_important = "You take the role of ranged armored unit."
@@ -63,10 +63,10 @@
 	minimal_access = list(ACCESS_ARMORY, ACCESS_COMMAND, ACCESS_CENT_GENERAL)
 
 	roundstart_attributes = list(
-								FORTITUDE_ATTRIBUTE = 80,
-								PRUDENCE_ATTRIBUTE = 80,
-								TEMPERANCE_ATTRIBUTE = 80,
-								JUSTICE_ATTRIBUTE = 80
+								STRENGTH_STAT = 80,
+								WILLPOWER_STAT = 80,
+								OBSERVATION_STAT = 80,
+								REFLEXES_STAT = 80
 								)
 	rank_title = "CPT"
 	job_important = "You are the captain of the armored division."

@@ -51,10 +51,10 @@
 	attack_speed = 1
 	hitsound = 'sound/weapons/fixer/generic/knife1.ogg'
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 40,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 
 //Los Mariachis - Grade 7 with poise crits, white version of Kurokumo.
@@ -133,10 +133,10 @@
 	force = 19		//Double the maracas twice the attack speed.
 	attack_speed = 0.5
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 60,
-							PRUDENCE_ATTRIBUTE = 40,
-							TEMPERANCE_ATTRIBUTE = 40,
-							JUSTICE_ATTRIBUTE = 40
+							STRENGTH_STAT = 60,
+							WILLPOWER_STAT = 40,
+							OBSERVATION_STAT = 40,
+							REFLEXES_STAT = 40
 							)
 
 //Pre-nerf Aida, the real prize of J-corp. Grade 5
@@ -147,8 +147,8 @@
 	inhand_icon_state = "dualmaracas_boss"
 	force = 25
 	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 80,
-							PRUDENCE_ATTRIBUTE = 60,
-							TEMPERANCE_ATTRIBUTE = 60,
-							JUSTICE_ATTRIBUTE = 60
+							STRENGTH_STAT = 80,
+							WILLPOWER_STAT = 60,
+							OBSERVATION_STAT = 60,
+							REFLEXES_STAT = 60
 							)

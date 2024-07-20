@@ -497,7 +497,7 @@
 
 /datum/status_effect/stacking/crownthorns/on_apply()
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, -attribute_penalty)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, -attribute_penalty)
 	return ..()
 
 /datum/status_effect/stacking/crownthorns/tick()
@@ -505,7 +505,7 @@
 	owner.emote("scream")
 	stacks += 1
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, -25)//By using bonuses, this lowers your maximum health
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, -25)//By using bonuses, this lowers your maximum health
 	attribute_penalty += 25
 	if(master)
 		master.adjustBruteLoss(-100)
@@ -525,7 +525,7 @@
 /datum/status_effect/stacking/crownthorns/on_remove()
 	to_chat(owner, span_nicegreen("The prickly feeling stops."))
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, attribute_penalty)
+	status_holder.adjust_attribute_bonus(STRENGTH_STAT, attribute_penalty)
 	status_holder.adjustBruteLoss(-attribute_penalty)
 	return ..()
 

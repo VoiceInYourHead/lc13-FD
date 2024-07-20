@@ -18,10 +18,10 @@
 	run_item_attack_animation = FALSE
 	actions_types = list(/datum/action/item_action/charging/tempestuous, /datum/action/item_action/charging/grandfinale)
 	attribute_requirements = list(
-		FORTITUDE_ATTRIBUTE = 120,
-		PRUDENCE_ATTRIBUTE = 120,
-		TEMPERANCE_ATTRIBUTE = 120,
-		JUSTICE_ATTRIBUTE = 120,
+		STRENGTH_STAT = 120,
+		WILLPOWER_STAT = 120,
+		OBSERVATION_STAT = 120,
+		REFLEXES_STAT = 120,
 	)
 	var/mode = MODE_ADD
 	var/vibration = 4

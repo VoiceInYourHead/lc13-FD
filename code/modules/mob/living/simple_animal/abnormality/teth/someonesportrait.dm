@@ -42,7 +42,7 @@
 
 //Work
 /mob/living/simple_animal/hostile/abnormality/someones_portrait/PostWorkEffect(mob/living/carbon/human/user, work_type, pe)
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 40 && get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 40)
+	if(get_attribute_level(user, STRENGTH_STAT) < 40 && get_attribute_level(user, WILLPOWER_STAT) < 40)
 		PanicUser(user)
 	DestroyLights()
 
