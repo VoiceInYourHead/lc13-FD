@@ -517,9 +517,9 @@
 		power /= CLICK_CD_MELEE / 10
 	return power
 
-/proc/IsBetterWeapon(mob/living/carbon/human/H, obj/item/I, current_highest_force, considerRangedAttack = TRUE, applyJustice = FALSE)
-	var/justice = applyJustice ? get_modified_attribute_level(H, REFLEXES_STAT) : 0
-	return GetEffectiveItemForce(I, considerRangedAttack, justice) > current_highest_force
+/proc/IsBetterWeapon(mob/living/carbon/human/H, obj/item/I, current_highest_force, considerRangedAttack = TRUE, applyStrength = FALSE)
+	var/strength = applyStrength ? get_modified_attribute_level(H, STRENGTH_STAT) : 0
+	return GetEffectiveItemForce(I, considerRangedAttack, strength) > current_highest_force
 
 /datum/ai_controller/insane/murder/proc/FindEnemies()
 	. = FALSE

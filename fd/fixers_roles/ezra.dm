@@ -2,7 +2,7 @@
 
 /datum/job/ezra
 	title = "Ezra Jennings"
-	faction = "Station"
+	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
 	total_positions = 1
@@ -10,7 +10,7 @@
 
 	outfit = /datum/outfit/job/ezra
 
-	job_attribute_limit = 80
+	job_attribute_limit = 100
 
 	display_order = 1
 	maptype = "fixer_dnd"
@@ -19,9 +19,12 @@
 
 	roundstart_attributes = list(
 								STRENGTH_STAT = 20,
-								WILLPOWER_STAT = 30,
+								WILLPOWER_STAT = 20,
 								OBSERVATION_STAT = 20,
-								REFLEXES_STAT = 80
+								REFLEXES_STAT = 20,
+								LUCK_STAT = 100,
+								PRECISION_STAT = 20,
+								INTELLECT_STAT = 30
 								)
 
 /datum/job/ezra/after_spawn(mob/living/carbon/human/H, mob/M)

@@ -6,7 +6,7 @@
 
 /datum/job/thorne
 	title = "Gawain Thorne"
-	faction = "Station"
+	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
 	total_positions = 1
@@ -14,7 +14,7 @@
 
 	outfit = /datum/outfit/job/thorne
 
-	job_attribute_limit = 80
+	job_attribute_limit = 100
 
 	display_order = 1
 	maptype = "fixer_dnd"
@@ -22,10 +22,13 @@
 	job_abbreviation = "THORN"
 
 	roundstart_attributes = list(
-								STRENGTH_STAT = 55,
-								WILLPOWER_STAT = 45,
-								OBSERVATION_STAT = 35,
-								REFLEXES_STAT = 65
+								STRENGTH_STAT = 70,
+								WILLPOWER_STAT = 50,
+								OBSERVATION_STAT = 45,
+								REFLEXES_STAT = 55,
+								LUCK_STAT = 0,
+								PRECISION_STAT = 50,
+								INTELLECT_STAT = 40
 								)
 
 /datum/job/thorne/after_spawn(mob/living/carbon/human/H, mob/M)

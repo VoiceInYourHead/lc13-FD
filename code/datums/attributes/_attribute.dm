@@ -3,6 +3,9 @@ GLOBAL_LIST_INIT(attribute_types, list(
 	/datum/attribute/prudence,
 	/datum/attribute/temperance,
 	/datum/attribute/justice,
+	/datum/attribute/luck,
+	/datum/attribute/precision,
+	/datum/attribute/intellect
 	))
 
 /datum/attribute

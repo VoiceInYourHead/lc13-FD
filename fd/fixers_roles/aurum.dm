@@ -2,7 +2,7 @@
 
 /datum/job/aurum
 	title = "Aurum O'Lit"
-	faction = "Station"
+	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
 	total_positions = 1
@@ -10,7 +10,7 @@
 
 	outfit = /datum/outfit/job/aurum
 
-	job_attribute_limit = 80
+	job_attribute_limit = 100
 
 	display_order = 1
 	maptype = "fixer_dnd"
@@ -19,9 +19,12 @@
 
 	roundstart_attributes = list(
 								STRENGTH_STAT = 80,
-								WILLPOWER_STAT = 40,
+								WILLPOWER_STAT = 50,
 								OBSERVATION_STAT = 20,
-								REFLEXES_STAT = 40
+								REFLEXES_STAT = 40,
+								LUCK_STAT = 25,
+								PRECISION_STAT = 20,
+								INTELLECT_STAT = 40
 								)
 
 /datum/job/aurum/after_spawn(mob/living/carbon/human/H, mob/M)

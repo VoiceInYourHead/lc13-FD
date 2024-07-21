@@ -9,6 +9,29 @@
 	for(var/datum/atom_hud/data/diagnostic/diag_hud in GLOB.huds)
 		diag_hud.add_to_hud(src)
 	faction += "[REF(src)]"
+
+//totally shitcode - Void
+
+	var/luck = get_attribute_level(src, LUCK_STAT)
+	switch(luck)
+		if(100)
+			reroll = 4
+		if(75 to 99)
+			reroll = 3
+		if(50 to 74)
+			reroll = 2
+		if(25 to 49)
+			reroll = 1
+
+/*	if(luck < 50 && luck >= 25)
+		reroll = 1
+	if(luck < 75 && luck >= 50)
+		reroll = 2
+	if(luck < 100 && luck >= 75)
+		reroll = 3
+	if(luck == 100)
+		reroll = 4*/
+
 	GLOB.mob_living_list += src
 
 /mob/living/ComponentInitialize()

@@ -1,6 +1,7 @@
 /mob/living
 	var/roll_buff = 0
 	var/roll_buff_max = 40
+	var/reroll = 0
 
 /obj/effect/temp_visual/dice_roll
 	icon = 'fd/icons/dice_roll.dmi'
@@ -59,6 +60,11 @@
 		return FALSE
 //execution
 	var/roll = rand(1,100)
+	if(roll > player_stat && user.reroll > 0)
+		switch(alert("Ролл не самый удачный, хотите перебросить?","И результат...","Да","Нет"))
+			if("Да")
+				user.reroll -= 1
+				roll = rand(1,100)
 	if(roll > player_stat && user.roll_buff > 0)
 		to_chat(user,"<span class='danger'>Бросок не очень удачный, но посмотрим, что мы сможем сделать с вдохновением...</span>")
 		roll -= user.roll_buff

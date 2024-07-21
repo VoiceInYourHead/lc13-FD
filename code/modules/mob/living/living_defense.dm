@@ -90,11 +90,11 @@
 		if(!thrown_item.throwforce)
 			return
 		var/armor = run_armor_check(zone, thrown_item.damtype, "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].", thrown_item.armour_penetration)
-		var/justice_mod = 1
+		var/strength_mod = 1
 		if(ishuman(thrown_item.thrownby))
 			var/mob/living/carbon/human/H = thrown_item.thrownby
-			justice_mod += get_modified_attribute_level(H, REFLEXES_STAT)/100
-		apply_damage(thrown_item.throwforce * justice_mod, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND))
+			strength_mod += get_modified_attribute_level(H, STRENGTH_STAT)/100
+		apply_damage(thrown_item.throwforce * strength_mod, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND))
 		if(QDELETED(src)) //Damage can delete the mob.
 			return
 		return ..()

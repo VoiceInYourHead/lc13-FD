@@ -80,8 +80,8 @@
 	SEND_SIGNAL(I, COMSIG_ITEM_ATTACK_ZONE, src, user, affecting)
 	send_item_attack_message(I, user, affecting.name, affecting)
 	if(I.force)
-		var/justice_mod = 1 + (get_modified_attribute_level(user, REFLEXES_STAT)/100)
-		var/damage = I.force * justice_mod
+		var/strength_mod = 1 + (get_modified_attribute_level(user, STRENGTH_STAT)/100)
+		var/damage = I.force * strength_mod
 		if(istype(I, /obj/item/ego_weapon))
 			var/obj/item/ego_weapon/theweapon = I
 			damage *= theweapon.force_multiplier

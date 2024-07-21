@@ -135,8 +135,8 @@
 /mob/living/attacked_by(obj/item/I, mob/living/user)
 	send_item_attack_message(I, user)
 	if(I.force)
-		var/justice_mod = 1 + (get_modified_attribute_level(user, REFLEXES_STAT)/100)
-		var/damage = I.force * justice_mod
+		var/strength_mod = 1 + (get_modified_attribute_level(user, STRENGTH_STAT)/100)
+		var/damage = I.force * strength_mod
 		if(istype(I, /obj/item/ego_weapon))
 			var/obj/item/ego_weapon/theweapon = I
 			damage *= theweapon.force_multiplier
@@ -160,8 +160,8 @@
 	if(I.force)
 		user.visible_message(span_danger("[user] hits [src] with [I]!"), span_danger("You hit [src] with [I]!"), null, COMBAT_MESSAGE_RANGE)
 		log_combat(user, src, "attacked", I)
-		var/justice_mod = 1 + (get_modified_attribute_level(user, REFLEXES_STAT)/100)
-		var/damage = I.force * justice_mod
+		var/strength_mod = 1 + (get_modified_attribute_level(user, STRENGTH_STAT)/100)
+		var/damage = I.force * strength_mod
 		if(istype(I, /obj/item/ego_weapon))
 			var/obj/item/ego_weapon/theweapon = I
 			damage *= theweapon.force_multiplier

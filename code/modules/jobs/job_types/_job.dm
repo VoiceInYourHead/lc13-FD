@@ -19,7 +19,10 @@
 									STRENGTH_STAT = 0,
 									WILLPOWER_STAT = 0,
 									OBSERVATION_STAT = 0,
-									REFLEXES_STAT = 0
+									REFLEXES_STAT = 0,
+									LUCK_STAT = 0,
+									PRECISION_STAT = 0,
+									INTELLECT_STAT = 0
 									)
 
 	//Determines who can demote this position
