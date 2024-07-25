@@ -307,6 +307,7 @@
 	shotsleft = 1
 	reloadtime = 2 MINUTES
 	attribute_requirements = list()
+	recoil = 5
 	var/list/shot_choice = list("стандартный", "зажигательный", "ударный", "подавляющий")
 	var/current_shot = "стандартный"
 	var/fire_shots = 3
@@ -379,7 +380,7 @@
 	if(stun_shots < 1)
 		to_chat(user, span_warning("Подавляющие кончились!"))
 		return FALSE
-	var/player_temp = get_attribute_level(user, OBSERVATION_STAT)
+	var/player_temp = get_attribute_level(user, STRENGTH_STAT)
 	if(player_temp < needed_att)
 		if(prob(30))
 			to_chat(user, span_userdanger("ЗАКЛИНИЛО. ЗАРАЗА!"))
@@ -396,7 +397,7 @@
 	if(current_shot == "подавляющий")
 		stun_shots -= 1
 
-	var/player_temp = get_attribute_level(user, OBSERVATION_STAT)
+	var/player_temp = get_attribute_level(user, STRENGTH_STAT)
 	if(player_temp < needed_att)
 		if(prob(30))
 			recoil = 5
