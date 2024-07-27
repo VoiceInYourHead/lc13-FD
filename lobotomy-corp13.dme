@@ -3962,6 +3962,7 @@
 #include "fd\fixers_roles\aurum.dm"
 #include "fd\fixers_roles\ezra.dm"
 #include "fd\fixers_roles\libra.dm"
+#include "fd\fixers_roles\nathaniel.dm"
 #include "fd\fixers_roles\thorne.dm"
 #include "fd\fixers_roles\will.dm"
 #include "fd\lcd_jobs\lccb_joblist.dm"
