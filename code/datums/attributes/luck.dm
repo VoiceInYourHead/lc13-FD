@@ -7,5 +7,5 @@
 	if(!istype(user))
 		return FALSE
 	var/luck = get_attribute_level(user, LUCK_STAT)
-	user.reroll = round(luck / 25)
+	user.reroll = round(luck / 20)
 	return TRUE

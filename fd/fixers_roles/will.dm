@@ -39,7 +39,7 @@
 								WILLPOWER_STAT = 60,
 								OBSERVATION_STAT = 50,
 								REFLEXES_STAT = 40,
-								LUCK_STAT = 25,
+								LUCK_STAT = 20,
 								PRECISION_STAT = 30,
 								INTELLECT_STAT = 40
 								)

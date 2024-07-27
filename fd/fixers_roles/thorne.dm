@@ -26,8 +26,8 @@
 								WILLPOWER_STAT = 50,
 								OBSERVATION_STAT = 45,
 								REFLEXES_STAT = 55,
-								LUCK_STAT = 0,
-								PRECISION_STAT = 50,
+								LUCK_STAT = 20,
+								PRECISION_STAT = 40,
 								INTELLECT_STAT = 40
 								)
 

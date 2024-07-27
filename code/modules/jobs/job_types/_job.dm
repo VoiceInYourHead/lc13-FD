@@ -166,7 +166,7 @@
 				atr.level = roundstart_attributes[atrib]
 				atr.on_update(HA)
 		var/luck = get_attribute_level(HA, LUCK_STAT)
-		HA.reroll = round(luck / 25)
+		HA.reroll = round(luck / 20)
 
 
 	if(job_important)
