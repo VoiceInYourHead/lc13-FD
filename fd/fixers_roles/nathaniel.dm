@@ -46,6 +46,7 @@
 	suit = null
 	glasses = /obj/item/clothing/glasses/orange
 	head = null
+	neck = /obj/item/clothing/neck/horns
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()
 
@@ -64,3 +65,12 @@
 	H.sanityhealth = 180
 	H.maxSanity = 180
 	H.add_movespeed_modifier(/datum/movespeed_modifier/assault)
+
+/obj/item/clothing/neck/horns
+	name = "Reindeer Horns"
+	desc = "For the last time. YOU CAN'T TOUCH THEM."
+	icon = 'fd/icons/nat_horns.dmi'
+	worn_icon = 'fd/icons/nat_horns.dmi'
+	icon_state = "nat_horns"
+	inhand_icon_state = ""	//no inhands
+	w_class = WEIGHT_CLASS_SMALL
