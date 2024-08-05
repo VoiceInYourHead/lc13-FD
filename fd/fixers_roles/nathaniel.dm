@@ -86,9 +86,11 @@
 	sharpness = SHARP_EDGED
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
 	w_class = WEIGHT_CLASS_NORMAL
+	actions_types = list(/datum/action/item_action/foldingcane)
+
 	// battle stats
 	attack_speed = 1.3
-	force = 20
+	force = 15
 	couch_cooldown_time = 5 SECONDS //Cooldown between charges
 	force_cap = 60 //highest damage a lance deals on charge; should be set manually.
 	force_per_tile = 3
@@ -104,31 +106,54 @@
 	if(folded)
 		return
 	. = ..()
-/*
+
 /obj/item/ego_weapon/lance/fixers/nathaniel/proc/fold()
+	if(!src)
+		return
 	if(folded)
+		folded = FALSE
 		name = unfolded_name
 		desc = unfolded_desc
 		icon_state = initial(icon_state)
-		item_state = initial(item_state)
+	//	item_state = initial(item_state)
 		slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
 		w_class = WEIGHT_CLASS_NORMAL
 
-		force
 		attack_speed = 0.8
 		reach = 3
 	else
+		folded = TRUE
 		name = initial(name)
 		desc = initial(desc)
 		icon_state = initial(icon_state)
-		item_state = initial(item_state)
+	//	item_state = initial(item_state)
 		slot_flags = null
 		w_class = WEIGHT_CLASS_HUGE
 
-		force =
 		attack_speed = 1.3
 		reach = 1
-*/
+
+	update_icon()
+	for(var/X in actions)
+		var/datum/action/A = X
+		A.UpdateButtonIcon()
+
+/obj/item/ego_weapon/lance/fixers/nathaniel/verb/foldingcane()
+	set name = "Fold/Unfold a Cane"
+	set category = "Object"
+	set src in oview(1)
+
+	fold(usr)
+
+/datum/action/item_action/foldingcane
+	name = "Fold/Unfold a Cane"
+
+/datum/action/item_action/foldingcane/Trigger()
+	if(istype(target, /obj/item/ego_weapon/lance/fixers/nathaniel))
+		var/obj/item/ego_weapon/lance/fixers/nathaniel/P = target
+		P.fold()
+		return
+	..()
 
 /obj/item/ego_weapon/lance/fixers/nathaniel/UserBump(mob/living/carbon/human/user, atom/A)
 	. = ..()
@@ -137,35 +162,7 @@
 	SoundBarrier()
 
 /obj/item/ego_weapon/lance/fixers/nathaniel/proc/SoundBarrier()
-	/*
-	for(var/turf/T in view(5, usr))
-		var/obj/effect/temp_visual/shockwave =  new(T)
-		*/
 	var/turf/T = get_turf(usr)
 	new /datum/automata_cell/lanceshockwave(T)
 
 
-/*
-/obj/item/ego_weapon/lance/lifestew_lance/proc/SoupBlast(mob/living/carbon/human/user, mob/target)
-	playsound(target, 'sound/abnormalities/bloodbath/Bloodbath_EyeOn.ogg', 80, TRUE, -3) //yes im reusing a sound bite me
-	for(var/turf/T in view(1, target))
-		var/obj/effect/temp_visual/small_smoke/halfsecond/FX =  new(T)
-		FX.color = "#622F22"
-		user.HurtInTurf(T, list(), 40, BLACK_DAMAGE, check_faction = TRUE)
-*/
-/*
-/obj/effect/temp_visual/shockwave
-	name = "shockwave"
-	icon = 'icons/effects/effects.dmi'
-	icon_state = "smoke"
-	anchored = TRUE
-	duration = 5
-	mouse_opacity = 0
-	layer = FLY_LAYER
-*/
-/*
-		var/atom/throw_target = get_edge_target_turf(target, user.dir)
-		if(!target.anchored)
-			target.throw_at(throw_target, 2, 4, user)
-*/
-// /datum/component/knockback

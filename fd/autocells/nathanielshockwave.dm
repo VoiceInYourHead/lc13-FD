@@ -37,6 +37,7 @@
 	if(A.gc_destroyed)
 		return
 
+
 	INVOKE_ASYNC(A, /mob.proc/explosion_throw, power, null)
 	message_admins("[A] on_turf_entered, [power] ")
 
@@ -51,7 +52,6 @@
 		if(A.gc_destroyed)
 			continue
 		INVOKE_ASYNC(A, /mob.proc/explosion_throw, power, direction)
-		message_admins("update_state2, [A] [power], [direction] ")
 		exploded_atoms += A
 
 	if(power <= 0)
