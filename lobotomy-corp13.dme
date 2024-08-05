@@ -3939,6 +3939,8 @@
 #include "code\modules\vending\youtool.dm"
 #include "code\modules\zombie\items.dm"
 #include "code\modules\zombie\organs.dm"
+#include "fd\autocells\auto_cell.dm"
+#include "fd\autocells\nathanielshockwave.dm"
 #include "fd\agent_ru.dm"
 #include "fd\chairs.dm"
 #include "fd\decor.dm"
