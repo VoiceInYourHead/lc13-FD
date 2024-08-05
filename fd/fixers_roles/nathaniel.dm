@@ -101,15 +101,13 @@
 	pierce_speed_cost = 0.8
 	pierce_force_cost = 12
 
-
-/obj/item/ego_weapon/lance/fixers/nathaniel/attack_self(mob/user)
-	if(folded)
-		return
-	. = ..()
+	// Adding Stuff \\
+	// Fold/Unfold  \\
 
 /obj/item/ego_weapon/lance/fixers/nathaniel/proc/fold()
 	if(!src)
 		return
+	var/fold_message = null
 	if(folded)
 		folded = FALSE
 		name = unfolded_name
@@ -121,6 +119,8 @@
 
 		attack_speed = 0.8
 		reach = 3
+
+		fold_message = "unfold"
 	else
 		folded = TRUE
 		name = initial(name)
@@ -133,6 +133,9 @@
 		attack_speed = 1.3
 		reach = 1
 
+		fold_message = "fold"
+
+	usr.visible_message(FONT_LARGE(span_warning("[usr] [fold_message], transforming it into [name]")), span_notice("You [fold_message], transforming it into [name]"))
 	update_icon()
 	for(var/X in actions)
 		var/datum/action/A = X
@@ -155,6 +158,25 @@
 		return
 	..()
 
+/obj/item/ego_weapon/lance/fixers/nathaniel/attack_self(mob/user)
+	if(folded)
+		return
+	. = ..()
+
+	// Lance Mechanic \\
+
+/obj/item/ego_weapon/lance/fixers/nathaniel/UserMoved(mob/user)
+	. = ..()
+	// Animation
+	if(!raised && !folded)
+		var/in_turf = user.loc
+		var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(in_turf, user.dir, user)
+		D.alpha = 150
+		animate(D, alpha = 0, time = 4)
+		var/obj/effect/temp_visual/shockwave/smoke = new /obj/effect/temp_visual/shockwave(in_turf)
+		smoke.color = "#000000ff"
+		animate(smoke, alpha = 0, time = 8)
+
 /obj/item/ego_weapon/lance/fixers/nathaniel/UserBump(mob/living/carbon/human/user, atom/A)
 	. = ..()
 	if(raised)
@@ -166,3 +188,29 @@
 	new /datum/automata_cell/lanceshockwave(T)
 
 
+	// ASSETS \\
+
+
+/obj/effect/temp_visual/decoy
+	desc = "It's a decoy!"
+	duration = 15
+
+/obj/effect/temp_visual/decoy/Initialize(mapload, set_dir, atom/mimiced_atom, modified_duration = 15)
+	duration = modified_duration
+	. = ..()
+	alpha = initial(alpha)
+	if(mimiced_atom)
+		name = mimiced_atom.name
+		appearance = mimiced_atom.appearance
+		setDir(set_dir)
+		mouse_opacity = 0
+
+
+/obj/effect/temp_visual/shockwave
+	name = "shockwave"
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "smoke"
+	anchored = TRUE
+	duration = 20
+	mouse_opacity = 0
+	layer = FLY_LAYER

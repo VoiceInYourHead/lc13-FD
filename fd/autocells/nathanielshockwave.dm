@@ -37,9 +37,7 @@
 	if(A.gc_destroyed)
 		return
 
-
 	INVOKE_ASYNC(A, /mob.proc/explosion_throw, power, null)
-	message_admins("[A] on_turf_entered, [power] ")
 
 /datum/automata_cell/lanceshockwave/update_state(list/turf/neighbors)
 
@@ -138,7 +136,6 @@
 	return
 */
 /mob/proc/explosion_throw(severity, direction, scatter_multiplier)
-	message_admins("Explosion Throw, [src] INITIALIZED! SUKA BLYAT! [severity], [direction], [scatter_multiplier] ")
 	if(anchored)
 		return
 
@@ -168,6 +165,5 @@
 		var/scatter_y = rand(-scatter,scatter)
 		target = locate(target.x + round( scatter_x , 1),target.y + round( scatter_y , 1),target.z) //Locate an adjacent turf.
 
-	message_admins("THROW IT! NOW!, [target], [range], [speed], null, [spin] ")
 	//time for the explosion to destroy windows, walls, etc which might be in the way
 	INVOKE_ASYNC(src, /atom/movable.proc/throw_at, target, range, speed, null, spin)
