@@ -173,8 +173,10 @@
 		var/obj/effect/temp_visual/decoy/D = new /obj/effect/temp_visual/decoy(in_turf, user.dir, user)
 		D.alpha = 150
 		animate(D, alpha = 0, time = 4)
-		var/obj/effect/temp_visual/shockwave/smoke = new /obj/effect/temp_visual/shockwave(in_turf)
+		var/obj/effect/temp_visual/smoke/smoke = new /obj/effect/temp_visual/smoke(in_turf)
 		smoke.color = "#000000ff"
+		smoke.pixel_x = -10
+		smoke.pixel_y = -5
 		animate(smoke, alpha = 0, time = 8)
 
 /obj/item/ego_weapon/lance/fixers/nathaniel/UserBump(mob/living/carbon/human/user, atom/A)
@@ -206,9 +208,9 @@
 		mouse_opacity = 0
 
 
-/obj/effect/temp_visual/shockwave
-	name = "shockwave"
-	icon = 'icons/effects/effects.dmi'
+/obj/effect/temp_visual/smoke
+	name = "smoke"
+	icon = 'fd/fixers_roles/icons/smoke.dmi'
 	icon_state = "smoke"
 	anchored = TRUE
 	duration = 20
