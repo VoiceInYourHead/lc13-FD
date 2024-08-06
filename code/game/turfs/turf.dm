@@ -303,6 +303,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	// Here's hoping it doesn't stay like this for years before we finish conversion to step_
 	var/atom/firstbump
 	var/canPassSelf = CanPass(mover, src)
+	for(var/datum/automata_cell/lanceshockwave/E in autocells)
+		E.on_turf_entered(mover)
 	if(canPassSelf || (mover.movement_type & PHASING))
 		for(var/i in contents)
 			if(QDELETED(mover))
