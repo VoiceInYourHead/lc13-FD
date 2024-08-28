@@ -1,9 +1,5 @@
 //main role code
 
-/mob/living
-	var/radiance = 0
-	var/in_search = FALSE
-
 /obj/item/story_related
 	var/already_located
 
@@ -76,6 +72,17 @@
 
 //abilities
 
+/obj/effect/temp_visual/deathslice
+	icon = 'fd/icons/aurum_slash.dmi'
+	layer = ABOVE_ALL_MOB_LAYER
+	icon_state = "deathslice"
+	duration = 10 SECONDS
+
+/obj/effect/temp_visual/deathslice/Initialize()
+	. = ..()
+	if(duration > 8 SECONDS)
+		animate(src, transform = matrix()*1.8, alpha = 0, time = 2 SECONDS)
+
 /obj/effect/proc_holder/spell/pointed/BoD
 	name = "Boundry of Death"
 	desc = "ЧОТЫРЕ!"
@@ -88,6 +95,10 @@
 	var/dash_ignore_walls = FALSE
 
 /obj/effect/proc_holder/spell/pointed/BoD/cast(list/targets, mob/living/user)
+	var/obj/item/ego_weapon/city/eclipse/held_item = user.get_active_held_item()
+	if(!held_item)
+		to_chat(user, span_danger("Твоё оружие должно находиться в руке для совершения данной атаки!"))
+		return FALSE
 	var/mob/living/target = targets[1]
 	var/obj/effect/temp_visual/target_field/uhoh = new /obj/effect/temp_visual/target_field(target.loc)
 	uhoh.orbit(target, 0)
@@ -149,3 +160,49 @@
 
 /obj/effect/proc_holder/spell/targeted/detective_sense/proc/reset_senses(list/targets, mob/living/user = usr)
 	user.in_search = FALSE
+
+// weapons
+
+/obj/item/ego_weapon/city/eclipse
+	name = "eclipse"
+	desc = "A long sword with dark black blade. You can feel how dread itself coming from it's tip."
+	icon = null //жду спрайтов
+	icon_state = null //жду спрайтов
+	force = 80
+	attack_speed = 2
+	damtype = BLACK_DAMAGE
+
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
+	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
+	attribute_requirements = list()
+
+/obj/item/ego_weapon/city/radiance
+	name = "radiance"
+	desc = "A small dagger with shiny reddish blade. To stab people, obviously"
+	icon = null //жду спрайтов
+	icon_state = null //жду спрайтов
+	force = 10
+	attack_speed = 0.5
+	damtype = RED_DAMAGE
+
+	attack_verb_continuous = list("pokes", "jabs", "tears", "lacerates", "gores")
+	attack_verb_simple = list("poke", "jab", "tear", "lacerate", "gore")
+	hitsound = 'sound/weapons/fixer/generic/nail1.ogg'
+	attribute_requirements = list()
+
+	var/radiance_from_hit = 1
+
+/obj/item/ego_weapon/city/radiance/attack(mob/living/target, mob/living/user)
+
+	if(!CanUseEgo(user))
+		return
+
+	. = ..()
+
+	if(target.radiance >= 10)
+		new /obj/effect/temp_visual/onesin_blessing(target.loc)
+		target.apply_damage(30, WHITE_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE))
+		target.radiance = 0
+
+	target.radiance += radiance_from_hit

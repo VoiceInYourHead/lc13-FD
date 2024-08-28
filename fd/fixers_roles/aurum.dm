@@ -142,17 +142,6 @@
 					to_chat(affected,"<span class='nicegreen'>Ты ощущаешь странный прилив сил...твоё сердце воспылало вновь!</span>")
 		return TRUE
 
-/obj/effect/temp_visual/deathslice
-	icon = 'fd/icons/aurum_slash.dmi'
-	layer = ABOVE_ALL_MOB_LAYER
-	icon_state = "deathslice"
-	duration = 10 SECONDS
-
-/obj/effect/temp_visual/deathslice/Initialize()
-	. = ..()
-	if(duration > 8 SECONDS)
-		animate(src, transform = matrix()*1.8, alpha = 0, time = 2 SECONDS)
-
 /obj/effect/temp_visual/commandGaurd/fast
 	duration = 20
 

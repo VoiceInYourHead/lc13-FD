@@ -1,9 +1,5 @@
 //main role code
 
-/mob/living
-	var/flame_stacks = 0
-	var/max_flame_stacks = 20
-
 /datum/job/thorne
 	title = "Gawain Thorne"
 	faction = "Prism"
