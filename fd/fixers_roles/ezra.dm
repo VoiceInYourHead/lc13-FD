@@ -302,7 +302,7 @@
 	force = 15
 	ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
 	weapon_weight = WEAPON_MEDIUM
-	fire_sound = 'sound/weapons/ego/cannon.ogg'
+	fire_sound = 'sound/weapons/blastcannon.ogg'
 	fire_delay = 60 SECONDS
 	shotsleft = 1
 	reloadtime = 2 MINUTES

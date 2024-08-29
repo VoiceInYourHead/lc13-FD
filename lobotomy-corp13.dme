@@ -3961,6 +3961,7 @@
 #include "fd\autocells\auto_cell.dm"
 #include "fd\autocells\nathanielshockwave.dm"
 #include "fd\eventstuff\narrates.dm"
+#include "fd\fixers_roles\albert.dm"
 #include "fd\fixers_roles\aurum.dm"
 #include "fd\fixers_roles\ezra.dm"
 #include "fd\fixers_roles\global_vars.dm"

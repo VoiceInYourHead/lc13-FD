@@ -55,7 +55,7 @@
 
 /datum/outfit/job/will
 	name = "William Solros"
-	jobtype = /datum/job/thorne
+	jobtype = /datum/job/will
 
 	uniform = /obj/item/clothing/under/suit/black
 	ears = null

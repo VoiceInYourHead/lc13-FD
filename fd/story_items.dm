@@ -15,9 +15,7 @@
 
 /obj/item/story_related/process()
 	if(found)
-		icon_state = "[initial(icon_state)]_found"
-	if(!found)
-		icon_state = "[initial(icon_state)]"
+		add_filter("clue", 2, list("type" = "outline", "color" = "#eeeeee", "size" = 1))
 
 /obj/item/story_related/attack_self(mob/user)
 	for(var/mob/living/failed in who_failed)
@@ -31,7 +29,9 @@
 			if(prob(70))
 				to_chat(user, span_warning("Но не можешь понять, что в нём такого..."))
 				found = FALSE
+				remove_filter("clue")
 				who_failed += user
 				return
 		found = FALSE
+		remove_filter("clue")
 		to_chat(user, span_nicegreen("[clue]"))
