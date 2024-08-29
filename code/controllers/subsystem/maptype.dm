@@ -12,28 +12,28 @@ SUBSYSTEM_DEF(maptype)
 	var/jobtype		//If a map RNGs which jobs are available, use this
 
 	//All the map tags that delete all jobs and replace them with others.
-	var/list/clearmaps = list("rcorp", "city", "wcorp", "limbus_labs", "fixers")
+	var/list/clearmaps = list("rcorp", "city", "wcorp", "limbus_labs", "fixer_dnd", "fixers")
 
 	//All the map tags that are combat maps and need abnos to breach immediately
-	var/list/combatmaps = list("rcorp", "wcorp", "limbus_labs", "fixers")
+	var/list/combatmaps = list("rcorp", "wcorp", "limbus_labs", "fixer_dnd", "fixers")
 
 	//Ghosts should be possessbale at all times
-	var/list/autopossess = list("rcorp", "limbus_labs")
+	var/list/autopossess = list("rcorp", "limbus_labs", "fixer_dnd", "fixers")
 
 	//These end after a certain number of minutes.
-	var/list/autoend = list("rcorp", "wcorp", "fixers") //, "limbus_labs" - uncomment in case of merge conflicts
+	var/list/autoend = list("rcorp", "wcorp",) //, "limbus_labs", "fixers" - uncomment in case of merge conflicts
 
 	//This map is city stuff
-	var/list/citymaps = list("wonderlabs", "city", "fixers", "limbus_labs")
+	var/list/citymaps = list("wonderlabs", "city", "fixers", "limbus_labs", "fixer_dnd")
 
 	//This is for maps that incorporate space
 	var/list/spacemaps = list("skeld")
 
 	//This is for maps where crafting is enabled.
-	var/list/craftingmaps = list("skeld", "limbus_labs")
+	var/list/craftingmaps = list("skeld", "limbus_labs", "fixer_dnd", "fixers")
 
 	//Maps that give no fear. Everyone cannot work as is fear immune.
-	var/list/nofear = list("limbus_labs")
+	var/list/nofear = list("limbus_labs", "fixers", "fixer_dnd")
 
 	//What departments are we looking at
 	var/list/departments = list("Command","Security","Service")
@@ -45,8 +45,10 @@ SUBSYSTEM_DEF(maptype)
 	//Badda Bing Badda Da. This makes the latejoin menu cleaner
 	switch(SSmaptype.maptype)
 		if("wonderlabs", "city", "fixers")
-			departments = list("Command", "Security", "Service", "Science")
+			departments = list("Command", "Security","Medical", "Science", "Service" )
 		if("limbus_labs")
+			departments = list("Command", "Security","Medical", "Science", "Service" )
+		if("fixer_dnd")
 			departments = list("Command", "Security","Medical", "Science", "Service" )
 		if("rcorp", "wcorp")
 			departments = list("Command", "Security")

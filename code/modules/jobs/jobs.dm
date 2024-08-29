@@ -207,6 +207,12 @@ GLOBAL_LIST_INIT(security_positions, list(
 
 	//Fixers
 	"Fixer",
+	"Albert Krat",
+	"Aurum O'Lit",
+	"Ezra Jennings",
+	"Eizikaide Libra",
+	"Gawain Thorne",
+	"William Solros",
 
 	))
 
