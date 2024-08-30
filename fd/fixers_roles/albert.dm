@@ -16,6 +16,9 @@
 	. = ..()
 	if(istype(I, /obj/item/ego_weapon/city/dieci_key))
 		var/obj/item/ego_weapon/city/dieci_key/prism = I
+		if(knowledge <= 0)
+			to_chat(user, span_notice("Здесь нечего читать!"))
+			return FALSE
 		if(!prism.combat_mode)
 			to_chat(user, span_notice("Ты не можешь читать, пока дерёшься!"))
 			return FALSE
@@ -34,7 +37,7 @@
 
 	job_attribute_limit = 100
 
-	display_order = 1
+	display_order = 1.4
 	maptype = "fixer_dnd"
 	job_important = "Вы и сами знате, кто вы такой."
 	job_abbreviation = "KRAT"

@@ -12,7 +12,7 @@
 
 	job_attribute_limit = 100
 
-	display_order = 1
+	display_order = 1.5
 	maptype = "fixer_dnd"
 	job_important = "Вы и сами знате, кто вы такой."
 	job_abbreviation = "LIBRA"
@@ -42,17 +42,20 @@
 	jobtype = /datum/job/aurum
 
 	uniform = /obj/item/clothing/under/suit/black
-	ears = null
+	ears = /obj/item/clothing/suit/armor/ego_gear/city/misc/second
 	shoes = /obj/item/clothing/shoes/jackboots
-	suit = null
-	glasses = /obj/item/clothing/glasses/orange
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/misc/second
+	glasses = /obj/item/clothing/glasses/eyepatch/pros_libra
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()
 
-	backpack = /obj/item/storage/backpack
-	satchel = /obj/item/storage/backpack/satchel
-	duffelbag = /obj/item/storage/backpack/duffelbag
+	backpack = /obj/item/gun/ego_gun/city/thumb/capo/libra_stolen
+	satchel = /obj/item/gun/ego_gun/city/thumb/capo/libra_stolen
+	duffelbag = /obj/item/gun/ego_gun/city/thumb/capo/libra_stolen
+
+	l_pocket = /obj/item/clothing/accessory/lawyers_badge/fixer
+	r_pocket = /obj/item/storage/wallet/random_ahn
 
 //equipment
 
@@ -60,5 +63,8 @@
 	name = "modified thumb rifle"
 	desc = "A rifle used by thumb Capos. The gun is inlaid with silver and were much lightened for it's user."
 	force = 30
+
+	slot_flags = ITEM_SLOT_BELT|ITEM_SLOT_BACK
+
 	projectile_damage_multiplier = 5		//50 damage per bullet
 	attribute_requirements = list()

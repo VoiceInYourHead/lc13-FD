@@ -19,6 +19,12 @@
 	worn_icon = 'fd/icons/prism/prism.dmi'
 	icon_state = "Ezra_under"
 
+/obj/item/clothing/under/prism_office/albert
+	desc = "An office suit combined with long trench. Looks cool."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Albert_under"
+
 /obj/item/clothing/under/prism_office/aurum
 	name = "rich pale suit"
 	desc = "Elite looking pale suit with some gold on it."
@@ -39,6 +45,18 @@
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/thorne
 	desc = "An stylish way to show that you are here. This one has red triangle on back."
 	icon_state = "Gwaine_Cloak"
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/will
+	desc = "An stylish way to show that you are here. This one has green triangle on back."
+	icon_state = "Will_Cloak"
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/albert
+	desc = "Long dark cloak. This one has NOTHING on it's back."
+	icon_state = "Albert_Cloak"
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/libra
+	desc = "An stylish way to show that you are here. This one has white triangle on back."
+	icon_state = "Will_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/ezra
 	desc = "An tattered dark cloak. This one has purple triangle on back."

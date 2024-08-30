@@ -1,0 +1,31 @@
+{
+	"version": 1,
+	"map_name": "Prism Office",
+	"map_path": "map_files/unlucky_fixers",
+	"map_file": [
+		"office_prism.dmm"
+	],
+	"traits": [
+		{
+			"Up": 1,
+			"Linkage": "Cross",
+			"Baseturf": "/turf/open/floor/plating/fd/ground/mountain"
+		},
+		{
+			"Up": 1,
+			"Down": -1,
+			"Linkage": "Cross",
+			"Baseturf": "/turf/open/floor/plating/fd/ground/mountain"
+		},
+		{
+			"Down": -1,
+			"Linkage": "Cross",
+			"Baseturf": "/turf/open/openspace",
+			"Gravity": true
+		}
+	],
+	"space_ruin_levels": 0,
+	"space_empty_levels": 0,
+	"minetype": "none",
+	"maptype": "fixer_dnd"
+}

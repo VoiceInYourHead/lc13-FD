@@ -18,10 +18,10 @@ SUBSYSTEM_DEF(maptype)
 	var/list/combatmaps = list("rcorp", "wcorp", "limbus_labs", "fixer_dnd", "fixers")
 
 	//Ghosts should be possessbale at all times
-	var/list/autopossess = list("rcorp", "limbus_labs", "fixer_dnd", "fixers")
+	var/list/autopossess = list("rcorp", "limbus_labs", "fixer_dnd")
 
 	//These end after a certain number of minutes.
-	var/list/autoend = list("rcorp", "wcorp",) //, "limbus_labs", "fixers" - uncomment in case of merge conflicts
+	var/list/autoend = list("rcorp", "wcorp", "fixers") //, "limbus_labs" - uncomment in case of merge conflicts
 
 	//This map is city stuff
 	var/list/citymaps = list("wonderlabs", "city", "fixers", "limbus_labs", "fixer_dnd")
@@ -30,10 +30,10 @@ SUBSYSTEM_DEF(maptype)
 	var/list/spacemaps = list("skeld")
 
 	//This is for maps where crafting is enabled.
-	var/list/craftingmaps = list("skeld", "limbus_labs", "fixer_dnd", "fixers")
+	var/list/craftingmaps = list("skeld", "limbus_labs", "fixer_dnd")
 
 	//Maps that give no fear. Everyone cannot work as is fear immune.
-	var/list/nofear = list("limbus_labs", "fixers", "fixer_dnd")
+	var/list/nofear = list("limbus_labs", "fixer_dnd")
 
 	//What departments are we looking at
 	var/list/departments = list("Command","Security","Service")
@@ -45,11 +45,11 @@ SUBSYSTEM_DEF(maptype)
 	//Badda Bing Badda Da. This makes the latejoin menu cleaner
 	switch(SSmaptype.maptype)
 		if("wonderlabs", "city", "fixers")
-			departments = list("Command", "Security","Medical", "Science", "Service" )
+			departments = list("Command", "Security")
 		if("limbus_labs")
-			departments = list("Command", "Security","Medical", "Science", "Service" )
+			departments = list("Command", "Security", "Medical", "Science", "Service")
 		if("fixer_dnd")
-			departments = list("Command", "Security","Medical", "Science", "Service" )
+			departments = list("Command", "Security")
 		if("rcorp", "wcorp")
 			departments = list("Command", "Security")
 

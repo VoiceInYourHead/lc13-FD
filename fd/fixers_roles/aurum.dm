@@ -1,7 +1,7 @@
 //main role code
 
 /datum/job/aurum
-	title = "Aurum O'Lit"
+	title = "Aurum OLit"
 	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
@@ -12,7 +12,7 @@
 
 	job_attribute_limit = 100
 
-	display_order = 1
+	display_order = 1.1
 	maptype = "fixer_dnd"
 	job_important = "Вы и сами знате, кто вы такой."
 	job_abbreviation = "GOLDEN"
@@ -41,7 +41,7 @@
 	M.AddSpell(morale)
 
 /datum/outfit/job/aurum
-	name = "Aurum O'Lit"
+	name = "Aurum OLit"
 	jobtype = /datum/job/aurum
 
 	uniform = /obj/item/clothing/under/suit/black

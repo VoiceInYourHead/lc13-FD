@@ -12,7 +12,7 @@
 
 	job_attribute_limit = 100
 
-	display_order = 1
+	display_order = 1.3
 	maptype = "fixer_dnd"
 	job_important = "Вы и сами знате, кто вы такой."
 	job_abbreviation = "THORN"

@@ -91,6 +91,9 @@ endmap
 map lclabs
 endmap
 
+map officeprism
+endmap
+
 map skeld
 endmap
 
