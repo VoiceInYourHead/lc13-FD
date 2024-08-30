@@ -42,11 +42,11 @@
 	name = "Ezra Jennings"
 	jobtype = /datum/job/ezra
 
-	uniform = /obj/item/clothing/under/suit/black
+	uniform = /obj/item/clothing/under/prism_office/ezra
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null
-	glasses = /obj/item/clothing/glasses/orange
+	glasses = null
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()

@@ -40,7 +40,7 @@
 	name = "Gawain Thorne"
 	jobtype = /datum/job/thorne
 
-	uniform = /obj/item/clothing/under/suit/black
+	uniform = /obj/item/clothing/under/prism_office/thorne
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null

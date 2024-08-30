@@ -36,8 +36,8 @@ SUBSYSTEM_DEF(job)
 		var/datum/job/job = new J()
 		if(!job)
 			continue
-		if(job.faction != faction)
-			continue
+/*		if(job.faction != faction)
+			continue*/
 		if(!job.config_check())
 			continue
 		if(!job.map_check())	//Even though we initialize before mapping, this is fine because the config is loaded at new

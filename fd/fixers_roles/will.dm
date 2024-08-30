@@ -57,11 +57,11 @@
 	name = "William Solros"
 	jobtype = /datum/job/will
 
-	uniform = /obj/item/clothing/under/suit/black
+	uniform = /obj/item/clothing/under/mercenary/tacticool
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null
-	glasses = /obj/item/clothing/glasses/orange
+	glasses = /obj/item/clothing/glasses/regular/hipster
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()

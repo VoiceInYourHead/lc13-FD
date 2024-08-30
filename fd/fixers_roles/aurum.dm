@@ -44,7 +44,7 @@
 	name = "Aurum OLit"
 	jobtype = /datum/job/aurum
 
-	uniform = /obj/item/clothing/under/suit/black
+	uniform = /obj/item/clothing/under/prism_office/aurum
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null

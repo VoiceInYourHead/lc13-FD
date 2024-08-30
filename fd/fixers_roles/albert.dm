@@ -19,7 +19,7 @@
 		if(knowledge <= 0)
 			to_chat(user, span_notice("Здесь нечего читать!"))
 			return FALSE
-		if(!prism.combat_mode)
+		if(prism.combat_mode)
 			to_chat(user, span_notice("Ты не можешь читать, пока дерёшься!"))
 			return FALSE
 		if(do_after(user, 5 SECONDS, src))
@@ -65,11 +65,11 @@
 	name = "Albert Krat"
 	jobtype = /datum/job/albert
 
-	uniform = /obj/item/clothing/under/suit/black
+	uniform = /obj/item/clothing/under/prism_office/albert
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null
-	glasses = /obj/item/clothing/glasses/orange
+	glasses = /obj/item/clothing/glasses/monocle
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()
