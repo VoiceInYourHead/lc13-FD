@@ -212,6 +212,7 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Ezra Jennings",
 	"Eizikaide Libra",
 	"Gawain Thorne",
+	"Emmerich Schau",
 	"William Solros",
 
 	))
