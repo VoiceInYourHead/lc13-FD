@@ -1,9 +1,9 @@
 //main role code
 
-/obj/item/story_related
+/obj/story_related
 	var/already_located
 
-/obj/item/story_related/process()
+/obj/story_related/process()
 	for(var/mob/living/detective in orange(2, src))
 		if(detective.in_search && !found && !already_located)
 			var/stat_level = get_attribute_level(detective, OBSERVATION_STAT)
@@ -155,11 +155,18 @@
 	user.say("Посмотрим...тут точно должно быть что-то полезное.")
 	visible_message(span_notice("[user] подносит руку к подбородку, сосредоточенно разглядывая окружение..."))
 	user.in_search = TRUE
+	user.add_movespeed_modifier(/datum/movespeed_modifier/searching)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/searching), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	addtimer(CALLBACK(src, PROC_REF(reset_senses),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
 	return TRUE
 
 /obj/effect/proc_holder/spell/targeted/detective_sense/proc/reset_senses(list/targets, mob/living/user = usr)
 	user.in_search = FALSE
+
+/datum/movespeed_modifier/searching
+	variable = TRUE
+	multiplicative_slowdown = 4
 
 // weapons
 

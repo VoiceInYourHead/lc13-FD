@@ -1,4 +1,4 @@
-/obj/item/story_related
+/obj/story_related
 	name = "something"
 	desc = "something"
 	icon = 'fd/icons/story.dmi'
@@ -9,15 +9,15 @@
 	var/found = FALSE //обнаружен ли предмет? по большей части нужно для абилки бруно, но можно также юзать если хочется выделить предмет на фоне остального
 	var/list/who_failed = list()
 
-/obj/item/story_related/Initialize()
+/obj/story_related/Initialize()
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
-/obj/item/story_related/process()
+/obj/story_related/process()
 	if(found)
 		add_filter("clue", 2, list("type" = "outline", "color" = "#eeeeee", "size" = 1))
 
-/obj/item/story_related/attack_self(mob/user)
+/obj/story_related/attackby(obj/item/I, mob/living/user, params)
 	for(var/mob/living/failed in who_failed)
 		if(failed == user)
 			to_chat(user, span_warning("Что ещё ты хочешь тут найти? Ты и так осмотрел его вдоль и поперёк."))

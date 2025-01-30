@@ -5,25 +5,11 @@
 	desc = "something"
 	icon = 'fd/icons/knowledge.dmi'
 	icon_state = "knowledge1"
-	var/knowledge = 0
 
 /obj/item/knowledge/Initialize()
 	. = ..()
 	var/sprite = rand(1,11)
 	icon_state = "knowledge[sprite]"
-
-/obj/item/knowledge/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
-	if(istype(I, /obj/item/ego_weapon/city/dieci_key))
-		var/obj/item/ego_weapon/city/dieci_key/prism = I
-		if(knowledge <= 0)
-			to_chat(user, span_notice("Здесь нечего читать!"))
-			return FALSE
-		if(prism.combat_mode)
-			to_chat(user, span_notice("Ты не можешь читать, пока дерёшься!"))
-			return FALSE
-		if(do_after(user, 5 SECONDS, src))
-			prism.knowledge_stored += knowledge
 
 /datum/job/albert
 	title = "Albert Krat"

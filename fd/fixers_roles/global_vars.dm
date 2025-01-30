@@ -1,3 +1,20 @@
+
+/obj/
+	var/knowledge = 0
+
+/obj/attackby(obj/item/I, mob/living/user, params)
+	. = ..()
+	if(istype(I, /obj/item/ego_weapon/city/dieci_key))
+		var/obj/item/ego_weapon/city/dieci_key/prism = I
+		if(knowledge <= 0)
+			to_chat(user, span_notice("Здесь нечего изучать!"))
+			return FALSE
+		if(prism.combat_mode)
+			to_chat(user, span_notice("Учёбе не место в драке! Твой ключ в боевом режиме!"))
+			return FALSE
+		if(do_after(user, 5 SECONDS, src))
+			prism.knowledge_stored += knowledge
+
 /mob/living
 	var/flame_stacks = 0
 	var/max_flame_stacks = 20

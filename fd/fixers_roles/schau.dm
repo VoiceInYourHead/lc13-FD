@@ -34,7 +34,9 @@
 	ADD_TRAIT(H, TRAIT_ATTRIBUTES_VISION, JOB_TRAIT)
 
 	var/obj/effect/proc_holder/spell/targeted/dice_roll/att_check = new
+	var/obj/effect/proc_holder/spell/aoe_turf/air_circle_schau/airbomb = new
 	M.AddSpell(att_check)
+	M.AddSpell(airbomb)
 
 /datum/outfit/job/schau
 	name = "Emmerich Schau"
