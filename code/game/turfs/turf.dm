@@ -293,6 +293,11 @@ GLOBAL_LIST_EMPTY(station_turfs)
 	else if(istype(C, /obj/item/rcl))
 		handleRCL(C, user)
 
+	else if(istype(C, /obj/item/ego_weapon))
+		var/mob/living/found_mob = locate() in src
+		if(found_mob && found_mob != user)
+			return found_mob.attackby(C, user, params)
+
 	return FALSE
 
 //There's a lot of QDELETED() calls here if someone can figure out how to optimize this but not runtime when something gets deleted by a Bump/CanPass/Cross call, lemme know or go ahead and fix this mess - kevinz000
