@@ -35,6 +35,7 @@
 	icon = 'icons/turf/decals.dmi'
 	icon_state = "warningline"
 	layer = TURF_DECAL_LAYER
+	mouse_opacity = FALSE
 
 /obj/effect/turf_decal/Initialize()
 	..()

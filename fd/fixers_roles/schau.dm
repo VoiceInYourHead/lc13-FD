@@ -168,7 +168,7 @@
 	fire_sound_volume = 5
 	spread = 20
 	force = 20
-	damtype = RED_DAMAGE
+	damtype = WHITE_DAMAGE
 
 	attribute_requirements = list()
 
@@ -198,11 +198,13 @@
 	if(blunt)
 		blunt = FALSE
 		icon_state = "sharp"
+		damtype = RED_DAMAGE
 		sharpness = SHARP_EDGED
 		to_chat(user, span_danger("Ты переключился на рубящий режим."))
 	else
 		blunt = TRUE
 		icon_state = "blunt"
+		damtype = WHITE_DAMAGE
 		sharpness = SHARP_NONE
 		to_chat(user, span_danger("Ты переключился на дробящий режим!"))
 

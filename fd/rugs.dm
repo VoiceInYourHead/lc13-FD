@@ -14,6 +14,7 @@
 	obj_flags = NONE // No hitting these anymore
 	var/has_alt_states = FALSE // Currenlty just rubber rugs. Could be more in the future. dunno.
 	var/alternate_states
+	mouse_opacity = FALSE
 
 /obj/structure/fd/rug/Initialize()
 	. = ..()

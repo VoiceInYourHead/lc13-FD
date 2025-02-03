@@ -407,6 +407,7 @@
 	name = "cable"
 	icon = 'fd/icons/mojave_objects/cables.dmi'
 	density = FALSE
+	mouse_opacity = FALSE
 
 /obj/structure/fd/cable/red
 	icon_state = "cable_red_straight"
@@ -886,6 +887,7 @@
 	name = "Base type FD TRASH"
 	desc = "Who the hell littered this here? Call a mapper!"
 	icon = 'fd/icons/mojave_structures/miscellaneous.dmi'
+	mouse_opacity = FALSE
 
 /obj/structure/fd/trash/papers
 	name = "scattered pages"

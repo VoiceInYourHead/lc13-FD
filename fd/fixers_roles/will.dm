@@ -104,8 +104,9 @@
 	uhoh.orbit(target, 0)
 	playsound(target, 'ModularTegustation/Tegusounds/claw/eviscerate1.ogg', 100, 1)
 	to_chat(target, span_warning("[user] пронзает тебя взглядом. Бежать больше некуда."))
-	if(!do_after(user, 1 SECONDS, target))
-		to_chat(user, span_notice("Меня что - пощадили?"))
+	user.say("Я надеялся, что до этого не дойдёт...")
+	if(!do_after(user, 3 SECONDS, user))
+		to_chat(target, span_notice("Меня что - пощадили?"))
 		qdel(uhoh)
 		return
 	qdel(uhoh)
@@ -120,6 +121,7 @@
 	playsound(tp_loc, 'ModularTegustation/Tegusounds/claw/move.ogg', 100, 1)
 	target.Stun(20 SECONDS, ignore_canstun = TRUE)
 	to_chat(user, span_notice("Ты взмахиваешь оружием, прорезаясь сквозь [target] в мгновение ока."))
+	user.say("Умри.")
 	to_chat(target, span_warning("На секунду, кажется, ты ощутил как рвётся твоя плоть."))
 	playsound(user, 'sound/weapons/bladeslice.ogg', 50, 1)
 	new /obj/effect/temp_visual/deathslice(target.loc)
@@ -134,7 +136,7 @@
 	target.emote("cough")
 	target.apply_damage(70, RED_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE))
 
-	if(target.health <= 0)
+	if(target.health <= 0 && iscarbon(target))
 		var/obj/item/bodypart/head/head = target.get_bodypart(BODY_ZONE_HEAD)
 		var/obj/item/bodypart/removingpart = head
 		var/did_the_thing = (removingpart?.dismember())
@@ -173,25 +175,55 @@
 /obj/item/ego_weapon/city/eclipse
 	name = "eclipse"
 	desc = "A long sword with dark black blade. You can feel how dread itself coming from it's tip."
-	icon = null //жду спрайтов
-	icon_state = null //жду спрайтов
+	icon = 'fd/icons/prism/Weapons.dmi'
+	icon_state = "Eclipse"
+	lefthand_file = 'fd/icons/prism/Weapons_Inhand_Left.dmi'
+	righthand_file = 'fd/icons/prism/Weapons_Inhand_Right.dmi'
 	force = 80
-	attack_speed = 2
+	attack_speed = 0.5
+	var/kostil = FALSE //костыль. Буквально, сука, костыль. Я даже не шучу.
 	damtype = BLACK_DAMAGE
+	sharpness = SHARP_EDGED
 
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
 	attribute_requirements = list()
 
+/obj/item/ego_weapon/city/eclipse/attack(mob/living/target, mob/living/user)
+
+	if(!CanUseEgo(user))
+		return
+
+	if(kostil)
+		to_chat(user, span_danger("Ты не можешь атаковать так часто!"))
+		return
+
+	. = ..()
+
+	var/stun_chance = 60 + target.radiance
+	if(prob(stun_chance))
+		user.visible_message(span_danger("[user] оглушает [target]!"))
+		target.Paralyze(80)
+		target.radiance = 0
+
+	kostil = TRUE
+	addtimer(CALLBACK(src, PROC_REF(reset_delay),), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/obj/item/ego_weapon/city/eclipse/proc/reset_delay()
+	kostil = FALSE
+
 /obj/item/ego_weapon/city/radiance
 	name = "radiance"
 	desc = "A small dagger with shiny reddish blade. To stab people, obviously"
-	icon = null //жду спрайтов
-	icon_state = null //жду спрайтов
+	icon = 'fd/icons/prism/Weapons.dmi'
+	icon_state = "Radiance"
+	lefthand_file = 'fd/icons/prism/Weapons_Inhand_Left.dmi'
+	righthand_file = 'fd/icons/prism/Weapons_Inhand_Right.dmi'
 	force = 10
 	attack_speed = 0.5
 	damtype = RED_DAMAGE
+	sharpness = SHARP_POINTY
 
 	attack_verb_continuous = list("pokes", "jabs", "tears", "lacerates", "gores")
 	attack_verb_simple = list("poke", "jab", "tear", "lacerate", "gore")
@@ -199,6 +231,15 @@
 	attribute_requirements = list()
 
 	var/radiance_from_hit = 1
+	var/special_attack = FALSE
+
+/obj/item/ego_weapon/city/radiance/attack_self(mob/living/carbon/user)
+	if(special_attack)
+		special_attack = FALSE
+		to_chat(user, span_danger("Ты расслабил хват клинка!"))
+	else
+		special_attack = TRUE
+		to_chat(user, span_danger("Ты подготавливаешь особый выпад."))
 
 /obj/item/ego_weapon/city/radiance/attack(mob/living/target, mob/living/user)
 
@@ -207,9 +248,11 @@
 
 	. = ..()
 
-	if(target.radiance >= 10)
+	if(target.radiance >= 10 && special_attack)
+		user.visible_message(span_danger("[user] пронзает [target]!"))
 		new /obj/effect/temp_visual/onesin_blessing(target.loc)
-		target.apply_damage(30, WHITE_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE))
-		target.radiance = 0
+		target.apply_damage(30, WHITE_DAMAGE, null, target.run_armor_check(null, WHITE_DAMAGE))
+		special_attack = FALSE
+		target.radiance -= 10
 
 	target.radiance += radiance_from_hit

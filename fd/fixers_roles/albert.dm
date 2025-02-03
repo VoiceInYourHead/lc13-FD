@@ -69,8 +69,10 @@
 /obj/item/ego_weapon/city/dieci_key
 	name = "golden prism"
 	desc = "A small key-like prism, used by Dieci Fixers."
-	icon = null //жду спрайтов
-	icon_state = null //жду спрайтов
+	icon = 'fd/icons/prism/Weapons.dmi'
+	icon_state = "Key"
+	lefthand_file = 'fd/icons/prism/Weapons_Inhand_Left.dmi'
+	righthand_file = 'fd/icons/prism/Weapons_Inhand_Right.dmi'
 	force = 2
 	attack_speed = 0.5
 	damtype = RED_DAMAGE
@@ -80,7 +82,7 @@
 	attack_verb_simple = list("smash", "crush", "shatter")
 	attribute_requirements = list()
 
-	var/icon_state_activated = null //жду спрайтов
+	var/icon_state_activated = "Coolkey"
 	var/knowledge_stored = 0
 	var/combat_mode = FALSE
 

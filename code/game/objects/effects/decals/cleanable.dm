@@ -8,6 +8,7 @@
 	var/beauty = 0
 	///The type of cleaning required to clean the decal, CLEAN_TYPE_LIGHT_DECAL can be cleaned with mops and soap, CLEAN_TYPE_HARD_DECAL can be cleaned by soap, see __DEFINES/cleaning.dm for the others
 	var/clean_type = CLEAN_TYPE_LIGHT_DECAL
+	mouse_opacity = FALSE
 
 /obj/effect/decal/cleanable/Initialize(mapload, list/datum/disease/diseases)
 	. = ..()

@@ -41,24 +41,26 @@
 	var/has_damage_overlay = TRUE
 	//used for mirrored overlays
 	var/mirrored = FALSE
+	var/should_adjust = TRUE
 
 /obj/machinery/door/unpowered/fd/Initialize()
 	. = ..()
-	if(dir == NORTH)
-		pixel_y = 8
+	if(should_adjust)
+		if(dir == NORTH)
+			pixel_y = 8
 
-	if(dir == SOUTH)
-		pixel_y = -8
+		if(dir == SOUTH)
+			pixel_y = -8
 
-	if(dir == EAST)
-		pixel_x = -3
-		pixel_y = 16
-		add_overlay(image(icon,icon_state="[frametype]_frame_vertical_overlay", layer = ABOVE_ALL_MOB_LAYER))
+		if(dir == EAST)
+			pixel_x = -3
+			pixel_y = 16
+			add_overlay(image(icon,icon_state="[frametype]_frame_vertical_overlay", layer = ABOVE_ALL_MOB_LAYER))
 
-	if(dir == WEST)
-		pixel_x = -28
-		pixel_y = 16
-		add_overlay(image(icon,icon_state="[frametype]_frame_vertical_overlay", layer = ABOVE_ALL_MOB_LAYER))
+		if(dir == WEST)
+			pixel_x = -28
+			pixel_y = 16
+			add_overlay(image(icon,icon_state="[frametype]_frame_vertical_overlay", layer = ABOVE_ALL_MOB_LAYER))
 
 /obj/machinery/door/unpowered/fd/update_overlays()
 	. = ..()
