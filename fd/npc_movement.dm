@@ -49,7 +49,7 @@
 
 	if(should_be_randomized)
 		faction_current = pick(faction_outfit)
-		random_outfit = pick(1,2,3,4,5)
+		random_outfit = pick(1,2,3,4,5,6)
 		icon_state = "[faction_current]_[random_outfit]"
 		icon_living = "[faction_current]_[random_outfit]"
 		icon_dead = "[icon_state]_dead"

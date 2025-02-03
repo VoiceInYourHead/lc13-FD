@@ -1,5 +1,5 @@
 "aa" = (/obj/structure/table/fd/metal/heavy,/obj/item/kitchen/knife{pixel_x = 10; pixel_y = 5},/obj/item/reagent_containers/spray/cleaner{pixel_y = 16},/obj/item/reagent_containers/food/condiment/mayonnaise{pixel_x = -8; pixel_y = 6},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
-"ab" = (/obj/item/toy/snowball{pixel_x = 8; pixel_y = 6},/obj/item/food/grown/carrot{pixel_x = 2; pixel_y = -1},/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
+"ab" = (/obj/item/toy/snowball{pixel_x = 8; pixel_y = 6},/obj/item/food/grown/carrot{pixel_x = 2; pixel_y = -1},/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "ac" = (/obj/machinery/light,/turf/open/floor/fd/metal/walkway,/area/space)
 "am" = (/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
 "ao" = (/obj/effect/turf_decal/siding/wood{dir = 8},/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
@@ -20,7 +20,7 @@
 "bq" = (/obj/structure/fd/barrel/quadruple/grey{pixel_y = 13},/obj/structure/fd/barrel/single/flammable{pixel_x = 8},/obj/structure/fd/barrel/single/grey/three{pixel_x = -3; pixel_y = 34},/turf/open/floor/plating/fd/roof/sheet,/area/space)
 "bv" = (/obj/effect/turf_decal/siding/white/corner{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom{name = "Prism Office - Cafe"})
 "bw" = (/obj/structure/flora/bush{pixel_y = 18},/obj/structure/flora/grass/both{pixel_x = 12},/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
-"bx" = (/obj/structure/flora/grass/both,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
+"bx" = (/obj/structure/flora/grass/both,/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "by" = (/turf/closed/indestructible/reinforced/metal/newish,/area/city)
 "bA" = (/obj/machinery/telecomms/server/presets/supply,/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "bF" = (/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
@@ -36,13 +36,13 @@
 "cG" = (/obj/effect/turf_decal/siding/white{dir = 8},/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "cI" = (/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "cP" = (/turf/open/floor/fd/metal/grate,/area/space)
-"cV" = (/obj/machinery/door/unpowered/fd/metal{dir = 8; locked_up = 1},/turf/open/floor/fd/tile/large/checkered,/area/city)
+"cV" = (/obj/machinery/door/unpowered/fd/metal{dir = 8; locked_up = 1; pixel_x = -28; should_adjust = 0},/turf/open/floor/fd/tile/large/checkered,/area/city)
 "cX" = (/turf/open/floor/plating/fd/roof/metal/rusty,/area/city)
 "cY" = (/obj/structure/tank_holder/extinguisher{pixel_x = -11; pixel_y = 1},/turf/open/floor/fd/metal/grate/alt,/area/space)
-"db" = (/obj/machinery/door/unpowered/fd/metal{dir = 4; locked_up = 1},/turf/open/floor/fd/tile/navy,/area/city)
-"dh" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt,/turf/open/floor/fd/metal/grate/border,/area/space)
+"db" = (/obj/machinery/door/unpowered/fd/metal{dir = 4; locked_up = 1; pixel_x = -3; should_adjust = 0},/turf/open/floor/fd/tile/navy,/area/city)
+"dh" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt{should_adjust = 0},/turf/open/floor/fd/metal/grate/border,/area/space)
 "dj" = (/obj/structure/fd/rug,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
-"dq" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt{dir = 1},/turf/open/floor/fd/metal/grate/border,/area/space)
+"dq" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt{dir = 1; should_adjust = 0},/turf/open/floor/fd/metal/grate/border,/area/space)
 "dt" = (/obj/effect/turf_decal/stripes/corner{dir = 8},/obj/structure/fd/trash/papers/one{pixel_x = -25},/obj/structure/fd/trash/papers/three,/turf/open/floor/fd/tile/large/black,/area/space)
 "dx" = (/obj/effect/turf_decal/stripes/line{dir = 1},/turf/open/floor/fd/tile/large/black,/area/space)
 "dF" = (/obj/effect/turf_decal/siding/wood{dir = 8},/obj/structure/fd/rug/mat/rubber,/obj/structure/closet/crate/large,/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Work Zone"})
@@ -75,8 +75,10 @@
 "gC" = (/obj/structure/fd/cable/black/connector,/obj/machinery/light,/turf/open/floor/fd/metal/grate/alt,/area/space)
 "gD" = (/obj/effect/turf_decal/bot,/obj/machinery/telecomms/processor/preset_two,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "gG" = (/turf/open/floor/plating/fd/ground/sidewalk,/area/centcom{name = "Prism Office - Cafe"})
+"gI" = (/obj/effect/decal/cleanable/dirt,/obj/effect/landmark/npcbeacon,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "gO" = (/obj/effect/turf_decal/stripes/line{dir = 10},/turf/open/floor/fd/tile/large/black,/area/space)
 "gW" = (/obj/effect/turf_decal/siding/wood{dir = 8},/turf/open/floor/wood/fd/mosaic,/area/space)
+"gY" = (/obj/effect/turf_decal/siding/white,/mob/living/simple_animal/npc/basic,/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "gZ" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
 "hg" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/structure/table/fd/metal/heavy,/obj/item/book/granter/crafting_recipe/cooking_sweets_101{pixel_x = -3; pixel_y = 11},/obj/item/reagent_containers/food/condiment/milk{pixel_x = 5; pixel_y = 4},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "hh" = (/obj/structure/fd/wall_decor/covering/paint/gray,/obj/structure/closet,/obj/item/ego_weapon/city/fist_thorne,/obj/item/ego_weapon/city/fist_thorne{pixel_x = 5},/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/thorne{dir = 1},/obj/item/clothing/under/prism_office,/turf/open/floor/fd/metal/warning,/area/centcom{name = "Prism Office - Work Zone"})
@@ -99,12 +101,13 @@
 "iz" = (/turf/closed/indestructible/reinforced/brick/darker,/area/city)
 "iF" = (/obj/effect/turf_decal/siding/white/corner{dir = 4},/obj/effect/decal/cleanable/dirt,/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "iH" = (/turf/open/floor/fd/metal,/area/space)
-"iJ" = (/obj/structure/flora/grass/brown,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
+"iJ" = (/obj/structure/flora/grass/brown,/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "iL" = (/obj/structure/chair/office/fd/blue{dir = 8},/obj/machinery/light,/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "iS" = (/obj/effect/turf_decal/siding/white/corner{dir = 1},/obj/effect/decal/cleanable/dirt,/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
-"iV" = (/obj/machinery/door/unpowered/fd/metal{dir = 8; locked_up = 1},/turf/open/floor/fd/tile/large/navy,/area/city)
+"iV" = (/obj/machinery/door/unpowered/fd/metal{dir = 8; locked_up = 1; pixel_x = -28; should_adjust = 0},/turf/open/floor/fd/tile/large/navy,/area/city)
 "iY" = (/obj/item/kirbyplants/photosynthetic{pixel_x = -10; pixel_y = 12},/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Cafe"})
 "jh" = (/obj/structure/sink/fd{dir = 4},/obj/structure/mirror/fd{dir = 4},/obj/item/razor{pixel_x = -6; pixel_y = 8},/turf/open/floor/fd/tile,/area/centcom{name = "Prism Office - Cafe"})
+"jo" = (/obj/structure/flora/grass/green,/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "jt" = (/obj/structure/fd/rug/red{dir = 4},/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "jx" = (/obj/structure/fd/trash/papers/three,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
 "jE" = (/obj/structure/table/fd/metal/heavy,/obj/item/seeds/tea{pixel_x = -8; pixel_y = 10},/obj/item/seeds/tea{pixel_x = 8; pixel_y = 10},/obj/item/seeds/tea{pixel_x = -8; pixel_y = 1},/obj/item/seeds/tea{pixel_x = 8; pixel_y = 1},/obj/item/seeds/tea{pixel_x = -8; pixel_y = 6},/obj/item/seeds/tea{pixel_x = 8; pixel_y = 6},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
@@ -123,7 +126,7 @@
 "kA" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/turf/open/floor/fd/metal/walkway/corner{dir = 4},/area/space)
 "kD" = (/obj/machinery/telecomms/server/presets/science,/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "kG" = (/obj/machinery/telecomms/server/presets/command{name = "Command Server"},/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
-"kH" = (/obj/machinery/door/unpowered/fd/metal{dir = 1; locked_up = 1},/turf/open/floor/fd/tile/large/navy,/area/city)
+"kH" = (/obj/machinery/door/unpowered/fd/metal{dir = 1; locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/navy,/area/city)
 "kK" = (/obj/effect/turf_decal/siding/wood{dir = 4},/obj/structure/table/fd/no_smooth/counter/metal{dir = 8},/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Work Zone"})
 "kZ" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/machinery/light{dir = 1; pixel_y = 18},/obj/effect/turf_decal/siding/white,/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "lb" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/metal/grate,/area/space)
@@ -132,7 +135,7 @@
 "lj" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/turf/open/floor/fd/metal/plate,/area/space)
 "lq" = (/turf/closed/indestructible/reinforced/concrete/blue,/area/city)
 "ls" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/obj/structure/bed{pixel_y = 9},/obj/item/bedsheet/brown{pixel_y = 9},/obj/machinery/light{dir = 1; pixel_y = 18},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
-"lv" = (/obj/machinery/door/unpowered/fd/metal/mirrored/red{dir = 1; locked_up = 1},/turf/open/floor/fd/tile/large/navy,/area/city)
+"lv" = (/obj/machinery/door/unpowered/fd/metal/mirrored/red{dir = 1; locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/navy,/area/city)
 "lA" = (/turf/closed/indestructible/reinforced/brick/darker,/area/centcom{name = "Prism Office - Cafe"})
 "lC" = (/obj/structure/fd/rug/red,/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Work Zone"})
 "lE" = (/obj/structure/fd/wall_decor/covering/paint/gray,/obj/machinery/light/small{dir = 1; pixel_y = 19},/obj/structure/closet,/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak{dir = 1},/obj/item/ego_weapon/city/zweihander/aurum,/obj/item/clothing/under/prism_office,/turf/open/floor/fd/metal/grate,/area/centcom{name = "Prism Office - Work Zone"})
@@ -147,7 +150,7 @@
 "mi" = (/obj/effect/turf_decal/siding/white/corner{dir = 4},/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "mk" = (/obj/structure/railing/fd/solo,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "mm" = (/obj/structure/closet/crate,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
-"mo" = (/obj/machinery/door/unpowered/fd/seethrough/metal{dir = 1},/turf/open/floor/fd/metal/grate/border,/area/space)
+"mo" = (/obj/machinery/door/unpowered/fd/seethrough/metal{dir = 1; pixel_y = -4; should_adjust = 0},/turf/open/floor/fd/metal/grate/border,/area/space)
 "mr" = (/obj/structure/fd/cable/black/curve{dir = 4},/turf/open/floor/fd/metal/grate/alt,/area/space)
 "mA" = (/obj/structure/table/fd/no_smooth/counter/wood,/obj/machinery/chem_dispenser/drinks{pixel_y = 15},/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Cafe"})
 "mI" = (/obj/structure/fd/wall_decor/covering/wallpaper/red,/turf/open/floor/wood/fd/wide,/area/space)
@@ -197,6 +200,7 @@
 "pX" = (/obj/structure/fd/wall_decor/covering/paint/white,/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "qe" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/metal/grate/alt,/area/space)
 "qi" = (/obj/structure/table/fd/low_wall/brick/alt,/turf/open/floor/fd/concrete/industrial/split{dir = 4},/area/centcom{name = "Prism Office - Work Zone"})
+"qk" = (/obj/effect/landmark/npcactivity,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "qm" = (/obj/structure/fd/trash/wood{pixel_x = -14; pixel_y = 21},/obj/structure/table/fd/no_smooth/metal,/obj/item/clothing/mask/cigarette/rollie/cannabis{pixel_x = -1; pixel_y = 12},/obj/item/reagent_containers/food/drinks/bottle/sake{pixel_x = 5; pixel_y = 7},/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "qq" = (/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Cafe"})
 "qv" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/sign/poster/official/fruit_bowl{pixel_y = 28},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
@@ -219,7 +223,7 @@
 "sK" = (/obj/structure/table/fd/low_wall/brick/alt,/obj/structure/window/fd/reinforced/black{dir = 1},/obj/structure/fd/frame/brickalt{dir = 1},/turf/open/floor/fd/metal/border,/area/centcom{name = "Prism Office - Work Zone"})
 "sW" = (/obj/effect/turf_decal/bot,/obj/machinery/telecomms/relay/preset/telecomms,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "sZ" = (/obj/structure/fd/trash/glass/basic{pixel_y = 11},/obj/structure/fd/trash/papers/one{pixel_x = 7; pixel_y = -3},/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
-"ta" = (/obj/machinery/door/unpowered/fd/metal/mirrored/red{dir = 1; locked_up = 1},/turf/open/floor/fd/tile/large/cafeteria,/area/city)
+"ta" = (/obj/machinery/door/unpowered/fd/metal/mirrored/red{dir = 1; locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/cafeteria,/area/city)
 "td" = (/obj/structure/fd/wall_decor/poster/wecan,/turf/open/floor/plating/fd/ground/sidewalk,/area/space)
 "tf" = (/obj/structure/fd/storage/trashcan{density = 0},/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "ti" = (/obj/structure/fd/storage/shelf/wood/alt,/obj/item/flashlight/lamp/green{pixel_x = -5; pixel_y = 23},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
@@ -233,7 +237,7 @@
 "tK" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/item/modular_computer/laptop/preset/fixer{pixel_x = -11; pixel_y = 8},/obj/structure/fd/wall_decor/calendar/blank,/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Work Zone"})
 "tO" = (/obj/effect/turf_decal/siding/wood{dir = 8},/obj/structure/bed/maint,/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Work Zone"})
 "tR" = (/obj/structure/fd/wall_decor/covering/paint/white,/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
-"tX" = (/obj/machinery/door/unpowered/fd/metal{dir = 1; locked_up = 1},/turf/open/floor/fd/tile/large/black,/area/city)
+"tX" = (/obj/machinery/door/unpowered/fd/metal{dir = 1; locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/black,/area/city)
 "tY" = (/obj/structure/chair/comfy/fd/armchair{dir = 8},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "uo" = (/obj/structure/sink/fd{dir = 4},/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Cafe"})
 "up" = (/obj/effect/light_emitter{light_power = 4; light_range = 25; set_cap = 3; set_luminosity = 24},/turf/open/floor/plating/fd/ground/road,/area/city)
@@ -264,7 +268,7 @@
 "wf" = (/obj/structure/fd/wall_decor/covering/tiles/blue,/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "wh" = (/obj/structure/fd/storage/large/shelf,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
 "wn" = (/obj/structure/chair/comfy/fd/ergo{dir = 8},/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
-"ws" = (/obj/effect/landmark/observer_start,/obj/effect/landmark/npcactivity,/obj/effect/landmark/npcbeacon,/turf/open/floor/plating/fd/roof/sheet,/area/city)
+"ws" = (/obj/effect/landmark/observer_start,/obj/effect/landmark/npcactivity,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "wv" = (/obj/structure/table/fd/metal/heavy,/obj/item/seeds/tobacco{pixel_x = 10; pixel_y = 9},/obj/item/seeds/tobacco{pixel_y = 4},/obj/item/seeds/tobacco{pixel_x = -9},/obj/item/seeds/tobacco{pixel_x = 10; pixel_y = 9},/obj/item/seeds/tobacco{pixel_y = 4},/obj/item/seeds/tobacco{pixel_x = -9},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "wx" = (/obj/structure/fd/barrel/double/waste{pixel_x = -7; pixel_y = 12},/obj/structure/fd/barrel/single/flammable/two{pixel_x = 11; pixel_y = 5},/obj/structure/fd/trash/glass/cans{pixel_x = -6; pixel_y = -3},/turf/open/floor/fd/metal/grate/alt,/area/space)
 "wz" = (/obj/structure/fd/rug/fancy{dir = 4},/obj/structure/table/fd/no_smooth/large/wood/square,/obj/item/kirbyplants/fullysynthetic{pixel_x = 17; pixel_y = 15},/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
@@ -277,7 +281,7 @@
 "xt" = (/obj/structure/table/fd/no_smooth/counter/wood/crafted{dir = 4},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "xC" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/structure/fd/pallet{pixel_y = 15},/obj/structure/fd/pallet{pixel_y = 20},/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "xX" = (/obj/structure/fd/cable/black/curve{dir = 8},/turf/open/floor/fd/metal/pipe,/area/space)
-"xZ" = (/obj/structure/statue/snow/snowman{pixel_x = -6; pixel_y = -11},/obj/item/toy/snowball{pixel_x = 3; pixel_y = 1},/turf/open/floor/plating/fd/ground/snow,/area/city)
+"xZ" = (/obj/structure/statue/snow/snowman{pixel_x = -6; pixel_y = -11},/obj/item/toy/snowball{pixel_x = 3; pixel_y = 1},/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow,/area/city)
 "yd" = (/obj/structure/fd/storage/shelf/wood/alt,/obj/item/storage/box/matches{pixel_x = -2; pixel_y = 7},/obj/machinery/light{dir = 8},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "ye" = (/obj/effect/turf_decal/siding/white{dir = 4},/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "yj" = (/obj/effect/turf_decal/siding/white,/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
@@ -350,14 +354,14 @@
 "DI" = (/obj/effect/turf_decal/siding/wood{dir = 8},/obj/item/storage/toolbox/mechanical{pixel_x = -9; pixel_y = 19},/obj/structure/fd/wall_decor/covering/paint/gray,/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Work Zone"})
 "DU" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/machinery/light{dir = 1; pixel_y = 18},/obj/structure/fd/trash/glass/plate{pixel_x = 27; pixel_y = 10},/turf/open/floor/fd/metal/grate/border{dir = 1},/area/space)
 "DZ" = (/obj/effect/turf_decal/stripes/line{dir = 8},/obj/structure/fd/rug/mat/welcome{pixel_x = 16},/turf/open/floor/fd/tile/large/black,/area/space)
-"Eh" = (/obj/machinery/door/unpowered/fd/seethrough/metal{locked_up = 1},/turf/open/floor/fd/tile/large/black,/area/city)
+"Eh" = (/obj/machinery/door/unpowered/fd/seethrough/metal{locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/black,/area/city)
 "Eo" = (/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
 "Er" = (/obj/machinery/hydroponics/constructable,/obj/structure/fd/trash/food/glass{pixel_y = 13},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "Ew" = (/obj/structure/fd/rug/red{dir = 4},/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "Ey" = (/obj/structure/railing/fd/solo{dir = 1; plane = -42},/obj/effect/decal/cleanable/generic,/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "EA" = (/obj/effect/turf_decal/siding/white/corner{dir = 4},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
 "EB" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/table/fd/low_wall/brick/alt,/turf/open/floor/fd/metal/border{dir = 8},/area/centcom{name = "Prism Office - Cafe"})
-"EC" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt,/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/metal/grate/border,/area/space)
+"EC" = (/obj/machinery/door/unpowered/fd/metal/mirrored/alt{should_adjust = 0},/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/metal/grate/border,/area/space)
 "EL" = (/obj/item/reagent_containers/glass/rag{pixel_x = -3; pixel_y = 15},/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Cafe"})
 "EO" = (/obj/structure/fd/wall_decor/poster/wanted{pixel_x = -3; pixel_y = 29},/obj/structure/fd/wall_decor/poster/wanted{pixel_x = -16; pixel_y = 31},/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
 "EP" = (/obj/structure/fd/rug/mat/rubber{pixel_x = -14; pixel_y = -17},/turf/open/floor/fd/metal/grate/alt,/area/space)
@@ -395,7 +399,7 @@
 "Hi" = (/obj/structure/table/fd/low_wall/brick/alt,/obj/structure/window/fd/reinforced/black,/obj/structure/fd/frame/brickalt,/turf/open/floor/fd/metal/border{dir = 1},/area/centcom{name = "Prism Office - Work Zone"})
 "Hk" = (/obj/structure/fd/trash/books/pile_alt{pixel_x = 3; pixel_y = 10},/obj/structure/fd/trash/books/pile{pixel_x = 3},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
 "Ho" = (/obj/effect/turf_decal/stripes{dir = 1},/obj/structure/fd/trash/papers/two{pixel_x = 8; pixel_y = -7},/obj/structure/fd/storage/large/shelf/wood/alt{dir = 8},/turf/open/floor/fd/metal/grate/border{dir = 1},/area/centcom{name = "Prism Office - Work Zone"})
-"Hr" = (/obj/effect/landmark/npcbeacon,/turf/open/floor/plating/fd/roof/sheet,/area/city)
+"Hr" = (/obj/effect/decal/cleanable/dirt,/mob/living/simple_animal/npc/basic,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "Hs" = (/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "Hx" = (/obj/structure/chair/comfy/fd/armchair{pixel_x = -2; pixel_y = 12},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
 "Hz" = (/obj/structure/filingcabinet/fd/mail,/obj/structure/fd/storage/trashcan{pixel_x = -12; pixel_y = -5},/turf/open/floor/plating/fd/ground/sidewalk,/area/city)
@@ -410,6 +414,7 @@
 "If" = (/turf/open/floor/wood/fd/wide,/area/space)
 "Io" = (/obj/effect/turf_decal/siding/white{dir = 4},/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "Ir" = (/obj/structure/fd/wall_decor/covering/paint/gray,/obj/structure/fd/toilet,/obj/structure/sign/poster/fd/vacation{pixel_x = 8; pixel_y = 32},/turf/open/floor/fd/tile,/area/centcom{name = "Prism Office - Cafe"})
+"Is" = (/mob/living/simple_animal/npc/basic,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "It" = (/obj/structure/table/fd/metal/heavy,/obj/machinery/microwave{pixel_y = 13},/obj/item/reagent_containers/food/condiment/enzyme{pixel_x = -3; pixel_y = 8},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "Iu" = (/obj/structure/fd/rug{dir = 4},/obj/structure/table/fd/no_smooth/large/wood/desk/alt{dir = 8; pixel_x = 5; pixel_y = 14},/obj/structure/closet/cabinet,/obj/structure/fd/storage/trashcan{density = 0; pixel_x = 22; pixel_y = 7},/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/will,/obj/item/clothing/under/prism_office,/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
 "Iw" = (/obj/effect/turf_decal/stripes/line{dir = 1},/turf/open/floor/fd/metal/plate,/area/space)
@@ -445,7 +450,7 @@
 "KX" = (/obj/effect/turf_decal/siding/white,/obj/effect/turf_decal/siding/white/corner{dir = 4},/obj/effect/turf_decal/siding/white/corner{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom{name = "Prism Office - Cafe"})
 "Lc" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/sign/poster/contraband/tools{pixel_x = -4; pixel_y = 29},/obj/item/kirbyplants{pixel_y = 13},/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "Le" = (/obj/structure/chair/comfy/fd/armchair{dir = 8},/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
-"Li" = (/obj/machinery/door/unpowered/fd/seethrough/metal,/turf/open/floor/fd/metal/grate/border,/area/space)
+"Li" = (/obj/machinery/door/unpowered/fd/seethrough/metal{pixel_y = -4; should_adjust = 0},/turf/open/floor/fd/metal/grate/border,/area/space)
 "Lk" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/chair/sofa/corp/left{dir = 4},/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom{name = "Prism Office - Cafe"})
 "Ll" = (/obj/effect/turf_decal/stripes/line{dir = 4},/turf/open/floor/fd/tile/large/black,/area/space)
 "Ln" = (/obj/item/kirbyplants/fullysynthetic{pixel_x = 8; pixel_y = 19},/obj/item/stack/sticky_tape{pixel_x = -2; pixel_y = -7},/turf/open/floor/fd/metal/walkway/corner,/area/space)
@@ -496,7 +501,7 @@
 "OH" = (/obj/structure/fd/storage/trashcan{density = 0; pixel_x = 12; pixel_y = 17},/obj/structure/fd/storage/shelf/wood/alt{dir = 8},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Work Zone"})
 "OI" = (/obj/structure/fd/cable/black/connector,/turf/open/floor/fd/metal/grate,/area/centcom{name = "Prism Office - Work Zone"})
 "OP" = (/obj/machinery/light{dir = 4},/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
-"OQ" = (/obj/structure/flora/bush,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
+"OQ" = (/obj/structure/flora/bush,/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "Pb" = (/obj/machinery/telecomms/relay/preset/telecomms,/obj/structure/emergency_shield,/obj/effect/turf_decal/bot,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "Pi" = (/obj/structure/fd/cable/black{dir = 1},/obj/structure/fd/storage/large/shelf/wood/alt,/obj/item/paint/black{pixel_x = 4; pixel_y = 20},/obj/item/paint/blue{pixel_x = -5; pixel_y = -19},/obj/item/paint/violet{pixel_x = 8; pixel_y = 13},/obj/structure/fd/wall_decor/covering/paint/gray,/turf/open/floor/fd/metal/plate,/area/centcom{name = "Prism Office - Work Zone"})
 "Pk" = (/obj/structure/table/fd/no_smooth/counter/wood{dir = 4},/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Cafe"})
@@ -523,7 +528,7 @@
 "QM" = (/obj/structure/fd/wall_decor/covering/wallpaper/red,/turf/open/floor/wood/fd/carpet/shaggy,/area/space)
 "QS" = (/turf/open/openspace/fd,/area/space)
 "QT" = (/obj/effect/turf_decal/siding/wood{dir = 4},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
-"QX" = (/obj/effect/decal/cleanable/dirt,/obj/effect/landmark/npcbeacon,/obj/effect/landmark/npcactivity,/turf/open/floor/plating/fd/roof/sheet,/area/city)
+"QX" = (/obj/effect/decal/cleanable/dirt,/obj/effect/landmark/npcactivity,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "QZ" = (/obj/structure/fence/corner,/obj/effect/turf_decal/siding/white,/turf/open/floor/fd/concrete/bricks,/area/centcom)
 "Rc" = (/obj/effect/turf_decal/siding/white/corner{dir = 8},/obj/effect/turf_decal/siding/white{dir = 1},/turf/open/floor/fd/tile/large/navy,/area/centcom{name = "Prism Office - Cafe"})
 "Rl" = (/turf/open/floor/fd/metal/grate/alt,/area/space)
@@ -534,7 +539,7 @@
 "RD" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/item/reagent_containers/spray/cleaner{pixel_x = 9; pixel_y = 13},/obj/item/reagent_containers/food/drinks/mug{pixel_x = 5; pixel_y = 6},/obj/item/reagent_containers/food/drinks/mug,/obj/item/reagent_containers/food/drinks/mug{pixel_x = 8; pixel_y = -6},/obj/item/reagent_containers/food/drinks/mug{pixel_x = -9; pixel_y = 12},/obj/item/reagent_containers/food/drinks/drinkingglass{pixel_x = -9; pixel_y = 9},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/obj/item/seeds/tea{pixel_x = -6; pixel_y = -13},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "RE" = (/obj/structure/chair/comfy/fd/retro,/obj/effect/turf_decal/siding/wood,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
 "RG" = (/obj/structure/fd/wall_decor/covering/wallpaper/red,/obj/effect/turf_decal/siding/wood{dir = 8},/turf/open/floor/wood/fd/carpet/shaggy,/area/space)
-"RH" = (/obj/item/toy/snowball{pixel_x = 14; pixel_y = -8},/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
+"RH" = (/obj/item/toy/snowball{pixel_x = 14; pixel_y = -8},/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "RL" = (/obj/structure/fd/rug/rubber{pixel_x = 9; pixel_y = 10},/obj/structure/fd/rug/mat/rubber/single{pixel_x = 22; pixel_y = 11},/obj/structure/fd/rug/mat/rubber,/obj/effect/turf_decal/siding/wood,/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
 "RN" = (/obj/structure/closet/secure_closet/freezer/fridge/open{anchored = 1; storage_capacity = 1000},/obj/effect/turf_decal/siding/white/corner{dir = 1},/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/flour,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/enzyme,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/soymilk,/obj/item/reagent_containers/food/condiment/soymilk,/obj/item/reagent_containers/food/condiment/soymilk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/reagent_containers/food/condiment/milk,/obj/item/food/chocolatebar,/obj/item/food/chocolatebar,/obj/item/food/chocolatebar,/obj/item/food/chocolatebar,/obj/item/food/chocolatebar,/obj/item/storage/fancy/egg_box,/obj/item/storage/fancy/egg_box,/obj/item/storage/fancy/egg_box,/obj/item/storage/fancy/egg_box,/obj/item/storage/fancy/egg_box,/turf/open/floor/fd/tile/large/navy,/area/centcom{name = "Prism Office - Cafe"})
 "RQ" = (/obj/structure/table/fd/low_wall/brick/alt,/turf/open/floor/fd/concrete/industrial/split,/area/centcom{name = "Prism Office - Work Zone"})
@@ -550,10 +555,11 @@
 "ST" = (/turf/open/floor/plating/fd/ground/snow,/area/city)
 "SV" = (/obj/structure/fd/rug/red,/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "SX" = (/obj/item/reagent_containers/glass/bucket{pixel_x = 8; pixel_y = 15},/obj/item/reagent_containers/glass/bucket/wooden{pixel_x = -2; pixel_y = 12},/obj/item/reagent_containers/glass/bucket/wooden{pixel_x = 11; pixel_y = -5},/turf/open/floor/fd/tile/large/black,/area/centcom{name = "Prism Office - Cafe"})
-"SY" = (/obj/structure/flora/tree/dead,/turf/open/floor/plating/fd/ground/snow,/area/city)
+"SY" = (/obj/structure/flora/tree/dead,/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow,/area/city)
 "Ta" = (/turf/open/floor/plating,/area/space)
 "Tb" = (/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Cafe"})
 "Tc" = (/obj/effect/landmark/latejoin,/turf/open/floor/plating/fd/roof/sheet,/area/city)
+"Tf" = (/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow,/area/city)
 "Tg" = (/turf/open/floor/plasteel/stairs,/area/space)
 "Th" = (/obj/structure/table/fd/no_smooth/large/pool{dir = 4; pixel_y = 3},/obj/item/newspaper{pixel_y = 6},/obj/item/reagent_containers/food/drinks/beer{pixel_x = -11; pixel_y = 7},/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Work Zone"})
 "TE" = (/obj/effect/light_emitter{light_power = 4; light_range = 25; set_cap = 3; set_luminosity = 24},/turf/open/floor/plating/fd/roof/sheet,/area/city)
@@ -573,6 +579,7 @@
 "UF" = (/obj/structure/chair/fd/metal/folding{dir = 8},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Cafe"})
 "UM" = (/obj/effect/turf_decal/stripes/corner,/obj/structure/fd/rug/rubber,/obj/structure/fd/rug/mat/rubber/single{pixel_x = -11},/turf/open/floor/fd/tile/large/black,/area/space)
 "UN" = (/obj/machinery/telecomms/server/presets/security,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
+"UO" = (/obj/effect/landmark/npcbeacon,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "UP" = (/obj/effect/turf_decal/siding/white,/obj/effect/turf_decal/siding/white{dir = 1},/turf/open/floor/fd/tile/full/navy,/area/centcom{name = "Prism Office - Cafe"})
 "UV" = (/obj/structure/table/fd/no_smooth/wood/end{density = 0; pixel_x = 6},/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
 "UW" = (/obj/effect/turf_decal/stripes/line{dir = 1},/obj/structure/fd/rug/rubber{dir = 4},/obj/structure/fd/cable/black{dir = 1},/turf/open/floor/fd/tile/large/black,/area/space)
@@ -584,6 +591,7 @@
 "Vk" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/obj/machinery/light{dir = 1; pixel_y = 18},/turf/open/floor/fd/metal/walkway/corner{dir = 1},/area/space)
 "Vm" = (/obj/effect/turf_decal/siding/white/corner{dir = 4},/obj/effect/decal/cleanable/dirt,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "Vu" = (/obj/structure/chair/sofa/corp/right,/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Cafe"})
+"Vv" = (/obj/effect/landmark/npcwall,/turf/open/floor/plating/fd/ground/snow/dug,/area/city)
 "VA" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/obj/item/flashlight/lamp/green{pixel_y = 17},/obj/item/paper_bin{pixel_x = 9; pixel_y = 13},/obj/item/pen/fountain{pixel_x = -3; pixel_y = -10},/obj/item/clothing/glasses/prism_glasses{pixel_x = 5},/turf/open/floor/wood/fd/carpet/shaggy/blue,/area/centcom{name = "Prism Office - Work Zone"})
 "VG" = (/obj/structure/fd/trash/books{pixel_x = 5; pixel_y = 3},/obj/structure/fd/rug/fancy,/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Work Zone"})
 "VL" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/machinery/deepfryer{density = 0; pixel_y = 17},/obj/structure/fd/trash/food/dinner{pixel_x = -5; pixel_y = -10},/turf/open/floor/fd/tile/fancy,/area/centcom{name = "Prism Office - Cafe"})
@@ -597,7 +605,7 @@
 "Wt" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue,/obj/structure/fd/wall_decor/clock,/obj/structure/fd/pot/plant{pixel_x = 6; pixel_y = 9},/obj/item/flashlight/lamp{pixel_x = -1; pixel_y = 1},/obj/item/reagent_containers/food/drinks/drinkingglass/shotglass,/turf/open/floor/wood/fd/carpet/shaggy,/area/centcom{name = "Prism Office - Cafe"})
 "Wv" = (/obj/structure/chair/fd/metal/folding{dir = 1},/obj/structure/chair/fd/metal/folding{dir = 1; pixel_x = -19},/turf/open/floor/fd/metal/walkway{dir = 1},/area/space)
 "Wz" = (/obj/machinery/jukebox,/obj/effect/turf_decal/siding/wood/corner{dir = 8},/turf/open/floor/wood/fd/common,/area/centcom{name = "Prism Office - Cafe"})
-"WA" = (/obj/machinery/door/unpowered/fd/metal/red{locked_up = 1},/turf/open/floor/fd/tile/large/black,/area/city)
+"WA" = (/obj/machinery/door/unpowered/fd/metal/red{locked_up = 1; should_adjust = 0},/turf/open/floor/fd/tile/large/black,/area/city)
 "WB" = (/obj/structure/chair/sofa/corp/right,/turf/open/floor/wood/fd/carpet/blue,/area/centcom{name = "Prism Office - Cafe"})
 "WG" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/effect/turf_decal/siding/white/corner,/obj/structure/fd/wall_decor/exit,/turf/open/floor/wood/fd/mosaic,/area/centcom{name = "Prism Office - Work Zone"})
 "WJ" = (/obj/effect/turf_decal/stripes/line{dir = 8},/obj/structure/fd/rug/rubber{dir = 4},/obj/structure/fd/rug/mat/rubber,/turf/open/floor/fd/tile/large/black,/area/space)
@@ -618,7 +626,7 @@
 "Yc" = (/obj/machinery/telecomms/server/presets/common,/turf/open/floor/circuit/telecomms/mainframe,/area/facility_hallway/north)
 "Yg" = (/obj/effect/turf_decal/siding/white,/turf/open/floor/plating/fd/roof/sheet,/area/city)
 "Yj" = (/obj/structure/fd/trash/bricks{pixel_x = 13; pixel_y = 13},/turf/open/floor/plating/fd/roof/sheet,/area/space)
-"Yl" = (/obj/machinery/door/unpowered/fd/metal{dir = 4; locked_up = 1},/turf/open/floor/fd/tile/large/black,/area/city)
+"Yl" = (/obj/machinery/door/unpowered/fd/metal{dir = 4; locked_up = 1; pixel_x = -3; should_adjust = 0},/turf/open/floor/fd/tile/large/black,/area/city)
 "Yp" = (/obj/structure/fd/trash/cardboard{pixel_y = 5},/obj/machinery/light{dir = 8},/turf/open/floor/wood/fd/wide,/area/centcom{name = "Prism Office - Work Zone"})
 "Yt" = (/obj/structure/fd/rug/fancy,/turf/open/floor/fd/concrete/bricks,/area/centcom{name = "Prism Office - Work Zone"})
 "Yx" = (/obj/structure/fd/wall_decor/covering/wallpaper/blue/stripes,/obj/structure/fd/storage/shelf/wood{pixel_y = 18},/obj/structure/table/fd/no_smooth/wood/low{plane = -41},/obj/item/reagent_containers/food/drinks/waterbottle{pixel_x = 9; pixel_y = 8; plane = -41},/obj/item/clipboard{pixel_x = -5; pixel_y = 2; plane = -41},/turf/open/floor/wood/fd/fancy,/area/centcom{name = "Prism Office - Work Zone"})
@@ -920,11 +928,11 @@ KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizNzTcODpMpMpMpMpMfJTcNzZIAgAgAgAgAgAgAgZInnbyAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgbyMAuIwYlqAgAgAgAgAgAgAgAgAgAgAgAgAglqeaNoAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeauIODhyhyhyhyhyfJvMwYZIZIZIWAZIZIZIZIZIeabyAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgbywYuIwYlqAgAgAgAgAgAgAgAgAgAgAgAgAglqeaNoAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeavMwYhyhyhyhyhyeauIeaeaeauIuIuIwYwYeaeaeabyAgAgAgAgAgAgAgAgbybybybybybybybybybybybybybybyeavMealqlqlqlqlqlqlqlqlqlqlqlvlqlqlqeaNoNoNoNoAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeaQXeahyhyoRhyhyJtobDguImhuIuIvMuIuItIzveabyAgAgAgAgAgAgAgAgbyeawYeaeaeaeawYEVeaeaeaeaGdeaeauIwYeaeaeaeaeaeawYwYeatfvMuIuIeaeawYwYeawYeaAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeaDgeahyhyhyhyhyeauIeaeaeawYeaTOwYeaGfeaeabyAgAgAgAgAgAgAgAgbyMAoboluIuIuIvMvMmguIuIuIuIuIuIvMTEuIuIuIuIuIuIvMuIvMvMmhuIolobuIuIuIuIuIuIAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizGdvMODhyhyhyhyhyfJvMeaizizizizizizizizizeabyAgAgAgAgAgAgAgAgbyuIoleaeaeaeaeaeaeaeaeaeawYwYwYeaeaeaeaeawYwYwYeaeaeaeaeaeawYvMeaeaeaeaeaeaAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeauIODpMpMpMpMpMfJvMwYZIZIZIWAZIZIZIZIZIeabyAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgbywYuIwYlqAgAgAgAgAgAgAgAgAgAgAgAgAglqeaNoAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeaHrwYhyhyhyhyhyeaIseaeaeauIuIuIwYwYeaeaeabyAgAgAgAgAgAgAgAgbybybybybybybybybybybybybybybyeavMealqlqlqlqlqlqlqlqlqlqlqlvlqlqlqeaNoNoNoNoAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeaQXeahyhyoRhyhyJtqkDguImhuIuIvMuIuItIzveabyAgAgAgAgAgAgAgAgbyeawYeaeaeaeawYEVeaeaeaeaGdeaeauIwYeaeaeaeaeaeawYwYeatfvMuIuIeaeawYwYeawYeaAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeaDgeahyhyhyhyhyeauIeaeaeawYeaTOwYeaGfeaeabyAgAgAgAgAgAgAgAgbyMAoboluIuIuIvMvMmguIuIuIuIuIuIHrTEuIuIuIuIuIuIvMuIvMvMmhuIolobuIuIuIuIuIuIAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizGdvMODpMpMpMpMpMfJvMeaizizizizizizizizizeabyAgAgAgAgAgAgAgAgbyuIoleaeaeaeaeaeaeaeaeaeawYwYwYeaeaeaeaeawYwYwYeaeaeaeaeaeawYvMeaeaeaeaeaeaAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeauIODpMpMpMpMpMfJvMeaizAgAgAgAgAgAgAgizeabyAgAgAgAgAgAgAgAgdbuIvMealAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAeavMeaZIZIZIZIZIAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgizeavMODpMpMpMpMpMfJuIuIizAgAgAgAgAgAgAgizEVbyAgAgAgAgAgAgAgAgbyHPHPvglAHMHMHMHMHMHMHMHMHMlARxJvSketPAPAFIPAIDlALkWtMXITlAeavMeaZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgizizizizizeauIODpMpMpMpMpMZauIuIcVAgAgAgAgAgAgAgizeabybybybybybybybybybyeauIealAlAlAlAlAHMHMlAlAlAlAUcRLYURTamgkBGamamlAjSDiMvVPlAeauIGdZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
@@ -935,27 +943,27 @@ KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgizizizizizizmkvMuIizeauIODpMpMpMpMpMfJvMeaizAgAgAgAgAgAgAgizvgDGAgAgAgAgAgAgAgAgDGeauIealATTvbSvIITQFNQHQHWrlAydKAtilARVClamRVCllAlAlAlAlAlAwYuIeaZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgeaeawYFGwYeaeaeaeaeawYuIODpMpMpMpMpMfJuIeaizAgAgAgAgAgAgAgizwYDGAgAgAgAgAgAgAgAgDGeauIealAJyKXUPcjcjUPUPRcbvlAHxDzDzlAWzamamamamKlpPkxLSNUlAwYuIeaZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgNoNoNoNoNoNoNoNoNoNoeavMODpMpMpMpMpMfJvMeaizAgAgAgAgAgAgAgizeaDGAgAgAgAgAgAgAgAgDGeavMealAHRXNNfItlAlAQHKolAlAuouFuFdMVPDzXFREFQREkrDzVuMqlAvgHPvgZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeavMODhyhyhyhyhyfJvMeaizizizizizizizizizeaDGDGDGEhDGDGDGDGDGDGeauIealACwjEntAUlAlAQHKolACPqquFuFwPaoamrssGjFoHPmamwzamlAeavMeaZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeavMODpMpMpMpMpMfJvMeaizizizizizizizizizeaDGDGDGEhDGDGDGDGDGDGeauIealACwjEntAUlAlAQHKolACPqquFuFwPaoamrssGjFoHPmamwzamlAeavMeaZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeaDgeahyhyhyhyhyeaoleaeaGdeaeaeaeaeaeaeaeawYeauIuIuIeaeaeaoZeawYvMealAvLQHQHSXhgVLQHHblAAGqquFmAlAqzamQTGplAxtPmamamamlAeauIuIZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeabVJthyhyynhyhyeaQLvMuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIvMvMuIuIuIvMealACwErOuQHYQntQHKofQqqqquFuFtuaoambSozTIvZVPamIBamlAeauIuIiVAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeaDgeahyhyhyhyhyeaDgHZyjyjyjHfuITMyjyjyjPOHZyjyjyjHfuIHZyjyjyjPOuIealAHRBswvQHPVaaQHCflAbpqquFuFPkVPDzvWQwWfdXiiDzQxptlAeauIvMZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeauIODhyhyhyhyhyZauIyeiJnwSYusuIyenwbxxZusyeaznwSTusuIyeSYnwiJusuIealAoszOzOininzOzORNlAwhDzDzzllAUoamDzamamamLqLqamamlAEVvMwYZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgNoNotaNoNoNoNoNoNoNoeauIUYpMpMpMpMpMZauIyeSTazSTusuIyeSTRHabusyenwSYbxusuIyeOQnwnwusuIwYlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAsDsDlAsDsDlAOqvslAsDlAeauIeaZIZIZIZIZIAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeabVJthyhyynhyhyeaQLvMuIuIuIuIIsuIuIuIuIuIuIuIuIuIuIIsvMvMuIuIuIvMealACwErOuQHYQntQHKofQqqqquFuFtuaoambSozTIvZVPamIBamlAeauIuIiVAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeaDgeahyhyhyhyhyeaDgHZyjyjyjHfuITMyjyjyjPOHZgYyjyjHfuIHZyjyjyjPOuIealAHRBswvQHPVaaQHCflAbpqquFuFPkVPDzvWQwWfdXiiDzQxptlAeauIvMZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgNoeauIODpMpMpMpMpMZauIyeiJVvSYusuIyeVvbxxZusyejoVvTfusuIyeSYVviJusuIealAoszOzOininzOzORNlAwhDzDzzllAUoamDzamamamLqLqamamlAEVvMwYZIAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgNoNotaNoNoNoNoNoNoNoeauIUYpMpMpMpMpMZauIyeTfjoTfusuIyeTfRHabusyeVvSYbxusuIyeOQVvVvusuIwYlAlAlAlAlAlAlAlAlAlAlAlAlAlAlAsDsDlAsDsDlAOqvslAsDlAeauIeaZIZIZIZIZIAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgeauIvMuIeaeaeaeaeaeaeaolODpMpMpMpMpMfJDgiFbLbLbLoGuINubLsfbLoGNubLbLsfiSuINubLbLbLiSDgeaeawYeaeaeaeaeaeaeaEOiehGeawYeawYwYAbeQeaXogGgGZTHzGdeaoleaZveaeaeaNzAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAguIvMvMuIHruIvMuIvMvMDgQLODpMpMpMpMpMfJQLolvMuIuIuIuIHruIuIvMuIuIvMvMuIuIuIuIuIvMvMolwsolvMuIuIvMuIuIuIuIuIuIvMvMuIHruIuIuIuIuIuIuIuIuIuIvMvMDgQLuIuIuIuIuITcAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAguIvMHruIuIuIvMuIvMvMDgqkODpMpMpMpMpMfJqkolvMuIuIuIuIuIuIuIgIuIuIvMvMuIuIuIuIuIvMvMolwsolvMuIuIvMuIuIuIuIuIuIvMvMuIuIuIuIuIuIuIuIuIuIuIuIvMvMDgqkuIuIuIIsuITcAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpVmamamamapVmamamamamamaoVpMpMpMpMpMnTmamamamamamamamamamamamamamamamamamamamamamaeaidwYmamamamamamamamapVpVpVmamamamamamamamamamapVpVmamamaeaeaeamamamamamaAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMQopMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyynuphypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyoRhyhypMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhyhyhypMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMQopMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyynuppMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyoRhypMpMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMpMhyhyhypMpMpMpMpMAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgzQzQzQzQzQeaAffcfcfcESeazQzQzQzQzQzQzQzQzQzQzQzQzQEyzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQeaeaeazQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQzQeaJteazQzQzQzQzQAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAguIuIuIuIuIeafnSQSQSQfnNBuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIolQLoluIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIolQLuIuIuIuIuITcAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAguIIsuIuIuIeafnSQSQSQfnNBuIuIuIuIuIuIuIuIuIUOuIuIuIuIuIuIuIuIuIuIIsuIuIuIuIuIuIuIuIolqkoluIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIuIolqkuIuIuIIsuITcAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgeaeaeaeauIHZJBXpXpXpQZPOuIeaeaeaeauIuIuIeaeaeaeaeaeaeaeaeaeaeaeauIeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaeaGdeaeaeaeaeaeaeaeaeaeaeauIuIuIeaeaeaeaeaeaeaeaeaNzAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgizizizeauIyenwnwnwwbnwusuIeaDGDGDGDGtXDGDGDGDGDGDGDGDGDGDGDGDGeauIeaBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBuBueaNoNoNokHNoNoNoNoNoNoNoNoNoNoNoAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgizeauImiVZVZVZVZVZCtuIeaDGAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgDGeauIuIBuAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgBunnNoAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgizHZyjyjPOeauIeaHZyjyjPODGAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgDGeauIuIcVAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgBueaNoAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
-KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgizyeSTSTuseauIeayenwSTusDGAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgDGeabTuIBuAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgBueaNoAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
+KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgizyeSTSTuseaIseayenwSTusDGAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgDGeabTuIBuAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgBueaNoAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgizyenwSTuseauIeayeSTnwusDGAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgDGvgelvgBuAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgBueaNoAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgAgKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc
 KcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcyJyJyJyJyJyJyJyJyJKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKcKc

@@ -27,7 +27,6 @@
 
 	var/lifespan = 0
 	var/old_movement = FALSE
-	var/max_stat = 2
 
 	var/list/spotted_bodies = list()
 
@@ -86,10 +85,12 @@
 	if(stat >= HARD_CRIT)
 		return
 	is_talking = TRUE
+	var/delay = round(length_char(message)/2)
 	spawn(5)
-		if(stat != DEAD)
-			say(message)
-			is_talking = FALSE
+		spawn(max(1, delay))
+			if(stat != DEAD)
+				say(message)
+				is_talking = FALSE
 
 /mob/living/simple_animal/npc/proc/Annoy(var/atom/source)
 	walk(src,0)
@@ -108,7 +109,7 @@
 			face_atom(source)
 	last_annoy = world.time
 	var/phrase
-	if(prob(50))
+	if(prob(80))
 		phrase = pick(socialrole.neutral_phrases)
 	RealisticSay(phrase)
 
@@ -236,3 +237,17 @@
 			emote("scream")
 		else
 			RealisticSay(pick(socialrole.help_phrases))
+
+/mob/living/simple_animal/npc/basic
+	name = "citizen"
+	desc = "Just one of the many."
+	a_intent = INTENT_HELP
+
+	should_be_randomized = TRUE
+	icon = 'fd/icons/npc.dmi'
+	icon_state = "civ_1"
+	icon_living = "civ_1"
+
+/mob/living/simple_animal/npc/basic/Initialize()
+	..()
+	AssignSocialRole(/datum/socialrole)
