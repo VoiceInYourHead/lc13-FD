@@ -100,13 +100,13 @@
 		if(distfromcaster == 0)
 			if(isliving(AM))
 				var/mob/living/M = AM
-				M.Paralyze(20 * 2)
+				M.Stun(4 SECONDS, ignore_canstun = TRUE)
 				M.apply_damage(50, RED_DAMAGE, null, M.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
 				to_chat(M, "<span class='userdanger'>Ты ощущаешь, как твои кости трещат под ногой [user]!</span>")
 		else
 			if(isliving(AM))
 				var/mob/living/M = AM
-				M.Paralyze(20)
+				M.Stun(2 SECONDS, ignore_canstun = TRUE)
 				to_chat(M, "<span class='userdanger'>Воздушная волна, созданная [user] откидывает тебя в сторону!</span>")
 			AM.safe_throw_at(throwtarget, ((clamp((maxthrow - (clamp(distfromcaster - 2, 0, distfromcaster))), 3, maxthrow))), 1,user, force = repulse_force)
 	return thrownatoms
@@ -232,7 +232,7 @@
 					force *= 1.5
 					hitsound = 'sound/weapons/fixer/generic/gen2.ogg'
 					if(isliving(target))
-						target.Paralyze(20)
+						target.Stun(2 SECONDS, ignore_canstun = TRUE)
 				else
 					during_windup = FALSE
 					return

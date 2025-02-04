@@ -960,10 +960,6 @@
 	icon = 'fd/icons/mojave_objects/posters.dmi'
 	pixel_y = 30
 
-/obj/structure/sign/poster/fd/Initialize()
-	. = ..()
-	AddElement(/datum/element/wall_mount)
-
 /obj/structure/sign/poster/fd/war
 	name = "recruitment poster"
 	desc = "A wall poster with an soldier plastered across it."
@@ -1018,6 +1014,12 @@
 	name = "pinup poster"
 	desc = "A poster with a woman on it. She is wearing a very fluffy dress and is sitting down, staring at your soul."
 	icon_state = "pinup_3"
+
+/obj/structure/sign/poster/fd/vulgar
+	name = "poster"
+	desc = "A poster with large amount of brutality and vulgarness."
+	icon = 'fd/icons/wod_assets/contraband.dmi'
+	icon_state = "poster_1"
 
 // Flags //
 
@@ -1081,6 +1083,30 @@
 	name = "wallscreens"
 	desc = "Three monitors stuck to the wall, in-case you needed more monitors."
 	icon_state = "wallscreen"
+
+/obj/structure/fd/wall_decor/fusebox
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	name = "fusebox"
+	desc = "An closed electrical fusebox."
+	icon_state = "fusebox"
+
+/obj/structure/fd/wall_decor/fusebox/opened
+	icon_state = "fusebox_open"
+	desc = "An opened electrical fusebox."
+
+/obj/structure/fd/wall_decor/firehouse
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	name = "emergency firehouse"
+	desc = "A closed up evac tools."
+	icon_state = "firehouse"
+
+// Graffiti //
+
+/obj/structure/fd/wall_decor/graffiti
+	icon = 'fd/icons/wod_assets/graffiti.dmi'
+	name = "graffiti"
+	desc = "Language of an new era."
+	icon_state = "graffiti1"
 
 // Misc posters //
 

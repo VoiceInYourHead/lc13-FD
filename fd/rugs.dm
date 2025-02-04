@@ -22,6 +22,16 @@
 		if(prob(85))
 			icon_state = "[icon_state]_[rand(1,(alternate_states))]"
 
+/obj/structure/fd/rug/russian
+	desc = "A common rug, used to cover your boring floor. It's got a nice and simple pattern on it, perfect for the wall."
+	icon_state = "kover"
+	icon = 'fd/icons/wod_assets/64x64.dmi'
+
+/obj/structure/fd/rug/arab
+	desc = "A common rug, used to cover your boring floor. It's got a nice and simple pattern on it, perfect for the sitting."
+	icon_state = "greencarpet"
+	icon = 'fd/icons/wod_assets/64x64.dmi'
+
 /obj/structure/fd/rug/fancy
 	desc = "A common rug, used to cover your boring floor. It's got a nice and simple pattern on it, perfect for the living room."
 	icon_state = "rug_fancy"

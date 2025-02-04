@@ -1,9 +1,21 @@
 //main role code
 
-/obj/story_related
+/obj/
 	var/already_located
 
-/obj/story_related/process()
+/obj/structure/story_related/process()
+	for(var/mob/living/detective in orange(2, src))
+		if(detective.in_search && !found && !already_located)
+			var/stat_level = get_attribute_level(detective, OBSERVATION_STAT)
+			if(stat_level > 40)
+				found = TRUE
+				already_located = TRUE
+
+	..()
+
+//same for items
+
+/obj/item/story_related/process()
 	for(var/mob/living/detective in orange(2, src))
 		if(detective.in_search && !found && !already_located)
 			var/stat_level = get_attribute_level(detective, OBSERVATION_STAT)
@@ -136,12 +148,17 @@
 	target.emote("cough")
 	target.apply_damage(70, RED_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE))
 
-	if(target.health <= 0 && iscarbon(target))
-		var/obj/item/bodypart/head/head = target.get_bodypart(BODY_ZONE_HEAD)
-		var/obj/item/bodypart/removingpart = head
-		var/did_the_thing = (removingpart?.dismember())
-		if(!did_the_thing)
-			return
+	if(target.health <= 0)
+		if(iscarbon(target))
+			var/obj/item/bodypart/head/head = target.get_bodypart(BODY_ZONE_HEAD)
+			var/obj/item/bodypart/removingpart = head
+			var/did_the_thing = (removingpart?.dismember())
+			target.add_overlay(image('fd/icons/wod_assets/icons.dmi', "decapitation"))
+			if(!did_the_thing)
+				return
+		else if(isanimal(target))
+			var/mob/living/simple_animal/bot
+			bot.icon_dead = "[initial(icon_state)]_decapped"
 
 /obj/effect/proc_holder/spell/targeted/detective_sense
 	name = "Detective Sense"
@@ -152,19 +169,23 @@
 
 	range = -1
 	include_user = 1
+	var/effectvisual
 
 /obj/effect/proc_holder/spell/targeted/detective_sense/cast(list/targets, mob/living/user = usr)
 	user.say("Посмотрим...тут точно должно быть что-то полезное.")
 	visible_message(span_notice("[user] подносит руку к подбородку, сосредоточенно разглядывая окружение..."))
 	user.in_search = TRUE
+	effectvisual = image('fd/icons/sense.dmi', "sense", pixel_x = -32, pixel_y = -32)
+	user.add_overlay(effectvisual)
 	user.add_movespeed_modifier(/datum/movespeed_modifier/searching)
-	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/searching), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/searching), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	addtimer(CALLBACK(src, PROC_REF(reset_senses),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 	return TRUE
 
 /obj/effect/proc_holder/spell/targeted/detective_sense/proc/reset_senses(list/targets, mob/living/user = usr)
 	user.in_search = FALSE
+	user.cut_overlay(effectvisual)
 
 /datum/movespeed_modifier/searching
 	variable = TRUE
@@ -201,17 +222,33 @@
 
 	. = ..()
 
-	var/stun_chance = 60 + target.radiance
-	if(prob(stun_chance))
+	if(target.radiance_window)
+		new /obj/effect/temp_visual/bonk(get_turf(src))
 		user.visible_message(span_danger("[user] оглушает [target]!"))
-		target.Paralyze(80)
+		target.Stun(20 SECONDS, ignore_canstun = TRUE)
+		target.apply_damage(20 + target.radiance, RED_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE))
 		target.radiance = 0
+		target.radiance_window = FALSE
 
 	kostil = TRUE
 	addtimer(CALLBACK(src, PROC_REF(reset_delay),), 2 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /obj/item/ego_weapon/city/eclipse/proc/reset_delay()
 	kostil = FALSE
+
+/datum/movespeed_modifier/blinded
+	variable = TRUE
+	multiplicative_slowdown = 4
+
+/obj/effect/temp_visual/bonk
+	icon = 'fd/icons/wod_assets/icons.dmi'
+	layer = ABOVE_ALL_MOB_LAYER
+	icon_state = "wham"
+	pixel_y = 16
+
+/obj/effect/temp_visual/bonk/Initialize()
+	. = ..()
+	animate(src, alpha = 0, time = 5)
 
 /obj/item/ego_weapon/city/radiance
 	name = "radiance"
@@ -231,15 +268,6 @@
 	attribute_requirements = list()
 
 	var/radiance_from_hit = 1
-	var/special_attack = FALSE
-
-/obj/item/ego_weapon/city/radiance/attack_self(mob/living/carbon/user)
-	if(special_attack)
-		special_attack = FALSE
-		to_chat(user, span_danger("Ты расслабил хват клинка!"))
-	else
-		special_attack = TRUE
-		to_chat(user, span_danger("Ты подготавливаешь особый выпад."))
 
 /obj/item/ego_weapon/city/radiance/attack(mob/living/target, mob/living/user)
 
@@ -248,11 +276,10 @@
 
 	. = ..()
 
-	if(target.radiance >= 10 && special_attack)
-		user.visible_message(span_danger("[user] пронзает [target]!"))
-		new /obj/effect/temp_visual/onesin_blessing(target.loc)
-		target.apply_damage(30, WHITE_DAMAGE, null, target.run_armor_check(null, WHITE_DAMAGE))
-		special_attack = FALSE
-		target.radiance -= 10
+	if(target.radiance >= 5)
+		target.apply_damage(10, WHITE_DAMAGE, null, target.run_armor_check(null, WHITE_DAMAGE))
+
+	if(target.radiance >= 10)
+		target.apply_damage(10, WHITE_DAMAGE, null, target.run_armor_check(null, WHITE_DAMAGE))
 
 	target.radiance += radiance_from_hit

@@ -26,10 +26,6 @@
 	icon = 'fd/icons/mojave_structures/32x64_tall_furniture.dmi'
 	max_integrity = 100
 
-/obj/structure/mirror/fd/Initialize()
-	. = ..()
-	AddElement(/datum/element/wall_mount)
-
 /obj/structure/railing/fd
 	name = "base state FD guard rail"
 	icon = 'fd/icons/mojave_structures/railings.dmi'
@@ -1118,3 +1114,73 @@
 	desc = "A cork board for pinning notices to."
 	icon = 'fd/icons/mojave_structures/cork.dmi'
 	pixel_y = 32
+
+// ROADSIGNS
+
+/obj/structure/fd/roadsign
+	name = "roadsign"
+	desc = "An simple metal roadsign."
+	icon = 'fd/icons/wod_assets/roadsign.dmi'
+	icon_state = "stop"
+	max_integrity = 225
+	density = FALSE
+	anchored = TRUE
+	layer = ABOVE_MOB_LAYER
+
+	pixel_y = -3
+
+// GENERATOR
+
+/obj/structure/fd/generator_big
+	name = "power gen"
+	desc = "An complex electric station."
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	icon_state = "gen"
+	max_integrity = 225
+	density = TRUE
+	anchored = TRUE
+	opacity = TRUE
+	layer = ABOVE_MOB_LAYER
+
+// FIRE
+
+/obj/effect/fd/fire
+	name = "open fire"
+	desc = "An open, strong fire."
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	icon_state = "fire"
+	anchored = TRUE
+	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fd/fireplace
+	name = "large fireplace"
+	desc = "An old looking fireplace."
+	icon = 'fd/icons/wod_assets/48x64.dmi'
+	icon_state = "fireplace_large"
+	max_integrity = 225
+	anchored = TRUE
+	pixel_x = -16
+
+// BIG CLOCK
+
+/obj/structure/fd/big_clock
+	name = "large wooden clock"
+	desc = "An old looking clock."
+	icon = 'fd/icons/wod_assets/grandpa_clock.dmi'
+	icon_state = "clock"
+	max_integrity = 225
+	anchored = TRUE
+
+// LAMPS
+
+/obj/structure/fd/lamp
+	name = "large lamp"
+	desc = "An stylish victorian lamppost."
+	icon = 'fd/icons/wod_assets/lamppost.dmi'
+	icon_state = "civ"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+	layer = ABOVE_MOB_LAYER
+
+	pixel_x = -32

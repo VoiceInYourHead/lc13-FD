@@ -243,6 +243,15 @@
 	icon_state = "table_pool"
 	max_integrity = 200
 
+/obj/structure/table/fd/no_smooth/large/pool/alt
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	icon_state = "billiard1"
+
+/obj/structure/table/fd/no_smooth/large/pool/alt/Initialize(mapload)
+	. = ..()
+	if(dir == NORTH)
+		bound_height = 64
+
 /obj/structure/table/fd/no_smooth/large/cards
 	name = "cards table"
 	desc = "Very classy. Reminds you of that time in New Reno..."
