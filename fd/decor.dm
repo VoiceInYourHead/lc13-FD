@@ -15,6 +15,10 @@
 	has_water_reclaimer = TRUE
 	reclaim_rate = 0.1
 
+/obj/structure/sink/fd/alt
+	icon = 'fd/icons/furniture.dmi'
+	icon_state = "sink_modern"
+
 /obj/machinery/shower/fd
 	name = "shower"
 	desc = "An old shower, there must still be some water in the tank since it works, but you probably shouldn't leave your mouth open whilst using it."
@@ -905,6 +909,21 @@
 	desc = "Some scattered papers. All sorts of stuff, from pages to envelopes."
 	icon_state = "papers_3"
 
+/obj/structure/fd/trash/bags
+	name = "trashbag"
+	desc = "Smells awful."
+	icon_state = "garbage1"
+	icon = 'fd/icons/wod_assets/props.dmi'
+
+/obj/structure/fd/trash/bags/alt1
+	icon_state = "garbage2"
+
+/obj/structure/fd/trash/bags/alt2
+	icon_state = "garbage3"
+
+/obj/structure/fd/trash/bags/big_pile
+	icon_state = "garbage9"
+
 /obj/structure/fd/trash/books
 	name = "ruined stack of books"
 	desc = "A small stack of ruined books. A librarian's worst nightmare."
@@ -1170,6 +1189,7 @@
 	icon_state = "clock"
 	max_integrity = 225
 	anchored = TRUE
+	density = TRUE
 
 // LAMPS
 
@@ -1184,3 +1204,110 @@
 	layer = ABOVE_MOB_LAYER
 
 	pixel_x = -32
+
+// PLANTS
+
+/obj/item/kirbyplants/fd
+	icon = 'fd/icons/plants.dmi'
+	icon_state = "plant-27"
+	trimmable = FALSE
+
+/obj/item/kirbyplants/fd/alt
+	icon = 'fd/icons/plants_eris.dmi'
+	icon_state = "plant-41"
+	trimmable = FALSE
+
+// VENDORS DECORATIVE
+
+/obj/structure/fd/vending
+	name = "vending machine"
+	desc = "An old vending machine."
+	icon = 'fd/icons/wod_assets/vending.dmi'
+	icon_state = "vend_b"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+// MAP STAND
+
+/obj/structure/fd/map
+	name = "sector map"
+	desc = "In case you are lost."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "map"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+// HYDRANT
+
+/obj/structure/fd/hydrant
+	name = "hydrant"
+	desc = "Water holder in case of nearby fire."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "hydrant"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+// TRASH CONTAINER
+
+/obj/structure/fd/storage/trashcrate
+	name = "trash container"
+	desc = "It smells."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "garbage"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+// ROOF/INDUSTRIAL DECOR
+
+/obj/structure/fd/roof_air
+	name = "air system"
+	desc = "An element of outside air system."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "roof1"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/roof_air/alt1
+	icon_state = "roof2"
+
+/obj/structure/fd/roof_air/alt2
+	icon_state = "roof3"
+
+/obj/structure/fd/roof_air/alt3
+	icon_state = "roof4"
+
+/obj/structure/fd/vent_inside
+	name = "ventilation"
+	desc = "An rusted vent pipeline."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "vents"
+	max_integrity = 225
+	alpha = 100
+	anchored = TRUE
+	layer = ABOVE_MOB_LAYER
+
+	mouse_opacity = FALSE
+
+// CLOTHING HOLDERS
+
+/obj/structure/fd/hanger
+	name = "hanger"
+	desc = "An wooden hanger."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "hanger1"
+	max_integrity = 225
+	anchored = TRUE
+
+/obj/structure/fd/hanger_iron
+	name = "metal rack"
+	desc = "An metal hanger."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "rack"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
