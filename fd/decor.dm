@@ -1161,6 +1161,10 @@
 	opacity = TRUE
 	layer = ABOVE_MOB_LAYER
 
+/obj/structure/fd/generator_big/alt
+	icon = 'fd/icons/mojave_structures/32x48_machinery.dmi'
+	icon_state = "substation"
+
 // FIRE
 
 /obj/effect/fd/fire
@@ -1292,6 +1296,48 @@
 	layer = ABOVE_MOB_LAYER
 
 	mouse_opacity = FALSE
+
+/obj/structure/fd/conveyor
+	name = "conveyor belt"
+	desc = "An element of big refinery."
+	icon = 'fd/icons/mojave_structures/ms_conveyorbelts2.dmi'
+	icon_state = "0,0"
+	max_integrity = 50
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/factory_machinery
+	name = "machinery"
+	desc = "An element of big refinery."
+	icon = 'fd/icons/mojave_structures/ms_conveyormachinery32.dmi'
+	icon_state = "1"
+	max_integrity = 50
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/factory_machinery/alt
+	icon = 'fd/icons/mojave_structures/ms_conveyormachinery64.dmi'
+	icon_state = "1"
+	bound_width = 64
+	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fd/factory_machinery/alt2
+	icon = 'fd/icons/mojave_structures/ms_conveyormachinery96.dmi'
+	icon_state = "1"
+	bound_width = 96
+	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fd/factory_machinery/alt3
+	icon = 'fd/icons/mojave_structures/ms_conveyormachinery_vertical.dmi'
+	icon_state = "1"
+	layer = ABOVE_MOB_LAYER
+	bound_height = 64
+
+/obj/structure/fd/factory_machinery/alt4
+	icon = 'fd/icons/mojave_structures/ms_lathe.dmi'
+	icon_state = "idle"
+	bound_width = 96
+	layer = ABOVE_MOB_LAYER
 
 // CLOTHING HOLDERS
 
