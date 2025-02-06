@@ -42,7 +42,7 @@
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 25, BLACK_DAMAGE = 30, PALE_DAMAGE = 20)
 	attribute_requirements = list()
 
-/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/thorne
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily
 	desc = "An stylish way to show that you are here. This one has red triangle on back."
 	icon_state = "Gwaine_Cloak"
 
@@ -54,9 +54,9 @@
 	desc = "Long dark cloak. This one has NOTHING on it's back."
 	icon_state = "Albert_Cloak"
 
-/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/libra
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/schau
 	desc = "An stylish way to show that you are here. This one has white triangle on back."
-	icon_state = "Will_Cloak"
+	icon_state = "Libra_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/ezra
 	desc = "An tattered dark cloak. This one has purple triangle on back."

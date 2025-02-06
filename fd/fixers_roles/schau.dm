@@ -1,7 +1,7 @@
 //main role code
 
 /datum/job/schau
-	title = "Emmerich Schau"
+	title = "Alexius Schau"
 	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
@@ -39,7 +39,7 @@
 	M.AddSpell(airbomb)
 
 /datum/outfit/job/schau
-	name = "Emmerich Schau"
+	name = "Alexius Schau"
 	jobtype = /datum/job/schau
 
 	uniform = null

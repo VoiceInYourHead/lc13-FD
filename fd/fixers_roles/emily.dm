@@ -1,0 +1,127 @@
+//main role code
+
+/datum/job/bedar
+	title = "Emily Bedar"
+	faction = "Prism"
+	supervisors = "Crave your own way"
+	selection_color = "#444444"
+	total_positions = 1
+	spawn_positions = 1
+
+	outfit = /datum/outfit/job/bedar
+
+	job_attribute_limit = 100
+
+	display_order = 1.3
+	maptype = "fixer_dnd"
+	job_important = "Вы и сами знате, кто вы такой."
+	job_abbreviation = "BEDAR"
+
+	roundstart_attributes = list(
+								STRENGTH_STAT = 30,
+								WILLPOWER_STAT = 40,
+								OBSERVATION_STAT = 40,
+								REFLEXES_STAT = 40,
+								LUCK_STAT = 0,
+								PRECISION_STAT = 80,
+								INTELLECT_STAT = 60
+								)
+
+/datum/job/bedar/after_spawn(mob/living/carbon/human/H, mob/M)
+	..()
+	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_WORKFEAR_IMMUNE, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_ATTRIBUTES_VISION, JOB_TRAIT)
+
+	var/obj/effect/proc_holder/spell/targeted/dice_roll/att_check = new
+	M.AddSpell(att_check)
+
+/datum/outfit/job/bedar
+	name = "Emily Bedar"
+	jobtype = /datum/job/schau
+
+	uniform = null
+	ears = null
+	shoes = null
+	suit = null
+	glasses = null
+	head = null
+	gloves = null
+	backpack_contents = list()
+
+	backpack = /obj/item/storage/backpack
+	satchel = /obj/item/storage/backpack/satchel
+	duffelbag = /obj/item/storage/backpack/duffelbag
+
+// equipment
+
+/mob/living
+	var/damage_immune = FALSE
+
+/mob/living/bullet_act(obj/projectile/P, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/attacked_by(obj/item/I, mob/living/user, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/attack_animal(mob/living/simple_animal/M, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/attack_hand(mob/living/carbon/human/user, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/attack_paw(mob/living/carbon/human/M, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/attackby(obj/item/I, mob/living/user, params, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum, atom/newloc)
+	if(damage_immune)
+		emily_dodge(newloc,dir)
+		return
+	..()
+
+/mob/living/proc/emily_dodge(moving_to,move_direction)
+	//Assuming we move towards the target we want to swerve toward them to get closer
+	var/cdir = turn(move_direction,45)
+	var/ccdir = turn(move_direction,-45)
+	. = Move(get_step(loc,pick(cdir,ccdir)))
+	if(!.)//Can't dodge there so we just carry on
+		. =  Move(moving_to,move_direction)
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily
+	var/on_cooldown = FALSE
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/AltClick(mob/living/user)
+	if(on_cooldown)
+		to_chat(user, span_danger("[src] всё ещё на перезарядке!"))
+		return
+	user.damage_immune = TRUE
+	on_cooldown = TRUE
+	addtimer(CALLBACK(src, PROC_REF(cloak_protection_removal),), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(usage_delay),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/cloak_protection_removal(mob/living/user)
+	user.damage_immune = FALSE
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/usage_delay()
+	on_cooldown = FALSE
