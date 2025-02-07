@@ -295,8 +295,8 @@
 	name = "big cannon"
 	desc = "A 1 round cannon, kinda looks like Thumb shotgun, but even scarier and deadlier."
 	icon = 'fd/icons/ezra_cannon.dmi'
-	lefthand_file = 'fd/icons/ezra_inhand_left.dmi'
-	righthand_file = 'fd/icons/ezra_inhand_right.dmi'
+	lefthand_file = 'fd/icons/ezra_inhand_lefthand.dmi'
+	righthand_file = 'fd/icons/ezra_inhand_righthand.dmi'
 	icon_state = "ezra"
 	inhand_icon_state = "ezra"
 	force = 15
