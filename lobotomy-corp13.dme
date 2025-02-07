@@ -3969,6 +3969,7 @@
 #include "fd\fixers_roles\albert.dm"
 #include "fd\fixers_roles\assets_prism.dm"
 #include "fd\fixers_roles\aurum.dm"
+#include "fd\fixers_roles\emily.dm"
 #include "fd\fixers_roles\ezra.dm"
 #include "fd\fixers_roles\global_vars.dm"
 #include "fd\fixers_roles\libra.dm"

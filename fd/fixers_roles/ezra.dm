@@ -294,11 +294,11 @@
 /obj/item/gun/ego_gun/city/ezra_cannon
 	name = "big cannon"
 	desc = "A 1 round cannon, kinda looks like Thumb shotgun, but even scarier and deadlier."
-	icon = 'fd/icons/mojave_guns/guns_inventory.dmi'
-	lefthand_file = 'fd/icons/mojave_guns/guns_inhand_left.dmi'
-	righthand_file = 'fd/icons/mojave_guns/guns_inhand_right.dmi'
-	icon_state = "sawedoff"
-	inhand_icon_state = "sawedoff"
+	icon = 'fd/icons/ezra_cannon.dmi'
+	lefthand_file = 'fd/icons/ezra_inhand_left.dmi'
+	righthand_file = 'fd/icons/ezra_inhand_right.dmi'
+	icon_state = "ezra"
+	inhand_icon_state = "ezra"
 	force = 15
 	ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
 	weapon_weight = WEAPON_MEDIUM

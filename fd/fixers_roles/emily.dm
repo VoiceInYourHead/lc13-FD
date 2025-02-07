@@ -62,43 +62,31 @@
 	if(damage_immune)
 		emily_dodge(newloc,dir)
 		return
-	..()
-
-/mob/living/attacked_by(obj/item/I, mob/living/user, atom/newloc)
-	if(damage_immune)
-		emily_dodge(newloc,dir)
-		return
-	..()
+	. = ..()
 
 /mob/living/attack_animal(mob/living/simple_animal/M, atom/newloc)
 	if(damage_immune)
 		emily_dodge(newloc,dir)
 		return
-	..()
+	. = ..()
 
 /mob/living/attack_hand(mob/living/carbon/human/user, atom/newloc)
 	if(damage_immune)
 		emily_dodge(newloc,dir)
 		return
-	..()
+	. = ..()
 
 /mob/living/attack_paw(mob/living/carbon/human/M, atom/newloc)
 	if(damage_immune)
 		emily_dodge(newloc,dir)
 		return
-	..()
+	. = ..()
 
 /mob/living/attackby(obj/item/I, mob/living/user, params, atom/newloc)
 	if(damage_immune)
 		emily_dodge(newloc,dir)
 		return
-	..()
-
-/mob/living/hitby(atom/movable/AM, skipcatch, hitpush = TRUE, blocked = FALSE, datum/thrownthing/throwingdatum, atom/newloc)
-	if(damage_immune)
-		emily_dodge(newloc,dir)
-		return
-	..()
+	. = ..()
 
 /mob/living/proc/emily_dodge(moving_to,move_direction)
 	//Assuming we move towards the target we want to swerve toward them to get closer
@@ -111,16 +99,18 @@
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily
 	var/on_cooldown = FALSE
 
-/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/AltClick(mob/living/user)
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/AltClick(mob/living/user = usr)
 	if(on_cooldown)
 		to_chat(user, span_danger("[src] всё ещё на перезарядке!"))
 		return
+	to_chat(user, span_danger("Накидка поможет вам временно уйти от урона!"))
 	user.damage_immune = TRUE
 	on_cooldown = TRUE
 	addtimer(CALLBACK(src, PROC_REF(cloak_protection_removal),), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	addtimer(CALLBACK(src, PROC_REF(usage_delay),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
-/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/cloak_protection_removal(mob/living/user)
+/obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/cloak_protection_removal(mob/living/user = usr)
+	to_chat(user, span_danger("Вы снова уязвимы!"))
 	user.damage_immune = FALSE
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/usage_delay()
