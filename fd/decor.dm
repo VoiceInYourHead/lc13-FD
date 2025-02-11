@@ -1209,6 +1209,10 @@
 
 	pixel_x = -32
 
+	light_color = "#cc9331"
+	light_range = 8
+	light_power = 1
+
 // PLANTS
 
 /obj/item/kirbyplants/fd
@@ -1357,3 +1361,80 @@
 	max_integrity = 225
 	anchored = TRUE
 	density = TRUE
+
+// DRUGS
+
+/obj/structure/fd/lab
+	name = "chem-station"
+	desc = "For various purposes. But mostly for drugs"
+	icon = 'fd/icons/wod_assets/32x48.dmi'
+	icon_state = "methlab"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/tub
+	name = "bathtub"
+	desc = "To chill out a little bit."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "tub"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/surgicaltable
+	name = "surgical bed"
+	desc = "To perform operations."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "surgeonchair"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/drip
+	name = "IV drip"
+	desc = "For transfering various reagents to human body."
+	icon = 'fd/icons/wod_assets/props.dmi'
+	icon_state = "iv_drip"
+	max_integrity = 225
+	anchored = TRUE
+
+/obj/structure/fd/labfridge
+	name = "fridge"
+	desc = "Laboratory fridge."
+	icon = 'fd/icons/smartfridge.dmi'
+	icon_state = "smartfridge_full1"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/labdehydrator
+	name = "dehydrator"
+	desc = "For various things."
+	icon = 'fd/icons/smartfridge.dmi'
+	icon_state = "dehydrator-icon"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+
+/obj/structure/fd/randmachinery1
+	name = "machinery"
+	desc = "For various things."
+	icon = 'fd/icons/nebula_shielding.dmi'
+	icon_state = "radioactive_shielding"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+	bound_width = 64
+	layer = ABOVE_MOB_LAYER
+
+/obj/structure/fd/randmachinery2
+	name = "machinery"
+	desc = "For various things."
+	icon = 'fd/icons/bci_implanter.dmi'
+	icon_state = "bci_implanter_open"
+	max_integrity = 225
+	anchored = TRUE
+	density = TRUE
+	bound_width = 64
+	layer = ABOVE_MOB_LAYER
