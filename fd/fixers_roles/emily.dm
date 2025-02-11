@@ -106,12 +106,36 @@
 	to_chat(user, span_danger("Накидка поможет вам временно уйти от урона!"))
 	user.damage_immune = TRUE
 	on_cooldown = TRUE
+	add_filter("immune", 2, list("type" = "outline", "color" = "#acd8da", "size" = 1))
 	addtimer(CALLBACK(src, PROC_REF(cloak_protection_removal),), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 	addtimer(CALLBACK(src, PROC_REF(usage_delay),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/cloak_protection_removal(mob/living/user = usr)
 	to_chat(user, span_danger("Вы снова уязвимы!"))
 	user.damage_immune = FALSE
+	remove_filter("immune")
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily/proc/usage_delay()
 	on_cooldown = FALSE
+
+/obj/item/ego_weapon/city/emily_tetsubo
+	name = "combat tetsubo"
+	desc = "An combat-hardened tetsubo with pretty sharp spikes."
+	icon = 'fd/icons/prism/Weapons.dmi'
+	icon_state = "Tetsubo"
+	lefthand_file = 'fd/icons/prism/Weapons_Inhand_Left.dmi'
+	righthand_file = 'fd/icons/prism/Weapons_Inhand_Right.dmi'
+	force = 30
+	attack_speed = 1
+	damtype = RED_DAMAGE
+
+	attack_verb_continuous = list("bashes", "crushes")
+	attack_verb_simple = list("bash", "crush")
+
+/obj/item/ego_weapon/city/emily_tetsubo/attack(mob/living/target, mob/living/user)
+	if(!..())
+		return
+	var/atom/throw_target = get_edge_target_turf(target, user.dir)
+	if(!target.anchored)
+		var/whack_speed = (prob(60) ? 1 : 4)
+		target.throw_at(throw_target, rand(1, 2), whack_speed, user)

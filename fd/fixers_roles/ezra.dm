@@ -266,8 +266,9 @@
 
 /obj/projectile/ego_bullet/ezra_impact/on_hit(atom/target, blocked)
 	..()
-	if(iscarbon(target))
-		var/mob/living/carbon/C = target
+	if(isliving(target))
+		var/mob/living/C = target
+		new /obj/effect/temp_visual/bonk(get_turf(C))
 		var/atom/throw_target = get_edge_target_turf(C, pick(GLOB.alldirs))
 		C.throw_at(throw_target, 2, 4)
 
@@ -280,16 +281,15 @@
 	name = "bullet"
 	icon_state = "gumball"
 	color = "#5f5440"
-	damage = 20
+	damage = 30
 
 /obj/projectile/ego_bullet/ezra_stun/on_hit(atom/target, blocked)
 	..()
-	if(iscarbon(target))
-		var/mob/living/carbon/C = target
-		C.set_confusion(max(5, C.get_confusion()))
-		C.adjustStaminaLoss(80, TRUE, TRUE)
-		for(var/turf/T in range(1, C))
-			new /obj/effect/temp_visual/small_smoke(T)
+	for(var/turf/T in range(1, target))
+		for(var/mob/living/C in range(1, target))
+			C.set_confusion(max(5, C.get_confusion()))
+			C.Stun(20 SECONDS, ignore_canstun = TRUE)
+		new /obj/effect/temp_visual/small_smoke(T)
 
 /obj/item/gun/ego_gun/city/ezra_cannon
 	name = "big cannon"
