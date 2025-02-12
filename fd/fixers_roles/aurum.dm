@@ -46,9 +46,9 @@
 
 	uniform = /obj/item/clothing/under/prism_office/aurum
 	ears = null
-	shoes = /obj/item/clothing/shoes/jackboots
+	shoes = /obj/item/clothing/shoes/laceup
 	suit = null
-	glasses = /obj/item/clothing/glasses/orange
+	glasses = null
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()

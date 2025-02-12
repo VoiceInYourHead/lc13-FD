@@ -32,6 +32,10 @@
 /mob/living/Life()
 	..()
 
+	if(blueblood_affected && !cooldown_blueblood)
+		addtimer(CALLBACK(src, PROC_REF(remove_dstout), src), 30 SECONDS)
+		cooldown_blueblood = TRUE
+
 	if(cooldown_radiance > 0)
 		cooldown_radiance -= 1
 
@@ -45,6 +49,7 @@
 		radiance_effect = image('fd/icons/wod_assets/icons.dmi', "presence", pixel_y = 16)
 		add_overlay(radiance_effect)
 		radiance_window = TRUE
+		add_movespeed_modifier(/datum/movespeed_modifier/blinded)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/blinded), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		if(do_after(src, 10 SECONDS, timed_action_flags = (IGNORE_USER_LOC_CHANGE|IGNORE_TARGET_LOC_CHANGE|IGNORE_INCAPACITATED|IGNORE_HELD_ITEM)))
 			cut_overlay(radiance_effect)

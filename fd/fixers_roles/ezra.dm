@@ -49,7 +49,7 @@
 	glasses = null
 	head = null
 	gloves = /obj/item/clothing/gloves/color/black
-	backpack_contents = list()
+	backpack_contents = list(/obj/item/gun/ego_gun/city/smokepipe_ezra = 1)
 
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel

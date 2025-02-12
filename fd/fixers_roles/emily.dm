@@ -12,7 +12,7 @@
 
 	job_attribute_limit = 100
 
-	display_order = 1.3
+	display_order = 1.5
 	maptype = "fixer_dnd"
 	job_important = "Вы и сами знате, кто вы такой."
 	job_abbreviation = "BEDAR"
@@ -40,10 +40,10 @@
 	name = "Emily Bedar"
 	jobtype = /datum/job/schau
 
-	uniform = null
+	uniform = /obj/item/clothing/under/prism_office/emily
 	ears = null
-	shoes = null
-	suit = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/emily_coat
 	glasses = null
 	head = null
 	gloves = null
@@ -167,7 +167,7 @@
 		if(fast_heals <= 0)
 			to_chat(user, span_danger("Здесь недостаточно материалов для оказания помощи!"))
 			return
-		if(do_after(user, 5 SECONDS, target))
+		if(do_after(user, 3 SECONDS, target))
 			var/stat_level = get_attribute_level(user, PRECISION_STAT)
 			if(stat_level < skill_needed)
 				target.adjustBruteLoss(-10)

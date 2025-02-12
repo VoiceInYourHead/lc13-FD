@@ -40,6 +40,47 @@
 	worn_icon = 'fd/icons/prism/Golsuit2.dmi'
 	icon_state = "pale"
 
+/obj/item/clothing/under/prism_office/will
+	name = "black turtleneck"
+	desc = "An old looking black turtleneck."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Will_under"
+
+/obj/item/clothing/under/prism_office/schau
+	name = "green sweater"
+	desc = "An pathetic green sweater."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Schau_under"
+
+/obj/item/clothing/under/prism_office/emily
+	name = "Office suit"
+	desc = "An cool looking black office uniform."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Emily_under"
+
+/obj/item/clothing/suit/armor/ego_gear/city/schau_trench
+	name = "dusty trenchcoat"
+	desc = "An stylish brown trench."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Schau_Trench"
+	flags_inv = null
+	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)
+	attribute_requirements = list()
+
+/obj/item/clothing/suit/armor/ego_gear/city/emily_coat
+	name = "worn-out coat"
+	desc = "An stylish red battle coat."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Emily_Coat"
+	flags_inv = null
+	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)
+	attribute_requirements = list()
+
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak
 	name = "Prism Office armored cloak"
 	desc = "An stylish way to show that you are here. This one has blue triangle on back."

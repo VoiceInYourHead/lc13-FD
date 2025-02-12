@@ -42,13 +42,13 @@
 	name = "Alexius Schau"
 	jobtype = /datum/job/schau
 
-	uniform = null
+	uniform = /obj/item/clothing/under/prism_office/schau
 	ears = null
-	shoes = null
-	suit = null
-	glasses = null
+	shoes = /obj/item/clothing/shoes/sneakers/black
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/schau_trench
+	glasses = /obj/item/clothing/glasses/orange
 	head = null
-	gloves = null
+	gloves = /obj/item/clothing/gloves/botanic_leather
 	backpack_contents = list()
 
 	backpack = /obj/item/storage/backpack
@@ -315,3 +315,42 @@
 /datum/movespeed_modifier/bag_punch
 	variable = TRUE
 	multiplicative_slowdown = 6
+
+/datum/movespeed_modifier/dstout
+	variable = TRUE
+	multiplicative_slowdown = -0.5
+
+/obj/item/dstout_schau
+	name = "D-Stout"
+	desc = "An special brand energetic, made by Wing 'D'."
+	icon = 'fd/icons/wod_assets/items.dmi'
+	icon_state = "colablue2"
+	w_class = WEIGHT_CLASS_SMALL
+
+/mob/living
+	var/blueblood_affected = FALSE
+	var/cooldown_blueblood = FALSE
+
+/mob/living/proc/remove_dstout(mob/living/carbon/human/user)
+	to_chat(user, span_notice("Тебя наконец отпускает."))
+	user.death_threshold += 200
+	user.hardcrit_threshold += 200
+	user.crit_threshold += 200
+	user.adjust_attribute_buff(STRENGTH_STAT, -200)
+	user.blueblood_affected = FALSE
+	user.cooldown_blueblood = FALSE
+
+/obj/item/dstout_schau/attack_self(mob/living/carbon/human/user)
+	playsound(user.loc,'sound/items/drink.ogg', rand(10,50), TRUE)
+	to_chat(user, span_resonate("Ты залпом начинаешь осушать банку с энергетиком."))
+	if(do_after(user, 2 SECONDS))
+		user.visible_message("<span class='warning'>[user] начинает безумно трястись, сжимая в руках только что опустошённую банку энергетика.</span>")
+		user.add_movespeed_modifier(/datum/movespeed_modifier/dstout)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/dstout), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		user.death_threshold -= 200
+		user.hardcrit_threshold -= 200
+		user.crit_threshold -= 200
+		user.adjust_attribute_buff(STRENGTH_STAT, 200)
+		user.Jitter(150)
+		user.blueblood_affected = TRUE
+		qdel(src)

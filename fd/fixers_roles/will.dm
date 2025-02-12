@@ -65,7 +65,7 @@
 	name = "William Solros"
 	jobtype = /datum/job/will
 
-	uniform = /obj/item/clothing/under/mercenary/tacticool
+	uniform = /obj/item/clothing/under/prism_office/will
 	ears = null
 	shoes = /obj/item/clothing/shoes/jackboots
 	suit = null

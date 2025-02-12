@@ -210,9 +210,8 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Albert Krat",
 	"Aurum OLit",
 	"Ezra Jennings",
-	"Eizikaide Libra",
-	"Gawain Thorne",
 	"Alexius Schau",
+	"Emily Bedar",
 	"William Solros",
 
 	))

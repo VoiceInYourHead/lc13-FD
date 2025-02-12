@@ -51,6 +51,7 @@
 	desc = "something"
 	icon = 'fd/icons/story.dmi'
 	icon_state = "book"
+	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/story_related/Initialize()
 	. = ..()

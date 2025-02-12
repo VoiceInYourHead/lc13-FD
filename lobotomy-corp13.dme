@@ -3977,6 +3977,7 @@
 #include "fd\fixers_roles\schau.dm"
 #include "fd\fixers_roles\thorne.dm"
 #include "fd\fixers_roles\will.dm"
+#include "fd\fixers_roles\prism_story\first_mission.dm"
 #include "fd\lcd_jobs\lccb_joblist.dm"
 #include "fd\lcd_jobs\lcda_joblist.dm"
 #include "fd\lcd_jobs\outsiders_joblist.dm"
