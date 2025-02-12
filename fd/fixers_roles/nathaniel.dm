@@ -59,9 +59,9 @@
 
 	H.maxHealth = 150
 	H.health = 150
-	H.death_threshold = -60
-	H.hardcrit_threshold = -30
-	H.crit_threshold = -10
+	H.death_threshold = -100
+	H.hardcrit_threshold = -50
+	H.crit_threshold = -50
 	H.sanityhealth = 180
 	H.maxSanity = 180
 	H.add_movespeed_modifier(/datum/movespeed_modifier/assault)

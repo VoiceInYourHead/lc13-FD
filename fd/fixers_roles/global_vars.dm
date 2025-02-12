@@ -3,7 +3,6 @@
 	var/knowledge = 0
 
 /obj/attackby(obj/item/I, mob/living/user, params)
-	. = ..()
 	if(istype(I, /obj/item/ego_weapon/city/dieci_key))
 		var/obj/item/ego_weapon/city/dieci_key/prism = I
 		if(knowledge <= 0)
@@ -14,6 +13,9 @@
 			return FALSE
 		if(do_after(user, 5 SECONDS, src))
 			prism.knowledge_stored += knowledge
+			knowledge = 0
+
+	. = ..()
 
 /mob/living
 	var/flame_stacks = 0

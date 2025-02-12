@@ -64,8 +64,9 @@
 	clothes_req = FALSE
 	invocation_type = "none"
 	range = 2
-	action_icon = 'icons/mob/actions/actions_ecult.dmi'
-	action_icon_state = "voidpull"
+	action_icon = 'ModularTegustation/Teguicons/teguicons.dmi'
+	action_icon_state = "ruina_evade"
+	action_background_icon_state = "bg_revenant"
 	var/cost = 10
 
 	var/maxthrow = 5

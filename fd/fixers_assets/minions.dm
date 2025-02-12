@@ -89,8 +89,8 @@
 	mob_size = MOB_SIZE_HUMAN
 	a_intent = INTENT_HARM
 
-	maxHealth = 300
-	health = 300
+	maxHealth = 200
+	health = 200
 	melee_damage_lower = 20
 	melee_damage_upper = 30
 	attack_sound = 'sound/weapons/fixer/generic/blade1.ogg'

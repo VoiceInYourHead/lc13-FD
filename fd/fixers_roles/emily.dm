@@ -139,3 +139,69 @@
 	if(!target.anchored)
 		var/whack_speed = (prob(60) ? 1 : 4)
 		target.throw_at(throw_target, rand(1, 2), whack_speed, user)
+
+/obj/item/medkit_emily
+	name = "combat medical bag"
+	desc = "An special handy bag of goods."
+	icon = 'fd/icons/wod_assets/items.dmi'
+	icon_state = "medkit"
+	var/fast_heals = 10
+	var/full_heals = 3
+	var/list/mode = list("Быстрая перевязка", "Комплексная помощь")
+	var/skill_needed = 70
+
+/obj/item/medkit_emily/examine(mob/user)
+	. = ..()
+	. += span_green("Медикаментов в запасе хватит ещё на [fast_heals] пит-стопов и [full_heals] полноценных операции.")
+
+/obj/item/medkit_emily/proc/reset_threshold(mob/living/target)
+	target.hardcrit_threshold+=150
+	target.crit_threshold+=150
+	target.death_threshold+=150
+
+/obj/item/medkit_emily/attack(mob/living/target, mob/living/user)
+
+	var/operating = input(user, "Выберите, что вы хотите сделать!", "Помогаем...") as null|anything in mode
+
+	if(operating == "Быстрая перевязка")
+		if(fast_heals <= 0)
+			to_chat(user, span_danger("Здесь недостаточно материалов для оказания помощи!"))
+			return
+		if(do_after(user, 5 SECONDS, target))
+			var/stat_level = get_attribute_level(user, PRECISION_STAT)
+			if(stat_level < skill_needed)
+				target.adjustBruteLoss(-10)
+				target.adjustFireLoss(-10)
+			else
+				target.adjustBruteLoss(-30)
+				target.adjustFireLoss(-30)
+				if(ishuman(target))
+					var/mob/living/carbon/human/T = target
+					T.adjustSanityLoss(-50)
+			target.hardcrit_threshold-=150
+			target.crit_threshold-=150
+			target.death_threshold-=150
+			fast_heals -= 1
+			addtimer(CALLBACK(src, PROC_REF(reset_threshold), target), 20 SECONDS)
+
+	if(operating == "Комплексная помощь")
+		if(full_heals <= 0)
+			to_chat(user, span_danger("Здесь недостаточно материалов для оказания помощи!"))
+			return
+		var/stat_level = get_attribute_level(user, PRECISION_STAT)
+		if(do_after(user, 20 SECONDS, target))
+			if(target.revive(full_heal = TRUE, admin_revive = TRUE))
+				target.revive(full_heal = TRUE, admin_revive = TRUE)
+				target.grab_ghost(force = TRUE)
+				if(ishuman(target))
+					var/mob/living/carbon/human/T = target
+					T.Paralyze(300)
+					T.adjustStaminaLoss(100)
+				if(stat_level < skill_needed)
+					target.adjustBruteLoss(60)
+					target.adjustOxyLoss(20)
+				else
+					target.adjustBruteLoss(30)
+				full_heals -= 1
+			else
+				to_chat(user, span_danger("Здесь сумочка бессильна!"))

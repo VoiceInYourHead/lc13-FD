@@ -1,3 +1,11 @@
+/area/city/prism
+
+/area/city/prism/office_firstfloor
+	name = "Prism Office - Cafe"
+
+/area/city/prism/office_secondfloor
+	name = "Prism Office - Living Space"
+
 /obj/item/clothing/under/prism_office
 	name = "Office dim pale suit"
 	desc = "An standart office suit."

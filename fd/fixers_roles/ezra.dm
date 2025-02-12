@@ -65,6 +65,9 @@
 	cone_levels = 5
 	respect_density = TRUE
 	invocation_type = "none"
+	action_icon = 'fd/icons/wod_assets/kuei_jin.dmi'
+	action_icon_state = "breathe"
+	action_background_icon_state = "bg_revenant"
 	var/minimum_smoke = 30
 
 /obj/effect/proc_holder/spell/cone/staggered/ezra_smoke/cast(list/targets,mob/user = usr)

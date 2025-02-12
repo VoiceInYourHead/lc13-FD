@@ -15,11 +15,17 @@
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
+/obj/structure/story_related/proc/reset_status()
+	found = FALSE
+	remove_filter("clue")
+
 /obj/structure/story_related/process()
 	if(found)
 		add_filter("clue", 2, list("type" = "outline", "color" = "#eeeeee", "size" = 1))
+		addtimer(CALLBACK(src, PROC_REF(reset_status),), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
-/obj/structure/story_related/attackby(obj/item/I, mob/living/user, params)
+/obj/structure/story_related/attack_hand(mob/living/user)
+	. = ..()
 	for(var/mob/living/failed in who_failed)
 		if(failed == user)
 			to_chat(user, span_warning("Что ещё ты хочешь тут найти? Ты и так осмотрел его вдоль и поперёк."))
@@ -50,9 +56,14 @@
 	. = ..()
 	START_PROCESSING(SSobj, src)
 
+/obj/item/story_related/proc/reset_status()
+	found = FALSE
+	remove_filter("clue")
+
 /obj/item/story_related/process()
 	if(found)
 		add_filter("clue", 2, list("type" = "outline", "color" = "#eeeeee", "size" = 1))
+		addtimer(CALLBACK(src, PROC_REF(reset_status),), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /obj/item/story_related/attack_self(mob/living/carbon/user)
 	for(var/mob/living/failed in who_failed)

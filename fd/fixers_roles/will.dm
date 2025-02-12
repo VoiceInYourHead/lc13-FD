@@ -6,10 +6,8 @@
 /obj/structure/story_related/process()
 	for(var/mob/living/detective in orange(2, src))
 		if(detective.in_search && !found && !already_located)
-			var/stat_level = get_attribute_level(detective, OBSERVATION_STAT)
-			if(stat_level > 40)
-				found = TRUE
-				already_located = TRUE
+			found = TRUE
+			already_located = TRUE
 
 	..()
 
@@ -18,10 +16,8 @@
 /obj/item/story_related/process()
 	for(var/mob/living/detective in orange(2, src))
 		if(detective.in_search && !found && !already_located)
-			var/stat_level = get_attribute_level(detective, OBSERVATION_STAT)
-			if(stat_level > 40)
-				found = TRUE
-				already_located = TRUE
+			found = TRUE
+			already_located = TRUE
 
 	..()
 
@@ -103,6 +99,10 @@
 	range = 8
 	clothes_req = FALSE
 
+	action_icon = 'ModularTegustation/Teguicons/teguicons.dmi'
+	action_icon_state = "power_speed"
+	action_background_icon_state = "bg_revenant"
+
 	var/dash_range = 8
 	var/dash_ignore_walls = FALSE
 
@@ -169,6 +169,10 @@
 
 	range = -1
 	include_user = 1
+
+	action_icon = 'fd/icons/wod_assets/items.dmi'
+	action_icon_state = "magnifier"
+	action_background_icon_state = "bg_revenant"
 	var/effectvisual
 
 /obj/effect/proc_holder/spell/targeted/detective_sense/cast(list/targets, mob/living/user = usr)

@@ -8,22 +8,27 @@
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "dice_roll"
 	duration = 20
+	pixel_y = 16
 
 /obj/effect/temp_visual/dice_fail
 	icon = 'fd/icons/dice_roll.dmi'
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "dice_failure"
+	pixel_y = 16
 
 /obj/effect/temp_visual/dice_fail/super
 	icon_state = "dice_true_failure"
+	pixel_y = 16
 
 /obj/effect/temp_visual/dice_success
 	icon = 'fd/icons/dice_roll.dmi'
 	layer = ABOVE_ALL_MOB_LAYER
 	icon_state = "dice_success"
+	pixel_y = 16
 
 /obj/effect/temp_visual/dice_success/super
 	icon_state = "dice_true_success"
+	pixel_y = 16
 
 /obj/effect/proc_holder/spell/targeted/dice_roll
 	name = "Attribute Check"
@@ -31,6 +36,10 @@
 
 	charge_max = 10
 	clothes_req = 0
+
+	action_icon = 'fd/icons/wod_assets/economy.dmi'
+	action_icon_state = "slots2"
+	action_background_icon_state = "bg_revenant"
 
 	message = span_notice("Ты кинул кубик!")
 	range = -1

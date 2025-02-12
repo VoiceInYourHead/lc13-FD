@@ -67,8 +67,9 @@
 	clothes_req = 0
 	still_recharging_msg = "<span class='notice'>Ты ещё не можешь применить стойку повторно!</span>"
 
-	action_icon = 'icons/hud/screen_skills.dmi'
-	action_icon_state = "hunkerdown"
+	action_icon = 'fd/icons/wod_assets/kuei_jin.dmi'
+	action_icon_state = "ironmountain"
+	action_background_icon_state = "bg_revenant"
 
 	range = -1
 	include_user = 1
@@ -111,8 +112,9 @@
 	clothes_req = 0
 	still_recharging_msg = "<span class='notice'>Ты ещё не отошёл от прошлого крика!</span>"
 
-	action_icon = 'icons/hud/screen_skills.dmi'
-	action_icon_state = "meditation"
+	action_icon = 'fd/icons/wod_assets/kuei_jin.dmi'
+	action_icon_state = "demon"
+	action_background_icon_state = "bg_revenant"
 
 	range = 5
 	include_user = 1

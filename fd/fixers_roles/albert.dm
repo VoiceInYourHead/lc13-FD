@@ -6,10 +6,19 @@
 	icon = 'fd/icons/knowledge.dmi'
 	icon_state = "knowledge1"
 
-/obj/item/knowledge/Initialize()
-	. = ..()
-	var/sprite = rand(1,11)
-	icon_state = "knowledge[sprite]"
+/obj/item/knowledge/report
+	name = "Zwei old report"
+	desc = "An old, almost useless police report."
+	icon = 'fd/icons/wod_assets/items.dmi'
+	icon_state = "passport"
+	knowledge = 10
+
+/obj/item/knowledge/cooking_book
+	name = "cooking book"
+	desc = "Just an regular cooking book"
+	icon = 'fd/icons/wod_assets/items.dmi'
+	icon_state = "bookofnod-1"
+	knowledge = 10
 
 /datum/job/albert
 	title = "Albert Krat"
@@ -107,7 +116,7 @@
 	combat_mode = TRUE
 	force += power
 	icon_state = icon_state_activated
-	addtimer(CALLBACK(src, PROC_REF(return_to_normal),), 30 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	addtimer(CALLBACK(src, PROC_REF(return_to_normal),), 60 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /obj/item/ego_weapon/city/dieci_key/proc/return_to_normal()
 	icon_state = initial(icon_state)
