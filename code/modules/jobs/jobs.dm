@@ -208,7 +208,7 @@ GLOBAL_LIST_INIT(security_positions, list(
 	//Fixers
 	"Fixer",
 	"Albert Krat",
-	"Aurum OLit",
+	"Aurum OLith",
 	"Ezra Jennings",
 	"Alexius Schau",
 	"Emily Bedar",

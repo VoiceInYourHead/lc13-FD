@@ -75,11 +75,11 @@
 	if(!held_item)
 		to_chat(user, span_danger("Твоя трубка должна быть в активной руке для активации!"))
 		return FALSE
-	if(held_item.smoke < minimum_smoke)
+	if(held_item.shotsleft < minimum_smoke)
 		to_chat(user, span_danger("Ты накопил недостаточно дыма! Тебе нужно минимум [minimum_smoke]!"))
 		return FALSE
 	. = ..()
-	held_item.smoke -= 30
+	held_item.shotsleft -= 30
 
 /obj/effect/proc_holder/spell/cone/staggered/ezra_smoke/do_turf_cone_effect(turf/target_turf, level)
 	. = ..()
@@ -93,6 +93,8 @@
 		C.adjustStaminaLoss(5, TRUE, TRUE)
 		C.Jitter(20)
 		C.reagents.add_reagent(/datum/reagent/toxin/lexorin, 10)
+	victim.apply_damage(50, RED_DAMAGE, null, victim.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+
 
 /obj/effect/proc_holder/spell/cone/staggered/ezra_smoke/calculate_cone_shape(current_level)
 	if(current_level == cone_levels)
@@ -125,13 +127,16 @@
 		C.set_confusion(max(5, C.get_confusion()))
 		C.adjustStaminaLoss(damage, TRUE, TRUE)
 		C.Jitter(20)
+	if(isliving(target))
+		var/mob/living/C = target
+		C.apply_damage(5, RED_DAMAGE, null, C.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra
 	name = "unique smokepipe"
 	desc = "You feeling...morphine smell inside of it?"
 	icon_state = "smiling_heavypipe"
 	fire_sound = 'sound/effects/smoke.ogg'
-	slot_flags = ITEM_SLOT_BELT
+	slot_flags = ITEM_SLOT_BELT|ITEM_SLOT_MASK
 	w_class = WEIGHT_CLASS_SMALL
 	weapon_weight = WEAPON_LIGHT
 	ammo_type = /obj/item/ammo_casing/caseless/smokepipe_ezra
@@ -139,40 +144,23 @@
 	fire_sound_volume = 5
 	spread = 20
 
-	//Reload mechanics
 	shotsleft = 60
-	reloadtime = 5 SECONDS
-	var/smoke = 0
-	var/needed_smoke_basic = 20
+	reloadtime = 9999 SECONDS
 	var/needed_smoke_heavy = 30
-	var/smoke_max = 40
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra/examine(mob/user)
 	. = ..()
-	. += span_notice("Ты накопил уже [smoke] единиц дыма из [needed_smoke_basic], необходимого для выпуска плотной струи дыма.")
-	. += span_notice("Впрочем, для чего-то более мощного тебе необходимо минимум [needed_smoke_heavy] единиц дыма.")
+	. += span_notice("Ты накопил уже [shotsleft] единиц дыма из [needed_smoke_heavy] для создания мощной дымовой волны.")
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra/Initialize()
+	..()
+	return INITIALIZE_HINT_LATELOAD //Gotta populate the cryopod computer GLOB first
+
+/obj/item/gun/ego_gun/city/smokepipe_ezra/LateInitialize()
 	. = ..()
-	START_PROCESSING(SSobj, src)
-
-/obj/item/gun/ego_gun/city/smokepipe_ezra/process(delta_time)
-	if(shotsleft <= 0)
-		smoke -= 20
-		STOP_PROCESSING(SSobj, src)
-
-/obj/item/gun/ego_gun/city/smokepipe_ezra/reload_ego(mob/user)
-	is_reloading = TRUE
-	if(do_after(user, reloadtime, src))
-		shotsleft = initial(shotsleft)
-	is_reloading = FALSE
+	shotsleft = initial(shotsleft) - 60
 
 /obj/item/gun/ego_gun/city/smokepipe_ezra/attack_self(mob/living/carbon/human/user)
-	if(shotsleft <= 0)
-		if(reloadtime && !is_reloading)
-			to_chat(user, span_warning("Ты начинаешь заправлять трубку..."))
-			INVOKE_ASYNC(src, PROC_REF(reload_ego), user)
-			return TRUE
 
 	var/start = pick("Ты ощущаешь странное умиротворение...наркотик растекается по телу, заставляя неприятный зуд смениться лёгкостью и ясностью разума.",
 					"Ты словно плаваешь в этом чувстве...покрывало окутывает всё твоё тело, сдавливая и разжимая мышцы и заставляя шестерёнки в голове снова крутиться.",
@@ -207,8 +195,8 @@
 			if(user.roll_buff > user.roll_buff_max)
 				user.roll_buff = user.roll_buff_max
 			addtimer(CALLBACK(src, PROC_REF(Unbuff), user), 50 SECONDS)
-		if(smoke < smoke_max)
-			smoke += 5
+		if(shotsleft < initial(shotsleft))
+			shotsleft += 5
 		user.add_movespeed_modifier(/datum/movespeed_modifier/debuff_ezra)
 		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/debuff_ezra), 20 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
@@ -219,13 +207,6 @@
 /obj/item/gun/ego_gun/city/smokepipe_ezra/proc/Unbuff(mob/living/carbon/human/user)
 	to_chat(user, span_notice("Как бы не был хорош тот миг, стоит возвращаться в наши серые будни..."))
 	user.roll_buff -= 20
-
-/obj/item/gun/ego_gun/city/smokepipe_ezra/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
-	if(smoke < needed_smoke_basic)
-		to_chat(user, span_warning("У тебя недостаточно дыма для этого."))
-		return FALSE
-	START_PROCESSING(SSobj, src)
-	..()
 
 /obj/item/ammo_casing/caseless/ezra_basic
 	name = "casing"
@@ -252,7 +233,7 @@
 	..()
 	for(var/mob/living/L in range(1, target))
 		new /obj/effect/temp_visual/fire/fast(get_turf(L))
-		L.apply_damage(25, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+		L.apply_damage(40, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
 		L.adjust_fire_stacks(5)
 		L.IgniteMob()
 
@@ -265,15 +246,15 @@
 	name = "bullet"
 	icon_state = "gumball"
 	color = "#333333"
-	damage = 100
+	damage = 120
 
 /obj/projectile/ego_bullet/ezra_impact/on_hit(atom/target, blocked)
 	..()
-	if(isliving(target))
-		var/mob/living/C = target
-		new /obj/effect/temp_visual/bonk(get_turf(C))
-		var/atom/throw_target = get_edge_target_turf(C, pick(GLOB.alldirs))
-		C.throw_at(throw_target, 2, 4)
+	for(var/turf/T in range(1, target))
+		for(var/mob/living/C in range(1, target))
+			new /obj/effect/temp_visual/bonk(get_turf(C))
+			var/atom/throw_target = get_edge_target_turf(C, pick(GLOB.alldirs))
+			C.throw_at(throw_target, 2, 4)
 
 /obj/item/ammo_casing/caseless/ezra_stun
 	name = "casing"
@@ -293,6 +274,11 @@
 			C.set_confusion(max(5, C.get_confusion()))
 			C.Stun(20 SECONDS, ignore_canstun = TRUE)
 		new /obj/effect/temp_visual/small_smoke(T)
+
+/obj/effect/temp_visual/reloading_ezra
+	icon_state = "holo_fan"
+	duration = 2 MINUTES
+	pixel_y = 22
 
 /obj/item/gun/ego_gun/city/ezra_cannon
 	name = "big cannon"
@@ -318,6 +304,20 @@
 	var/heavy_shots = 3
 
 	var/needed_att = 40
+	var/effectvisual
+
+/obj/item/gun/ego_gun/city/ezra_cannon/reload_ego(mob/user)
+	effectvisual = image('icons/effects/effects.dmi', "holo_fan", pixel_y = 22)
+	user.add_overlay(effectvisual)
+	is_reloading = TRUE
+	to_chat(user,span_notice("You start loading a new magazine."))
+	playsound(src, 'sound/weapons/gun/general/slide_lock_1.ogg', 50, TRUE)
+	if(do_after(user, reloadtime, src)) //gotta reload
+		playsound(src, 'sound/weapons/gun/general/bolt_rack.ogg', 50, TRUE)
+		shotsleft = initial(shotsleft)
+		user.cut_overlay(effectvisual)
+	is_reloading = FALSE
+	user.cut_overlay(effectvisual)
 
 /obj/item/gun/ego_gun/city/ezra_cannon/AltClick(mob/user)
 	..()

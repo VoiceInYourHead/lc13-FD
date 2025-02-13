@@ -180,6 +180,30 @@
 	var/combo_time
 	var/combo_wait = 3 SECONDS
 	var/blunt = TRUE
+	var/can_fire = TRUE
+
+/obj/item/gun/ego_gun/city/schau_bag/CtrlClick(mob/user)
+	if(can_fire)
+		to_chat(user, span_warning("Ты закрываешь спусковой клапан!"))
+		can_fire = FALSE
+		return
+	if(!can_fire)
+		to_chat(user, span_warning("Ты открываешь спусковой клапан!"))
+		can_fire = TRUE
+		return
+
+/obj/item/gun/ego_gun/city/schau_bag/process_fire(atom/target, mob/living/user, message, params, zone_override, bonus_spread)
+	if(!can_fire)
+		to_chat(user, span_warning("Спусковой клапан сумки плотно закрыт!"))
+		return FALSE
+	..()
+
+/obj/item/gun/ego_gun/city/schau_bag/Initialize()
+	. = ..()
+	var/datum/component/storage/STR = AddComponent(/datum/component/storage/concrete)
+	STR.max_w_class = WEIGHT_CLASS_NORMAL
+	STR.max_combined_w_class = 60
+	STR.max_items = 21
 
 /obj/item/gun/ego_gun/city/schau_bag/examine(mob/living/user)
 	. = ..()
@@ -190,7 +214,7 @@
 	. += span_info("РРД	  - последняя атака в этом комбо наносит 2х больше урона. Восстанавливает 10 холода.")
 	. += span_info("РРРД  - наносит средний урон, за последней атакой следует тактический уход в сторону. Восстанавливает холод на 5.")
 
-/obj/item/gun/ego_gun/AltClick(mob/user)
+/obj/item/gun/ego_gun/city/schau_bag/AltClick(mob/user)
 	if(reloadtime && !is_reloading)
 		INVOKE_ASYNC(src, PROC_REF(reload_ego), user)
 	..()
@@ -327,19 +351,6 @@
 	icon_state = "colablue2"
 	w_class = WEIGHT_CLASS_SMALL
 
-/mob/living
-	var/blueblood_affected = FALSE
-	var/cooldown_blueblood = FALSE
-
-/mob/living/proc/remove_dstout(mob/living/carbon/human/user)
-	to_chat(user, span_notice("Тебя наконец отпускает."))
-	user.death_threshold += 200
-	user.hardcrit_threshold += 200
-	user.crit_threshold += 200
-	user.adjust_attribute_buff(STRENGTH_STAT, -200)
-	user.blueblood_affected = FALSE
-	user.cooldown_blueblood = FALSE
-
 /obj/item/dstout_schau/attack_self(mob/living/carbon/human/user)
 	playsound(user.loc,'sound/items/drink.ogg', rand(10,50), TRUE)
 	to_chat(user, span_resonate("Ты залпом начинаешь осушать банку с энергетиком."))
@@ -351,6 +362,6 @@
 		user.hardcrit_threshold -= 200
 		user.crit_threshold -= 200
 		user.adjust_attribute_buff(STRENGTH_STAT, 200)
-		user.Jitter(150)
+		user.Jitter(100)
 		user.blueblood_affected = TRUE
 		qdel(src)

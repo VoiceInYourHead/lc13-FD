@@ -36,9 +36,9 @@
 /obj/item/clothing/under/prism_office/aurum
 	name = "rich pale suit"
 	desc = "Elite looking pale suit with some gold on it."
-	icon = 'fd/icons/prism/Golsuit2.dmi'
-	worn_icon = 'fd/icons/prism/Golsuit2.dmi'
-	icon_state = "pale"
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Aurum_under"
 
 /obj/item/clothing/under/prism_office/will
 	name = "black turtleneck"
@@ -130,6 +130,9 @@
 	icon = 'fd/icons/prism/Zakol.dmi'
 	worn_icon = 'fd/icons/prism/Zakol.dmi'
 	icon_state = "zakolka"
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD 	// We protect all because magic
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
 	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)
 	worn_icon_state = "zakolka_worn"
 

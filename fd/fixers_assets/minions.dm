@@ -43,6 +43,8 @@
 	if(!target.anchored)
 		var/whack_speed = (prob(60) ? 1 : 4)
 		target.throw_at(throw_target, rand(1, 3), whack_speed, druggie)
+	new /obj/effect/temp_visual/onesin_punishment(get_turf(src))
+	animate(src, pixel_y = 0, time = 10)
 
 /mob/living/simple_animal/hostile/humanoid/blackrose_syndicate_red/proc/reset_delay()
 	special_is_active = TRUE
@@ -51,6 +53,7 @@
 	..()
 
 	if(special_is_active && target)
+		animate(src, pixel_y = 10, time = 10)
 		for(target in orange(1, src))
 			taunt(target, src)
 			special_is_active = FALSE
@@ -58,6 +61,7 @@
 
 	if(health <= 250 && !phase_two)
 		phase_two = TRUE
+		animate(src, pixel_y = 10, time = 10)
 		for(var/mob/living/H in orange(1, src))
 			taunt(H, src)
 		move_to_delay -= 1

@@ -75,6 +75,17 @@
 
 // weapons
 
+/obj/effect/temp_visual/transform_key
+	icon = 'ModularTegustation/Teguicons/lc13icons.dmi'
+	layer = ABOVE_ALL_MOB_LAYER
+	icon_state = "dieci"
+	duration = 12
+
+/obj/effect/temp_visual/transform_key/Initialize()
+	. = ..()
+	animate(src, pixel_y = 30, time = 10)
+	animate(src, alpha = 0, time = 10)
+
 /obj/item/ego_weapon/city/dieci_key
 	name = "golden prism"
 	desc = "A small key-like prism, used by Dieci Fixers."
@@ -85,6 +96,7 @@
 	force = 2
 	attack_speed = 0.5
 	damtype = RED_DAMAGE
+	w_class = WEIGHT_CLASS_TINY
 
 	hitsound = 'sound/weapons/genhit3.ogg'
 	attack_verb_continuous = list("smashes", "crushes", "shatters")
@@ -94,11 +106,11 @@
 	var/icon_state_activated = "Coolkey"
 	var/knowledge_stored = 0
 	var/combat_mode = FALSE
+	var/list/mode = list("Красный", "Чёрный", "Белый", "Бледный")
 
 /obj/item/ego_weapon/city/dieci_key/examine(mob/user)
 	. = ..()
 	. += span_notice("На данный момент, призма содержит в себе [knowledge_stored] Знаний.")
-
 
 /obj/item/ego_weapon/city/dieci_key/attack_self(mob/user)
 	if(!combat_mode && knowledge_stored > 0)
@@ -109,16 +121,29 @@
 		if(force_amount <= 0)
 			to_chat(user, span_notice("Ты не можешь зарядить ключ отрицательными знаниями! Таких нет!"))
 			return
+		var/damage_type = input(user, "Выберите тип урона!", "Думаем...") as null|anything in mode
+		if(damage_type == "Красный")
+			damtype = RED_DAMAGE
+		if(damage_type == "Чёрный")
+			damtype = BLACK_DAMAGE
+		if(damage_type == "Белый")
+			damtype = WHITE_DAMAGE
+		if(damage_type == "Бледный")
+			damtype = PALE_DAMAGE
 		knowledge_stored -= force_amount
+		new /obj/effect/temp_visual/transform_key(get_turf(user))
 		transform_key(force_amount)
 
 /obj/item/ego_weapon/city/dieci_key/proc/transform_key(power = 0)
 	combat_mode = TRUE
+	w_class = WEIGHT_CLASS_HUGE
 	force += power
 	icon_state = icon_state_activated
 	addtimer(CALLBACK(src, PROC_REF(return_to_normal),), 60 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
 /obj/item/ego_weapon/city/dieci_key/proc/return_to_normal()
 	icon_state = initial(icon_state)
+	w_class = initial(w_class)
 	force = initial(force)
+	damtype = initial(damtype)
 	combat_mode = FALSE

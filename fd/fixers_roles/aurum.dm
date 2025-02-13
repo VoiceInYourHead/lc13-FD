@@ -1,7 +1,7 @@
 //main role code
 
 /datum/job/aurum
-	title = "Aurum OLit"
+	title = "Aurum OLith"
 	faction = "Prism"
 	supervisors = "Crave your own way"
 	selection_color = "#444444"
@@ -41,11 +41,11 @@
 	M.AddSpell(morale)
 
 /datum/outfit/job/aurum
-	name = "Aurum OLit"
+	name = "Aurum OLith"
 	jobtype = /datum/job/aurum
 
 	uniform = /obj/item/clothing/under/prism_office/aurum
-	ears = null
+	ears = /obj/item/clothing/ears/ear_ring
 	shoes = /obj/item/clothing/shoes/laceup
 	suit = null
 	glasses = null
@@ -244,7 +244,7 @@
 		L.physiology.pale_mod *= defense_buff_others
 		buffed_people += L
 
-	playsound(src, 'sound/misc/whistle.ogg', 50, TRUE)
+	playsound(src, 'sound/misc/whistle.ogg', 5, TRUE)
 	addtimer(CALLBACK(src, PROC_REF(Return), user), 3 SECONDS)
 
 /obj/item/ego_weapon/city/zweihander/aurum/Return(mob/living/carbon/human/user)

@@ -14,8 +14,27 @@
 		if(do_after(user, 5 SECONDS, src))
 			prism.knowledge_stored += knowledge
 			knowledge = 0
+			return TRUE
 
 	. = ..()
+
+/obj/structure/filingcabinet/fd/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/ego_weapon/city/dieci_key))
+		var/obj/item/ego_weapon/city/dieci_key/prism = I
+		if(knowledge <= 0)
+			to_chat(user, span_notice("Здесь нечего изучать!"))
+			return FALSE
+		if(prism.combat_mode)
+			to_chat(user, span_notice("Учёбе не место в драке! Твой ключ в боевом режиме!"))
+			return FALSE
+		if(do_after(user, 5 SECONDS, src))
+			prism.knowledge_stored += knowledge
+			knowledge = 0
+
+	. = ..()
+
+/mob/living/carbon/human/proc/knock_off()
+	Sleeping(999999)
 
 /mob/living
 	var/flame_stacks = 0
@@ -29,11 +48,34 @@
 	var/radiance_effect
 	var/radiance_timeout = FALSE
 
+	var/blueblood_affected = FALSE
+	var/cooldown_blueblood = FALSE
+	var/blueblood_duration = 30 SECONDS
+	var/blueblood_debuff = FALSE
+
+/mob/living/proc/remove_blueblood(mob/living/carbon/human/user)
+	to_chat(user, span_notice("Тебя наконец отпускает."))
+	user.death_threshold = initial(user.death_threshold)
+	user.hardcrit_threshold = initial(user.hardcrit_threshold)
+	user.crit_threshold = initial(user.crit_threshold)
+	user.adjust_attribute_buff(STRENGTH_STAT, -get_level_buff(user, STRENGTH_STAT))
+	user.blueblood_affected = FALSE
+	user.cooldown_blueblood = FALSE
+
+	if(blueblood_debuff)
+		to_chat(user, span_danger("И ты начинаешь ощущать последствия..."))
+		user.add_movespeed_modifier(/datum/movespeed_modifier/blinded)
+		addtimer(CALLBACK(user, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/blinded), 5 MINUTES, TIMER_UNIQUE | TIMER_OVERRIDE)
+		user.adjust_attribute_buff(STRENGTH_STAT, -50)
+		user.adjust_attribute_buff(REFLEXES_STAT, -50)
+		user.adjust_attribute_buff(PRECISION_STAT, -50)
+		user.adjustOxyLoss(50)
+
 /mob/living/Life()
 	..()
 
 	if(blueblood_affected && !cooldown_blueblood)
-		addtimer(CALLBACK(src, PROC_REF(remove_dstout), src), 30 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(remove_blueblood), src), blueblood_duration)
 		cooldown_blueblood = TRUE
 
 	if(cooldown_radiance > 0)

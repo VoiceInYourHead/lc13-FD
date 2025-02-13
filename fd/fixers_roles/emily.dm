@@ -19,9 +19,9 @@
 
 	roundstart_attributes = list(
 								STRENGTH_STAT = 30,
-								WILLPOWER_STAT = 40,
-								OBSERVATION_STAT = 40,
-								REFLEXES_STAT = 40,
+								WILLPOWER_STAT = 50,
+								OBSERVATION_STAT = 50,
+								REFLEXES_STAT = 50,
 								LUCK_STAT = 0,
 								PRECISION_STAT = 80,
 								INTELLECT_STAT = 60
@@ -38,7 +38,7 @@
 
 /datum/outfit/job/bedar
 	name = "Emily Bedar"
-	jobtype = /datum/job/schau
+	jobtype = /datum/job/bedar
 
 	uniform = /obj/item/clothing/under/prism_office/emily
 	ears = null
@@ -149,6 +149,7 @@
 	var/full_heals = 3
 	var/list/mode = list("Быстрая перевязка", "Комплексная помощь")
 	var/skill_needed = 70
+	var/effectvisual
 
 /obj/item/medkit_emily/examine(mob/user)
 	. = ..()
@@ -167,14 +168,15 @@
 		if(fast_heals <= 0)
 			to_chat(user, span_danger("Здесь недостаточно материалов для оказания помощи!"))
 			return
+		new /obj/effect/temp_visual/healing(get_turf(target))
 		if(do_after(user, 3 SECONDS, target))
 			var/stat_level = get_attribute_level(user, PRECISION_STAT)
 			if(stat_level < skill_needed)
-				target.adjustBruteLoss(-10)
-				target.adjustFireLoss(-10)
+				target.adjustBruteLoss(-20)
+				target.adjustFireLoss(-20)
 			else
-				target.adjustBruteLoss(-30)
-				target.adjustFireLoss(-30)
+				target.adjustBruteLoss(-50)
+				target.adjustFireLoss(-50)
 				if(ishuman(target))
 					var/mob/living/carbon/human/T = target
 					T.adjustSanityLoss(-50)
@@ -189,19 +191,20 @@
 			to_chat(user, span_danger("Здесь недостаточно материалов для оказания помощи!"))
 			return
 		var/stat_level = get_attribute_level(user, PRECISION_STAT)
+		effectvisual = image('icons/effects/effects.dmi', "healing")
+		user.add_overlay(effectvisual)
 		if(do_after(user, 20 SECONDS, target))
-			if(target.revive(full_heal = TRUE, admin_revive = TRUE))
-				target.revive(full_heal = TRUE, admin_revive = TRUE)
-				target.grab_ghost(force = TRUE)
-				if(ishuman(target))
-					var/mob/living/carbon/human/T = target
-					T.Paralyze(300)
-					T.adjustStaminaLoss(100)
-				if(stat_level < skill_needed)
-					target.adjustBruteLoss(60)
-					target.adjustOxyLoss(20)
-				else
-					target.adjustBruteLoss(30)
-				full_heals -= 1
+			target.revive(full_heal = TRUE, admin_revive = TRUE)
+			target.grab_ghost(force = TRUE)
+			if(ishuman(target))
+				var/mob/living/carbon/human/T = target
+				T.Paralyze(300)
+				T.adjustStaminaLoss(100)
+			if(stat_level < skill_needed)
+				target.adjustBruteLoss(60)
+				target.adjustOxyLoss(20)
 			else
-				to_chat(user, span_danger("Здесь сумочка бессильна!"))
+				target.adjustBruteLoss(30)
+			full_heals -= 1
+			user.cut_overlay(effectvisual)
+		user.cut_overlay(effectvisual)
