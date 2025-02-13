@@ -161,6 +161,34 @@
 		to_chat(user, span_spiderscout("В твоих венах кипит самая настоящая злоба, смешавшаяся с пульсирующей болью, пронзающей каждую часть твоего тела."))
 		qdel(src)
 
+/obj/structure/story_related/body
+	name = "dead body"
+	desc = "He almost doesn't look like human anymore. The hell they did to this poor guy?"
+	icon = 'fd/icons/ms_ghouls_mammoth.dmi'
+	icon_state = "dead_blueblooded"
+
+	clue = "Этому телу уже около пары дней. Судя по внешним признакам, бедняга пытался наложить на себя руки подручными средствами, буквально сдирая с себя кожу и вырывая голубые вены. Однако смерть наступила значительно раньше. Из-за чего-то внутри. Его покалеченный вид, вместе с полом, забрызганы голубовато-бирюзовой жидкостью неизвестного происхождения. Возможно, стоит просканировать её?"
+	needed_stat = INTELLECT_STAT
+	difficulty = 50
+
+/obj/structure/story_related/body/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/healthanalyzer))
+		if(do_after(user, 10 SECONDS, src))
+			to_chat(user, span_nicegreen("Похоже, что состав жидкости на теле убитого соответствует тому же, что перед началом боя употребил главарь 'Чёрных Роз'. Впрочем, последствия тут явно плачевнее...да и смерть наступила явно не так быстро."))
+
 // Пакетик с живокровью(первородной)
 
-// Тело одного из подопытных
+/obj/item/story_related/sample
+	name = "strange sample"
+	desc = "A small package, filled with unknown caviar-looking blue substance."
+	icon = 'fd/icons/wod_assets/items.dmi'
+	icon_state = "package_meth"
+
+	clue = "Пакетик с бирюзовой пульсирующей икрой неизвестного происхождения. Поверх него также написано маркером: 'Последний!!!'. Стоило бы его просканировать..."
+	needed_stat = INTELLECT_STAT
+	difficulty = 60
+
+/obj/item/story_related/sample/attackby(obj/item/I, mob/living/user, params)
+	if(istype(I, /obj/item/healthanalyzer))
+		if(do_after(user, 10 SECONDS, src))
+			to_chat(user, span_nicegreen("Сканер не смог распознать данное вещество, что подразумевает отсутствие такового в базе данных Города. И тем не менее, похоже что оно частично соответствует тому, что в бою применяли некоторые из этих бугаев. Особенно их главарь. Конкретно этот образец, похоже, исключает из себя несколько аналогичных ингредиентов. Возможно, он служит основным элементом в химической реакции?"))
