@@ -52,10 +52,10 @@
 /mob/living/simple_animal/hostile/humanoid/blackrose_syndicate_red/Life()
 	..()
 
-	if(special_is_active && target)
+	if(special_is_active)
 		animate(src, pixel_y = 10, time = 10)
-		for(target in orange(1, src))
-			taunt(target, src)
+		for(var/mob/living/H in orange(1, src))
+			taunt(H, src)
 			special_is_active = FALSE
 			addtimer(CALLBACK(src, PROC_REF(reset_delay),), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 
