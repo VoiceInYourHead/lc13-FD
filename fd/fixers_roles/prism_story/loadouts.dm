@@ -189,3 +189,98 @@
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
 	duffelbag = /obj/item/storage/backpack/duffelbag
+
+//BOSS CLOTHING
+
+/obj/item/clothing/under/prism_boss_first
+	name = "black suit"
+	desc = "Very cool looking business suit."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Boss_under"
+	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 10, BLACK_DAMAGE = 10, PALE_DAMAGE = 10)
+	can_adjust = FALSE //adjusting is mostly hardcoded. Im not messing with any of it.
+
+	body_parts_covered = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
+	cold_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
+	heat_protection = CHEST|GROIN|LEGS|FEET|ARMS|HANDS|HEAD
+
+/mob/living/carbon/human
+	var/should_regenerate = FALSE
+
+/mob/living/carbon/human/Life()
+	if(should_regenerate)
+		should_regenerate = FALSE
+		start_regeneration()
+		addtimer(CALLBACK(src, PROC_REF(reset_regen)), 1 SECONDS)
+	..()
+
+/mob/living/carbon/human/proc/reset_regen()
+	should_regenerate = TRUE
+
+/mob/living/carbon/human/proc/give_powers()
+	should_regenerate = TRUE
+	maxSanity = 200
+	sanityhealth = 200
+	add_movespeed_modifier(/datum/movespeed_modifier/dstout)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/dstout/doubled), 1 HOURS, TIMER_UNIQUE | TIMER_OVERRIDE)
+	death_threshold -= 500
+	hardcrit_threshold -= 500
+	crit_threshold -= 500
+
+/mob/living/carbon/human/proc/start_regeneration()
+	adjustBruteLoss(-30)
+	adjustFireLoss(-30)
+	adjustOxyLoss(-30)
+	adjustToxLoss(-30)
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_boss_first
+	name = "'Black Rose' equipment"
+	desc = "'Black Rose' Syndicate suit and mask."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Boss_suit"
+	flags_inv = HIDEEARS|HIDEHAIR
+	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 80, BLACK_DAMAGE = 40, PALE_DAMAGE = 50)
+	attribute_requirements = list()
+	var/state = 1
+
+	hat = /obj/item/clothing/head/ego_hat/prism_boss_first
+
+/obj/item/clothing/head/ego_hat/prism_boss_first
+	name = "'Black Rose' equipment"
+	desc = "'Black Rose' Syndicate suit and mask."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Boss_suit"
+	perma = TRUE
+	var/state = 1
+
+/obj/item/clothing/head/ego_hat/prism_boss_first/AltClick(mob/living/carbon/human/user)
+	if(state == 1)
+		state = 2
+		icon_state = "Boss_suit_alt"
+		worn_icon_state = "Boss_suit_alt"
+		update_icon()
+		return
+	if(state == 2)
+		state = 1
+		icon_state = "Boss_suit"
+		worn_icon_state = "Boss_suit"
+		update_icon()
+		return
+
+/obj/item/clothing/suit/armor/ego_gear/city/prism_boss_first/AltClick(mob/living/carbon/human/user)
+	if(state == 1)
+		state = 2
+		user.give_powers()
+		icon_state = "Boss_suit_alt"
+		worn_icon_state = "Boss_suit_alt"
+		update_icon()
+		return
+	if(state == 2)
+		state = 1
+		icon_state = "Boss_suit"
+		worn_icon_state = "Boss_suit"
+		update_icon()
+		return

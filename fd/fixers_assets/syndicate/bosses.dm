@@ -28,23 +28,21 @@
 
 	gender = MALE
 	body_type = gender
-	real_name = "Jimmy Terner"
+	real_name = "Black Lovelace"
 	name = real_name
 	underwear = "Nude"
 	skin_tone = "caucasian2"
-	hairstyle = "CIA"
-	facial_hairstyle = "Beard (Three o Clock Shadow)"
-	hair_color = "000"
-	facial_hair_color = hair_color
+	hairstyle = "Swept Back Hair"
+	hair_color = "#868686"
 	eye_color = "6f6"
 
 	update_body()
 	update_hair()
 	update_body_parts()
 
-	equip_to_slot_or_del(new /obj/item/clothing/under/suit/black(src), ITEM_SLOT_ICLOTHING, TRUE)
+	equip_to_slot_or_del(new /obj/item/clothing/under/prism_boss_first(src), ITEM_SLOT_ICLOTHING, TRUE)
 	equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(src), ITEM_SLOT_FEET, TRUE)
-	equip_to_slot_or_del(new /obj/item/clothing/mask/animal/rat/jackal(src), ITEM_SLOT_MASK, TRUE)
+	equip_to_slot_or_del(new /obj/item/clothing/suit/armor/ego_gear/city/prism_boss_first(src), ITEM_SLOT_OCLOTHING	, TRUE)
 	put_in_l_hand(new /obj/item/book/granter/martial/cqc/fast(src))
 
 /obj/item/book/granter/martial/cqc/fast
