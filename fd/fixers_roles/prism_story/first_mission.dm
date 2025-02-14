@@ -158,7 +158,7 @@
 		user.blueblood_affected = TRUE
 		user.blueblood_duration = 60 SECONDS
 		user.blueblood_debuff = TRUE
-		to_chat(user, span_spiderscout("В твоих венах кипит самая настоящая злоба, смешавшаяся с пульсирующей болью, пронзающей каждую часть твоего тела."))
+		to_chat(user, span_narsie("В твоих венах кипит самая настоящая злоба, смешавшаяся с пульсирующей болью, пронзающей каждую часть твоего тела."))
 		qdel(src)
 
 /obj/structure/story_related/body

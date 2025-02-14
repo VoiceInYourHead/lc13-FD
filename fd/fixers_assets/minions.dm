@@ -54,7 +54,7 @@
 
 	if(special_is_active)
 		animate(src, pixel_y = 10, time = 10)
-		for(var/mob/living/H in orange(1, src))
+		for(var/mob/living/carbon/H in orange(1, src))
 			taunt(H, src)
 			special_is_active = FALSE
 			addtimer(CALLBACK(src, PROC_REF(reset_delay),), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
@@ -62,7 +62,7 @@
 	if(health <= 250 && !phase_two)
 		phase_two = TRUE
 		animate(src, pixel_y = 10, time = 10)
-		for(var/mob/living/H in orange(1, src))
+		for(var/mob/living/carbon/H in orange(1, src))
 			taunt(H, src)
 		move_to_delay -= 1
 		melee_damage_lower += 20

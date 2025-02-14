@@ -1286,7 +1286,7 @@
 "De" = (/obj/structure/table/fd/metal/alt,/obj/effect/decal/cleanable/dirt,/obj/item/stack/sheet/cardboard{pixel_x = -1; pixel_y = 8},/turf/open/floor/fd/metal/grate/alt,/area/city/prism/factory_upper)
 "Df" = (/obj/effect/decal/cleanable/generic,/mob/living/simple_animal/hostile/humanoid/blackrose_syndicate_green,/turf/open/floor/fd/metal/border{dir = 4},/area/city/prism/factory_upper)
 "Dg" = (/obj/effect/decal/cleanable/dirt,/obj/effect/landmark/npcability,/turf/open/floor/plating/fd/roof/sheet,/area/city)
-"Di" = (/obj/structure/table/fd/no_smooth/large/pool{dir = 4},/obj/item/clothing/head/fedora/white{pixel_x = 10},/turf/open/floor/wood/fd/carpet/shaggy,/area/city/prism/office_firstfloor)
+"Di" = (/obj/structure/table/fd/no_smooth/large/pool{dir = 4},/obj/item/clothing/head/bowler{pixel_x = 6; pixel_y = 2},/turf/open/floor/wood/fd/carpet/shaggy,/area/city/prism/office_firstfloor)
 "Dj" = (/obj/structure/fd/wall_decor/covering/paint/white,/obj/machinery/light{dir = 1; pixel_y = 18},/obj/effect/decal/cleanable/dirt,/mob/living/simple_animal/hostile/humanoid/blackrose_syndicate_red,/turf/open/floor/fd/metal/grate/alt,/area/city/prism/factory_middle)
 "Dk" = (/obj/machinery/computer/libraryconsole{desc = "An old but reliable computer used to access the vast database of the recon office."; knowledge = 10; name = "archive inquiry console"; pixel_x = 4; pixel_y = 15; plane = 0},/obj/structure/fd/phone/black{pixel_x = -13; pixel_y = 15},/turf/open/floor/fd/tile/fancy,/area/city/prism/factory_lower)
 "Dl" = (/obj/machinery/light/small,/turf/open/floor/fd/concrete/bricks,/area/city/prism/office_secondfloor)

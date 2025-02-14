@@ -36,6 +36,9 @@
 /mob/living/carbon/human/proc/knock_off()
 	Sleeping(999999)
 
+/mob/living/carbon/human/proc/wake_up()
+	Sleeping(0)
+
 /mob/living
 	var/flame_stacks = 0
 	var/max_flame_stacks = 20
