@@ -6,3 +6,5 @@
 
 Maximum123 = Host
 Kitsunemitsu = Lazy Master
+Danilcus = Host
+doctoralex = Host
