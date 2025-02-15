@@ -208,3 +208,16 @@
 			full_heals -= 1
 			user.cut_overlay(effectvisual)
 		user.cut_overlay(effectvisual)
+
+/obj/item/storage/backpack/duffelbag/emily
+	name = "duffel bag"
+	desc = "A large duffel bag for holding extra things."
+	icon_state = "bag_emily"
+	inhand_icon_state = "bag_emily"
+
+/obj/item/storage/backpack/duffelbag/emily/ComponentInitialize()
+	. = ..()
+	var/datum/component/storage/STR = GetComponent(/datum/component/storage)
+	STR.max_combined_w_class = 41
+	STR.max_w_class = WEIGHT_CLASS_NORMAL
+	STR.max_items = 40

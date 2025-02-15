@@ -284,3 +284,136 @@
 		worn_icon_state = "Boss_suit"
 		update_icon()
 		return
+
+//О'Браян
+
+/obj/item/clothing/suit/armor/ego_gear/city/obrian
+	name = "laboratory suit"
+	desc = "Tight blue membrane."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "Obrian_suit"
+	flags_inv = null
+	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 10, BLACK_DAMAGE = 10, PALE_DAMAGE = 10)
+	attribute_requirements = list()
+
+/datum/job/obrian
+	title = "OBrian"
+	faction = "roses"
+	supervisors = "Crave your own way"
+	selection_color = "#444444"
+	total_positions = 1
+	spawn_positions = 1
+
+	outfit = /datum/outfit/job/obrian
+
+	job_attribute_limit = 100
+
+	display_order = 1.6
+	maptype = "fixer_dnd"
+	job_important = "Вы и сами знате, кто вы такой."
+	job_abbreviation = "DCORP"
+
+	roundstart_attributes = list(
+								STRENGTH_STAT = 20,
+								WILLPOWER_STAT = 20,
+								OBSERVATION_STAT = 60,
+								REFLEXES_STAT = 20,
+								LUCK_STAT = 0,
+								PRECISION_STAT = 90,
+								INTELLECT_STAT = 90
+								)
+
+/datum/job/obrian/after_spawn(mob/living/carbon/human/H, mob/M)
+	..()
+	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_WORKFEAR_IMMUNE, JOB_TRAIT)
+	ADD_TRAIT(H, TRAIT_ATTRIBUTES_VISION, JOB_TRAIT)
+
+/datum/outfit/job/obrian
+	name = "OBrian"
+	jobtype = /datum/job/obrian
+
+	uniform = /obj/item/clothing/under/suit/black
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/obrian
+	back = null
+	belt = null
+	gloves = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = null
+	mask = null
+	neck = null
+	ears = null
+	glasses = null
+	id = null
+
+	l_pocket = null
+	r_pocket = null
+
+	suit_store = null
+
+	r_hand = null
+	l_hand = null
+
+	backpack = /obj/item/storage/backpack
+	satchel = /obj/item/storage/backpack/satchel
+	duffelbag = /obj/item/storage/backpack/duffelbag
+
+// Экипировка Офиса Призмы
+
+/datum/outfit/job/albert_combatready
+	name = "Albert Krat (Combat)"
+	jobtype = /datum/job/albert
+
+	uniform = /obj/item/clothing/under/prism_office/albert
+	ears = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/albert
+	glasses = /obj/item/clothing/glasses/monocle
+	head = null
+	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list(/obj/item/ego_weapon/city/dieci_key = 1, /obj/item/knowledge/report = 2, /obj/item/knowledge/cooking_book = 1)
+
+	backpack = /obj/item/storage/backpack
+	satchel = /obj/item/storage/backpack/satchel
+	duffelbag = /obj/item/storage/backpack/duffelbag
+
+/datum/outfit/job/aurum_combatready
+	name = "Aurum OLith (Combat)"
+	jobtype = /datum/job/aurum
+
+	uniform = /obj/item/clothing/under/prism_office/aurum
+	ears = /obj/item/clothing/ears/ear_ring
+	shoes = /obj/item/clothing/shoes/laceup
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak
+	glasses = null
+	head = null
+	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list()
+
+	backpack = /obj/item/ego_weapon/city/zweihander/aurum
+	satchel = /obj/item/ego_weapon/city/zweihander/aurum
+	duffelbag = /obj/item/ego_weapon/city/zweihander/aurum
+
+/datum/outfit/job/bedar_combatready
+	name = "Emily Bedar (Combat)"
+	jobtype = /datum/job/bedar
+
+	uniform = /obj/item/clothing/under/prism_office
+	ears = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/emily
+	glasses = /obj/item/clothing/glasses/hud/health
+	head = null
+	gloves = /obj/item/clothing/gloves/color/latex
+	backpack_contents = list(/obj/item/healthanalyzer/advanced = 1, /obj/item/ksyringe = 6, /obj/item/krevive = 1, /obj/item/storage/firstaid/brute = 2, /obj/item/storage/firstaid/fire = 1, /obj/item/storage/firstaid/toxin = 1, /obj/item/storage/firstaid/o2 = 1, /obj/item/storage/pill_bottle/mannitol = 1, /obj/item/storage/pill_bottle/iron = 1)
+
+	r_hand = /obj/item/ego_weapon/city/emily_tetsubo
+	l_hand = /obj/item/medkit_emily
+
+	l_pocket = /obj/item/storage/pcorp_pocket
+	r_pocket = /obj/item/storage/pcorp_pocket
+
+	backpack = /obj/item/storage/backpack/duffelbag/emily
+	satchel = /obj/item/storage/backpack/duffelbag/emily
+	duffelbag = /obj/item/storage/backpack/duffelbag/emily

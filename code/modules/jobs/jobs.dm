@@ -214,7 +214,8 @@ GLOBAL_LIST_INIT(security_positions, list(
 	"Emily Bedar",
 	"William Solros",
 	"Dando Martinez",
-	"Katsu Shimura"
+	"Katsu Shimura",
+	"OBrian"
 	))
 
 

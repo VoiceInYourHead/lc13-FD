@@ -96,16 +96,16 @@
 	icon_state = "Gwaine_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/will
-	desc = "An stylish way to show that you are here. This one has green triangle on back."
-	icon_state = "Will_Cloak"
+	desc = "An stylish way to show that you are here. This one has white triangle on back."
+	icon_state = "Libra_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/albert
-	desc = "Long dark cloak. This one has NOTHING on it's back."
+	desc = "Long dark cloak. This one has golden triangle on it's back."
 	icon_state = "Albert_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/schau
-	desc = "An stylish way to show that you are here. This one has white triangle on back."
-	icon_state = "Libra_Cloak"
+	desc = "An stylish way to show that you are here. This one has green triangle on back."
+	icon_state = "Schau_Cloak"
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/ezra
 	desc = "An tattered dark cloak. This one has purple triangle on back."
