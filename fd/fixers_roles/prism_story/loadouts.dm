@@ -531,3 +531,72 @@
 	backpack = /obj/item/storage/backpack
 	satchel = /obj/item/storage/backpack/satchel
 	duffelbag = /obj/item/storage/backpack/duffelbag
+
+/obj/item/clothing/suit/armor/ego_gear/city/bandages
+	name = "bandages"
+	desc = "Tight white cloth."
+	icon = 'fd/icons/prism/prism.dmi'
+	worn_icon = 'fd/icons/prism/prism.dmi'
+	icon_state = "bandage_1"
+	flags_inv = null
+	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 10, BLACK_DAMAGE = 10, PALE_DAMAGE = 10)
+	attribute_requirements = list()
+
+/obj/item/clothing/suit/armor/ego_gear/city/bandages/second
+	icon_state = "bandage_2"
+
+/obj/item/clothing/suit/armor/ego_gear/city/bandages/third
+	icon_state = "bandage_3"
+
+/obj/item/clothing/suit/armor/ego_gear/city/bandages/four
+	icon_state = "bandage_4"
+
+// ЦВАЕВЦЫ
+
+/datum/outfit/job/zwei_fake
+	name = "Zwei Fixer (FAKE)"
+
+	uniform = /obj/item/clothing/under/zweiroadblock
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/zweiroadblock_coat
+	back = null
+	belt = null
+	gloves = /obj/item/clothing/gloves/color/black
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = null
+	mask = null
+	neck = null
+	ears = null
+	glasses = null
+	id = null
+
+	l_pocket = null
+	r_pocket = null
+
+	suit_store = null
+
+	r_hand = /obj/item/ego_weapon/shield/roadblock
+	l_hand = /obj/item/ego_weapon/city/zweibaton/protection
+
+/datum/outfit/job/zweileader_fake
+	name = "Zwei Operator (FAKE)"
+
+	uniform = /obj/item/clothing/under/zweiroadblock
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/zweiroadblock_trench
+	back = null
+	belt = null
+	gloves = /obj/item/clothing/gloves/color/black
+	shoes = /obj/item/clothing/shoes/jackboots
+	head = /obj/item/clothing/head/zwei
+	mask = null
+	neck = null
+	ears = null
+	glasses = null
+	id = null
+
+	l_pocket = null
+	r_pocket = null
+
+	suit_store = null
+
+	r_hand = /obj/item/ego_weapon/city/dawn/zwei
+	l_hand = /obj/item/story_related/fake_badge
