@@ -28,7 +28,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	outfit = /datum/outfit/job/albert
+	outfit = /datum/outfit/job/albert_combatready
 
 	job_attribute_limit = 100
 

@@ -117,11 +117,15 @@
 		state = 2
 		icon_state = "Ezra_cloak_alt"
 		worn_icon_state = "Ezra_cloak_alt"
+		update_icon()
+		user.update_icon()
 		return
 	if(state == 2)
 		state = 1
 		icon_state = "Ezra_cloak"
 		worn_icon_state = "Ezra_cloak"
+		update_icon()
+		user.update_icon()
 		return
 
 /obj/item/clothing/ears/ear_ring

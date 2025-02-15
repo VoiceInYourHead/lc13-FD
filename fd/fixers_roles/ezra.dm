@@ -8,7 +8,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	outfit = /datum/outfit/job/ezra
+	outfit = /datum/outfit/job/ezra_combatready
 
 	job_attribute_limit = 100
 
@@ -135,6 +135,7 @@
 	name = "unique smokepipe"
 	desc = "You feeling...morphine smell inside of it?"
 	icon_state = "smiling_heavypipe"
+	worn_icon_state = "pipeon"
 	fire_sound = 'sound/effects/smoke.ogg'
 	slot_flags = ITEM_SLOT_BELT|ITEM_SLOT_MASK
 	w_class = WEIGHT_CLASS_SMALL
@@ -288,6 +289,7 @@
 	righthand_file = 'fd/icons/ezra_inhand_righthand.dmi'
 	icon_state = "ezra"
 	inhand_icon_state = "ezra"
+	worn_icon_state = "ezra"
 	force = 15
 	ammo_type = /obj/item/ammo_casing/caseless/ezra_basic
 	weapon_weight = WEAPON_MEDIUM
@@ -305,6 +307,8 @@
 
 	var/needed_att = 40
 	var/effectvisual
+
+	slot_flags = ITEM_SLOT_BACK
 
 /obj/item/gun/ego_gun/city/ezra_cannon/reload_ego(mob/user)
 	effectvisual = image('icons/effects/effects.dmi', "holo_fan", pixel_y = 22)

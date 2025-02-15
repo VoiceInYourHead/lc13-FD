@@ -8,7 +8,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	outfit = /datum/outfit/job/aurum
+	outfit = /datum/outfit/job/aurum_combatready
 
 	job_attribute_limit = 100
 
@@ -180,6 +180,7 @@
 	desc = "A zweihander used by the zwei association."
 	special = "Use in hand to buff your defense, and those of everyone around you."
 	icon_state = "zwei"
+	worn_icon_state = "zwei"
 	force = 55
 	attack_speed = 2
 	damtype = RED_DAMAGE

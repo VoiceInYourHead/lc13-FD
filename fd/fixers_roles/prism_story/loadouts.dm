@@ -261,13 +261,16 @@
 		state = 2
 		icon_state = "Boss_suit_alt"
 		worn_icon_state = "Boss_suit_alt"
+		user.visible_message("<span class='warning'>[user] одним мощным ударом втыкает себе в шею какой-то шприц!</span>")
 		update_icon()
+		user.update_icon()
 		return
 	if(state == 2)
 		state = 1
 		icon_state = "Boss_suit"
 		worn_icon_state = "Boss_suit"
 		update_icon()
+		user.update_icon()
 		return
 
 /obj/item/clothing/suit/armor/ego_gear/city/prism_boss_first/AltClick(mob/living/carbon/human/user)
@@ -277,12 +280,14 @@
 		icon_state = "Boss_suit_alt"
 		worn_icon_state = "Boss_suit_alt"
 		update_icon()
+		user.update_icon()
 		return
 	if(state == 2)
 		state = 1
 		icon_state = "Boss_suit"
 		worn_icon_state = "Boss_suit"
 		update_icon()
+		user.update_icon()
 		return
 
 //О'Браян
@@ -391,9 +396,22 @@
 	gloves = /obj/item/clothing/gloves/color/black
 	backpack_contents = list()
 
-	backpack = /obj/item/ego_weapon/city/zweihander/aurum
-	satchel = /obj/item/ego_weapon/city/zweihander/aurum
-	duffelbag = /obj/item/ego_weapon/city/zweihander/aurum
+	back = /obj/item/ego_weapon/city/zweihander/aurum
+
+	backpack = null
+	satchel = null
+	duffelbag = null
+
+/datum/outfit/job/aurum_combatready/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
+	var/holder
+	if(H.jumpsuit_style == PREF_SKIRT)
+		holder = "[uniform]/skirt"
+		if(!text2path(holder))
+			holder = "[uniform]"
+	else
+		holder = "[uniform]"
+	uniform = text2path(holder)
 
 /datum/outfit/job/bedar_combatready
 	name = "Emily Bedar (Combat)"
@@ -414,6 +432,102 @@
 	l_pocket = /obj/item/storage/pcorp_pocket
 	r_pocket = /obj/item/storage/pcorp_pocket
 
-	backpack = /obj/item/storage/backpack/duffelbag/emily
-	satchel = /obj/item/storage/backpack/duffelbag/emily
-	duffelbag = /obj/item/storage/backpack/duffelbag/emily
+	back = /obj/item/storage/backpack/duffelbag/emily
+
+	backpack = null
+	satchel = null
+	duffelbag = null
+
+/datum/outfit/job/bedar_combatready/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
+	var/holder
+	if(H.jumpsuit_style == PREF_SKIRT)
+		holder = "[uniform]/skirt"
+		if(!text2path(holder))
+			holder = "[uniform]"
+	else
+		holder = "[uniform]"
+	uniform = text2path(holder)
+
+/datum/outfit/job/ezra_combatready
+	name = "Ezra Jennings (Combat)"
+	jobtype = /datum/job/ezra
+
+	uniform = /obj/item/clothing/under/prism_office/ezra
+	ears = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/ezra
+	glasses = null
+	head = null
+	mask = /obj/item/gun/ego_gun/city/smokepipe_ezra
+	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list()
+
+	back = /obj/item/gun/ego_gun/city/ezra_cannon
+
+	backpack = null
+	satchel = null
+	duffelbag = null
+
+/datum/outfit/job/ezra_combatready/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
+	var/holder
+	if(H.jumpsuit_style == PREF_SKIRT)
+		holder = "[uniform]/skirt"
+		if(!text2path(holder))
+			holder = "[uniform]"
+	else
+		holder = "[uniform]"
+	uniform = text2path(holder)
+
+/datum/outfit/job/schau_combatready
+	name = "Alexius Schau (Combat)"
+	jobtype = /datum/job/schau
+
+	uniform = /obj/item/clothing/under/prism_office
+	ears = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/schau
+	glasses = /obj/item/clothing/glasses/orange
+	head = null
+	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list(/obj/item/dstout_schau = 4)
+
+	l_pocket = /obj/item/storage/pcorp_pocket
+
+	back = /obj/item/gun/ego_gun/city/schau_bag
+
+	backpack = null
+	satchel = null
+	duffelbag = null
+
+/datum/outfit/job/schau_combatready/pre_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
+	var/holder
+	if(H.jumpsuit_style == PREF_SKIRT)
+		holder = "[uniform]/skirt"
+		if(!text2path(holder))
+			holder = "[uniform]"
+	else
+		holder = "[uniform]"
+	uniform = text2path(holder)
+
+/datum/outfit/job/will_combatready
+	name = "William Solros (Combat)"
+	jobtype = /datum/job/will
+
+	uniform = /obj/item/clothing/under/prism_office
+	ears = null
+	shoes = /obj/item/clothing/shoes/jackboots
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/prism_cloak/will
+	glasses = /obj/item/clothing/glasses/regular/hipster
+	head = null
+	gloves = /obj/item/clothing/gloves/color/black
+	backpack_contents = list()
+
+	r_hand = /obj/item/ego_weapon/city/eclipse
+	l_hand = /obj/item/ego_weapon/city/radiance
+
+	backpack = /obj/item/storage/backpack
+	satchel = /obj/item/storage/backpack/satchel
+	duffelbag = /obj/item/storage/backpack/duffelbag

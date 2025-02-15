@@ -8,7 +8,7 @@
 	total_positions = 1
 	spawn_positions = 1
 
-	outfit = /datum/outfit/job/bedar
+	outfit = /datum/outfit/job/bedar_combatready
 
 	job_attribute_limit = 100
 
