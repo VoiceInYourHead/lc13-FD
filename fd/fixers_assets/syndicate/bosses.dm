@@ -16,6 +16,8 @@
 /mob/living/carbon/human/boss/syndicate_leader/Initialize()
 	. = ..()
 
+	GLOB.syndicate_boss = src
+
 	ADD_TRAIT(src, TRAIT_GRAB_IMMUNE, JOB_TRAIT)
 	ADD_TRAIT(src, TRAIT_NOHUNGER, JOB_TRAIT)
 	ADD_TRAIT(src, TRAIT_TOXIMMUNE, JOB_TRAIT)
@@ -34,6 +36,7 @@
 	skin_tone = "caucasian2"
 	hairstyle = "Swept Back Hair"
 	hair_color = "#868686"
+	facial_hairstyle = "Shaved"
 	eye_color = "6f6"
 
 	update_body()
