@@ -3965,6 +3965,7 @@
 #include "fd\autocells\nathanielshockwave.dm"
 #include "fd\eventstuff\narrates.dm"
 #include "fd\fixers_assets\bosses.dm"
+#include "fd\fixers_assets\syndicate\_gm_tools.dm"
 #include "fd\fixers_assets\syndicate\bosses.dm"
 #include "fd\fixers_assets\syndicate\minions.dm"
 #include "fd\fixers_roles\albert.dm"
