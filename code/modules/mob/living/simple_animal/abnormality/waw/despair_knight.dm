@@ -13,8 +13,8 @@
 	ranged = TRUE
 	ranged_cooldown_time = 3 SECONDS
 	minimum_distance = 2
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 700
+	health = 700
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 1.0, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 0.5)
 	stat_attack = HARD_CRIT
 	del_on_death = FALSE
@@ -31,8 +31,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 50, 55, 55, 60),
 		ABNORMALITY_WORK_REPRESSION = list(40, 40, 40, 35, 30),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 
 	ego_list = list(
 		/datum/ego_datum/weapon/despair,
@@ -50,11 +52,11 @@
 
 	observation_prompt = "I once dedicated myself to the justice of this world, to protect my king, the kingdom and the weak. <br>\
 		However in the end nothing was truly upheld on my watch. <br>Even so... I still want to protect someone, anyone..."
-	observation_choices = list("Accept her blessing", "Refuse it")
-	correct_choices = list("Refuse it")
-	observation_success_message = "Am I not needed anymore? <br>\
-		No... <br>You're saying I should move on. <br>I don't know how, or if I can, but, perhaps things could turn out for the better. <br>We need only try."
-	observation_fail_message = "Thank you, though I am but a pitiful knight, I still yearn to protect, if I can't protect others, I may as well disappear..."
+	observation_choices = list(
+		"Refuse it" = list(TRUE, "Am I not needed anymore? <br>\
+			No... <br>You're saying I should move on. <br>I don't know how, or if I can, but, perhaps things could turn out for the better. <br>We need only try."),
+		"Accept her blessing" = list(FALSE, "Thank you, though I am but a pitiful knight, I still yearn to protect, if I can't protect others, I may as well disappear..."),
+	)
 
 	var/mob/living/carbon/human/blessed_human = null
 	var/teleport_cooldown
@@ -62,69 +64,6 @@
 	var/swords = 0
 	var/nihil_present = FALSE
 	var/can_act = TRUE
-
-	attack_action_types = list(
-		/datum/action/innate/change_icon_kod,
-		/datum/action/cooldown/knightblessing,
-	)
-
-
-/datum/action/innate/change_icon_kod
-	name = "Toggle Icon"
-	desc = "Toggle your icon between breached and friendly. (Works only for Limbus Company Labratories)"
-
-/datum/action/innate/change_icon_kod/Activate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon_state = "despair_friendly"
-		active = 1
-
-/datum/action/innate/change_icon_kod/Deactivate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon_state = "despair_breach"
-		active = 0
-
-/datum/action/cooldown/knightblessing
-	name = "Give Blessing"
-	check_flags = AB_CHECK_CONSCIOUS
-	transparent_when_unavailable = TRUE
-	cooldown_time = BLESS_COOLDOWN //5 seconds
-
-/datum/action/cooldown/knightblessing/Trigger()
-	if(!..())
-		return FALSE
-	if(!istype(owner, /mob/living/simple_animal/hostile/abnormality/despair_knight))
-		return FALSE
-	var/mob/living/simple_animal/hostile/abnormality/despair_knight/despair_knight = owner
-	StartCooldown()
-	despair_knight.give_blessing()
-	return TRUE
-
-/mob/living/simple_animal/hostile/abnormality/despair_knight/proc/give_blessing()
-	var/list/nearby = viewers(7, src) // first call viewers to get all mobs that see us
-	if(SSmaptype.maptype == "limbus_labs")
-		if (!blessed_human)
-			for(var/mob in nearby) // then sanitize the list
-				if(mob == src) // cut ourselves from the list
-					nearby -= mob
-				if(!ishuman(mob)) // cut all the non-humans from the list
-					nearby -= mob
-				//if(mob.stat == DEAD)
-					//nearby -= mob
-			var/mob/living/carbon/human/blessed = input(src, "Choose who you want to bless", "Select who you want to protect") as null|anything in nearby // pick someone from the list
-			blessed_human = blessed
-			RegisterSignal(blessed, COMSIG_LIVING_DEATH, PROC_REF(BlessedDeath))
-			RegisterSignal(blessed, COMSIG_HUMAN_INSANE, PROC_REF(BlessedDeath))
-			to_chat(blessed, span_nicegreen("You feel protected."))
-			blessed.physiology.red_mod *= 0.5
-			blessed.physiology.white_mod *= 0.5
-			blessed.physiology.black_mod *= 0.5
-			blessed.physiology.pale_mod *= 2
-			blessed.add_overlay(mutable_appearance('ModularTegustation/Teguicons/tegu_effects.dmi', "despair", -MUTATIONS_LAYER))
-			playsound(get_turf(blessed), 'sound/abnormalities/despairknight/gift.ogg', 50, 0, 2)
-			blessed.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -100)
-		return
 
 /mob/living/simple_animal/hostile/abnormality/despair_knight/ZeroQliphoth(mob/living/carbon/human/user)
 	switch(swords)
@@ -146,6 +85,8 @@
 	swords += 1
 
 /mob/living/simple_animal/hostile/abnormality/despair_knight/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
 /mob/living/simple_animal/hostile/abnormality/despair_knight/OpenFire()
@@ -198,7 +139,7 @@
 	blessed_human.physiology.white_mod /= 0.5
 	blessed_human.physiology.black_mod /= 0.5
 	blessed_human.physiology.pale_mod /= 2
-	blessed_human.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, 100)
+	blessed_human.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, 50)
 	blessed_human = null
 	if(nihil_present) //We die during a nihil suppression if our champion dies
 		death()
@@ -251,7 +192,7 @@
 		user.physiology.pale_mod *= 2
 		user.add_overlay(mutable_appearance('ModularTegustation/Teguicons/tegu_effects.dmi', "despair", -MUTATIONS_LAYER))
 		playsound(get_turf(user), 'sound/abnormalities/despairknight/gift.ogg', 50, 0, 2)
-		user.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -100)
+		user.adjust_attribute_bonus(TEMPERANCE_ATTRIBUTE, -50)
 	return
 
 /mob/living/simple_animal/hostile/abnormality/despair_knight/BreachEffect(mob/living/carbon/human/user, breach_type)

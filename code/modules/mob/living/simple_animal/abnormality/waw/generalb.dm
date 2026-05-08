@@ -16,8 +16,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,						//DO NOT FUCK THE BEEGIRL
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 40, 40, 40),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
 	ego_list = list(
 		/datum/ego_datum/weapon/loyalty,
 		/datum/ego_datum/weapon/praetorian,
@@ -25,12 +27,11 @@
 	)
 	gift_type =  /datum/ego_gifts/loyalty
 	loot = list(/obj/item/clothing/suit/armor/ego_gear/aleph/praetorian) // Don't think it was dropping before, this should make it do so
-	//She doesn't usually breach. However, when she does, she's practically an Aleph-level threat. She's also really slow, and should pack a punch.
-	health = 3000
-	maxHealth = 3000
+	health = 1000
+	maxHealth = 1000
 	damage_coeff = list(RED_DAMAGE = 0.3, WHITE_DAMAGE = 0.6, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 1)
-	melee_damage_lower = 40
-	melee_damage_upper = 52
+	melee_damage_lower = 12
+	melee_damage_upper = 16
 	melee_damage_type = RED_DAMAGE
 	stat_attack = HARD_CRIT
 
@@ -38,6 +39,25 @@
 		/mob/living/simple_animal/hostile/abnormality/queen_bee = 5,
 	)
 	//She has a Quad Artillery Cannon
+
+	observation_prompt = "I toil endlessly for the queen. <br>\
+		Break everything that threatens the hive. <br>\
+		Shoot anything that moves that isn't a bee. <br>\
+		Unquestioningly loyal, I follow my orders to the letter. <br>\
+		I even feel excited whenever I get a new order. <br>\
+		Why am I doing this all again?"
+	observation_choices = list(
+		"I fight to survive" = list(TRUE, "Bees have a natural instinct to fight for their queen. <br>\
+			It is not something as complicated as human emotion. <br>\
+			Rather, it is a hormone produced by the queen. <br>\
+			I will die the moment I leave the queendom.<br>\
+			There is no other option but to remain unquestionably loyal."),
+		"I fight out of loyalty" = list(TRUE, "Bees have a natural instinct to fight for their queen. <br>\
+			It is not something as complicated as human emotion. <br>\
+			Rather, it is a hormone produced by the queen. <br>\
+			I will die the moment I leave the queendom.<br>\
+			There is no other option but to remain unquestionably loyal."),
+	)
 
 	var/fire_cooldown_time = 3 SECONDS	//She has 4 cannons, fires 4 times faster than the artillery bees
 	var/fire_cooldown
@@ -51,29 +71,6 @@
 	var/datum/action/innate/toggle_artillery_sight/sight_ability
 
 	var/list/beespawn = list()
-
-	attack_action_types = list(
-		/datum/action/innate/change_icon_gbee,
-	)
-
-
-/datum/action/innate/change_icon_gbee
-	name = "Toggle Icon"
-	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
-
-/datum/action/innate/change_icon_gbee/Activate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/48x48.dmi'
-		owner.icon_state = "generalbee"
-		active = 1
-
-/datum/action/innate/change_icon_gbee/Deactivate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/48x96.dmi'
-		owner.icon_state = "general_breach"
-		active = 0
 
 /mob/living/simple_animal/hostile/abnormality/general_b/Login()
 	. = ..()
@@ -92,11 +89,6 @@
 	if(IsCombatMap())
 		combat_map = TRUE
 		sight_ability.new_sight = SEE_TURFS
-		if(SSmaptype.maptype == "limbus_labs")
-			var/mob/living/simple_animal/hostile/soldier_bee/V = new(get_turf(src))
-			beespawn+=V
-			V = new(get_turf(src))
-			beespawn+=V
 	else
 		sight_ability.new_sight = SEE_TURFS | SEE_THRU
 
@@ -116,7 +108,7 @@
 	if(!(status_flags & GODMODE)) // If it's breaching right now
 		return	//Yeah don't increase Qliphoth
 	var/artillerbee_count = 0
-	for(var/mob/living/simple_animal/hostile/artillery_bee/artillerbee in GLOB.mob_living_list)
+	for(var/mob/living/simple_animal/hostile/aminion/artillery_bee/artillerbee in GLOB.mob_living_list)
 		artillerbee_count++
 	if(artillerbee_count < 4)
 		SpawnBees()
@@ -181,7 +173,7 @@
 	//Call root code but with normal breach
 	. = ..(null, BREACH_NORMAL)
 	true_breached = TRUE
-	if(!combat_map)
+	if(!combat_map && breach_type != BREACH_MINING)
 		var/turf/orgin = get_turf(src)
 		var/list/all_turfs = RANGE_TURFS(2, orgin)
 		SpawnMinions(all_turfs, TRUE)
@@ -192,9 +184,9 @@
 	var/mob/living/simple_animal/spawn_minion
 	for(var/turf/Y in spawn_turfs)
 		if(prob(60))
-			spawn_minion = new /mob/living/simple_animal/hostile/soldier_bee(Y)
+			spawn_minion = new /mob/living/simple_animal/hostile/aminion/soldier_bee(Y)
 		else if(prob(20))
-			spawn_minion = new /mob/living/simple_animal/hostile/artillery_bee(Y)
+			spawn_minion = new /mob/living/simple_animal/hostile/aminion/artillery_bee(Y)
 		if(spawn_minion && copy_faction)
 			spawn_minion.faction = faction.Copy()
 
@@ -232,12 +224,12 @@
 /mob/living/simple_animal/hostile/abnormality/general_b/proc/SpawnBees()
 	var/X = pick(GLOB.xeno_spawn)
 	var/turf/T = get_turf(X)
-	new /mob/living/simple_animal/hostile/artillery_bee(T)
+	new /mob/living/simple_animal/hostile/aminion/artillery_bee(T)
 	for(var/y = 1 to 5)
-		new /mob/living/simple_animal/hostile/soldier_bee(T)
+		new /mob/living/simple_animal/hostile/aminion/soldier_bee(T)
 
 /* Soldier bees */
-/mob/living/simple_animal/hostile/soldier_bee
+/mob/living/simple_animal/hostile/aminion/soldier_bee
 	name = "soldier bee"
 	desc = "A disfigured creature with nasty fangs, and a snazzy cap"
 	icon = 'ModularTegustation/Teguicons/48x64.dmi'
@@ -245,12 +237,12 @@
 	icon_living = "soldier_bee"
 	base_pixel_x = -8
 	pixel_x = -8
-	health = 450
-	maxHealth = 450
+	health = 150
+	maxHealth = 150
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 2)
-	melee_damage_lower = 14
-	melee_damage_upper = 18
+	melee_damage_lower = 5
+	melee_damage_upper = 7
 	rapid_melee = 2
 	obj_damage = 200
 	robust_searching = TRUE
@@ -261,25 +253,11 @@
 	attack_verb_simple = "bite"
 	attack_sound = 'sound/weapons/bite.ogg'
 	speak_emote = list("buzzes")
-
-/mob/living/simple_animal/hostile/soldier_bee/Initialize()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		faction = list("neutral")
-
-/mob/living/simple_animal/hostile/soldier_bee/Login()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		faction = list("hostile")
-
-/mob/living/simple_animal/hostile/soldier_bee/Logout()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		faction = list("neutral")
-
+	threat_level = HE_LEVEL
+	score_divider = 5//Worth 8 points
 
 /* Artillery bees */
-/mob/living/simple_animal/hostile/artillery_bee
+/mob/living/simple_animal/hostile/aminion/artillery_bee
 	name = "artillery bee"
 	desc = "A disfigured creature with nasty fangs, and an oversized thorax"
 	icon = 'ModularTegustation/Teguicons/48x96.dmi'
@@ -297,6 +275,8 @@
 	del_on_death = TRUE
 	death_sound = 'sound/abnormalities/bee/death.ogg'
 	speak_emote = list("buzzes")
+	threat_level = HE_LEVEL
+	score_divider = 2//Worth 20 points
 
 	var/fire_cooldown_time = 10 SECONDS
 	var/fire_cooldown
@@ -305,7 +285,7 @@
 	var/combat_map = FALSE
 	var/datum/action/innate/toggle_artillery_sight/sight_ability
 
-/mob/living/simple_animal/hostile/artillery_bee/Login()
+/mob/living/simple_animal/hostile/aminion/artillery_bee/Login()
 	. = ..()
 	if(!. || !client)
 		return FALSE
@@ -315,7 +295,7 @@
 	else
 		sight_ability.new_sight = SEE_TURFS | SEE_THRU
 
-/mob/living/simple_animal/hostile/artillery_bee/Initialize()
+/mob/living/simple_animal/hostile/aminion/artillery_bee/Initialize()
 	. = ..()
 	var/obj/effect/proc_holder/ability/aimed/artillery_shell/shell_ability = new
 	src.AddSpell(shell_ability)
@@ -324,7 +304,7 @@
 	if (IsCombatMap())
 		combat_map = TRUE
 
-/mob/living/simple_animal/hostile/artillery_bee/Life()
+/mob/living/simple_animal/hostile/aminion/artillery_bee/Life()
 	. = ..()
 	if(!.) // Dead
 		return FALSE
@@ -332,7 +312,7 @@
 		if((fire_cooldown < world.time))
 			AimShell()
 
-/mob/living/simple_animal/hostile/artillery_bee/proc/AimShell()
+/mob/living/simple_animal/hostile/aminion/artillery_bee/proc/AimShell()
 	fire_cooldown = world.time + fire_cooldown_time
 	var/list/targets = list()
 	for(var/mob/living/L in livinginrange(fireball_range, src))
@@ -348,7 +328,7 @@
 	if(targets.len > 0)
 		FireShell(pick(targets), FALSE)
 
-/mob/living/simple_animal/hostile/artillery_bee/proc/FireShell(target, called_by_ability)
+/mob/living/simple_animal/hostile/aminion/artillery_bee/proc/FireShell(target, called_by_ability)
 	var/turf/target_turf = get_turf(target)
 	if(target_turf.density)
 		to_chat(src, span_notice("Can't fire at that location!"))
@@ -469,16 +449,13 @@
 	pull_force = INFINITY
 	generic_canpass = FALSE
 	movement_type = PHASING | FLYING
-	var/boom_damage = 160 //Half Red, Half Black
+	var/boom_damage = 50 //Half Red, Half Black
 	var/list/faction = list("hostile")
 	layer = POINT_LAYER	//We want this HIGH. SUPER HIGH. We want it so that you can absolutely, guaranteed, see exactly what is about to hit you.
 
 /obj/effect/beeshell/Initialize()
 	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		addtimer(CALLBACK(src, PROC_REF(explode)), 5 SECONDS)
-	else
-		addtimer(CALLBACK(src, PROC_REF(explode)), 3.5 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(explode)), 3.5 SECONDS)
 
 /obj/effect/beeshell/New(loc, ...)
 	. = ..()
@@ -491,10 +468,7 @@
 	for(var/mob/living/L in view(2, src))
 		if(faction_check(faction, L.faction, FALSE))
 			continue
-		if(SSmaptype.maptype == "limbus_labs")
-			L.deal_damage(boom_damage*0.5, list(RED_DAMAGE, BLACK_DAMAGE))
-		else
-			L.deal_damage(boom_damage, list(RED_DAMAGE, BLACK_DAMAGE))
+		L.deal_damage(boom_damage, list(RED_DAMAGE, BLACK_DAMAGE))
 		if(L.health < 0)
 			L.gib()
 	new /obj/effect/temp_visual/explosion(get_turf(src))

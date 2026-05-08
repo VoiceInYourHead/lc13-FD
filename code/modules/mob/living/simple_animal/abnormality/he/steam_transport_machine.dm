@@ -4,10 +4,13 @@
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "steam"
 	icon_living = "steam"
+	icon_dead = "steammachine_egg"
 	core_icon = "steammachine_egg"
 	portrait = "steam_transport_machine"
-	maxHealth = 1600
-	health = 1600
+	del_on_death = FALSE
+	maxHealth = 400
+	health = 400
+	blood_volume = 0
 	ranged = TRUE
 	attack_sound = 'sound/abnormalities/steam/attack.ogg'
 	friendly_verb_continuous = "bonks"
@@ -16,13 +19,14 @@
 	attack_verb_simple = "smash"
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1, BLACK_DAMAGE = 2, PALE_DAMAGE = 1.5)
 	speak_emote = list("bellows")
+	speech_span = SPAN_ROBOT
 	pixel_x = -16
 	can_breach = TRUE
 	rapid_melee = 1
 	melee_queue_distance = 2
 	move_to_delay = 5
-	melee_damage_lower = 20
-	melee_damage_upper = 35
+	melee_damage_lower = 5
+	melee_damage_upper = 7
 	melee_damage_type = RED_DAMAGE
 	threat_level = HE_LEVEL
 	start_qliphoth = 4
@@ -32,8 +36,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = 60,
 	)
-	work_damage_amount = 9
+	work_damage_upper = 3
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
 
 	ranged = TRUE
 	rapid = 5
@@ -43,8 +49,8 @@
 	projectilesound = 'sound/abnormalities/steam/steamfire.ogg'
 
 	ego_list = list(
-		/datum/ego_datum/weapon/nixie,
-		/datum/ego_datum/armor/nixie,
+		/datum/ego_datum/weapon/crushbound,
+		/datum/ego_datum/armor/crushbound,
 	)
 	gift_type =  /datum/ego_gifts/nixie
 	abnormality_origin = ABNORMALITY_ORIGIN_LIMBUS
@@ -53,19 +59,19 @@
 		As it does its work, the number on the electronic display seems to update. <br>\
 		Machines exist for a purpose. <br>\
 		You feel like you should give it an order."
-	observation_choices = list("Order it to carry luggage", "Order it to do nothing")
-	correct_choices = list("Order it to carry luggage")
-	observation_success_message = "It lifts a nearby object to carry it from left to right. <br>\
-		The count on its body went up by 1. <br>\
-		Just as you started to wonder if that was it, the machine replaced one of its vacuum tubes with a new one. <br>\
-		It presented the old one to you, and naturally, you accepted."
-	observation_fail_message = "A purposeless machine is bound to lose the meaning of its existence, even if it is functional. <br>\
-		A machine whose purpose is to do nothing will do whatever it takes to achieve its directive. <br>\
-		With a loud boiling noise, the machine’s body begins to heat, expelling hot steam. <br>\
-		Seeing it glow a dangerous-looking hue, you quickly escaped the room."
+	observation_choices = list(
+		"Order it to carry luggage" = list(TRUE, "It lifts a nearby object to carry it from left to right. <br>\
+			The count on its body went up by 1. <br>\
+			Just as you started to wonder if that was it, the machine replaced one of its vacuum tubes with a new one. <br>\
+			It presented the old one to you, and naturally, you accepted."),
+		"Order it to do nothing" = list(FALSE, "A purposeless machine is bound to lose the meaning of its existence, even if it is functional. <br>\
+			A machine whose purpose is to do nothing will do whatever it takes to achieve its directive. <br>\
+			With a loud boiling noise, the machine’s body begins to heat, expelling hot steam. <br>\
+			Seeing it glow a dangerous-looking hue, you quickly escaped the room."),
+	)
 
 	var/gear = 0
-	var/steam_damage = 5
+	var/steam_damage = 2
 	var/steam_venting = FALSE
 	var/can_act = TRUE
 	var/guntimer
@@ -74,16 +80,21 @@
 //Gear Shift - Most mechanics are determined by round time
 /mob/living/simple_animal/hostile/abnormality/steam/proc/GearUpdate()
 	var/new_gear = gear
-	if(world.time >= 75 MINUTES) // Full facility expected
-		new_gear = 4
-	else if(world.time >= 60 MINUTES) // More than one ALEPH
-		new_gear = 3
-	else if(world.time >= 45 MINUTES) // Wowzer, an ALEPH?
-		new_gear = 2
-	else if(world.time >= 30 MINUTES) // Expecting WAW
-		new_gear = 1
-	else
-		new_gear = 0
+	var/facility_full_percentage = 0
+	if(SSabnormality_queue.spawned_abnos) // dont divide by 0
+		facility_full_percentage = 100 * (SSabnormality_queue.spawned_abnos / SSabnormality_queue.rooms_start)
+	// how full the facility is, from 0 abnormalities out of 24 cells being 0% and 24/24 cells being 100%
+	switch(facility_full_percentage)
+		if(0 to 49) // Expecting Hes and Teths still
+			new_gear = 1
+		if(50 to 69)  // Expecting WAW
+			new_gear = 1
+		if(70 to 79) // Wowzer, an ALEPH?
+			new_gear = 2
+		if(80 to 99) // More than one ALEPH
+			new_gear = 3
+		if(100) // Full facility expected
+			new_gear = 4
 	if(gear != new_gear)
 		gear = new_gear
 		ClankSound()
@@ -100,30 +111,20 @@
 
 /mob/living/simple_animal/hostile/abnormality/steam/proc/UpdateStats()
 	src.set_light(3, (gear * 2), "D4FAF37")
-	if(SSmaptype.maptype == "limbus_labs")
-		ChangeResistances(list(
-			RED_DAMAGE = (1 - (gear * 0.1)),
-			WHITE_DAMAGE = (1 - (gear * 0.1)),
-			BLACK_DAMAGE = (2 - (gear * 0.1)),
-			PALE_DAMAGE = (1.5 - (gear * 0.1)),
-		))
-		melee_damage_lower = (20 + (4 * gear))
-		melee_damage_upper = (35 + (4 * gear))
-		steam_damage = (5 + (1.5 * gear))
-	else
-		ChangeResistances(list(
-			RED_DAMAGE = (0.5 - (gear * 0.1)),
-			WHITE_DAMAGE = (1 - (gear * 0.1)),
-			BLACK_DAMAGE = (2 - (gear * 0.1)),
-			PALE_DAMAGE = (1.5 - (gear * 0.1)),
-		))
-		melee_damage_lower = (20 + (10 * gear))
-		melee_damage_upper = (35 + (10 * gear))
-		steam_damage = (5 + (3 * gear))
+	ChangeResistances(list(
+		RED_DAMAGE = (0.5 - (gear * 0.1)),
+		WHITE_DAMAGE = (1 - (gear * 0.1)),
+		BLACK_DAMAGE = (2 - (gear * 0.1)),
+		PALE_DAMAGE = (1.5 - (gear * 0.1)),
+	))
+	melee_damage_lower = (5 + (3 * gear))
+	melee_damage_upper = (7 + (3 * gear))
+	steam_damage = (2 + (2 * gear))
 	var/oldhealth = maxHealth
-	maxHealth = (1600 + (400 * gear))
-	adjustBruteLoss(oldhealth - maxHealth) //Heals 400 health in a gear shift if it's already breached
-	work_damage_amount = (9 + (2 * gear))
+	maxHealth = (400 + (150 * gear))
+	adjustBruteLoss(oldhealth - maxHealth) //Heals 150 health in a gear shift if it's already breached
+	work_damage_upper = (3 + (2 * gear))
+	work_damage_lower = (2 + gear)
 	ranged_cooldown_time = (40 - (5 * gear))
 	start_qliphoth = (max(1,(4 - gear)))
 	if(datum_reference.qliphoth_meter > start_qliphoth) //we want to bring the qliphoth down to the new maximum
@@ -223,11 +224,16 @@
 		deltimer(guntimer)
 	if(updatetimer)
 		deltimer(updatetimer)
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
+	pixel_x = -16
+	density = FALSE
+	animate(src, alpha = 0, time = 10 SECONDS)
+	QDEL_IN(src, 10 SECONDS)
 
 /obj/projectile/steam
 	name = "steam"
 	icon_state = "smoke"
 	hitsound = 'sound/machines/clockcult/steam_whoosh.ogg'
-	damage = 4
+	damage = 1
 	speed = 0.4
 	damage_type = RED_DAMAGE

@@ -8,8 +8,9 @@
 	icon_living = "snowwhitesapple_inert"
 	icon_dead = "snowwhitesapple_dead"
 	portrait = "snow_whites_apple"
-	maxHealth = 1600
-	health = 1600
+	maxHealth = 600
+	health = 600
+	blood_volume = 0
 	obj_damage = 0
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1.0, BLACK_DAMAGE = 0, PALE_DAMAGE = 1.5)
 	ranged = TRUE
@@ -35,8 +36,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 0, 0, 0, 0),
 		ABNORMALITY_WORK_REPRESSION = list(20, 30, 55, 55, 60),
 	)
-	work_damage_amount = 8
+	work_damage_upper = 5
+	work_damage_lower = 3
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/envy
+	max_boxes = 20
 
 	ego_list = list(
 		/datum/ego_datum/weapon/stem,
@@ -59,24 +63,25 @@
 		Why does no one visit me? <br>Why does no one share my pain? <br>\
 		Why does no one like me? <br>I hope I had legs, no, it doesn't have to be legs. <br>\
 		All I want is to be able to move. <br>Oh, redemption......"
-	observation_choices = list("I shall go find it.", "It does not exist.")
-	correct_choices = list("It does not exist.")
-	observation_success_message = "This is unfair. <br>I want to be happy. <br>It's too painful to wait. <br>\
-		It is my bane that no one is around me. <br>I want this misery to crush me to nonexistence. <br>\
-		Some kind of legs sprouted out of me but I have no place to go. <br>However, I do not rot. <br>I cannot stop existing. <br>\
-		I have to go, although I have no place to go. <br>I have to go. <br>I go."
-
-	observation_fail_message = "From some moment, I realized I can walk. <br>\
-		I see light. <br>I hear people. <br>I will be free from this torment. <br>For I will meet my redemption"
+	observation_choices = list(
+		"It does not exist" = list(TRUE, "This is unfair. <br>I want to be happy. <br>It's too painful to wait. <br>\
+			It is my bane that no one is around me. <br>I want this misery to crush me to nonexistence. <br>\
+			Some kind of legs sprouted out of me but I have no place to go. <br>However, I do not rot. <br>I cannot stop existing. <br>\
+			I have to go, although I have no place to go. <br>I have to go. <br>I go."),
+		"I shall go find it" = list(FALSE, "From some moment, I realized I can walk. <br>\
+			I see light. <br>I hear people. <br>I will be free from this torment. <br>For I will meet my redemption"),
+	)
 
 	initial_language_holder = /datum/language_holder/plant //essentially flavor
 	var/togglemovement = FALSE
 	var/toggleplants = TRUE
+	var/nightmare_mode = FALSE
 	var/plant_cooldown = 30
 	var/hedge_cooldown = 0
 	var/hedge_cooldown_delay = FLORAL_BARRIER_COOLDOWN
 	var/teleport_cooldown = 0
 	var/teleport_cooldown_delay = 60 SECONDS
+	var/can_teleport = TRUE
 	//Spell automatically given to the abnormality.
 	var/obj/effect/proc_holder/spell/pointed/apple_barrier/barrier_spell
 	//All iterations share this list between eachother.
@@ -96,6 +101,8 @@
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
 	update_icon()
+	if(breach_type == BREACH_MINING)//TODO: create attacking roses for this breach type
+		can_teleport = FALSE
 
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/Initialize()
 	. = ..()
@@ -138,7 +145,7 @@
 	if(!. || !client)
 		return FALSE
 	togglemovement = TRUE
-	to_chat(src, "<b>Snow Whites Apple can only harm creatures that are ontop of her vines. \
+	to_chat(src, "<b>Snow White's Apple can only harm creatures that are ontop of her vines. \
 		Your ranged attack will harm all standing on vines. \
 		Your barrier spell can only be used on thick vines.</b>")
 
@@ -152,13 +159,24 @@
 			if(toggleplants)
 				SpreadPlants()
 			oldGrowth()
-	for(var/obj/structure/spreading/apple_vine/W in range(15, get_turf(src)))
+	var/list/area_of_influence
+	if(nightmare_mode)
+		area_of_influence = vine_list
+	else
+		area_of_influence = urange(15, get_turf(src))
+	for(var/obj/structure/spreading/apple_vine/W in area_of_influence)
 		if(W.last_expand <= world.time)
 			W.expand()
+		else if(nightmare_mode && ranged_cooldown <= world.time)
+			var/list/did_we_hit = HurtInTurf(get_turf(W), list(), 30, BLACK_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
+			if(did_we_hit.len)
+				W.VineAttack(pick(did_we_hit))
 	if(teleport_cooldown <= world.time && !togglemovement && !client && !IsCombatMap())
 		TryTeleport()
 
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/OpenFire()
@@ -198,6 +216,8 @@
 	dir = 2
 	if(teleport_cooldown > world.time)
 		return FALSE
+	if(!can_teleport)
+		return FALSE
 	teleport_cooldown = world.time + teleport_cooldown_delay
 	var/list/teleport_potential = TeleportList()
 	if(!LAZYLEN(teleport_potential))
@@ -232,14 +252,14 @@
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/proc/VineSpike()
 	playsound(get_turf(src), projectilesound, 30)
 	for(var/obj/structure/spreading/apple_vine/W in view(vision_range, src))
-		var/list/did_we_hit = HurtInTurf(get_turf(W), list(), 30, BLACK_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
+		var/list/did_we_hit = HurtInTurf(get_turf(W), list(), 10, BLACK_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
 		if(did_we_hit.len)
 			W.VineAttack(pick(did_we_hit))
 
 	ranged_cooldown = world.time + ranged_cooldown_time
 
 /mob/living/simple_animal/hostile/abnormality/snow_whites_apple/proc/oldGrowth()
-	for(var/obj/structure/spreading/apple_vine/W in range(15, get_turf(src)))
+	for(var/obj/structure/spreading/apple_vine/W in urange(15, get_turf(src)))
 		if(!W.old_growth)
 			W.OverGrowth()
 
@@ -476,10 +496,10 @@
 		lonely.adjustBruteLoss(-1)
 		if(prob(2))
 			lonely.whisper(pick(
-				"First they had feasted upon my poisioned flesh, then i feasted upon them.",
+				"First they had feasted upon my poisoned flesh, then I feasted upon them.",
 				"Even after they left, my form would not decay.",
 				"She cast me aside and left with her prince.",
-				"After many days i wondered why i continued to exist.",
+				"After many days I wondered why I continued to exist.",
 				"Those that trampled me would speak of a witch who casted a spell that had taken her life.",
 			))
 
@@ -508,7 +528,7 @@
 	max_integrity = 45
 	obj_integrity = 45
 	expand_cooldown = 8 SECONDS
-	conflict_damage = 30
+	conflict_damage = 10
 	old_growth = TRUE
 
 /obj/structure/spreading/apple_vine/proc/VineBarrier(vine_angle, single_spawn)

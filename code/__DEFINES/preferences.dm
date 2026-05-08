@@ -70,11 +70,28 @@
 #define SEC_DEPT_SCIENCE "Science"
 #define SEC_DEPT_SUPPLY "Supply"
 
-#define RELATION_LOYAL "Loyal"
-#define RELATION_SUPPORTIVE "Supportive"
-#define RELATION_NEUTRAL "Neutral"
-#define RELATION_SKEPTICAL "Skeptical"
-#define RELATION_OPPOSED "Opposed"
+#define DISTRICT4		"District 4"
+#define DISTRICT8		"District 8"
+#define DISTRICT9		"District 9"
+#define DISTRICT10		"District 10"
+#define DISTRICT11		"District 11"
+#define DISTRICT12		"District 12"
+#define DISTRICT13		"District 13"
+#define DISTRICT14		"District 14"
+#define DISTRICT16		"District 16"
+#define DISTRICT17		"District 17"
+#define DISTRICT18		"District 18"
+#define DISTRICT19		"District 19"
+#define DISTRICT20		"District 20"
+#define DISTRICT21		"District 21"
+#define DISTRICT22		"District 22"
+#define DISTRICT23		"District 23"
+#define DISTRICT24		"District 24"
+#define DISTRICT25		"District 25"
+#define OUTSKIRTS		"The Outskirts"
+#define WEALTHY			"Wealthy"
+#define IMPOVERISHED	"Impoverished"
+#define PENNILESS		"Penniless"
 
 // Playtime tracking system, see jobs_exp.dm
 #define EXP_TYPE_LIVING			"Living"
@@ -119,7 +136,6 @@
 #define RANDOM_UNDERSHIRT "random_undershirt"
 #define RANDOM_SOCKS "random_socks"
 #define RANDOM_BACKPACK "random_backpack"
-#define RANDOM_JUMPSUIT_STYLE "random_jumpsuit_style"
 #define RANDOM_HAIRSTYLE "random_hairstyle"
 #define RANDOM_HAIR_COLOR "random_hair_color"
 #define RANDOM_FACIAL_HAIR_COLOR "random_facial_hair_color"
@@ -128,7 +144,7 @@
 #define RANDOM_EYE_COLOR "random_eye_color"
 
 //recommened client FPS
-#define RECOMMENDED_FPS 40
+#define RECOMMENDED_FPS 100
 
 //client languages
 #define CLIENT_LANGUAGE_ENGLISH "English"

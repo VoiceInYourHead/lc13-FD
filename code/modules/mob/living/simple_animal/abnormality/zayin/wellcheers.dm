@@ -8,8 +8,8 @@
 	portrait = "wellcheers"
 	layer = BELOW_OBJ_LAYER
 	threat_level = ZAYIN_LEVEL
-	maxHealth = 600
-	health = 600
+	maxHealth = 100
+	health = 100
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = list(70, 70, 60, 60, 60),
@@ -17,9 +17,9 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 50, 40, 40, 40),
 		ABNORMALITY_WORK_REPRESSION = list(50, 50, 40, 40, 40),
 	)
-	work_damage_amount = 1
+	work_damage_upper = 2
+	work_damage_lower = 1
 	work_damage_type = RED_DAMAGE
-	max_boxes = 10
 
 	blood_volume = 0
 
@@ -57,11 +57,17 @@
 	harvest_phrase_third = "%PERSON holds up %VESSEL and lets %ABNO dispense some clear-ish soda into it."
 
 	observation_prompt = "A vending machine stands before you. <br>\
-		Two delicious looking shrimp are standing at both sides of the machine. Will you buy soda?"
-	observation_choices = list("Yes", "No")
-	correct_choices = list("Yes", "No")
-	observation_success_message = "Before you can make a choice, one of the shrimp buys you soda. <br>\
-		You drink the soda, and fall asleep... <br>... <br>Somewhere in the distance, you hear seagulls."
+		Two delicious looking shrimp are standing at both sides of the machine. <br>Will you buy soda?"
+	observation_choices = list(
+		"Yes" = list(TRUE, "Before you can make a choice, one of the shrimp buys you soda. <br>\
+			You drink the soda, and fall asleep... <br>... <br>Somewhere in the distance, you hear seagulls."),
+		"No" = list(TRUE, "Before you can make a choice, one of the shrimp buys you soda. <br>\
+			You drink the soda, and fall asleep... <br>... <br>Somewhere in the distance, you hear seagulls.")
+	)
+
+//Not only is it funny, I want it to have the shit it does on Legacy
+/mob/living/simple_animal/hostile/abnormality/wellcheers/Initialize()
+	. = ..()
 
 
 /mob/living/simple_animal/hostile/abnormality/wellcheers/HandleStructures()
@@ -132,6 +138,9 @@
 /mob/living/simple_animal/hostile/abnormality/wellcheers/AttackingTarget()
 	return FALSE
 
+/mob/living/simple_animal/hostile/abnormality/wellcheers/Move()
+	return FALSE
+
 // Soda cans
 /obj/item/reagent_containers/food/drinks/soda_cans/wellcheers_red
 	name = "can of cherry 'Wellcheers' soda"
@@ -200,7 +209,7 @@
 	duration = 10 SECONDS
 	tick_interval = 1 SECONDS
 	var/damage_type = null
-	var/debuff_damage = 8
+	var/debuff_damage = 2
 
 /datum/status_effect/wellcheers_bad/tick()
 	. = ..()

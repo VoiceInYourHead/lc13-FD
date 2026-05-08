@@ -9,12 +9,12 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 	var/spawntype
 
 /obj/effect/landmark/wavespawn/Initialize()
-	..()
 	addtimer(CALLBACK(src, PROC_REF(tryspawn)), 3 MINUTES, TIMER_STOPPABLE)
+	return ..()
 
 //Wave increases.
 /obj/effect/landmark/wavespawn/proc/tryspawn()
-	addtimer(CALLBACK(src, PROC_REF(tryspawn)), 45 SECONDS, TIMER_STOPPABLE)
+	addtimer(CALLBACK(src, PROC_REF(tryspawn)), 1 MINUTES, TIMER_STOPPABLE)
 	if(GLOB.combat_counter == 0)
 		return
 	switch(GLOB.wcorp_enemy_faction) //Each round has a specific faction, decided on code/game/gamemodes/management/event/combat
@@ -145,13 +145,20 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 					switch(rand(1, 100))
 						if(40 to 65)
 							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_sloth
+							if(prob(25))
+								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_sloth/noon
 						if(65 to 85)
 							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom
+							if(prob(25))
+								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom/noon
 						if(85 to 100)
 							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride
+							if(prob(25))
+								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride/noon
 						else
 							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony
-
+							if(prob(25))
+								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon
 
 				//100% one Abomination, rest 20% Slashers / 20% Stabbers / 60% Suicidals
 				if(13 to 14)
@@ -162,27 +169,32 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 						switch(rand(1,100))
 							if(60 to 80)
 								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride
+								if(prob(25))
+									spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride/noon
 							if(80 to 100)
 								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom
+								if(prob(25))
+									spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom/noon
 							else
 								spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony
+								if(prob(25))
+									spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon
 
 				//20% Slasher / 20% Stabber / 20% Slammer / 20% Shambler / 20% Slumberer
 				if(15 to INFINITY)
 					switch(rand(1, 100))
-						if(20 to 30)
-							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_lust
-						if(30 to 60)
-							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom
-						if(60 to 80)
-							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_wrath
-						if(80 to 100)
-							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride
+						if(16 to 32)
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_lust/noon
+						if(32 to 48)
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gloom/noon
+						if(48 to 64)
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_wrath/noon
+						if(64 to 80)
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_pride/noon
+						if(80 to 96)
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon
 						else
-							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_gluttony
-
-
-
+							spawntype = /mob/living/simple_animal/hostile/ordeal/sin_sloth/noon
 
 		if("shrimp")
 			spawntype = /mob/living/simple_animal/hostile/shrimp_rifleman
@@ -191,8 +203,7 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 				//10% Remnant / 90% Corporal
 				if(1 to 3)
 					if(prob(10))
-						spawntype = /mob/living/simple_animal/hostile/shrimp
-
+						spawntype = /mob/living/simple_animal/hostile/aminion/shrimp
 
 				if(4 to 7)
 					switch(rand(1, 100))
@@ -201,7 +212,7 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 						if(55 to 100)
 							spawntype = /mob/living/simple_animal/hostile/shrimp_rifleman
 						else
-							spawntype = /mob/living/simple_animal/hostile/shrimp
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp
 
 
 				if(8 to 11)
@@ -211,7 +222,7 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 						if(65 to 100)
 							spawntype = /mob/living/simple_animal/hostile/shrimp_rifleman
 						else
-							spawntype = /mob/living/simple_animal/hostile/shrimp
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp
 
 
 
@@ -220,15 +231,11 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 						if(45 to 55)
 							spawntype = /mob/living/simple_animal/hostile/senior_shrimp
 						if(55 to 75)
-							spawntype = /mob/living/simple_animal/hostile/shrimp_soldier
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp/soldier
 						if(75 to 100)
 							spawntype = /mob/living/simple_animal/hostile/shrimp_rifleman
 						else
-							spawntype = /mob/living/simple_animal/hostile/shrimp
-
-
-
-
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp
 
 				if(14 to INFINITY)
 					switch(rand(1, 100))
@@ -237,20 +244,37 @@ GLOBAL_VAR_INIT(wcorp_boss_spawn, FALSE)
 						if(55 to 90)
 							spawntype = /mob/living/simple_animal/hostile/shrimp_rifleman
 						if(90 to 100)
-							spawntype = /mob/living/simple_animal/hostile/shrimp_soldier
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp/soldier
 						else
-							spawntype = /mob/living/simple_animal/hostile/shrimp
+							spawntype = /mob/living/simple_animal/hostile/aminion/shrimp
 
+		if("bloodfiends")
+			spawntype = /mob/living/simple_animal/hostile/humanoid/blood/bag
+			switch(GLOB.combat_counter)
+
+				//10% Bloodfiend / 90% Bloodbag
+				if(1 to 5)
+					if(prob(10))
+						spawntype = /mob/living/simple_animal/hostile/humanoid/blood/fiend
+
+				//50% Bloodfiend / 50% Bloodbag
+				if(6 to 14)
+					switch(rand(1, 100))
+						if(50 to 100)
+							spawntype = /mob/living/simple_animal/hostile/humanoid/blood/fiend
+						else
+							spawntype = /mob/living/simple_animal/hostile/humanoid/blood/bag
+
+				//50% Bloodbag / 40% Bloodfiend / 10% Bloodfiend Boss
+				if(15 to INFINITY)
+					switch(rand(1, 100))
+						if(50 to 90)
+							spawntype = /mob/living/simple_animal/hostile/humanoid/blood/fiend
+						if(90 to 100)
+							spawntype = /mob/living/simple_animal/hostile/humanoid/blood/fiend/boss
+						else
+							spawntype = /mob/living/simple_animal/hostile/humanoid/blood/bag
 
 	var/mob/living/simple_animal/hostile/H = new spawntype(get_turf(src))
 	H.can_patrol = TRUE
 	H.patrol_cooldown_time = 10 SECONDS
-	//If no one is alive, End round
-	for(var/mob/living/carbon/human/L in GLOB.player_list)
-		if(L.z != z)
-			continue
-		if(L.stat != DEAD)
-			return
-	SSticker.force_ending = 1
-	to_chat(world, span_userdanger("All W-Corp staff is dead! Round automatically ending."))
-

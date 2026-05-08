@@ -1,13 +1,12 @@
 #define STATUS_EFFECT_LUNAR /datum/status_effect/lunar
-//I will remind you all that this technically does NOT breach.	-Kirie
 /mob/living/simple_animal/hostile/abnormality/luna
 	name = "\proper Il Pianto della Luna"
 	desc = "A piano, with a woman sitting on the stool next to it"
 	icon = 'ModularTegustation/Teguicons/96x48.dmi'
 	icon_state = "dellaluna"
 	portrait = "luna"
-	maxHealth = 400
-	health = 400
+	maxHealth = 1000
+	health = 1000
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 0, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
 	start_qliphoth = 3
 	threat_level = WAW_LEVEL
@@ -16,12 +15,14 @@
 		ABNORMALITY_WORK_INSIGHT = list(40, 45, 50, 55, 55),
 		ABNORMALITY_WORK_ATTACHMENT = list(30, 30, 50, 50, 55),
 		ABNORMALITY_WORK_REPRESSION = 30,
-		"Performance" = 70,
+		"Performance" = 100,
 	)
 	pixel_x = -32
 	base_pixel_x = -32
-	work_damage_amount = 10
+	work_damage_upper = 4
+	work_damage_lower = 3
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
 	max_boxes = 20
 	ego_list = list(
 		/datum/ego_datum/weapon/moonlight,
@@ -33,15 +34,15 @@
 	observation_prompt = "You enter the containment unit as respectfully as you can, the woman by the piano does not acknowledge your presence, merely clutching her cane tighter. <br>\
 		\"Begin.\" She commands, her lips a tight thin line. <br>It's the first time she's ever spoken. <br>\
 		The piano waits for you expectantly."
-	observation_choices = list("Begin a performance", "Refuse")
-	correct_choices = list("Begin a performance")
-	observation_success_message = "You begin to play, there is no sheet music to guide you, you play the performance that you were always meant to play. <br>\
-		It's haunting and beautiful, <br>terrifying yet entrancing. <br>\
-		With every key press, your body feels heavier and heavier and with every step upon the shrunken heads for pedals, your mind grows slower and more sluggish. <br>\
-		By the end of the performance, you're slumped over the keyboard with hardly the strength or wherewithal to move. <br>\
-		Above the piano, through your fading vision, you can swear you see the moon. <br>\
-		And you despair."
-	observation_fail_message = "She gives no indication of being disappointed. <br>Perhaps if you played, you might understand the truth behind yourself as she did."
+	observation_choices = list(
+		"Begin a performance" = list(TRUE, "You begin to play, there is no sheet music to guide you, you play the performance that you were always meant to play. <br>\
+			It's haunting and beautiful, <br>terrifying yet entrancing. <br>\
+			With every key press, your body feels heavier and heavier and with every step upon the shrunken heads for pedals, your mind grows slower and more sluggish. <br>\
+			By the end of the performance, you're slumped over the keyboard with hardly the strength or wherewithal to move. <br>\
+			Above the piano, through your fading vision, you can swear you see the moon. <br>\
+			And you despair."),
+		"Refuse" = list(FALSE, "She gives no indication of being disappointed. <br>Perhaps if you played, you might understand the truth behind yourself as she did."),
+	)
 
 	var/performance = FALSE
 	var/performance_length = 60 SECONDS
@@ -49,6 +50,17 @@
 	var/breached = FALSE
 	var/breached_monster
 	var/killspawn
+
+/mob/living/simple_animal/hostile/abnormality/luna/Move()
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/luna/CanAttack(atom/the_target)
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/luna/death(gibbed)
+	if(breached_monster)
+		qdel(breached_monster)
+	..()
 
 /mob/living/simple_animal/hostile/abnormality/luna/NeutralEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
@@ -66,14 +78,14 @@
 	//Normal breach
 	if(!IsCombatMap())
 		var/turf/W = pick(GLOB.department_centers)
-		var/mob/living/simple_animal/hostile/luna/spawningmonster = new(get_turf(W))
+		var/mob/living/simple_animal/hostile/aminion/luna/spawningmonster = new(get_turf(W))
 		breached_monster = spawningmonster
 		addtimer(CALLBACK(src, PROC_REF(BreachEnd), user), breach_length)
 
 	//--Side Gamemodes stuff--
 	//Timer will not run the timer on Rcorp.
 	else
-		var/mob/living/simple_animal/hostile/luna/spawningmonster = new(get_turf(src))
+		var/mob/living/simple_animal/hostile/aminion/luna/spawningmonster = new(get_turf(src))
 		breached_monster = spawningmonster
 		core_enabled = FALSE//Subject to be changed later on, as the core may need to be dropped by the monster even if not lore accurate. -Mr. H
 		QDEL_IN(src, 1 SECONDS) //Destroys the piano, as it is unecessary in Rcorp.
@@ -95,7 +107,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/luna/Worktick(mob/living/carbon/human/user, work_type)
 	if(performance)
-		user.deal_damage(work_damage_amount, BLACK_DAMAGE)
+		user.deal_damage(rand(work_damage_lower,work_damage_upper)*0.60, BLACK_DAMAGE)	//take work damage
 
 
 /mob/living/simple_animal/hostile/abnormality/luna/AttemptWork(mob/living/carbon/human/user, work_type)
@@ -135,19 +147,19 @@
 	return FALSE
 
 /* Monster Half */
-/mob/living/simple_animal/hostile/luna
+/mob/living/simple_animal/hostile/aminion/luna
 	name = "La Luna"
 	desc = "A tall, cloaked figure."
 	icon = 'ModularTegustation/Teguicons/48x64.dmi'
 	icon_state = "luna"
 	base_pixel_x = -8
 	pixel_x = -8
-	health = 2600
-	maxHealth = 2600
+	health = 900
+	maxHealth = 900
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 0, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
-	melee_damage_lower = 32
-	melee_damage_upper = 41
+	melee_damage_lower = 10
+	melee_damage_upper = 12
 	rapid_melee = 2
 	robust_searching = TRUE
 	ranged = TRUE
@@ -157,22 +169,23 @@
 	attack_verb_simple = "beat"
 	attack_sound = 'sound/weapons/teasmack.ogg'
 	can_patrol = TRUE
+	threat_level = WAW_LEVEL
 	var/aoeactive
 	var/canaoe = TRUE
 	var/aoerange = 5
-	var/aoedamage = 60
+	var/aoedamage = 30
 
-//mob/living/simple_animal/hostile/luna/Initialize()
+//mob/living/simple_animal/hostile/aminion/luna/Initialize()
 //Cannot figure out how to make this stop
 //	..()
 //	playsound(src, 'sound/abnormalities/luna/mvmt3.ogg', 180, FALSE, 28)	//Let the people know.
 
-/mob/living/simple_animal/hostile/luna/Move()
+/mob/living/simple_animal/hostile/aminion/luna/Move()
 	if(aoeactive)
 		return FALSE
 	..()
 
-/mob/living/simple_animal/hostile/luna/OpenFire()
+/mob/living/simple_animal/hostile/aminion/luna/OpenFire()
 	if(!canaoe)
 		return
 	aoeactive = TRUE
@@ -182,13 +195,13 @@
 	addtimer(CALLBACK(src, PROC_REF(Reset)), 7 SECONDS)
 
 
-/mob/living/simple_animal/hostile/luna/proc/AOE()
+/mob/living/simple_animal/hostile/aminion/luna/proc/AOE()
 	for(var/turf/T in view(aoerange, src))
 		new /obj/effect/temp_visual/revenant(T)
 		HurtInTurf(T, list(), aoedamage, BLACK_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
 	aoeactive = FALSE
 
-/mob/living/simple_animal/hostile/luna/proc/Reset()
+/mob/living/simple_animal/hostile/aminion/luna/proc/Reset()
 	canaoe = TRUE
 
 //Lunar

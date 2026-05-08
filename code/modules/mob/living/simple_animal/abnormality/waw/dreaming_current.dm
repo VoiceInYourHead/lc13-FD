@@ -10,8 +10,8 @@
 	base_pixel_x = -16
 
 	ranged = TRUE
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 700
+	health = 700
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
 	stat_attack = HARD_CRIT
 	death_sound = 'sound/abnormalities/dreamingcurrent/dead.ogg'
@@ -24,8 +24,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(45, 45, 45, 50, 55),
 		ABNORMALITY_WORK_REPRESSION = 45,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
+	max_boxes = 20
 
 	can_breach = TRUE
 	start_qliphoth = 2
@@ -45,18 +48,18 @@
 	observation_prompt = "My mom and dad took me to this place when I was very small, it smells strange and the people in it only wear white. <br>\
 		Mom says she and dad will come back for me very soon. <br>\
 		Today one of the men in the white clothing offers me the purple candy, it's grape-flavoured he says. <br>Grape is my favourite."
-	observation_choices = list("Eat the candy", "Don't eat the candy")
-	correct_choices = list("Eat the candy")
-	observation_success_message = "It's grape flavour, the grape is my favourite. <br>\
-		When I eat the grape candy I imagine myself swimming in an ocean of colour. <br>Today, I think I'm going to go to the Sea..."
-	observation_fail_message = "I don't eat the candy given to me. <br>When will mom and dad come? <br>Why aren't they here? <br>It doesn't stop hurting, <br>I'm scared..."
+	observation_choices = list(
+		"Eat the candy" = list(TRUE, "It's grape flavour, the grape is my favourite. <br>\
+			When I eat the grape candy I imagine myself swimming in an ocean of colour. <br>Today, I think I'm going to go to the Sea..."),
+		"Don't eat the candy" = list(FALSE, "I don't eat the candy given to me. <br>When will mom and dad come? <br>Why aren't they here? <br>It doesn't stop hurting, <br>I'm scared..."),
+	)
 
 	var/list/movement_path = list()
 	var/list/been_hit = list()
 	var/charging = FALSE
 	var/dash_cooldown
 	var/dash_cooldown_time = 8 SECONDS
-	var/dash_damage = 200
+	var/dash_damage = 120
 	/// Delay between each subsequent move when charging
 	var/dash_speed = 0.8
 	/// How many paths do we create between several landmarks?
@@ -79,7 +82,9 @@
 	QDEL_NULL(soundloop)
 	return ..()
 
-/mob/living/simple_animal/hostile/abnormality/dreaming_current/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/dreaming_current/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
 /mob/living/simple_animal/hostile/abnormality/dreaming_current/Move()

@@ -3,7 +3,7 @@
 	desc = "An unfinished scythe template"
 	special = "This weapon has a short combo."
 	icon_state = "scythetemplate"
-	force = 20
+	force = 9
 	attack_speed = 0.9
 	attack_verb_continuous = list("slashes", "slices", "rips", "cuts")
 	attack_verb_simple = list("slash", "slice", "rip", "cut")
@@ -15,7 +15,7 @@
 
 	var/combo = 0
 	var/combo_time
-	var/combo_wait = 14
+	var/combo_wait = 1.4 SECONDS
 	//I need to use Capo instead of something else for one reason: These change their speed.
 
 /obj/item/ego_weapon/template/scythe/attack(mob/living/M, mob/living/user)
@@ -33,6 +33,5 @@
 			combo = -1
 		else
 			hitsound = 'sound/weapons/ego/da_capo1.ogg'
-	..()
 	combo += 1
-	force = initial(force)
+	return ..()

@@ -1,7 +1,7 @@
 /atom/movable
 	layer = OBJ_LAYER
 	glide_size = 8
-	appearance_flags = TILE_BOUND|PIXEL_SCALE
+	appearance_flags = TILE_BOUND|PIXEL_SCALE|LONG_GLIDE
 	var/last_move = null
 	var/last_move_time = 0
 	var/anchored = FALSE
@@ -72,11 +72,9 @@
 	/// Whether this atom should have its dir automatically changed when it moves. Setting this to FALSE allows for things such as directional windows to retain dir on moving without snowflake code all of the place.
 	var/set_dir_on_move = TRUE
 
-	/// bla bla frill icon I forget what was here I ate it in a merge
-	var/icon/frill_icon
-
 /atom/movable/Initialize(mapload)
 	. = ..()
+	astype(get_turf(src), /turf)?.Entered(src)
 	switch(blocks_emissive)
 		if(EMISSIVE_BLOCK_GENERIC)
 			var/mutable_appearance/gen_emissive_blocker = mutable_appearance(icon, icon_state, EMISSIVE_BLOCKER_LAYER, EMISSIVE_BLOCKER_PLANE)
@@ -95,8 +93,7 @@
 			AddComponent(/datum/component/overlay_lighting)
 		if(MOVABLE_LIGHT_DIRECTIONAL)
 			AddComponent(/datum/component/overlay_lighting, is_directional = TRUE)
-	if(frill_icon)
-		AddElement(/datum/element/frill, frill_icon)
+
 
 /atom/movable/Destroy(force)
 	QDEL_NULL(proximity_monitor)

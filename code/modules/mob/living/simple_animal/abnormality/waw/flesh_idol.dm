@@ -15,10 +15,13 @@
 		ABNORMALITY_WORK_ATTACHMENT = 55,
 		ABNORMALITY_WORK_REPRESSION = 55,
 	)
-	start_qliphoth = 1
+	start_qliphoth = 4
 	max_boxes = 20
-	work_damage_amount = 0		//Work damage is later
+	work_damage_upper = 0
+	work_damage_lower = 0		//Work damage is later
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
+	can_spawn = FALSE // Should be a Tool
 
 	ego_list = list(
 		/datum/ego_datum/weapon/heart,
@@ -30,15 +33,15 @@
 	observation_prompt = "I've been praying for 7 days and 7 nights, my skin is taut from malnutrition, my eyes bloodshot from lack of sleep and my clothes soiled with my own filth. <br>\
 		Though my throat is so dry I cannot even maintain the chants I move my lips anyway. <br>\
 		Is anyone even listening? <br>Does my prayer reach Him? <br>All I ask for is a sign."
-	observation_choices = list("Stop praying", "Keep praying")
-	correct_choices = list("Stop praying")
-	observation_success_message = "No one is there, God does not reside here."
-	observation_fail_message = "If God truly loves us, he'll show us a sign."
+	observation_choices = list(
+		"Stop praying" = list(TRUE, "No one is there, God does not reside here."),
+		"Keep praying" = list(FALSE, "If God truly loves us, he'll show us a sign."),
+	)
 
-	var/work_count = 0
-	var/breach_count = 4	//when do you breach?
+	var/counter_interval = 5 MINUTES
+	var/next_counter_gain //What was the next time you gain Qlip?
 	var/reset_time = 1 MINUTES
-	var/damage_amount = 7
+	var/damage_amount = 5
 	var/run_num = 2		//How many things you breach
 
 	var/list/blacklist = list(
@@ -51,22 +54,26 @@
 		/mob/living/simple_animal/hostile/abnormality/crying_children,
 	)
 
+/mob/living/simple_animal/hostile/abnormality/flesh_idol/Initialize()
+	. = ..()
+	next_counter_gain = world.time + counter_interval
+
+/mob/living/simple_animal/hostile/abnormality/flesh_idol/Life()
+	. = ..()
+	if(next_counter_gain < world.time)
+		datum_reference.qliphoth_change(1)
+		next_counter_gain = world.time + counter_interval
+
 /mob/living/simple_animal/hostile/abnormality/flesh_idol/WorkComplete(mob/living/carbon/human/user, work_type, pe)
 	..()
-	work_count += 1
 	//heal amount = the PE you made
 	var/heal_amount = pe*2
-
-	if(work_count >= breach_count)
-		work_count = 0
-		datum_reference.qliphoth_change(-1)
-		heal_amount = pe*4
+	datum_reference.qliphoth_change(-1)
 
 	for(var/mob/living/carbon/human/H in GLOB.player_list)
 		if(H.stat != DEAD)
 			H.adjustBruteLoss(-heal_amount) // It heals everyone by 50 or 100 points
 			H.adjustSanityLoss(-heal_amount) // It heals everyone by 50 or 100 points
-			new /obj/effect/temp_visual/healing(get_turf(H))
 	heal_amount = initial(heal_amount)
 
 
@@ -79,6 +86,7 @@
 
 //Prevents red work damage effecs from appearing
 /mob/living/simple_animal/hostile/abnormality/flesh_idol/WorktickFailure(mob/living/carbon/human/user)
+	playsound(datum_reference.console, 'sound/machines/synth_no.ogg', 25, FALSE, -4)
 	return
 
 //Meltdown

@@ -8,16 +8,8 @@
 	icon_dead = "forsakenmurdererdead"
 	portrait = "forsaken_murderer"
 	del_on_death = FALSE
-	/**
-	 * Originally was 270.
-	 * Fragment health is 800 with a original game health of 230 so techically forsaken murderer has more health than fragment?
-	 * Ill round the numbers to 600 since 270 can be rounded to 300 and doubled.
-	 * I was later told to make it 1100.
-	 * We really dont have a Lobotomy Corp to LC13 health conversion calculator. - InsightfulParasite
-	 * Turns out that 1100 is not enough. - Kirie/Kitsunemitsu
-	 */
-	maxHealth = 1300
-	health = 1300
+	maxHealth = 300
+	health = 300
 	//Attack speed modifier. 2 is twice the normal.
 	rapid_melee = 1
 	//If target is close enough start preparing to hit them if we have rapid_melee enabled. Originally was 4.
@@ -31,14 +23,8 @@
 	 * Pale damage is a % of health. Weird i know.
 	 */
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 2)
-	//the lowest damage in regular attacks. Normal murderer is 2~4 so we double it.
-	melee_damage_lower = 10
-	/**
-	 * Fragments Lobotomy Corp damage was 3~4 so im giving murderer a larger gap between his lower and upper damage.
-	 * Unsure if i should be comparing Forsaken Murderer to Fragment of the Universe.
-	 * Most HE level abnormalities do 20+ damange.
-	 */
-	melee_damage_upper = 18
+	melee_damage_lower = 4
+	melee_damage_upper = 6
 	melee_damage_type = RED_DAMAGE
 	//Used chrome to listen to the sound effects. In the chrome link was the file name i could copy paste in.
 	attack_sound = 'sound/effects/hit_kick.ogg'
@@ -61,15 +47,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 50, 40, 40, 40),
 		ABNORMALITY_WORK_REPRESSION = list(30, 20, 0, -80, -80),
 	)
-	work_damage_amount = 6
+	work_damage_upper = 3
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
 
-	/*
-	* This is related to abnochem where a chemical can be harvested from abnormalities.
-	* This is more for general flavor and will be randomly filled if left empty.
-	* I placed this here because i felt like violence makes the most sense.
-	*/
-	chem_type = /datum/reagent/abnormality/violence
+	chem_type = /datum/reagent/abnormality/sin/pride
 
 	//shows in chat when the creature is defeated. Default is "stops moving".
 	death_message = "falls over."
@@ -97,40 +79,19 @@
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
 	/**
-	* Final observation code. These variables should be self-explanatory.
-	*/
+	 * Final observation code.
+	 * observation_prompt controls the text that the user sees when they start the observation
+	 * observation_choices is made in the format of:
+	 * "Choice" = list(TRUE or FALSE [depending on if the answer is correct], "Response"),
+	 */
 	observation_prompt = "Around his neck is a rope. It is up to you to cut his rope."
-	observation_choices = list("Cut the rope.", "Don't cut the rope.")
-	correct_choices = list("Don't cut the rope.")
-	observation_success_message = "His neck snaps, granting him silence and eternal rest."
-	observation_fail_message = "\"You think I'm pathetic, huh? But is you people who are really pathetic. Because you get killed. By people like me.\""
+	observation_choices = list(
+		"Don't cut the rope" = list(TRUE, "His neck snaps, granting him silence and eternal rest."),
+		"Cut the rope" = list(FALSE, "\"You think I'm pathetic, huh? But is you people who are really pathetic. Because you get killed. By people like me.\""),
+	)
 
 	//Unique variable im defining for this abnormality. This is the timer for their during work emotes.
 	var/work_emote_cooldown = 0
-
-	attack_action_types = list(
-		/datum/action/innate/change_icon_forsaken,
-	)
-
-
-/datum/action/innate/change_icon_forsaken
-	name = "Toggle Icon"
-	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
-
-/datum/action/innate/change_icon_forsaken/Activate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
-		owner.icon_state = "forsakenmurdererinert"
-		active = 1
-
-/datum/action/innate/change_icon_forsaken/Deactivate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
-		owner.icon_state = "forsakenmurdererbreach"
-		active = 0
-
 
 //When work type is bad the qliphoth counter lowers with no chance.
 /mob/living/simple_animal/hostile/abnormality/forsaken_murderer/FailureEffect(mob/living/carbon/human/user, work_type, pe)

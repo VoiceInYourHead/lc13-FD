@@ -16,8 +16,8 @@
 	pixel_x = -16
 	base_pixel_x = -16
 
-	maxHealth = 2500
-	health = 2500
+	maxHealth = 900
+	health = 900
 	del_on_death = FALSE
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 0.7, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1)
 	see_in_dark = 10
@@ -38,11 +38,13 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(45, 50, 50, 55, 55),
 		ABNORMALITY_WORK_REPRESSION = 0,
 	)
-	work_damage_amount = 12
+	work_damage_upper = 8
+	work_damage_lower = 4
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 20
-	melee_damage_upper = 40
+	melee_damage_lower = 9
+	melee_damage_upper = 12
 	attack_sound = 'sound/abnormalities/big_wolf/Wolf_Scratch.ogg'
 
 	attack_action_types = list(
@@ -60,12 +62,12 @@
 	observation_prompt = "(You see a wolf with patchy fur) <br>\
 		I like it here. <br>At least it's better than where I used to live. <br>There are no pigs or chickens, but I don't have to be Big Bad Wolf, at least. <br>\
 		You didn't immediately kick me out, so I will tell you my name. <br>My name is..."
-	observation_choices = list("Forget the name", "Remember the name")
-	correct_choices = list("Remember the name")
-	observation_success_message = "It's no use to remember it. <br>Nobody cares about my name. <br>\
-		(Even though the wolf said such a thing, it seems happy.)"
-	observation_fail_message = "You better watch out. <br>I can eat you with one bite if I want to. <br>\
-		(The wolf seems unhappy)"
+	observation_choices = list(
+		"Remember the name" = list(TRUE, "It's no use to remember it. <br>Nobody cares about my name. <br>\
+			(Even though the wolf said such a thing, it seems happy.)"),
+		"Forget the name" = list(FALSE, "You better watch out. <br>I can eat you with one bite if I want to. <br>\
+			(The wolf seems unhappy)"),
+	)
 
 	var/can_act = TRUE
 	//For when the wolf becomes incorporal and flees.
@@ -125,17 +127,13 @@
 	. = ..()
 	update_icon()
 
-/* NOTICE TO ANY LITTLE RED CODER
-	Put little red here when possible. This proc will make it so that if the target
-	is little red they will not check faction they WILL fight. -IP
-
+//If the target is little red they will not check faction they WILL fight. -IP
 /mob/living/simple_animal/hostile/abnormality/big_wolf/CanAttack(atom/the_target)
-	if(istype(the_target, LITTLE_RED)
+	if(istype(the_target, /mob/living/simple_animal/hostile/abnormality/red_hood))
 		var/mob/living/L = the_target
 		if(L.stat != DEAD)
 			return TRUE
-	..()
-*/
+	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/big_wolf/death(gibbed)
 	update_icon()
@@ -292,20 +290,6 @@
 			REMOVE_TRAIT(L, TRAIT_HANDS_BLOCKED, type)
 		i.forceMove(spew_turf)
 
-//Remind me to go and improve Naked Nest with this. -IP
-/mob/living/simple_animal/hostile/abnormality/big_wolf/proc/dropHardClothing(mob/living/carbon/C, turf/our_stuff)
-	if(!iscarbon(C))
-		return FALSE
-	var/list/things_to_drop = list()
-	//Things we drop.
-	LAZYADD(things_to_drop, C.get_item_by_slot(ITEM_SLOT_SUITSTORE))
-	LAZYADD(things_to_drop, C.get_item_by_slot(ITEM_SLOT_BELT))
-	LAZYADD(things_to_drop, C.get_item_by_slot(ITEM_SLOT_BACK))
-	LAZYADD(things_to_drop, C.get_item_by_slot(ITEM_SLOT_OCLOTHING))
-	for(var/obj/i in things_to_drop)
-		i.forceMove(our_stuff)
-	return TRUE
-
 //Combat Skills
 // Simple dash attack that deals 50 damage to all those nearby. This is optimized for AI rather than players.
 /mob/living/simple_animal/hostile/abnormality/big_wolf/proc/ScratchDash(dash_target)
@@ -333,23 +317,19 @@
 				if(isclosedturf(T))
 					continue
 				new /obj/effect/temp_visual/slice(T)
-				hit_mob = HurtInTurf(T, hit_mob, 50, RED_DAMAGE, null, TRUE, FALSE, TRUE, hurt_structure = TRUE)
+				hit_mob = HurtInTurf(T, hit_mob, 15, RED_DAMAGE, null, TRUE, FALSE, TRUE, hurt_structure = TRUE)
+				for(var/mob/living/simple_animal/hostile/abnormality/red_hood/mercenary in hit_mob)
+					mercenary.deal_damage(50, RED_DAMAGE) //triple damge to red
 	can_act = TRUE
 
 //Used in Steel noons for if they are allowed to fly through something.
-/mob/living/simple_animal/hostile/abnormality/big_wolf/proc/ClearSky(turf/T)
-	if(!T || isclosedturf(T) || T == loc)
-		return FALSE
-	if(locate(/obj/structure/window) in T.contents)
-		return FALSE
-	if(locate(/obj/structure/table) in T.contents)
-		return FALSE
-	if(locate(/obj/structure/railing) in T.contents)
-		return FALSE
-	for(var/obj/machinery/door/D in T.contents)
-		if(D.density)
+/mob/living/simple_animal/hostile/abnormality/big_wolf/ClearSky(turf/T)
+	. = ..()
+	if(.)
+		if(locate(/obj/structure/table) in T.contents)
 			return FALSE
-	return TRUE
+		if(locate(/obj/structure/railing) in T.contents)
+			return FALSE
 
 // Very simple ranged howl that applies white damage.
 /mob/living/simple_animal/hostile/abnormality/big_wolf/proc/Howl()
@@ -371,17 +351,32 @@
 				if(ABNO.IsContained())
 					//Spot for when little red is added so we can breach her when she hears us.
 					ABNO.datum_reference.qliphoth_change(-1)
-					continue
+					if(!istype(ABNO, /mob/living/simple_animal/hostile/abnormality/red_hood))
+						continue
+			if(istype(L, /mob/living/simple_animal/hostile/abnormality/red_hood))
+				var/mob/living/simple_animal/hostile/abnormality/red_hood/mercenary = L
+				if(mercenary.IsContained())
+					mercenary.BreachEffect()
+				mercenary.priority_target = src
+				mercenary.deal_damage(50, WHITE_DAMAGE) //She takes triple damage from the wolf, becauser her resistances are high
+				mercenary.RageUpdate(2)
 			if(faction_check_mob(L, FALSE))
 				continue
 			if(L.stat == DEAD)
 				continue
-			L.deal_damage(50, WHITE_DAMAGE)
+			L.deal_damage(15, WHITE_DAMAGE)
 		for(var/obj/vehicle/V in turfs_to_check)
-			V.take_damage(50, WHITE_DAMAGE)
+			V.take_damage(15, WHITE_DAMAGE)
 		playsound(get_turf(src), 'sound/abnormalities/big_wolf/Wolf_Howl.ogg', 30, 0, 4)
 	cut_overlay(visual_overlay)
 	can_act = TRUE
+
+/mob/living/simple_animal/hostile/abnormality/big_wolf/AttackingTarget(atom/attacked_target)
+	if(istype(attacked_target, /mob/living/simple_animal/hostile/abnormality/red_hood)) //Red takes triple damage from the wolf, becauser her resistances are high
+		var/mob/living/simple_animal/hostile/abnormality/red_hood/mercenary = attacked_target
+		var/bonus_damage_dealt = 2 * (rand(melee_damage_lower,melee_damage_upper))
+		mercenary.deal_damage(bonus_damage_dealt, RED_DAMAGE)
+	return ..()
 
 #undef BIGWOLF_COOLDOWN_HOWL
 #undef BIGWOLF_COOLDOWN_DASH

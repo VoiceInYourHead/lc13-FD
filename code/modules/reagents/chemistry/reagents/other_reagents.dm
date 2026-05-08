@@ -171,6 +171,9 @@
 			air.temperature = max(min(air.temperature-(cool_temp*1000), air.temperature/cool_temp),TCMB)
 			air.react(src)
 			qdel(hotspot)
+	var/obj/effect/turf_fire/t_fire = (locate(/obj/effect/turf_fire) in exposed_turf)
+	if(t_fire)
+		t_fire.WaterReact()
 
 /*
  *	Water reaction to an object
@@ -202,6 +205,11 @@
 /datum/reagent/water/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume)//Splashing people with water can help put them out!
 	. = ..()
 	if(methods & TOUCH)
+		//LC13 Code: Funny Felinid Code
+		if(isfelinid(exposed_mob))
+			var/mob/living/carbon/human/H = exposed_mob
+			H.adjustSanityLoss(50)
+			to_chat(H, span_warning("Ack! Water!"))
 		exposed_mob.extinguish_mob() // extinguish removes all fire stacks
 
 /datum/reagent/water/on_mob_life(mob/living/carbon/M)

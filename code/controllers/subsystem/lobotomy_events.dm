@@ -139,10 +139,10 @@ SUBSYSTEM_DEF(lobotomy_events)
 		return
 	switch(event_type)
 		if(APOCALYPSE)
-			var/mob/living/simple_animal/forest_portal/portal
+			var/mob/living/simple_animal/hostile/aminion/forest_portal/portal
 			for(var/turf/T in GLOB.department_centers)
 				if(istype(get_area(T),/area/department_main/command))
-					for(var/mob/living/simple_animal/forest_portal/FP in T.contents) // If we SOMEHOW have duplicates...
+					for(var/mob/living/simple_animal/hostile/aminion/forest_portal/FP in T.contents) // If we SOMEHOW have duplicates...
 						return
 					portal = new(T)
 					break
@@ -152,10 +152,12 @@ SUBSYSTEM_DEF(lobotomy_events)
 				if(istype(A, /mob/living/simple_animal/hostile/abnormality/punishing_bird))
 					var/mob/living/simple_animal/hostile/abnormality/punishing_bird/PB = A
 					deltimer(PB.death_timer)
+				A.LoseTarget()
 				A.patrol_reset()
 				A.patrol_to(get_turf(portal), TRUE)
 				A.density = FALSE // They ignore you and walk past you.
-				A.AIStatus = AI_OFF
+				A.toggle_ai(AI_OFF) // This lobotomizes them and they'll only wake up once they get hit with SummonBird()
+				A.docile_confinement = TRUE // Stops them from attacking Apocalypse Bird when inside it
 				A.can_patrol = FALSE
 				A.ChangeResistances(list(BRUTE = 0, RED_DAMAGE = 0, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)) // You can kill the portal but not them.
 			AB_types = list() // So the event can't run again.
@@ -219,9 +221,9 @@ SUBSYSTEM_DEF(lobotomy_events)
 			return
 	var/mob/living/simple_animal/hostile/abnormality/seasons/S = locate() in GLOB.abnormality_mob_list
 	if(S)
-		if(S.datum_reference.working)
-			return
 		if(!S.IsContained())
+			return
+		if(S.datum_reference.working)
 			return
 	season_last_change = world.time + season_change_time
 	var/index = seasons.Find(current_season)
@@ -234,4 +236,4 @@ SUBSYSTEM_DEF(lobotomy_events)
 	SIGNAL_HANDLER
 	if(!istype(newbie))
 		return
-	ApplySecurityLevelEffect(newbie)
+	ApplyTrumpetLevelEffect(newbie)

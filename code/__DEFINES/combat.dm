@@ -6,7 +6,7 @@
 /// Physical fracturing and warping of the material.
 #define BRUTE		"brute"
 /// Scorching and charring of the material.
-#define BURN		"fire"
+#define FIRE		"fire"
 /// Poisoning. Mostly caused by reagents.
 #define TOX			"toxin"
 /// Suffocation.
@@ -33,8 +33,6 @@
 #define BIO			"bio"
 /// Involves ionizing radiation.
 #define RAD			"rad"
-/// Involves fire or temperature extremes.
-#define FIRE		"fire"
 /// Involves corrosive substances.
 #define ACID		"acid"
 /// Involves magic.
@@ -50,6 +48,8 @@
 #define BLACK_DAMAGE		"black"
 /// Deals brute damage in percents.
 #define PALE_DAMAGE			"pale"
+/// Fake damage used for hostile ai targetting
+#define AGGRO_DAMAGE		"aggro"
 
 //bitflag damage defines used for suicide_act
 #define BRUTELOSS 	            	(1<<0)
@@ -82,10 +82,10 @@
 
 //Health Defines
 #define HEALTH_THRESHOLD_CRIT 0
-#define HEALTH_THRESHOLD_FULLCRIT -15		//increased later.
-#define HEALTH_THRESHOLD_DEAD -30
+#define HEALTH_THRESHOLD_FULLCRIT -10
+#define HEALTH_THRESHOLD_DEAD -20
 
-#define HEALTH_THRESHOLD_NEARDEATH -30 //Not used mechanically, but to determine if someone is so close to death they hear the other side
+#define HEALTH_THRESHOLD_NEARDEATH -20 //Not used mechanically, but to determine if someone is so close to death they hear the other side
 
 //Actual combat defines
 

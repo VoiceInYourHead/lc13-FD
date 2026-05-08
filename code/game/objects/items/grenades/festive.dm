@@ -28,13 +28,13 @@
 		user.visible_message(message)
 	lit = TRUE
 	icon_state = "sparkler_on"
-	force = 6
+	force = 2
 	hitsound = 'sound/items/welder.ogg'
 	name = "lit [initial(name)]"
 	attack_verb_continuous = list("burns")
 	attack_verb_simple = list("burn")
 	set_light(l_range = 2, l_power = 2)
-	damtype = BURN
+	damtype = FIRE
 	START_PROCESSING(SSobj, src)
 	playsound(src, 'sound/effects/fuse.ogg', 20, TRUE)
 	update_icon()

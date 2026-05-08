@@ -34,7 +34,7 @@ Possible to do for anyone motivated enough:
 	layer = LOW_OBJ_LAYER
 	plane = FLOOR_PLANE
 	flags_1 = HEAR_1
-	req_access = list(ACCESS_KEYCARD_AUTH) //Used to allow for forced connecting to other (not secure) holopads. Anyone can make a call, though.
+	req_access = list(ACCESS_COMMAND) //Used to allow for forced connecting to other (not secure) holopads. Anyone can make a call, though.
 	use_power = IDLE_POWER_USE
 	idle_power_usage = 5
 	active_power_usage = 100
@@ -235,7 +235,7 @@ Possible to do for anyone motivated enough:
 	for(var/I in holo_calls)
 		var/datum/holocall/HC = I
 		var/list/call_data = list(
-			caller = HC.user,
+			requester = HC.user,
 			connected = HC.connected_holopad == src ? TRUE : FALSE,
 			ref = REF(HC)
 		)
@@ -256,7 +256,7 @@ Possible to do for anyone motivated enough:
 				for(var/mob/living/silicon/ai/AI in GLOB.silicon_mobs)
 					if(!AI.client)
 						continue
-					to_chat(AI, "<span class='info'>Your presence is requested at <a href='?src=[REF(AI)];jumptoholopad=[REF(src)]'>\the [area]</a>.</span>")
+					to_chat(AI, "<span class='info'>Your presence is requested at <a href='byond://?src=[REF(AI)];jumptoholopad=[REF(src)]'>\the [area]</a>.</span>")
 				return TRUE
 			else
 				to_chat(usr, "<span class='info'>A request for AI presence was already sent recently.</span>")

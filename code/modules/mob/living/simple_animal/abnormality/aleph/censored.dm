@@ -15,12 +15,12 @@
 	/* Stats */
 	threat_level = ALEPH_LEVEL
 	fear_level = ALEPH_LEVEL + 3
-	health = 4000
-	maxHealth = 4000
+	health = 1500
+	maxHealth = 1500
 	damage_coeff = list(RED_DAMAGE = 0.6, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.4, PALE_DAMAGE = 1)
 	melee_damage_type = BLACK_DAMAGE
-	melee_damage_lower = 75
-	melee_damage_upper = 85
+	melee_damage_lower = 23
+	melee_damage_upper = 26
 	move_to_delay = 3
 	ranged = TRUE
 	/* Works */
@@ -33,8 +33,11 @@
 		ABNORMALITY_WORK_REPRESSION = 0,
 		"Sacrifice" = 999,
 	)
-	work_damage_amount = 14
+	work_damage_upper = 10
+	work_damage_lower = 5
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
+	max_boxes = 32
 
 	ego_list = list(
 		/datum/ego_datum/weapon/censored,
@@ -46,29 +49,45 @@
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
 	observation_prompt = "This is the containment unit of \[CENSORED\]. <br>Many managers went mad, before they implemented the cognition filter, from the sight of it."
-	observation_choices = list("Enter the containment unit", "Don't enter")
-	correct_choices = list("Enter the containment unit")
-	observation_success_message = "You enter the containment unit of \[CENSORED\], the smell of \[REDACTED\] and the sound of \[ANULLED\] filled the air. <br>\
-		After steeling yourself, you finally saw \[CENSORED\]. <br>You manage to face the fear."
-	observation_fail_message = "A wave of nausea rises up within at the thought of entering the containment unit, and you turn on your heels to leave. <br>\
-		You're not ready to build the future."
+	observation_choices = list(
+		"Enter the containment unit" = list(TRUE, "You enter the containment unit of \[CENSORED\], the smell of \[REDACTED\] and the sound of \[ANULLED\] filled the air. <br>\
+			After steeling yourself, you finally saw \[CENSORED\]. <br>You manage to face the fear."),
+		"Don't enter" = list(FALSE, "A wave of nausea rises up within at the thought of entering the containment unit, and you turn on your heels to leave. <br>\
+			You're not ready to build the future."),
+	)
 
 	var/can_act = TRUE
-	var/ability_damage = 150
+	var/ability_damage = 50
 	var/ability_cooldown
 	var/ability_cooldown_time = 10 SECONDS
+
+/mob/living/simple_animal/hostile/abnormality/censored/Login()
+	. = ..()
+	to_chat(src, "<h1>You are CENSORED, A Tank Role Abnormality.</h1><br>\
+		<b>|'CENSORED, CENSORED'|: When you click on a tile outside your melee range, you will trigger your ranged attack.<br>\
+		When you trigger your ranged attack, there will be a short delay before you will send out a 'CENSORED' towards your target tile.<br>\
+		Anyone who is hit by your 'CENSORED' will take BLACK damage and will gain the statues effect 'Overwhelming Fear'<br>\
+		If you don't want to trigger you ranged attack when clicking on a tile, you can hold SHIFT while clicking on a tile to disable it.<br>\
+		<br>\
+		|Overwhelming Fear|: Humans with this statues effect will have their sanity quickly reduce to 30%, And this statues effect lasts for 20 seconds.<br>\
+		<br>\
+		|'...CENSORED?'|: When you attack a dead human, you will convert them into a mini 'CENSORED'.<br>\
+		Each time you convert a human into a mini 'CENSORED' you heal 10% of your max HP.<br>\
+		However, Once a mini 'CENSORED' is killed, all humans around them heal 40% of their SP.</b>")
+
 
 /mob/living/simple_animal/hostile/abnormality/censored/Life()
 	. = ..()
 	if(!.)
 		return
 	// Apply and refresh status effect to all humans nearby
-	for(var/mob/living/carbon/human/H in view(7, src))
-		if(H.stat == DEAD)
-			continue
-		if(faction_check_mob(H))
-			continue
-		H.apply_status_effect(STATUS_EFFECT_OVERWHELMING_FEAR)
+	if(SSmaptype.maptype != "rcorp")
+		for(var/mob/living/carbon/human/H in view(7, src))
+			if(H.stat == DEAD)
+				continue
+			if(faction_check_mob(H))
+				continue
+			H.apply_status_effect(STATUS_EFFECT_OVERWHELMING_FEAR)
 
 /mob/living/simple_animal/hostile/abnormality/censored/FearEffectText(mob/affected_mob, level = 0)
 	level = num2text(clamp(level, 3, 5))
@@ -100,15 +119,15 @@
 			return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/abnormality/censored/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/censored/AttackingTarget(atom/attacked_target)
 	. = ..()
 	if(!can_act)
 		return
 
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return
 
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	if(H.stat >= SOFT_CRIT || H.health < 0)
 		return Convert(H)
 
@@ -143,7 +162,7 @@
 	for(var/i = 1 to 3)
 		new /obj/effect/gibspawner/generic/silent(get_turf(src))
 		SLEEP_CHECK_DEATH(5.5)
-	var/mob/living/simple_animal/hostile/mini_censored/C = new(get_turf(src))
+	var/mob/living/simple_animal/hostile/aminion/mini_censored/C = new(get_turf(src))
 	if(!QDELETED(H))
 		C.desc = "What the hell is this? It shouldn't exist... On the second thought, it reminds you of [H.real_name]..."
 		H.gib()
@@ -183,6 +202,7 @@
 	for(var/turf/TT in turf_list)
 		for(var/mob/living/L in HurtInTurf(TT, list(), ability_damage, BLACK_DAMAGE, null, TRUE, FALSE, TRUE, hurt_structure = TRUE))
 			new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(L), pick(GLOB.alldirs))
+			L.apply_status_effect(STATUS_EFFECT_OVERWHELMING_FEAR)
 	can_act = TRUE
 
 /* Work */
@@ -235,7 +255,7 @@
 	return
 
 /* The mini censoreds */
-/mob/living/simple_animal/hostile/mini_censored
+/mob/living/simple_animal/hostile/aminion/mini_censored
 	name = "???"
 	desc = "What the hell is this? It shouldn't exist..."
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
@@ -246,29 +266,34 @@
 	attack_verb_simple = "attack"
 	attack_sound = 'sound/abnormalities/censored/mini_attack.ogg'
 	/* Stats */
-	health = 600
-	maxHealth = 600
+	health = 300
+	maxHealth = 300
 	damage_coeff = list(RED_DAMAGE = 0.8, WHITE_DAMAGE = 1.2, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 1)
 	melee_damage_type = BLACK_DAMAGE
-	melee_damage_lower = 25
-	melee_damage_upper = 30
+	melee_damage_lower = 13
+	melee_damage_upper = 18
 	speed = 2
 	move_to_delay = 2
 	robust_searching = TRUE
 	stat_attack = HARD_CRIT
 	del_on_death = TRUE
 	density = FALSE
-	var/list/breach_affected = list()
+	score_divider = 2
+	threat_level = WAW_LEVEL
+	fear_level = ALEPH_LEVEL + 2
+	var/recoved_sanity = 0.2
 
-/mob/living/simple_animal/hostile/mini_censored/Initialize()
+/mob/living/simple_animal/hostile/aminion/mini_censored/Initialize()
 	. = ..()
 	playsound(get_turf(src), 'sound/abnormalities/censored/mini_born.ogg', 50, 1, 4)
 	base_pixel_x = rand(-6,6)
 	pixel_x = base_pixel_x
 	base_pixel_y = rand(-6,6)
 	pixel_y = base_pixel_y
+	if(SSmaptype.maptype == "rcorp")
+		density = TRUE
 
-/mob/living/simple_animal/hostile/mini_censored/Life()
+/mob/living/simple_animal/hostile/aminion/mini_censored/Life()
 	. = ..()
 	if(!.) // Dead
 		return FALSE
@@ -277,26 +302,23 @@
 	for(var/i = 1 to 2)
 		addtimer(CALLBACK(src, PROC_REF(ShakePixels)), i*5 + rand(1, 4))
 	ShakePixels()
-	FearEffect()
 	return
 
-/mob/living/simple_animal/hostile/mini_censored/proc/ShakePixels()
+/mob/living/simple_animal/hostile/aminion/mini_censored/proc/ShakePixels()
 	animate(src, pixel_x = base_pixel_x + rand(-3, 3), pixel_y = base_pixel_y + rand(-3, 3), time = 2)
 	return
 
-// Applies fear damage to everyone in range, copied from abnormalities
-/mob/living/simple_animal/hostile/mini_censored/proc/FearEffect()
-	for(var/mob/living/carbon/human/H in view(7, src))
-		if(H in breach_affected)
-			continue
-		if(HAS_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE))
-			continue
-		breach_affected += H
-		H.adjustSanityLoss(20)
-		if(H.sanity_lost)
-			continue
-		to_chat(H, span_warning("Damn, it's scary."))
-	return
+/mob/living/simple_animal/hostile/aminion/mini_censored/death(gibbed)
+	if(SSmaptype.maptype == "rcorp")
+		for(var/mob/living/carbon/human/H in view(5, src))
+			if(H.stat == DEAD)
+				continue
+			if(faction_check_mob(H))
+				continue
+			H.adjustSanityLoss(-(H.getMaxSanity() * recoved_sanity))
+			playsound(H, 'sound/abnormalities/voiddream/skill.ogg', 40, TRUE, 2)
+			to_chat(H, span_nicegreen("Good... It is now dead."))
+	return ..()
 
 // Status effect applied by CENSORED
 /datum/status_effect/overwhelming_fear

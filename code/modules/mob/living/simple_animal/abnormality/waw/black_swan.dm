@@ -12,8 +12,8 @@
 	var/icon_aggro = "blackswan_closed"
 	portrait = "black_swan"
 	del_on_death = FALSE
-	maxHealth = 3000
-	health = 3000
+	maxHealth = 1000
+	health = 1000
 	ranged_cooldown_time = 10 SECONDS
 
 	move_to_delay = 4
@@ -27,8 +27,8 @@
 	vision_range = 14
 	aggro_vision_range = 20
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 20
-	melee_damage_upper = 40
+	melee_damage_lower = 9
+	melee_damage_upper = 12
 	threat_level = WAW_LEVEL
 	attack_sound = 'sound/abnormalities/blackswan/sis_bash.ogg'
 	attack_verb_continuous = "twacks"
@@ -40,8 +40,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 45, 50, 55),
 	)
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 5
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
+	max_boxes = 24
 	death_message = "weeps a green sludge while clutching her brooch."
 	base_pixel_x = -16
 	pixel_x = -16
@@ -59,20 +62,20 @@
 		Whenever she thought of her brothers, she clutched her brooch a little tighter, if she just worked a little harder, finished the nettle clothing - they could live their lives freely. <br>\
 		One day, her skin covered in blisters and her mouth oozing with spittle and pus, she passed by a lake, seemingly untouched by the pollution of the City. <br>\
 		Though her eyesight was almost ruined by fog and affliction, she could see it clearly. <br>\
-		Upon that lake were six white swans and a singular black swan. Elijiah..."
-	observation_choices = list("Observed the white swans", "Observed the black swan")
-	correct_choices = list("Observe the black swan")
-	observation_success_message = "The black swan watches forlornly as her family takes flight, she's willing to give up everything for her family. <br>\
-		Elijiah embraces the near-finished nettle clothing wholeheartedly, soon..."
-	observation_fail_message = "The white swans were Elijiah's favourite. <br>\
-		They spread their wings and took flight to the sky, high above the fog, leaving the black swan behind. Elijiah clutched her brooch tighter, she only had to work a little harder..."
+		Upon that lake were six white swans and a singular black swan. Elijah..."
+	observation_choices = list(
+		"Observed the black swan" = list(TRUE, "The black swan watches forlornly as her family takes flight, she's willing to give up everything for her family. <br>\
+			Elijah embraces the near-finished nettle clothing wholeheartedly, soon..."),
+		"Observed the white swans" = list(FALSE, "The white swans were Elijah's favourite. <br>\
+			They spread their wings and took flight to the sky, high above the fog, leaving the black swan behind. Elijah clutched her brooch tighter, she only had to work a little harder..."),
+	)
 
 	//family breach conditions
 	var/insane_humans = 0
 	var/dead_humans = 0
 	var/abnos_breached = 0
 	//brothers from left to right
-	var/list/family_status = list(
+	var/list/family_status = alist(
 		1 = FALSE,
 		2 = FALSE,
 		3 = FALSE,
@@ -157,7 +160,8 @@
 	if(!LAZYLEN(teleport_potential))
 		return FALSE
 	var/turf/teleport_target = pick(teleport_potential)
-	forceMove(teleport_target)
+	if(breach_type != BREACH_MINING)
+		forceMove(teleport_target)
 	playsound(get_turf(src), 'sound/abnormalities/blackswan/sis_transformation.ogg', 30, 0, 4)
 	return
 
@@ -253,7 +257,7 @@
 		new /obj/effect/temp_visual/fragment_song(get_turf(src))
 		var/list/turfs_to_check = orange(9, src)
 		for(var/obj/vehicle/sealed/mecha/V in turfs_to_check)
-			V.take_damage(70, WHITE_DAMAGE)
+			V.take_damage(25, WHITE_DAMAGE)
 		for(var/mob/living/L in turfs_to_check)
 			if(isabnormalitymob(L))
 				var/mob/living/simple_animal/hostile/abnormality/maybe_brothers = L
@@ -264,7 +268,7 @@
 				continue
 			if(L.stat == DEAD)
 				continue
-			L.deal_damage(70, WHITE_DAMAGE)
+			L.deal_damage(25, WHITE_DAMAGE)
 		playsound(get_turf(src), 'sound/abnormalities/blackswan/sis_roar.ogg', 30, 0, 4)
 	cut_overlay(visual_overlay)
 	can_act = TRUE

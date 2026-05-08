@@ -7,8 +7,8 @@
 	icon_dead = "scaredy_dead"
 	portrait = "scaredy_cat"
 	del_on_death = FALSE
-	maxHealth = 800 //Lower health because he can revive indefinitely
-	health = 800
+	maxHealth = 150 //Lower health because he can revive indefinitely
+	health = 150
 	rapid_melee = 1
 	move_to_delay = 1.7
 	damage_coeff = list(RED_DAMAGE = 4, WHITE_DAMAGE = 4, BLACK_DAMAGE = 4, PALE_DAMAGE = 4)
@@ -30,8 +30,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(40, 50, 55, 55, 55),
 		ABNORMALITY_WORK_REPRESSION = list(20, 30, 40, 40, 40),
 	)
-	work_damage_amount = 7 //Shit damage because it's a small cat
+	work_damage_upper = 3
+	work_damage_lower = 1 //Shit damage because it's a small cat
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 	can_patrol = FALSE
 	death_sound = 'sound/abnormalities/scaredycat/catgrunt.ogg'
 	ego_list = list(
@@ -51,10 +53,10 @@
 	)
 
 	observation_prompt = "Cowardly kitten. <br>I’ll give you the courage to stand up to anything and everything. <br>The wizard grants you..."
-	observation_choices = list("A vial of \"liquid courage\"", "Courage")
-	correct_choices = list("A vial of \"liquid courage\"")
-	observation_success_message = "What are you even going to do when you lack the bravery to face anything head-on?"
-	observation_fail_message = "Drink this potion, it’ll give you courage. <br>You’ll be braver than anyone."
+	observation_choices = list(
+		"A vial of \"liquid courage\"" = list(TRUE, "What are you even going to do when you lack the bravery to face anything head-on?"),
+		"Courage" = list(FALSE, "Drink this potion, it’ll give you courage. <br>You’ll be braver than anyone."),
+	)
 
 	/// The list of abnormality scaredy cat will automatically join when they breach, add any "Oz" abno to this list if possible
 	var/list/prefered_abno_list = list(
@@ -82,10 +84,25 @@
 	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(OnMobDeath))
 	RegisterSignal(SSdcs, COMSIG_GLOB_ABNORMALITY_BREACH, PROC_REF(OnAbnoBreach))
 
-/mob/living/simple_animal/hostile/abnormality/scaredy_cat/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
+/mob/living/simple_animal/hostile/abnormality/scaredy_cat/WorkChance(mob/living/carbon/human/user, chance, work_type)
+	var/newchance = chance
+	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
+		newchance = chance-20
+	return newchance
+
+/mob/living/simple_animal/hostile/abnormality/scaredy_cat/NeutralEffect(mob/living/carbon/human/user, work_type, pe)
+	. = ..()
+	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
+		if(prob(40))
+			datum_reference.qliphoth_change(-1)
+	return
+
+/mob/living/simple_animal/hostile/abnormality/scaredy_cat/FailureEffect(mob/living/carbon/human/user, work_type, pe)
+	. = ..()
 	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
 		datum_reference.qliphoth_change(-1)
 	return
+
 
 /mob/living/simple_animal/hostile/abnormality/scaredy_cat/BreachEffect(mob/living/carbon/human/user, breach_type)
 	protect_cooldown = world.time + protect_cooldown_time //to avoid him teleporting twice for no reason on breach
@@ -183,8 +200,8 @@
 ///If scaredy cat becomes a big boy or a baby boy
 /mob/living/simple_animal/hostile/abnormality/scaredy_cat/proc/Courage(courage)
 	if(courage)
-		melee_damage_lower = 15
-		melee_damage_upper = 20
+		melee_damage_lower = 3
+		melee_damage_upper = 4
 		ChangeResistances(list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 2, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 0.5))
 		icon = 'ModularTegustation/Teguicons/48x48.dmi'
 		icon_living = "cat_courage"

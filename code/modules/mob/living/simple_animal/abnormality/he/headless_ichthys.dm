@@ -9,15 +9,15 @@
 	portrait = "headless_icthys"
 	pixel_x = -16
 	base_pixel_x = -16
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 300
+	health = 300
 	ranged = TRUE
 	attack_verb_continuous = "slaps"
 	attack_verb_simple = "slap"
 	attack_sound = 'sound/abnormalities/ichthys/slap.ogg'
 	stat_attack = HARD_CRIT
-	melee_damage_lower = 20
-	melee_damage_upper = 35
+	melee_damage_lower = 7
+	melee_damage_upper = 9
 	rapid_melee = 1
 	melee_queue_distance = 2
 	melee_damage_type = BLACK_DAMAGE
@@ -33,8 +33,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 55, 55, 50, 45),
 		ABNORMALITY_WORK_REPRESSION = list(35, 40, 40, 35, 35),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 5
+	work_damage_lower = 3
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 
 	ego_list = list(
 		/datum/ego_datum/weapon/fluid_sac,
@@ -45,24 +47,24 @@
 
 	observation_prompt = "Deep, deep, at the bottom of the sea, a creature lies, dreaming. <br>\
 		It seems to be holding on to a sack of fluid. <br>What will you do?"
-	observation_choices = list("Try and swim away", "Puncture the sack")
-	correct_choices = list("Try and swim away")
-	observation_success_message = "You swim upwards, hoping it doesn't notice you. <br>\
-		Surprisingly, after a few seconds you break the water's surface and make your escape. <br>You find a trinket in your pocket."
-	observation_fail_message = "You cannot get close enough, the water slows your movements. <br>\
-		The creature notices you, and prepares an attack. <br>It is impossible to evade, and you are torn to shreds."
+	observation_choices = list(
+		"Try and swim away" = list(TRUE, "You swim upwards, hoping it doesn't notice you. <br>\
+			Surprisingly, after a few seconds you break the water's surface and make your escape. <br>You find a trinket in your pocket."),
+		"Puncture the sack" = list(FALSE, "You cannot get close enough, the water slows your movements. <br>\
+			The creature notices you, and prepares an attack. <br>It is impossible to evade, and you are torn to shreds."),
+	)
 
 	var/can_act = TRUE
 	var/jump_cooldown = 0
 	var/jump_cooldown_time = 8 SECONDS
-	var/jump_damage = 50
+	var/jump_damage = 10
 	var/jump_sound = 'sound/abnormalities/ichthys/hammer2.ogg'
 	var/jump_aoe = 2
 	var/cannon_cooldown = 0
 	var/cannon_cooldown_time = 30 SECONDS
 	var/enraged = FALSE
 // Blood beam vars ripped off of Queen of hatred
-	var/beam_damage = 25
+	var/beam_damage = 5
 	var/beam_maximum_ticks = 20
 	var/datum/beam/current_beam
 
@@ -189,14 +191,14 @@
 	can_act = TRUE
 
 // Breach Stuff
-/mob/living/simple_animal/hostile/abnormality/headless_ichthys/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/headless_ichthys/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return
 	if(jump_cooldown <= world.time && prob(10) && !client)
-		IchthysJump(target)
+		IchthysJump(attacked_target)
 		return
 	if(cannon_cooldown <= world.time && prob(5) && !client)
-		BloodCannon(target)
+		BloodCannon(attacked_target)
 		return
 	return ..()
 
@@ -235,12 +237,12 @@
 	src.visible_message(span_userdanger("[src] looks angry!"))
 	enraged = TRUE
 	icon_state = "[icon_state]" + "_enraged"
-	melee_damage_lower = 25
-	melee_damage_upper = 44
+	melee_damage_lower *= 2
+	melee_damage_upper *= 2
 	jump_cooldown_time = 6 SECONDS
-	jump_damage = 62
+	jump_damage *= 2
 	cannon_cooldown_time = 22.5 SECONDS
-	beam_damage = 31
+	beam_damage *= 2
 	attack_sound = 'sound/abnormalities/ichthys/hardslap.ogg'
 	jump_sound = 'sound/abnormalities/ichthys/hammer3.ogg'
 	jump_aoe = 3
@@ -272,10 +274,10 @@
 	cannon_cooldown = world.time + cannon_cooldown_time //Can't fire it right away.
 
 /mob/living/simple_animal/hostile/abnormality/headless_ichthys/death(gibbed)
-	playsound(src, 'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 60, 1)
+	playsound(src, 'sound/effects/limbus_death.ogg', 60, 1)
 	animate(src, transform = matrix()*0.6,time = 0)
 	icon_state = "headless_ichthys"
-	icon = 'ModularTegustation/Teguicons/64x64.dmi'
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
 	QDEL_NULL(current_beam)
 	update_icon_state()
 	density = FALSE

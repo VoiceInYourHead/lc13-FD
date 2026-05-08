@@ -12,7 +12,7 @@
 	maptype = "rcorp"
 	outfit = /datum/outfit/job/officer
 	display_order = 1.99
-
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 60,
 								PRUDENCE_ATTRIBUTE = 60,
@@ -21,6 +21,7 @@
 								)
 	access = list(ACCESS_COMMAND)
 	minimal_access = (ACCESS_COMMAND)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_R_CORP
 	rank_title = "LT"
 	job_important = "You are a support and command role in Rcorp. Advise the Commander, Run requisitions and then deploy."
 	job_notice = "Run the Requisitions, assist Rcorp personnel on the base. After deployment, use your beacon to select which class you'd like."
@@ -29,7 +30,11 @@
 
 /datum/job/juniorofficer/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
+	var/datum/action/G = new /datum/action/cooldown/warbanner/captain
+	G.Grant(H)
+
+	G = new /datum/action/cooldown/warcry/captain
+	G.Grant(H)
 
 /datum/outfit/job/officer
 	name = "Operations Officer"

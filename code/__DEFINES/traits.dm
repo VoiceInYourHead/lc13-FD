@@ -166,6 +166,8 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NOMETABOLISM		"no_metabolism"
 #define TRAIT_NOCLONELOSS		"no_cloneloss"
 #define TRAIT_TOXIMMUNE			"toxin_immune"
+#define TRAIT_BRUTEPALE			"brute_pale" //Take PALE as brute.
+#define TRAIT_BRUTESANITY		"brute_sanity" //Take BLACK and WHITE as brute.
 #define TRAIT_EASYDISMEMBER		"easy_dismember"
 #define TRAIT_LIMBATTACHMENT 	"limb_attach"
 #define TRAIT_NOLIMBDISABLE		"no_limb_disable"
@@ -179,6 +181,12 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_WORK_KNOWLEDGE		"work_knowledge"
 #define TRAIT_WORK_FORBIDDEN		"work_forbidden"
 #define TRAIT_ATTRIBUTES_VISION		"attributes_vision"
+#define TRAIT_WEAK_MELEE		"weak_melee"
+#define TRAIT_STRONG_MELEE		"strong_melee"
+#define TRAIT_BETTER_GUNS		"better_guns"
+#define TRAIT_BONUS_EXP			"bonus_exp"
+#define TRAIT_NOEGOWEAPONS		"no_ego_weapons"
+
 /// reduces the use time of syringes, pills, patches and medigels but only when using on someone
 #define TRAIT_FASTMED "fast_med_use"
 #define TRAIT_NOBREATH			"no_breath"
@@ -206,6 +214,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NOMOBSWAP         "no-mob-swap"
 #define TRAIT_XRAY_VISION       "xray_vision"
 #define TRAIT_THERMAL_VISION    "thermal_vision"
+#define TRAIT_TRUE_NIGHT_VISION "truenight_vision"
 #define TRAIT_ABDUCTOR_TRAINING "abductor-training"
 #define TRAIT_ABDUCTOR_SCIENTIST_TRAINING "abductor-scientist-training"
 #define TRAIT_SURGEON           "surgeon"
@@ -381,8 +390,6 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_NIGHT_VISION		"night_vision"
 #define TRAIT_LIGHT_STEP		"light_step"
 #define TRAIT_SPIRITUAL			"spiritual"
-#define TRAIT_FAN_CLOWN			"fan_clown"
-#define TRAIT_FAN_MIME			"fan_mime"
 #define TRAIT_VORACIOUS			"voracious"
 #define TRAIT_SELF_AWARE		"self_aware"
 #define TRAIT_FREERUNNING		"freerunning"
@@ -394,14 +401,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 #define TRAIT_PHOTOGRAPHER		"photographer"
 #define TRAIT_MUSICIAN			"musician"
 #define TRAIT_LIGHT_DRINKER		"light_drinker"
-#define TRAIT_EMPATH			"empath"
-#define TRAIT_FRIENDLY			"friendly"
 #define TRAIT_GRABWEAKNESS		"grab_weakness"
 #define TRAIT_SNOB				"snob"
 #define TRAIT_BALD				"bald"
-#define TRAIT_BADTOUCH			"bad_touch"
-#define TRAIT_EXTROVERT			"extrovert"
-#define TRAIT_INTROVERT			"introvert"
 #define TRAIT_ANXIOUS			"anxious"
 ///Trait for dryable items
 #define TRAIT_DRYABLE "trait_dryable"

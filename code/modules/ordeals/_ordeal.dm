@@ -25,8 +25,14 @@
 	var/color = COLOR_VERY_LIGHT_GRAY
 	/// If ordeal can be normally chosen
 	var/can_run = TRUE
+	///The Position of the ordeal in the list
+	var/ordeal_position = null
 	/// World.time when ordeal started
 	var/start_time
+	/// World.time when ordeal ends
+	var/end_time
+	/// Achivement for Surviving the Ordeal
+	var/ordeal_achievement
 
 /datum/ordeal/New()
 	..()
@@ -36,8 +42,10 @@
 // Runs the event itself
 /datum/ordeal/proc/Run()
 	start_time = ROUNDTIME
+	SSticker.ordeal_info += list(name, color, start_time, -1)
 	SSlobotomy_corp.current_ordeals += src
-	priority_announce(announce_text, name, sound='sound/effects/meltdownAlert.ogg')
+	ordeal_position = SSticker.ordeal_info.len
+	priority_announce(announce_text, name, sound='sound/vox_fem/..ogg') // We want this to be silent, so play a silent sound since null uses defaults
 	/// If dawn started - clear suppression options
 	if(level == 1 && !istype(SSlobotomy_corp.core_suppression))
 		SSlobotomy_corp.ResetPotentialSuppressions()
@@ -47,15 +55,34 @@
 			ShowOrdealBlurb(watcher, 25, 40, color)
 			if(announce_sound)
 				player.playsound_local(get_turf(player), announce_sound, 35, 0)
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_ORDEAL_START, src)
+	if(SSlobotomy_emergency.should_calc_score)
+		SSlobotomy_emergency.UpdateScore(SSlobotomy_emergency.ordeal_amount, FALSE)
 	return
 
 // Ends the event
 /datum/ordeal/proc/End()
+	if(end_time)
+		return
+	end_time = ROUNDTIME
+	SSticker.ordeal_info[ordeal_position] = end_time
 	var/total_reward = max(SSlobotomy_corp.box_goal, 3000) * reward_percent
-	priority_announce("The Ordeal has ended. Facility has been rewarded with [reward_percent*100]% PE.", name, sound=null)
+	priority_announce("The Ordeal has ended. Facility has been rewarded with [reward_percent*100]% PE.", name, sound='sound/vox_fem/..ogg')
 	SSlobotomy_corp.AdjustAvailableBoxes(total_reward)
 	SSlobotomy_corp.current_ordeals -= src
+	if(SSlobotomy_emergency.should_calc_score)
+		SSlobotomy_emergency.UpdateMin()
+	SSlobotomy_emergency.score_divider = min(SSlobotomy_emergency.divide_cap, SSlobotomy_emergency.score_divider + 1)
 	SSlobotomy_corp.ordeal_stats += 5
+	for(var/mob/living/carbon/human/person as anything in SSlobotomy_corp.active_officers)
+		if(!istype(person) || QDELETED(person)) // gibbed or cryo'd, we no longer care about them
+			SSlobotomy_corp.active_officers -= person
+			continue
+
+		person.adjust_all_attribute_levels(5)
+		to_chat(person, span_notice("You feel stronger than before."))
+	//Gives a medal to survivors.
+	RewardSurvivors()
 	SSlobotomy_corp.AddLobPoints(level * 0.5, "Ordeal Reward")
 	if(end_sound)
 		for(var/mob/player in GLOB.player_list)
@@ -71,7 +98,7 @@
 			continue
 		SSpersistence.agent_rep_change[H.ckey] += level
 	/// If it was a midnight and we got to it before time limit
-	if(level == 4 && start_time <= CONFIG_GET(number/suppression_time_limit))
+	if(level == 4 && start_time <= (CONFIG_GET(number/suppression_time_limit) + (GetFacilityUpgradeValue(UPGRADE_MELTDOWN_INCREASE) * 20 MINUTES)))
 		// Extra cores, and announced!
 		addtimer(CALLBACK(SSlobotomy_corp, TYPE_PROC_REF(/datum/controller/subsystem/lobotomy_corp, PickPotentialSuppressions), TRUE, TRUE), 15 SECONDS)
 	/// If it was a dusk - we end running core suppression
@@ -84,7 +111,7 @@
 /datum/ordeal/proc/OnMobDeath(mob/living/deadMob)
 	ordeal_mobs.Remove(deadMob)
 	ordeal_mobs = removeNullsFromList(ordeal_mobs)
-	if(!ordeal_mobs.len)
+	if(!length(ordeal_mobs))
 		End()
 	return
 
@@ -128,6 +155,33 @@
 	T.maptext = "<span style=\"[style1]\">[name]</span><br><span style=\"[style2]\">[flavor_name]</span><br><span style=\"[style3]\">[display_text]</span>"
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(fade_blurb), C, T, fade_time), duration) //fade_blurb qdels the object
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(fade_blurb), C, BG, fade_time), duration)
+
+/datum/ordeal/proc/RewardSurvivors()
+	if(!SSachievements.achievements_enabled || !ordeal_achievement)
+		return
+	for(var/client/C in GLOB.clients)
+		if(C)
+			RewardIndividual(C)
+
+/datum/ordeal/proc/RewardIndividual(client/player_client)
+	if(!ishuman(player_client.mob))
+		return FALSE
+	var/mob/living/carbon/human/human_mob = player_client.mob
+	if(human_mob.stat == DEAD)
+		return FALSE
+	//Managers and Rabbits do not get this achivement.
+	var/list/valid_roles = list(
+		"Clerk",
+		"Agent Captain",
+		"Agent",
+		"Agent Intern",
+		"Disciplinary Officer",
+		"Extraction Officer",
+		"Records Officer",
+		"Training Officer",
+		)
+	if(human_mob.mind.assigned_role in valid_roles)
+		player_client.give_award(ordeal_achievement, human_mob)
 
 //Black background for blurb
 /obj/effect/overlay/ordeal

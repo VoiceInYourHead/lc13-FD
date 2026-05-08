@@ -17,7 +17,7 @@
 	window_name = "Automatic Station Cleaner v1.4"
 	pass_flags = PASSMOB | PASSFLAPS
 	path_image_color = "#993299"
-	auto_patrol = TRUE // Let's get going, naturally!
+	auto_patrol = FALSE // Let's get going, naturally!
 	path_hud = null // No patrol visual. Literally all that was required.
 
 	var/blood = 1
@@ -48,7 +48,7 @@
 	var/static/list/medical = list("Chief Medical Officer" = "C.M.O.", "Medical Doctor" = "M.D.", "Chemist" = "Pharm.D.")
 	var/static/list/research = list("Research Director" = "Ph.D.", "Roboticist" = "M.S.", "Scientist" = "B.S.")
 	var/static/list/legal = list("Lawyer" = "Esq.")
-	var/static/list/LC_highStaff = list("Arbiter"="Arbiter","Manager"="Manager","Sephirah"="Sephirah","Extraction Officer" = "EO.","Records Officer" = "RO.", "Agent Captain"="Agent Cpt.", "Department Head"="Dep. Head")
+	var/static/list/LC_highStaff = list("Arbiter"="Arbiter","Manager"="Manager","Sephirah"="Sephirah","Training Officer"="TO","Disciplinary Officer"="DO","Extraction Officer" = "EO.","Records Officer" = "RO.", "Agent Captain"="Agent Cpt.", "Department Head"="Dep. Head")
 	var/static/list/LC_lowStaff = list("Department Captain"="Dep. Cpt.","Veteran Agent"="Veteran","Senior Agent"="Sr. Agent","Agent"="Agent","Agent Intern"="Intern")
 	var/static/list/LC_clerks = list("Clerk"="Clerk")
 
@@ -198,9 +198,7 @@
 		if(istype(W, /obj/item/ego_weapon))
 			var/obj/item/ego_weapon/EW = W
 			if(!EW.CanUseEgo(src))
-				to_chat(user, span_notice("You try attaching \the [W] to \the [src]... but it falls off!"))
-				user.dropItemToGround(EW)
-				EW.forceMove(get_turf(src))
+				to_chat(user, span_notice("You try attaching \the [W] to \the [src]... but it refuses to stay on!"))
 				return FALSE
 		to_chat(user, span_notice("You start attaching \the [W] to \the [src]..."))
 		if(do_after(user, 25, target = src))
@@ -253,9 +251,6 @@
 
 			if(prob(15)) // Wets floors and spawns foam randomly
 				UnarmedAttack(src)
-
-	else if(prob(5))
-		audible_message("[src] makes an excited beeping booping sound!")
 
 	if(ismob(target))
 		if(!(target in view(DEFAULT_SCAN_RANGE, src)))
@@ -461,15 +456,15 @@
 	dat += hack(user)
 	dat += showpai(user)
 	dat += text({"
-Status: <A href='?src=[REF(src)];power=1'>[on ? "On" : "Off"]</A><BR>
+Status: <A href='byond://?src=[REF(src)];power=1'>[on ? "On" : "Off"]</A><BR>
 Behaviour controls are [locked ? "locked" : "unlocked"]<BR>
 Maintenance panel panel is [open ? "opened" : "closed"]"})
 	if(!locked || issilicon(user)|| isAdminGhostAI(user))
-		dat += "<BR>Clean Blood: <A href='?src=[REF(src)];operation=blood'>[blood ? "Yes" : "No"]</A>"
-		dat += "<BR>Clean Trash: <A href='?src=[REF(src)];operation=trash'>[trash ? "Yes" : "No"]</A>"
-		dat += "<BR>Clean Graffiti: <A href='?src=[REF(src)];operation=drawn'>[drawn ? "Yes" : "No"]</A>"
-		dat += "<BR>Exterminate Pests: <A href='?src=[REF(src)];operation=pests'>[pests ? "Yes" : "No"]</A>"
-		dat += "<BR><BR>Patrol Station: <A href='?src=[REF(src)];operation=patrol'>[auto_patrol ? "Yes" : "No"]</A>"
+		dat += "<BR>Clean Blood: <A href='byond://?src=[REF(src)];operation=blood'>[blood ? "Yes" : "No"]</A>"
+		dat += "<BR>Clean Trash: <A href='byond://?src=[REF(src)];operation=trash'>[trash ? "Yes" : "No"]</A>"
+		dat += "<BR>Clean Graffiti: <A href='byond://?src=[REF(src)];operation=drawn'>[drawn ? "Yes" : "No"]</A>"
+		dat += "<BR>Exterminate Pests: <A href='byond://?src=[REF(src)];operation=pests'>[pests ? "Yes" : "No"]</A>"
+		dat += "<BR><BR>Patrol Station: <A href='byond://?src=[REF(src)];operation=patrol'>[auto_patrol ? "Yes" : "No"]</A>"
 	return dat
 
 /mob/living/simple_animal/bot/cleanbot/Topic(href, href_list)

@@ -437,6 +437,11 @@
 /obj/item/clothing/under/suit/blacktwopiece,
 /turf/open/floor/wood,
 /area/city/outskirts)
+"eV" = (
+/obj/structure/window/reinforced/fulltile/indestructable,
+/obj/structure/grille,
+/turf/open/floor/plating,
+/area/city/outskirts)
 "fa" = (
 /obj/structure/chair/comfy{
 	dir = 4
@@ -1880,6 +1885,7 @@
 /obj/machinery/door/airlock/grunge{
 	name = "association office"
 	},
+/obj/effect/landmark/nobasic_incorp_move,
 /turf/open/floor/wood,
 /area/city/outskirts)
 "wN" = (
@@ -1909,6 +1915,11 @@
 	dir = 4
 	},
 /turf/open/floor/wood,
+/area/city/outskirts)
+"wX" = (
+/obj/structure/curtain/cloth/fancy,
+/obj/effect/landmark/nobasic_incorp_move,
+/turf/closed/indestructible/fakeglass,
 /area/city/outskirts)
 "xc" = (
 /obj/item/reagent_containers/food/condiment/flour,
@@ -1966,6 +1977,7 @@
 /obj/machinery/door/poddoor/shutters/indestructible{
 	id = "inside"
 	},
+/obj/effect/landmark/nobasic_incorp_move/disappearing,
 /turf/open/floor/plating/asteroid,
 /area/city/outskirts)
 "xH" = (
@@ -2023,6 +2035,10 @@
 	dir = 4
 	},
 /turf/open/floor/plating/ashplanet/rocky,
+/area/city/outskirts)
+"yl" = (
+/obj/effect/landmark/nobasic_incorp_move,
+/turf/closed/indestructible/fakeglass,
 /area/city/outskirts)
 "yn" = (
 /obj/item/assembly/mousetrap/armed,
@@ -2150,6 +2166,10 @@
 /turf/open/floor/facility/dark,
 /area/city/outskirts)
 "Au" = (
+/turf/open/floor/plating/ashplanet/rocky,
+/area/city/outskirts)
+"Aw" = (
+/obj/effect/landmark/abnospawn/rhinobuster,
 /turf/open/floor/plating/ashplanet/rocky,
 /area/city/outskirts)
 "Ax" = (
@@ -2869,10 +2889,10 @@
 	desc = "This rolling table doesn't roll like it used to anymore.";
 	name = "Broken Rolling Table"
 	},
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
 /turf/open/floor/wood,
 /area/city/outskirts)
 "Jg" = (
@@ -3044,6 +3064,10 @@
 	dir = 4
 	},
 /turf/open/floor/plating/ashplanet/rocky,
+/area/city/outskirts)
+"Lv" = (
+/obj/effect/landmark/nobasic_incorp_move,
+/turf/closed/indestructible/reinforced,
 /area/city/outskirts)
 "Lz" = (
 /obj/structure/table/reinforced,
@@ -3271,6 +3295,11 @@
 	},
 /turf/open/floor/plasteel,
 /area/city/outskirts)
+"OL" = (
+/obj/machinery/button/door/indestructible/rcorp,
+/obj/effect/landmark/nobasic_incorp_move/disappearing,
+/turf/closed/indestructible/syndicate,
+/area/city/outskirts)
 "OO" = (
 /obj/structure/table/reinforced,
 /obj/item/food/meat/slab,
@@ -3395,9 +3424,17 @@
 	},
 /turf/open/floor/plasteel/showroomfloor,
 /area/city/outskirts)
+"Qn" = (
+/obj/effect/landmark/nobasic_incorp_move,
+/turf/closed/indestructible/rock,
+/area/city/outskirts)
 "Qr" = (
 /obj/structure/rack,
 /turf/open/floor/plasteel/dark,
+/area/city/outskirts)
+"Qs" = (
+/obj/effect/landmark/nobasic_incorp_move/disappearing,
+/turf/closed/indestructible/syndicate,
 /area/city/outskirts)
 "Qt" = (
 /obj/machinery/hydroponics,
@@ -3657,9 +3694,8 @@
 /turf/open/floor/wood,
 /area/city/outskirts)
 "Te" = (
-/obj/machinery/button/door/indestructible{
-	id = "inside"
-	},
+/obj/machinery/button/door/indestructible/rcorp,
+/obj/effect/landmark/nobasic_incorp_move,
 /turf/closed/indestructible/syndicate,
 /area/city/outskirts)
 "Tp" = (
@@ -3723,6 +3759,10 @@
 	name = "Enkephalin Vape"
 	},
 /turf/open/floor/wood,
+/area/city/outskirts)
+"TR" = (
+/obj/effect/landmark/nobasic_incorp_move,
+/turf/closed/indestructible/syndicate,
 /area/city/outskirts)
 "TT" = (
 /obj/structure/sink/kitchen{
@@ -4188,76 +4228,76 @@ Fl
 Fl
 Fl
 Fl
-Fl
+TR
 xD
 xD
 xD
 xD
 xD
 Te
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-WS
-Fl
-Fl
-Fl
+TR
+TR
+TR
+TR
+TR
+TR
+TR
+TR
+TR
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+Qn
+TR
+TR
+Qs
 xD
 xD
 xD
-Te
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
-Fl
+OL
+TR
+TR
+TR
+TR
+TR
+TR
+TR
+Qs
+Qs
 xD
-Te
-Fl
-Fl
+OL
+Qs
+TR
 Fl
 Fl
 Fl
@@ -4351,7 +4391,7 @@ WS
 WS
 WS
 Vg
-Vg
+Lv
 Au
 Au
 Au
@@ -4419,7 +4459,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -4514,7 +4554,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -4582,7 +4622,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -4677,8 +4717,8 @@ WS
 WS
 WS
 WS
-Vg
-Vg
+Lv
+Lv
 Au
 Au
 Au
@@ -4745,7 +4785,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -4841,7 +4881,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -4908,7 +4948,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5004,7 +5044,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -5071,7 +5111,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5167,7 +5207,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -5234,7 +5274,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5330,7 +5370,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -5397,7 +5437,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5493,13 +5533,13 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 Au
 Vg
 Vg
@@ -5560,7 +5600,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5662,7 +5702,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 be
 Vg
 sR
@@ -5723,7 +5763,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5825,7 +5865,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 Si
@@ -5886,7 +5926,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -5987,8 +6027,8 @@ WS
 WS
 WS
 WS
-Vg
-Vg
+Lv
+Lv
 Au
 Vg
 cV
@@ -6049,7 +6089,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6150,7 +6190,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Vg
@@ -6212,7 +6252,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6313,7 +6353,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 Vg
@@ -6375,7 +6415,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6476,7 +6516,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 JL
 Vg
 ta
@@ -6538,7 +6578,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6639,7 +6679,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 wf
@@ -6701,7 +6741,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6802,7 +6842,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 be
 Vg
 wn
@@ -6864,7 +6904,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -6964,8 +7004,8 @@ WS
 WS
 WS
 WS
-Vg
-Vg
+Lv
+Lv
 Au
 Vg
 Oe
@@ -7027,7 +7067,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7127,7 +7167,7 @@ Vg
 Vg
 Vg
 Vg
-Vg
+Lv
 Au
 sF
 Vg
@@ -7190,7 +7230,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7290,7 +7330,7 @@ fa
 aJ
 sI
 wI
-Vg
+Lv
 Au
 Au
 Vg
@@ -7353,7 +7393,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7453,31 +7493,31 @@ eD
 aJ
 mL
 tZ
-Vg
+Lv
 Au
 Ld
 Vg
 Vg
 Vg
-GI
-GI
+eV
+eV
 Vg
 Vg
-GI
+eV
 UJ
-GI
-GI
+eV
+eV
 Vg
 Mk
 Vg
-GI
-GI
-GI
+eV
+eV
+eV
 II
 II
-GI
-GI
-GI
+eV
+eV
+eV
 Vg
 Mk
 Vg
@@ -7516,7 +7556,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7616,7 +7656,7 @@ ap
 aJ
 mL
 RE
-Vg
+Lv
 Gi
 Au
 Ld
@@ -7679,7 +7719,7 @@ OA
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7779,12 +7819,12 @@ Vg
 CP
 Vg
 Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 Au
 Au
 Au
@@ -7842,7 +7882,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -7947,7 +7987,7 @@ aJ
 td
 aJ
 kl
-Vg
+Lv
 Au
 Au
 Au
@@ -8005,7 +8045,7 @@ OA
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -8119,17 +8159,17 @@ Vg
 Vg
 Vg
 Vg
-GI
-GI
-GI
+eV
+eV
+eV
 Vg
 Au
 Au
 Au
 Vg
-GI
-GI
-GI
+eV
+eV
+eV
 Vg
 Vg
 Vg
@@ -8156,9 +8196,9 @@ Vg
 Vg
 Vg
 Vg
-GI
-GI
-GI
+eV
+eV
+eV
 Vg
 Au
 Au
@@ -8168,7 +8208,7 @@ Vg
 HD
 HD
 HD
-Vg
+Lv
 WS
 WS
 WS
@@ -8273,7 +8313,7 @@ Vo
 zk
 aJ
 ct
-GI
+yl
 Au
 Au
 Au
@@ -8326,12 +8366,12 @@ Vg
 DM
 Au
 Au
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 WS
 WS
 WS
@@ -8436,7 +8476,7 @@ aJ
 aJ
 aJ
 pa
-GI
+yl
 Au
 Au
 Au
@@ -8489,7 +8529,7 @@ Qb
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -8599,7 +8639,7 @@ Vg
 Vg
 hT
 Vg
-Vg
+Lv
 Au
 Au
 Au
@@ -8652,7 +8692,7 @@ aJ
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -8762,7 +8802,7 @@ Vg
 kl
 aJ
 kP
-Vg
+Lv
 Au
 Au
 Au
@@ -8797,7 +8837,7 @@ Vg
 aJ
 aJ
 RN
-GI
+eV
 Au
 Au
 Au
@@ -8815,7 +8855,7 @@ Vg
 DM
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -8925,7 +8965,7 @@ Vg
 GX
 aJ
 Yw
-Vg
+Lv
 Au
 Au
 Au
@@ -8960,7 +9000,7 @@ PV
 aJ
 aJ
 RY
-GI
+eV
 Au
 Au
 Au
@@ -8974,11 +9014,11 @@ Gh
 OR
 rG
 rG
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9088,7 +9128,7 @@ kH
 aJ
 aJ
 Yw
-Vg
+Lv
 Au
 Au
 Au
@@ -9137,11 +9177,11 @@ Gh
 OR
 RY
 RY
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9251,7 +9291,7 @@ Vg
 DW
 aJ
 Ee
-Vg
+Lv
 Au
 Au
 Au
@@ -9300,11 +9340,11 @@ Gh
 OR
 rh
 rh
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9414,7 +9454,7 @@ Vg
 GI
 hT
 GI
-Vg
+Lv
 Au
 Au
 Au
@@ -9426,7 +9466,7 @@ Ia
 iN
 aJ
 aJ
-GI
+eV
 Au
 Au
 Au
@@ -9463,11 +9503,11 @@ Vg
 Vo
 rG
 rG
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9577,7 +9617,7 @@ Vg
 Rr
 aJ
 ea
-Vg
+Lv
 Au
 Au
 Au
@@ -9626,11 +9666,11 @@ Vg
 aJ
 RY
 RY
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9740,7 +9780,7 @@ Vg
 Rn
 aJ
 aJ
-GI
+yl
 Au
 Au
 Au
@@ -9789,11 +9829,11 @@ li
 aJ
 rh
 rh
-GI
+eV
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -9903,7 +9943,7 @@ Vg
 Vo
 aJ
 aJ
-GI
+yl
 Au
 Au
 Au
@@ -9919,7 +9959,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Nr
 GE
 HO
@@ -9938,7 +9978,7 @@ Vg
 rz
 rz
 HA
-GI
+eV
 Au
 Au
 Au
@@ -9956,8 +9996,8 @@ Vg
 Au
 Au
 Au
-Vg
-Vg
+Lv
+Lv
 WS
 WS
 WS
@@ -10066,7 +10106,7 @@ aJ
 aJ
 aJ
 aJ
-GI
+yl
 Au
 Au
 Au
@@ -10101,7 +10141,7 @@ rY
 rz
 ca
 xv
-GI
+eV
 Au
 Au
 Au
@@ -10120,7 +10160,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -10229,7 +10269,7 @@ Vg
 ae
 aJ
 kl
-Vg
+Lv
 Au
 Au
 Au
@@ -10245,7 +10285,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 kE
 uU
 zq
@@ -10268,7 +10308,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Qt
 pH
 Qt
@@ -10283,7 +10323,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -10392,7 +10432,7 @@ Vg
 Vg
 da
 Vg
-Vg
+Lv
 Au
 Au
 Au
@@ -10431,7 +10471,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Qt
 pH
 Qt
@@ -10441,12 +10481,12 @@ Vg
 aJ
 aJ
 aJ
-GI
+eV
 Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -10555,7 +10595,7 @@ Vg
 Xo
 Ww
 tY
-Vg
+Lv
 WS
 WS
 WS
@@ -10594,7 +10634,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Qt
 pH
 Qt
@@ -10604,12 +10644,12 @@ Vg
 oz
 oz
 oz
-GI
+eV
 Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -10718,7 +10758,7 @@ Vg
 fr
 Ww
 Ww
-Vg
+Lv
 WS
 WS
 WS
@@ -10734,7 +10774,7 @@ zN
 Au
 Au
 Au
-GI
+eV
 kA
 oG
 Pa
@@ -10757,7 +10797,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Qt
 pH
 pH
@@ -10767,12 +10807,12 @@ Vg
 bW
 kR
 kR
-GI
+eV
 Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -10881,7 +10921,7 @@ Vg
 Vg
 Vg
 Vg
-Vg
+Lv
 Au
 WS
 WS
@@ -10897,7 +10937,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 CS
 wB
 JV
@@ -10920,7 +10960,7 @@ vO
 Au
 Au
 Au
-GI
+eV
 Wo
 pH
 pH
@@ -10930,12 +10970,12 @@ li
 aJ
 aJ
 aJ
-GI
+eV
 Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -11044,7 +11084,7 @@ EX
 EX
 EX
 Pb
-Vg
+Lv
 Au
 Au
 WS
@@ -11079,7 +11119,7 @@ Vg
 gc
 gc
 gc
-GI
+eV
 Au
 Au
 Au
@@ -11093,12 +11133,12 @@ Vg
 KK
 af
 bR
-GI
+eV
 WS
 WS
 WS
 WS
-Vg
+Lv
 WS
 WS
 WS
@@ -11207,7 +11247,7 @@ Au
 Au
 Au
 yd
-Vg
+Lv
 Au
 Au
 Au
@@ -11242,7 +11282,7 @@ Cd
 gc
 Wy
 gc
-GI
+eV
 Au
 Au
 Au
@@ -11261,7 +11301,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 WS
 WS
 WS
@@ -11370,7 +11410,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 Au
 Au
 Au
@@ -11424,7 +11464,7 @@ Au
 Au
 WS
 WS
-Vg
+Lv
 WS
 WS
 WS
@@ -11533,7 +11573,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 Au
 Au
 Au
@@ -11587,7 +11627,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -11696,7 +11736,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 Au
 Au
 Au
@@ -11731,7 +11771,7 @@ nu
 Bg
 LD
 vx
-GI
+eV
 Au
 Au
 Au
@@ -11750,7 +11790,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -11859,7 +11899,7 @@ Vg
 Vg
 Vg
 Vg
-Vg
+Lv
 Au
 Au
 Au
@@ -11894,7 +11934,7 @@ Ww
 Ww
 aJ
 aJ
-GI
+eV
 Au
 Au
 Au
@@ -11913,7 +11953,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -12022,7 +12062,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12038,7 +12078,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 Lj
 Xl
 kI
@@ -12076,7 +12116,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -12185,7 +12225,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12201,7 +12241,7 @@ Vg
 Au
 Au
 Au
-GI
+eV
 IP
 WA
 df
@@ -12238,8 +12278,8 @@ Vg
 Au
 Au
 Au
-Vg
-Vg
+Lv
+Lv
 WS
 WS
 WS
@@ -12348,7 +12388,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12401,7 +12441,7 @@ Vg
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -12511,7 +12551,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12564,7 +12604,7 @@ LH
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -12674,7 +12714,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12727,7 +12767,7 @@ Vg
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -12837,7 +12877,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -12890,7 +12930,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13000,7 +13040,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -13053,7 +13093,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13163,7 +13203,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -13198,7 +13238,7 @@ Vg
 YC
 GM
 iN
-GI
+eV
 Au
 Au
 Au
@@ -13216,7 +13256,7 @@ GT
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13326,7 +13366,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -13361,7 +13401,7 @@ Vg
 aJ
 CR
 aJ
-GI
+eV
 Au
 Au
 Au
@@ -13379,7 +13419,7 @@ GT
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13489,7 +13529,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -13542,7 +13582,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13652,9 +13692,9 @@ WS
 WS
 Vg
 Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
 Au
 Au
 Au
@@ -13705,7 +13745,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13817,7 +13857,7 @@ Vg
 sQ
 kF
 xQ
-GS
+wX
 Au
 Au
 Au
@@ -13850,7 +13890,7 @@ Vg
 aJ
 GM
 iN
-GI
+eV
 Au
 Au
 Au
@@ -13868,7 +13908,7 @@ GT
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -13980,7 +14020,7 @@ Vg
 qi
 kF
 WR
-GS
+wX
 Au
 Au
 Au
@@ -14013,7 +14053,7 @@ Vg
 aJ
 GM
 aJ
-GI
+eV
 Au
 Au
 Au
@@ -14031,7 +14071,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14143,7 +14183,7 @@ Vg
 xQ
 kF
 xQ
-GS
+wX
 Au
 Au
 Au
@@ -14176,7 +14216,7 @@ Vg
 GM
 GM
 aJ
-GI
+eV
 Au
 Au
 Au
@@ -14194,7 +14234,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14306,7 +14346,7 @@ Vg
 vk
 xQ
 xQ
-GS
+wX
 Au
 Au
 Au
@@ -14357,7 +14397,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14469,7 +14509,7 @@ Vg
 Vg
 Yx
 Vg
-Vg
+Lv
 Au
 Au
 Au
@@ -14504,7 +14544,7 @@ Vg
 Vg
 Vg
 Au
-vY
+Au
 Au
 Vg
 Vg
@@ -14520,7 +14560,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14632,7 +14672,7 @@ WS
 Vg
 xQ
 Ex
-Vg
+Lv
 Au
 Au
 Au
@@ -14663,7 +14703,11 @@ Au
 Au
 Au
 Au
-qJ
+Aw
+Au
+Au
+Au
+Au
 Au
 Au
 Au
@@ -14672,7 +14716,6 @@ DB
 Au
 Au
 Au
-DB
 Au
 Au
 Au
@@ -14680,10 +14723,7 @@ Au
 Au
 Au
 Au
-Au
-Au
-Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14795,7 +14835,7 @@ WS
 Vg
 KS
 bQ
-Vg
+Lv
 Au
 Au
 Au
@@ -14846,7 +14886,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -14955,10 +14995,10 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
 Vg
 Vg
 Vg
@@ -15009,7 +15049,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -15118,7 +15158,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 qU
 Ir
 Au
@@ -15153,11 +15193,11 @@ Vg
 Vg
 Vg
 Vg
-GI
-GI
+eV
+eV
 qL
 Vg
-GI
+eV
 Vg
 Mk
 Vg
@@ -15172,7 +15212,7 @@ MN
 Vg
 Vg
 Mk
-Vg
+Lv
 WS
 WS
 WS
@@ -15281,7 +15321,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 tx
 Au
 Au
@@ -15335,7 +15375,7 @@ aJ
 fF
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -15444,7 +15484,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -15498,7 +15538,7 @@ aJ
 vS
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -15607,7 +15647,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -15661,7 +15701,7 @@ aJ
 GM
 Vg
 SI
-Vg
+Lv
 WS
 WS
 WS
@@ -15770,7 +15810,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -15824,7 +15864,7 @@ aJ
 um
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -15933,7 +15973,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 VS
@@ -15967,7 +16007,7 @@ za
 Kw
 Fb
 HS
-GI
+eV
 pH
 pH
 pH
@@ -15987,8 +16027,8 @@ iz
 Vg
 Vg
 Gi
-Vg
-Vg
+Lv
+Lv
 WS
 WS
 WS
@@ -16096,8 +16136,8 @@ WS
 WS
 WS
 WS
-Vg
-Vg
+Lv
+Lv
 Mk
 Vg
 Vg
@@ -16151,7 +16191,7 @@ FZ
 Vg
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -16260,7 +16300,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 be
 Au
@@ -16314,7 +16354,7 @@ tz
 Vg
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -16423,11 +16463,11 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
 Au
 Vg
 oH
@@ -16477,7 +16517,7 @@ aJ
 oB
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -16590,7 +16630,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 de
@@ -16640,7 +16680,7 @@ aJ
 Vg
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -16753,7 +16793,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 Vg
@@ -16803,7 +16843,7 @@ oB
 Vg
 Au
 SI
-Vg
+Lv
 WS
 WS
 WS
@@ -16916,7 +16956,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Gi
 Au
 be
@@ -16965,8 +17005,8 @@ Vg
 Vg
 Vg
 Au
-Vg
-Vg
+Lv
+Lv
 WS
 WS
 WS
@@ -17079,13 +17119,13 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 Au
 Gi
 Au
@@ -17128,7 +17168,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -17248,16 +17288,16 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 Au
 Au
 Au
@@ -17287,11 +17327,11 @@ Vg
 Vg
 Vg
 Au
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
 WS
 WS
 WS
@@ -17420,10 +17460,10 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
 be
 Vg
 le
@@ -17450,7 +17490,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -17586,7 +17626,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 Ie
@@ -17607,13 +17647,13 @@ TY
 KP
 Vg
 Au
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 WS
 WS
 WS
@@ -17749,7 +17789,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Vg
 Vg
@@ -17770,7 +17810,7 @@ TY
 AI
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -17912,7 +17952,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Gi
 Vg
@@ -17933,7 +17973,7 @@ TY
 dS
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -18075,8 +18115,8 @@ WS
 WS
 WS
 WS
-Vg
-Vg
+Lv
+Lv
 Au
 Au
 Au
@@ -18096,7 +18136,7 @@ TY
 KP
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -18239,13 +18279,13 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 WS
 Vg
 Vg
@@ -18259,7 +18299,7 @@ Vg
 Vg
 Vg
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -18408,7 +18448,7 @@ WS
 WS
 WS
 WS
-Vg
+Lv
 Au
 Au
 Au
@@ -18422,7 +18462,7 @@ Au
 Au
 Au
 Au
-Vg
+Lv
 WS
 WS
 WS
@@ -18571,21 +18611,21 @@ WS
 WS
 WS
 WS
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
-Vg
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
+Lv
 WS
 WS
 WS

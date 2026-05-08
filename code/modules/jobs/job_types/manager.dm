@@ -16,10 +16,13 @@
 
 	access = list(ACCESS_COMMAND, ACCESS_MANAGER) // LC13:To-Do
 	minimal_access = list(ACCESS_COMMAND, ACCESS_MANAGER)
+	departments = DEPARTMENT_COMMAND
 
 	job_attribute_limit = 60
 	roundstart_attributes = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE = 60, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 	job_important = "You are the Manager. Your goal is to provide overwatch to Agents and Clerks while guiding the facility's progress. You are able to choose arriving Abnormalities, buy facility upgrades, and apply buffs through your camera console."
+	mapexclude = list("enkephalin_rush")
 
 	job_abbreviation = "MGR"
 
@@ -33,8 +36,6 @@
 
 /datum/job/manager/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
 	. = ..()
-	ADD_TRAIT(outfit_owner, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
-	ADD_TRAIT(outfit_owner, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
 	outfit_owner.grant_language(/datum/language/bong, TRUE, FALSE, LANGUAGE_MIND) //So they can understand the bong-bong but not speak it
 
 	//Adding huds, blame some guy from at least 3 years ago.
@@ -55,4 +56,5 @@
 	shoes = /obj/item/clothing/shoes/laceup
 	r_pocket = /obj/item/modular_computer/tablet/preset/advanced/command
 
+	box = /obj/item/storage/box/survival/lobotomy
 	backpack_contents = list(/obj/item/station_charter)

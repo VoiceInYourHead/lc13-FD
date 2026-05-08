@@ -7,6 +7,7 @@
 	gender = PLURAL //placeholder
 	living_flags = MOVES_ON_ITS_OWN
 	status_flags = CANPUSH
+	area_index = MOB_SIMPLEANIMAL_INDEX
 
 	var/icon_living = ""
 	///Icon when the animal is dead. Don't use animated icons for this.
@@ -30,7 +31,7 @@
 	///Use this to temporarely stop random movement or to if you write special movement code for animals.
 	var/stop_automated_movement = 0
 	///Does the mob wander around when idle?
-	var/wander = 1
+	var/wander = FALSE
 	///When set to 1 this stops the animal from moving when someone is pulling it.
 	var/stop_automated_movement_when_pulled = 1
 
@@ -83,7 +84,7 @@
 	///Damage type of a simple mob's melee attack, should it do damage.
 	var/melee_damage_type = RED_DAMAGE
 	/// 1 for full damage , 0 for none , -1 for 1:1 heal from that source., Starts as a list and becomes a datum post Initialize()
-	var/datum/dam_coeff/damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
+	var/datum/dam_coeff/damage_coeff = alist(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	/// The unmodified values for the dam_coeff datum
 	var/datum/dam_coeff/unmodified_damage_coeff_datum
 	/// The list of all modifiers to the current DC datum
@@ -191,6 +192,9 @@
 	var/list/offsets_pixel_y = list("south" = 0, "north" = 0, "west" = 0, "east" = 0)
 	var/should_projectile_blockers_change_orientation = FALSE
 
+	//If they should get they city faction in City gamemodes
+	var/city_faction = TRUE
+
 /mob/living/simple_animal/Initialize()
 	. = ..()
 	GLOB.simple_animals[AIStatus] += src
@@ -237,7 +241,12 @@
 		AddSpell(bloodspell)
 	//LC13 Check. If it's the citymap, they all gain a faction
 	if(SSmaptype.maptype in SSmaptype.citymaps)
-		faction += "city"
+		if(city_faction)
+			faction += "hostile"
+
+	if(istype(loc, /obj/item/paper/fluff)) // Happens when records are being initialized, lets not make un-necessary blockers
+		return
+
 	if(occupied_tiles_down > 0 || occupied_tiles_up > 0 || occupied_tiles_left > 0 || occupied_tiles_right > 0)
 		occupied_tiles_left_current = occupied_tiles_left
 		occupied_tiles_right_current = occupied_tiles_right
@@ -250,6 +259,17 @@
 					continue
 				projectile_blockers += new /mob/living/simple_animal/projectile_blocker_dummy(locate(i, j, z), src)
 		RegisterSignal(src, COMSIG_ATOM_DIR_CHANGE, PROC_REF(OnDirChange))
+
+	if(damage_coeff.getCoeff(FIRE) == 1) // LC13 burn armor calculator. Looks at red armor, and ignores up to 50% of armor. deals full damage to mobs weak to red
+		var/red_mod = damage_coeff.getCoeff(RED_DAMAGE)
+		switch(red_mod)
+			if(-INFINITY to 0)
+				red_mod = red_mod
+			if(0.001 to 0.5)
+				red_mod = red_mod * 1.5
+			if(0.5 to 1)
+				red_mod = (((1 - red_mod) / 2) + red_mod) // 50% armor ignore
+		ChangeResistances(list(FIRE = red_mod))
 
 /mob/living/simple_animal/proc/SetOccupiedTiles(down = 0, up = 0, left = 0, right = 0)
 	occupied_tiles_down = down

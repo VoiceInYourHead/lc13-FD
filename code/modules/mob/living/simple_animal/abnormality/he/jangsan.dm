@@ -13,8 +13,8 @@
 	pixel_x = -16
 	base_pixel_x = -16
 	ranged = TRUE
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 300
+	health = 300
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 2)
 	see_in_dark = 10
 	stat_attack = HARD_CRIT
@@ -28,14 +28,16 @@
 		ABNORMALITY_WORK_ATTACHMENT = 60,
 		ABNORMALITY_WORK_REPRESSION = 60,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 5
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 
 //Only done to non-humans, objects, and strong(er) agents
 	attack_sound = 'sound/abnormalities/jangsan/tigerbite.ogg'
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 40
-	melee_damage_upper = 60
+	melee_damage_lower = 8
+	melee_damage_upper = 12
 
 	ego_list = list(
 		/datum/ego_datum/weapon/maneater,
@@ -46,15 +48,15 @@
 
 	observation_prompt = "I'm in a field of flowers, the flowers are my friends. <br>There are many kinds of friends but I wish to pluck them all. <br>\
 		Some friends have thorns and hurt when I try to pick them. <br>Before me is a particularly juicy, thornless flower."
-	observation_choices = list("Pluck the flower", "Smell it")
-	correct_choices = list("Smell it")
-	observation_success_message = "The flower shuffles away from me as I draw near, the scent is enticing but I do not pluck it. <br>\
-		There's always time to stop and enjoy the flowers."
-	observation_fail_message = "The flower lets out a scream as I pluck it with my teeth, its ichor stains my teeth and fur red - \
-		the other thornless flowers scream in unison and flee in all directions whilst the thorniest ones scratch my fur and skin. <br>\
-		Flowers are my friends and I shall pluck them all."
+	observation_choices = list(
+		"Smell it" = list(TRUE, "The flower shuffles away from me as I draw near, the scent is enticing but I do not pluck it. <br>\
+			There's always time to stop and enjoy the flowers."),
+		"Pluck the flower" = list(FALSE, "The flower lets out a scream as I pluck it with my teeth, its ichor stains my teeth and fur red - \
+			the other thornless flowers scream in unison and flee in all directions whilst the thorniest ones scratch my fur and skin. <br>\
+			Flowers are my friends and I shall pluck them all."),
+	)
 
-	var/bullet_threshold = 40
+	var/bullet_threshold = 10
 //breach related
 	var/teleport_cooldown
 	var/teleport_cooldown_time = 120 SECONDS
@@ -141,12 +143,20 @@
 /mob/living/simple_animal/hostile/abnormality/jangsan/proc/StatCheck(mob/living/carbon/human/user)
 	strong_counter = 0 //Counts how many stats are at or above 60 AKA level 3 or higher
 	weak_counter = 0 //Counts how many stats are below 40 AKA level 1
-	for(var/attribute in stats)
-		if(get_attribute_level(user, attribute)< 40)
-			weak_counter += 1
-		if(get_attribute_level(user, attribute)>= 60)
-			strong_counter += 1
-	return
+	if(SSmaptype.maptype == "rcorp") //Buff for Jangsan for the R-Corp mode
+		for(var/attribute in stats)
+			if(get_attribute_level(user, attribute)< 61)
+				weak_counter += 1
+			if(get_attribute_level(user, attribute)>= 60) //This doesnt matter for rca
+				strong_counter += 1
+		return
+	else
+		for(var/attribute in stats)
+			if(get_attribute_level(user, attribute)< 40)
+				weak_counter += 1
+			if(get_attribute_level(user, attribute)>= 60)
+				strong_counter += 1
+		return
 
 //Too weak and it kills you
 /mob/living/simple_animal/hostile/abnormality/jangsan/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
@@ -185,7 +195,8 @@
 	. = ..()
 	if(!datum_reference.abno_radio)
 		AbnoRadio()
-	addtimer(CALLBACK(src, PROC_REF(TryTeleport)), 5)
+	if(breach_type != BREACH_MINING)
+		addtimer(CALLBACK(src, PROC_REF(TryTeleport)), 5)
 
 /mob/living/simple_animal/hostile/abnormality/jangsan/proc/TryTeleport() //stolen from knight of despair
 	dir = 2
@@ -248,9 +259,9 @@
 		return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/abnormality/jangsan/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/jangsan/AttackingTarget(atom/attacked_target)
 	if(bite_cooldown < world.time)
-		KillCheck(target)
+		KillCheck(attacked_target)
 	icon_state = icon_aggro
 	return ..()
 
@@ -266,7 +277,6 @@
 		if(QDELETED(head))
 			return
 		head.dismember()
-		QDEL_NULL(head)
 		H.regenerate_icons()
 		visible_message(span_danger("\The [src] bites [H]'s head off!"))
 		new /obj/effect/gibspawner/generic/silent(get_turf(H))

@@ -2,6 +2,7 @@
 	. = ..()
 	create_reagents(1000)
 	register_init_signals()
+	astype(get_area(src), /area)?.Entered(src) // We can move this back to atom/movable if we want, but for now it stays here for the purposes that we need it for.
 	if(unique_name)
 		set_name()
 	var/datum/atom_hud/data/human/medical/advanced/medhud = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
@@ -37,6 +38,7 @@
 		buckled.unbuckle_mob(src,force=1)
 
 	remove_from_all_data_huds()
+	cleanup_area_presence()
 	GLOB.mob_living_list -= src
 	QDEL_LIST(diseases)
 	return ..()
@@ -1024,7 +1026,12 @@
 		to_chat(src, "<span class='notice'>You try to put [what] on [who]...</span>")
 		who.log_message("[key_name(who)] is having [what] put on them by [key_name(src)]", LOG_ATTACK, color="red")
 		log_message("[key_name(who)] is having [what] put on them by [key_name(src)]", LOG_ATTACK, color="red", log_globally=FALSE)
-		if(do_mob(src, who, what.equip_delay_other))
+
+		var/equip_delay = what.equip_delay_other
+		if(istype(what,/obj/item/clothing/suit/armor/ego_gear))
+			var/obj/item/clothing/suit/armor/ego_gear/EGO = what
+			equip_delay = max(EGO.equip_delay_other, EGO.equip_slowdown) //Preventing 0 delay on some ego suits
+		if(do_mob(src, who, equip_delay))
 			if(what && Adjacent(who) && what.mob_can_equip(who, src, final_where, TRUE, TRUE))
 				if(temporarilyRemoveItemFromInventory(what))
 					if(where_list)
@@ -1169,7 +1176,7 @@
 	var/blocked = getarmor(null, RAD)
 
 	if(amount > RAD_BURN_THRESHOLD)
-		apply_damage(RAD_BURN_CURVE(amount), BURN, null, blocked)
+		apply_damage(RAD_BURN_CURVE(amount), FIRE, null, blocked)
 
 	apply_effect((amount*RAD_MOB_COEFFICIENT)/max(1, (radiation**2)*RAD_OVERDOSE_REDUCTION), EFFECT_IRRADIATE, blocked)
 
@@ -1348,6 +1355,7 @@
 
 /mob/living/onTransitZ(old_z,new_z)
 	..()
+	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_MOVABLE_Z_CHANGED, src, old_z, new_z)
 	update_z(new_z)
 
 /mob/living/MouseDrop_T(atom/dropping, atom/user)
@@ -1470,13 +1478,13 @@
 	. += {"
 		<br><font size='1'>[VV_HREF_TARGETREF(refid, VV_HK_GIVE_DIRECT_CONTROL, "[ckey || "no ckey"]")] / [VV_HREF_TARGETREF_1V(refid, VV_HK_BASIC_EDIT, "[real_name || "no real name"]", NAMEOF(src, real_name))]</font>
 		<br><font size='1'>
-			BRUTE:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=brute' id='brute'>[getBruteLoss()]</a>
-			FIRE:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=fire' id='fire'>[getFireLoss()]</a>
-			TOXIN:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=toxin' id='toxin'>[getToxLoss()]</a>
-			OXY:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=oxygen' id='oxygen'>[getOxyLoss()]</a>
-			CLONE:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=clone' id='clone'>[getCloneLoss()]</a>
-			BRAIN:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=brain' id='brain'>[getOrganLoss(ORGAN_SLOT_BRAIN)]</a>
-			STAMINA:<font size='1'><a href='?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=stamina' id='stamina'>[getStaminaLoss()]</a>
+			BRUTE:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=brute' id='brute'>[getBruteLoss()]</a>
+			FIRE:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=fire' id='fire'>[getFireLoss()]</a>
+			TOXIN:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=toxin' id='toxin'>[getToxLoss()]</a>
+			OXY:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=oxygen' id='oxygen'>[getOxyLoss()]</a>
+			CLONE:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=clone' id='clone'>[getCloneLoss()]</a>
+			BRAIN:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=brain' id='brain'>[getOrganLoss(ORGAN_SLOT_BRAIN)]</a>
+			STAMINA:<font size='1'><a href='byond://?_src_=vars;[HrefToken()];mobToDamage=[refid];adjustDamage=stamina' id='stamina'>[getStaminaLoss()]</a>
 		</font>
 	"}
 
@@ -1683,6 +1691,7 @@
 		if(DEAD)
 			remove_from_dead_mob_list()
 			add_to_alive_mob_list()
+			restore_area_presence()
 	switch(stat) //Current stat.
 		if(CONSCIOUS)
 			if(. >= UNCONSCIOUS)
@@ -1712,6 +1721,7 @@
 			REMOVE_TRAIT(src, TRAIT_CRITICAL_CONDITION, STAT_TRAIT)
 			remove_from_alive_mob_list()
 			add_to_dead_mob_list()
+			cleanup_area_presence()
 
 
 ///Reports the event of the change in value of the buckled variable.
@@ -1923,3 +1933,7 @@
 			if (INTENT_HELP)
 				attack_result = style.help_act(src, target)
 	return attack_result
+
+//I added this here since in smoke, it can end up bugging out and giving a mob smoke immunity
+/mob/living/proc/remove_smoke_delay()
+	smoke_delay = 0

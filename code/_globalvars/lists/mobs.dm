@@ -20,6 +20,7 @@ GLOBAL_LIST_EMPTY(player_list)				//all mobs **with clients attached**.
 GLOBAL_LIST_EMPTY(mob_list)					//all mobs, including clientless
 GLOBAL_LIST_EMPTY(ordeal_list)				//all ordeal mobs. Allows for searching of a smaller list and thus less overall lag when doing so.
 GLOBAL_LIST_EMPTY(abnormality_mob_list)		//all abnormality mobs
+GLOBAL_LIST_EMPTY(abnormality_minion_list)	//all abnormality minions/other parts
 GLOBAL_LIST_EMPTY(distortion_mob_list)		//all distortion mobs
 GLOBAL_LIST_EMPTY(mob_directory)			//mob_id -> mob
 GLOBAL_LIST_EMPTY(alive_mob_list)			//all alive mobs, including clientless. Excludes /mob/dead/new_player
@@ -44,6 +45,9 @@ GLOBAL_LIST_EMPTY(suit_sensors_list)			//all people with suit sensors on
 GLOBAL_LIST_EMPTY(nanite_sensors_list)			//app people with nanite monitoring program
 ///underages who have been reported to security for trying to buy things they shouldn't, so they can't spam
 GLOBAL_LIST_EMPTY(narcd_underages)
+GLOBAL_LIST_EMPTY(clan_npc_list)				//all resurgence clan NPCs
+GLOBAL_LIST_EMPTY(clan_npc_killers)			//all players who have damaged clan NPCs
+GLOBAL_LIST_EMPTY(nuke_rats_killers)			//all players who have damaged nuke rats
 
 GLOBAL_LIST_EMPTY(language_datum_instances)
 GLOBAL_LIST_EMPTY(all_languages)

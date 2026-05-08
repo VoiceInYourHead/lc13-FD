@@ -348,7 +348,7 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 	icon_state = "coin"
 	flags_1 = CONDUCT_1
 	force = 1
-	throwforce = 2
+	throwforce = 1
 	w_class = WEIGHT_CLASS_TINY
 	custom_materials = list(/datum/material/iron = 400)
 	material_flags = MATERIAL_ADD_PREFIX | MATERIAL_COLOR | MATERIAL_AFFECT_STATISTICS
@@ -397,7 +397,8 @@ GLOBAL_LIST_INIT(sand_recipes, list(\
 
 /obj/item/coin/examine(mob/user)
 	. = ..()
-	. += "<span class='info'>It's worth [value] ahn.</span>"
+	if(!istype(src, /obj/item/coin/casino_token))
+		. += "<span class='info'>It's worth [value] ahn.</span>"
 
 /obj/item/coin/attackby(obj/item/W, mob/user, params)
 	if(istype(W, /obj/item/stack/cable_coil))

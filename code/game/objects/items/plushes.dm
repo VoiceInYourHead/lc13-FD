@@ -438,6 +438,15 @@
 	attack_verb_simple = list("impale", "joust")
 	gender = FEMALE
 
+/obj/item/toy/plush/don/attack_self(mob/user)
+	..()
+	icon_state = "don_yahoo"
+	addtimer(CALLBACK(src, PROC_REF(sprite_return)), 3 SECONDS)
+
+//So you can make her yahoo again
+/obj/item/toy/plush/don/proc/sprite_return(mob/user)
+	icon_state = "don"
+
 /obj/item/toy/plush/ryoshu
 	name = "ryoshu plushie"
 	desc = "A plushie depicting a artistic sinner."
@@ -559,6 +568,12 @@
 	icon_state = "samjo"
 	gender = MALE
 
+/obj/item/toy/plush/zena
+	name = "zena plushie"
+	desc = "A plushie depicting an aloof arbiter."
+	icon_state = "zena"
+	gender = FEMALE
+
 /obj/item/toy/plush/blank
 	name = "plushie blank"
 	desc = "A humanoid plush that had been freshly made or stripped down to its cloth. Despite its lack of identity, the mere aknowelegement of this plushie makes it unique."
@@ -601,6 +616,21 @@
 	desc = "A plushie depicting a big bird with a lantern that burns forever. How does it even work..?"
 	icon_state = "bigbird"
 
+/obj/item/toy/plush/pbird
+	name = "small bird plushie"
+	desc = "A plushie depicting a tiny bird with a small beak and red splotch on its chest."
+	icon_state = "pbird"
+	attack_verb_continuous = list("pecks", "punishes")
+	attack_verb_simple = list("peck", "punish")
+	squeak_override = list('sound/weapons/pbird_bite.ogg' = 1)
+
+/obj/item/toy/plush/jbird
+	name = "tall bird plushie"
+	desc = "A plushie depicting a tall bird with a bandaged head. It's so thin!"
+	icon_state = "jbird"
+	attack_verb_continuous = list("judges")
+	attack_verb_simple = list("judge")
+
 /obj/item/toy/plush/mosb
 	name = "mountain of smiling bodies plushie"
 	desc = "A plushie depicting a mountain of corpses merged into one. Yuck!"
@@ -627,6 +657,11 @@
 	gender = FEMALE
 	squeak_override = list('sound/abnormalities/scorchedgirl/pre_ability.ogg'=1)
 
+/obj/item/toy/plush/voiddream
+	name = "void dream plushie"
+	desc = "A plushie depicting a sleepy sheep of some kind. Just looking at it makes you tired."
+	icon_state = "voiddream"
+
 /obj/item/toy/plush/pinocchio
 	name = "pinocchio plushie"
 	desc = "A plushie depicting pinocchio."
@@ -651,3 +686,8 @@
 	icon = 'icons/obj/plushes.dmi'
 	icon_state = "bongy"
 	squeak_override = list('sound/creatures/lc13/bongy/kweh.ogg'=1)
+
+/obj/item/toy/plush/apocbird
+	name = "apocalypse bird plushie"
+	desc = "A large plushie that resembles the beast of the black forest."
+	icon_state = "apocbird"

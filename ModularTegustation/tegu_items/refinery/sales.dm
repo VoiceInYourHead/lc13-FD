@@ -12,6 +12,7 @@
 	var/crate_timer = 180	//How much time until a crate?
 	var/crates_per_box		//Just used to calculate examine text
 	var/our_corporation		// Whatever Representative we may be linked to
+	var/boosted = FALSE
 
 	var/generating
 	var/icon_full = "machinelcb_full"
@@ -37,7 +38,13 @@
 		generating = TRUE
 		to_chat(user, span_notice("You load PE into the machine."))
 		qdel(I)
+		if (GetFacilityUpgradeValue(UPGRADE_EXTRACTION_2))
+			if(!boosted)//prevents wierd jank and desycing
+				boosted = TRUE
+				power_timer = round(initial(power_timer) * 0.33)
+				crate_timer = round(initial(crate_timer) * 0.33)
 		counter()
+
 		add_overlay("full")
 	else if(generating)
 		to_chat(user, span_notice("This is already sending power!"))
@@ -49,6 +56,8 @@
 	//Box is done
 	if(power_timer <= 0)
 		power_timer = initial(power_timer)
+		if (GetFacilityUpgradeValue(UPGRADE_EXTRACTION_2))
+			power_timer = round(power_timer * 0.33)
 		generating = FALSE
 		visible_message(span_notice("Payment has arrived from [src]"))
 		cut_overlays()
@@ -69,6 +78,8 @@
 	//gacha time
 	if(crate_timer  <= 0)
 		crate_timer = initial(crate_timer)
+		if (GetFacilityUpgradeValue(UPGRADE_EXTRACTION_2))
+			crate_timer = round(crate_timer * 0.33)
 		new crate(get_turf(src))
 
 	if(generating == TRUE)
@@ -103,12 +114,12 @@
 	desc = "A machine used to send PE to R-Corp."
 	icon_state = "machiner"
 	crate = /obj/structure/lootcrate/r_corp
-	crate_timer = 420	//The most expensive because it's R corp stuff
+	crate_timer = 360	//One of the most expensive because it's R corp stuff
 	our_corporation = "R corp"
 
 /obj/structure/pe_sales/s_corp
-	name = "S-Corp Power Input"
-	desc = "A machine used to send PE to S-Corp."
+	name = "Shrimp-Corp Power Input"
+	desc = "A machine used to send PE to Shrimp-Corp."
 	icon_state = "machineshrimp"
 	crate = /obj/structure/lootcrate/s_corp
 	crate_timer = 120
@@ -211,3 +222,4 @@
 	crate = /obj/structure/lootcrate/jcorp
 	power_timer = 180 	//Takes a bit
 	crate_timer = 180	//And it's super cheap
+	our_corporation = "J corp"

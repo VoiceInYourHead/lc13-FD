@@ -70,9 +70,9 @@
 // Health/damage defines
 #define MAX_LIVING_HEALTH 100
 /// Maximum health of a human mob, without fortitude
-#define DEFAULT_HUMAN_MAX_HEALTH 100
+#define DEFAULT_HUMAN_MAX_HEALTH 10
 /// Maximum sanity of a human mob, without prudence
-#define DEFAULT_HUMAN_MAX_SANITY 100
+#define DEFAULT_HUMAN_MAX_SANITY 10
 
 #define HUMAN_MAX_OXYLOSS 3
 #define HUMAN_CRIT_MAX_OXYLOSS (SSmobs.wait/30)
@@ -99,7 +99,7 @@
 //Brain Damage defines
 #define BRAIN_DAMAGE_MILD 20
 #define BRAIN_DAMAGE_SEVERE 100
-#define BRAIN_DAMAGE_DEATH 200
+#define BRAIN_DAMAGE_DEATH 200 // Max amount of damage a brain can sustain, does not cause death in LC13.
 
 #define BRAIN_TRAUMA_MILD /datum/brain_trauma/mild
 #define BRAIN_TRAUMA_SEVERE /datum/brain_trauma/severe
@@ -343,15 +343,12 @@
 #define DEFIB_POSSIBLE (1<<0)
 #define DEFIB_FAIL_SUICIDE (1<<1)
 #define DEFIB_FAIL_HUSK (1<<2)
-#define DEFIB_FAIL_TISSUE_DAMAGE (1<<3)
-#define DEFIB_FAIL_FAILING_HEART (1<<4)
-#define DEFIB_FAIL_NO_HEART (1<<5)
-#define DEFIB_FAIL_FAILING_BRAIN (1<<6)
-#define DEFIB_FAIL_NO_BRAIN (1<<7)
-#define DEFIB_FAIL_NO_INTELLIGENCE (1<<8)
+#define DEFIB_FAIL_NO_HEART (1<<3)
+#define DEFIB_FAIL_NO_BRAIN (1<<4)
+#define DEFIB_FAIL_NO_INTELLIGENCE (1<<5)
 
 // Bit mask of possible return values by can_defib that would result in a revivable patient
-#define DEFIB_REVIVABLE_STATES (DEFIB_FAIL_NO_HEART | DEFIB_FAIL_FAILING_HEART | DEFIB_FAIL_HUSK | DEFIB_FAIL_TISSUE_DAMAGE | DEFIB_FAIL_FAILING_BRAIN | DEFIB_POSSIBLE)
+#define DEFIB_REVIVABLE_STATES (DEFIB_FAIL_NO_HEART | DEFIB_FAIL_HUSK | DEFIB_POSSIBLE)
 
 #define SLEEP_CHECK_DEATH(X) sleep(X); if(QDELETED(src) || stat == DEAD) return;
 

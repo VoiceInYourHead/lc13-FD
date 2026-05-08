@@ -2,8 +2,8 @@
 /obj/item/bodypart
 	name = "limb"
 	desc = "Why is it detached..."
-	force = 3
-	throwforce = 3
+	force = 1
+	throwforce = 1
 	w_class = WEIGHT_CLASS_SMALL
 	icon = 'icons/mob/human_parts.dmi'
 	icon_state = ""
@@ -37,6 +37,7 @@
 	var/stamina_dam = 0
 	var/max_stamina_damage = 0
 	var/max_damage = 0
+	var/max_damage_callback = 50
 
 	var/cremation_progress = 0 //Gradually increases while burning when at full damage, destroys the limb when at 100
 
@@ -468,7 +469,7 @@
 			if(wounding_type == WOUND_SLASH)
 				C.take_damage_zone(body_zone, damage, BRUTE)
 			else if(wounding_type == WOUND_BURN && damage >= 10) // lazy way to block freezing from shredding clothes without adding another var onto apply_damage()
-				C.take_damage_zone(body_zone, damage, BURN)
+				C.take_damage_zone(body_zone, damage, FIRE)
 
 		if(!armor_ablation)
 			injury_mod += bare_wound_bonus

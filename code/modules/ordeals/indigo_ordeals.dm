@@ -27,13 +27,13 @@
 	end_announce_text = "When the sun rises anew, not a scrap will remain."
 	announce_sound = 'sound/effects/ordeals/indigo_start.ogg'
 	end_sound = 'sound/effects/ordeals/indigo_end.ogg'
-	level = 2
 	reward_percent = 0.15
+	level = 2
 	spawn_places = 4
-	spawn_amount = 3
-	spawn_type = /mob/living/simple_animal/hostile/ordeal/indigo_noon
+	spawn_amount = 2
+	spawn_type = list(/mob/living/simple_animal/hostile/ordeal/indigo_noon)
 	place_player_multiplicator = 0.08
-	spawn_player_multiplicator = 0
+	spawn_player_multiplicator = 0.3
 	color = "#3F00FF"
 
 // Dusk
@@ -56,6 +56,7 @@
 	grunttype = list(/mob/living/simple_animal/hostile/ordeal/indigo_noon)
 
 // Midnight
+/*
 /datum/ordeal/boss/indigo_midnight
 	name = "The Midnight of Indigo"
 	flavor_name = "Mother"
@@ -67,3 +68,4 @@
 	reward_percent = 0.25
 	color = "#3F00FF"
 	bosstype = /mob/living/simple_animal/hostile/ordeal/indigo_midnight
+*/

@@ -17,12 +17,12 @@
 	base_pixel_x = -32
 	move_to_delay = 3
 	rapid_melee = 2
-	melee_damage_lower = 25
-	melee_damage_upper = 35
+	melee_damage_lower = 9
+	melee_damage_upper = 10
 	melee_damage_type = RED_DAMAGE
 	is_flying_animal = TRUE
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 800
+	health = 800
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 0.5)
 	stat_attack = HARD_CRIT
 	death_sound = 'sound/abnormalities/dreamingcurrent/dead.ogg'
@@ -40,8 +40,10 @@
 						ABNORMALITY_WORK_ATTACHMENT = -100,//you thought it would work like current eh?
 						ABNORMALITY_WORK_REPRESSION = list(70, 65, 60, 55, 50)//Incase you reach waw with justice 1
 						)
-	work_damage_amount = 7//does constant oxygen damage during work
+	work_damage_upper = 5
+	work_damage_lower = 4//does constant oxygen damage during work
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
 	ranged = 1
 	can_breach = TRUE
 	start_qliphoth = 2
@@ -67,23 +69,23 @@
 		We were all abandoned, yes. <br>But we all had dreams, too. <br>Remember? <br>\
 		Well, let's make our dreams come true. <br>Let's sink together into the depths.\" <br>\
 		The dim fluorescent lights impaling the entity's back flicker."
-	observation_choices = list("Say that you will sink together", "Fix the entity's flickering fluorescent lights")
-	correct_choices = list("Fix the entity's flickering fluorescent lights")
-	observation_success_message = "\"I remember. <br>I've always wanted to run across a rolling field of grass under the warm sun. <br>\
-		To swim across the vast ocean that I've seen only through pictures. <br>\
-		That was my dream. <br>\
-		My only dream. <br>\
-		Now, if you ever recall a dream in which you wished to twinkle, even as a faint flicker...\""
-	observation_fail_message = "You still fear the dark, don't you? <br>\
-		I know that you will miss the surface, forever out of your reach once this fluorescent lamp dies. <br>\
-		So do return once you're ready.\""
+	observation_choices = list(
+		"Fix the entity's flickering fluorescent lights" = list(TRUE, "\"I remember. <br>I've always wanted to run across a rolling field of grass under the warm sun. <br>\
+			To swim across the vast ocean that I've seen only through pictures. <br>\
+			That was my dream. <br>\
+			My only dream. <br>\
+			Now, if you ever recall a dream in which you wished to twinkle, even as a faint flicker...\""),
+		"Say that you will sink together" = list(FALSE, "You still fear the dark, don't you? <br>\
+			I know that you will miss the surface, forever out of your reach once this fluorescent lamp dies. <br>\
+			So do return once you're ready.\""),
+	)
 
 	var/stunned = FALSE
 	//Stuff relating to the dive attack
 	var/diving = FALSE
 	var/dive_cooldown
 	var/dive_cooldown_time = 15 SECONDS
-	var/dive_damage = 100
+	var/dive_damage = 40
 	//The amount of flotsams that should spawn in the hallways when it breaches
 	var/tube_spawn_amount = 6
 	var/list/spawned_flotsams = list()
@@ -256,6 +258,9 @@
 		H.adjustOxyLoss(4, updating_health=TRUE, forced=TRUE)
 
 /mob/living/simple_animal/hostile/abnormality/siltcurrent/death()
+	icon = 'ModularTegustation/Teguicons/abno_cores/waw.dmi'
+	pixel_x = -16
+	base_pixel_x = -16
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)

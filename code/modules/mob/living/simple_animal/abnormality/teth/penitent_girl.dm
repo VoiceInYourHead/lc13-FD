@@ -7,8 +7,8 @@
 	icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
 	icon_state = "penitent"
 	portrait = "penitent"
-	maxHealth = 400
-	health = 400
+	maxHealth = 100
+	health = 100
 	threat_level = TETH_LEVEL
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 50,
@@ -17,9 +17,10 @@
 		ABNORMALITY_WORK_REPRESSION = 50,
 	)
 	is_flying_animal = TRUE
-	work_damage_amount = 6
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
-	chem_type = /datum/reagent/abnormality/woe
+	chem_type = /datum/reagent/abnormality/sin/gloom
 
 	ego_list = list(
 		/datum/ego_datum/weapon/sorrow,
@@ -27,17 +28,18 @@
 	)
 	gift_type =  /datum/ego_gifts/sorrow
 	abnormality_origin = ABNORMALITY_ORIGIN_WONDERLAB
+	can_spawn = FALSE // Normally doesn't appear
 
 	observation_prompt = "A girl in front of you dances, stumbling to and fro. <br>\
 		Her feet are chopped off at the ankles, and yet they still move. <br>\
 		You..."
-	observation_choices = list("Put on the shoes.", "Don't put on the shoes.")
-	correct_choices = list("Put on the shoes.")
-	observation_success_message = "You remove the severed feet, and put on the shoes. <br>\
-		It feels good. <br>You want to dance. <br>Please, chop off my feet."
-	observation_fail_message = "How could you do something so gross? <br>\
-		You leave the shoes where they are. <br>\
-		The girl continues shifting about without a care in the world."
+	observation_choices = list(
+		"Put on the shoes" = list(TRUE, "You remove the severed feet, and put on the shoes. <br>\
+			It feels good. <br>You want to dance. <br>Please, chop off my feet."),
+		"Don't put on the shoes" = list(FALSE, "How could you do something so gross? <br>\
+			You leave the shoes where they are. <br>\
+			The girl continues shifting about without a care in the world."),
+	)
 
 //Work Mechanics
 /mob/living/simple_animal/hostile/abnormality/penitentgirl/AttemptWork(mob/living/carbon/human/user, work_type)
@@ -50,7 +52,7 @@
 	// you are going to cut your own leg off
 	work_damage_type = initial(work_damage_type)
 	if((get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 40) && (get_attribute_level(user, PRUDENCE_ATTRIBUTE) < 40))
-		user.deal_damage(250, WHITE_DAMAGE) //DIE!
+		user.deal_damage(50, WHITE_DAMAGE) //DIE!
 
 	if(user.sanity_lost)
 		user.apply_status_effect(STATUS_EFFECT_PENITENCE)

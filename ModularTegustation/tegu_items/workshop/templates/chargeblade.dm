@@ -3,7 +3,7 @@
 	name = "chargeblade template"
 	desc = "A glowing weapon made using Wcorp charge technology."
 	icon_state = "chargetemplate"
-	force = 18
+	force = 9
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "cuts")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "cut")
@@ -19,4 +19,4 @@
 
 /obj/item/ego_weapon/template/chargeblade/ChargeAttack(mob/living/target, mob/living/user)
 	. = ..()
-	target.apply_damage(force, damtype, null, target.run_armor_check(null, damtype), spread_damage = TRUE)
+	target.deal_damage(force, damtype)

@@ -7,6 +7,7 @@
 	selection_color = "#555555"
 	access = list(ACCESS_CARGO)
 	minimal_access = list(ACCESS_CARGO)
+	departments = DEPARTMENT_SERVICE
 	outfit = /datum/outfit/job/carnival
 	display_order = JOB_DISPLAY_ORDER_ANTAG
 	exp_requirements = 300
@@ -23,16 +24,15 @@
 								TEMPERANCE_ATTRIBUTE = 80,
 								JUSTICE_ATTRIBUTE = 80
 								)
-
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 
 
 /datum/job/carnival/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	H.set_species(/datum/species/synth)
-	job_important = "If there is an L-Corp facility nearby, do not enter it. Fixers are not inherently hostile to you, but they can find a reason to put you down. \
-			Your primary goal is to kill monsters in the backstreets and/or humans to weave silk so you can then sell it to the humans. \
-			You have a base on the left side of the nest."
+	job_important = "You are allowed to enter the ruins to hunt for silk. However, DO NOT LOOT THE WEAPONS, CASH OR ARMOR FROM THE BACKSTREETS! \
+			Your primary goal is to kill monsters in the ruins and/or humans to weave silk so you can then sell it to the humans. \
+			You have a base on the left side of the nest. \
+			You are allowed to hunt down players in the ruins, especially if they are by themselves! (However avoid spawn killing them, by waiting at the entrance.)"
 	..()
 
 /datum/outfit/job/carnival
@@ -50,7 +50,7 @@
 	backpack_contents = list(
 		/obj/item/silkknife = 1,
 		/obj/item/pda/roboticist = 1,
-		/obj/item/book/granter/crafting_recipe/weaving_armor = 1,
+		/obj/item/book/granter/crafting_recipe/carnival/weaving_armor = 1,
 		/obj/item/stack/sheet/silk/indigo_simple = 4,
 		/obj/item/stack/sheet/silk/green_simple = 4,
 		/obj/item/stack/sheet/silk/amber_simple = 4,

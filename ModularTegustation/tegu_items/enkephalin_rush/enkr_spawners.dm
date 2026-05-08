@@ -1,0 +1,362 @@
+//Mainly supplies for latejoiners
+/obj/effect/landmark/enkritemspawn
+	name = "site burial requisitions"
+	desc = "It spawns an item. Notify a coder. Thanks!"
+	icon = 'icons/effects/landmarks_static.dmi'
+	icon_state = "x4"
+	var/list/possible_items = list(
+	/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+	/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+	)
+
+/obj/effect/landmark/enkritemspawn/Initialize()
+	..()
+	var/spawning = pick(possible_items)
+	new spawning(get_turf(src))
+	var/timeradd = rand(1200, 1800)
+	addtimer(CALLBACK(src, PROC_REF(spawnagain)), timeradd)
+	return INITIALIZE_HINT_NORMAL
+
+/obj/effect/landmark/enkritemspawn/proc/spawnagain()
+	var/timeradd = rand(1200, 1800)
+	addtimer(CALLBACK(src, PROC_REF(spawnagain)), timeradd)
+
+	if(prob(50))	//50% to spawn
+		return
+
+	var/spawning = pick(possible_items)
+	new spawning(get_turf(src))
+
+GLOBAL_DATUM_INIT(map_enemy, /datum/enemy, new)
+
+//map-based enemy faction selection
+/obj/effect/spawner/map_enemy
+	var/level = 1//risk level
+	var/obj/effect/spawner/mobspawner/chosen_spawner//the spawner this copies vars from
+	var/list/ordeal_types = list()//the types of ordeals the enemy type can spawn
+	var/list/spawner_types = list(//TODO: this needs to be determined by specific maps. Default is currently for District 4
+			/datum/enemy/gold,
+			/datum/enemy/brown,
+			/datum/enemy/steel,
+			/datum/enemy/abnos,
+			//TODO: wineberry creek E.G.O corrosion faction, currently mixed with gold
+			)
+
+/obj/effect/spawner/map_enemy/New(loc, risk_level)
+	if(risk_level)
+		level = risk_level
+	..()
+
+/obj/effect/spawner/map_enemy/Initialize()
+	if(istype(GLOB.map_enemy, /datum/enemy))
+		if("whales" in SSmaptype.map_tags)//50% chance to roll whales, 50% anything else
+			spawner_types += list(/datum/enemy/whales, /datum/enemy/whales, /datum/enemy/whales, /datum/enemy/whales)
+		if("wineberrycreek" in SSmaptype.map_tags)
+			spawner_types += /datum/enemy/gold//Make wineberry abnos their own enemy type later. This currently doubles their odds of appearing.
+		var/datum/enemy/selection = pick(spawner_types)
+		GLOB.map_enemy = new selection()
+	var/datum/enemy/myenemy = GLOB.map_enemy
+	if(istype(myenemy,/datum/enemy))
+		ordeal_types = myenemy.ordeal_types
+	var/i = 0
+	for(var/obj/effect/spawner/mobspawner/S as anything in ordeal_types)
+		i++
+		if(i == level || i == LAZYLEN(ordeal_types))
+			chosen_spawner = new S(loc)
+			break
+	..()
+	return INITIALIZE_HINT_QDEL
+
+/datum/enemy
+	var/ordeal_types = list()
+	var/spawn_data = list()
+
+//amber ordeals
+/datum/enemy/amber
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/amber_dawn,
+		)
+//clockwork teeth; green ordeals
+/datum/enemy/green
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/green_dawn/solo,
+		/obj/effect/spawner/mobspawner/green_noon/solo,
+		/obj/effect/spawner/mobspawner/green_dusk/solo,
+		/obj/effect/spawner/mobspawner/green_dusk/duo,
+		)
+//sweepers
+/datum/enemy/indigo
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/indigo_dawn/solo,
+		/obj/effect/spawner/mobspawner/indigo_noon/solo,
+		/obj/effect/spawner/mobspawner/indigo_dusk/duo,
+		/obj/effect/spawner/mobspawner/indigo_dusk/quartet,
+		)
+//E.G.O corroded LC employees
+/datum/enemy/gold
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/gold_dawn,
+		/obj/effect/spawner/mobspawner/gold_noon,
+		/obj/effect/spawner/mobspawner/gold_dusk,
+		/obj/effect/spawner/mobspawner/gold_midnight,
+		)
+//peccatulae
+/datum/enemy/brown
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/brown_dawn,
+		/obj/effect/spawner/mobspawner/brown_dawn/noon,
+		/obj/effect/spawner/mobspawner/brown_dawn/dusk,
+		/obj/effect/spawner/mobspawner/brown_dawn/midnight,
+		)
+//G. corp veterans
+/datum/enemy/steel
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/steel_dawn/solo,
+		/obj/effect/spawner/mobspawner/steel_noon/solo,
+		/obj/effect/spawner/mobspawner/steel_noon/duo,
+		/obj/effect/spawner/mobspawner/steel_noon/quartet,
+		)
+
+//Abnormality thralls
+/datum/enemy/abnos
+	ordeal_types = list(
+		/obj/effect/spawner/mobspawner/teth,
+		/obj/effect/spawner/mobspawner/he,
+		/obj/effect/spawner/mobspawner/waw,
+		/obj/effect/spawner/mobspawner/aleph,
+		)
+
+/datum/enemy/whales
+	ordeal_types = list(
+	/obj/effect/spawner/mobspawner/whale_dawn,
+	/obj/effect/spawner/mobspawner/whale_noon,
+	/obj/effect/spawner/mobspawner/whale_dusk,
+	/obj/effect/spawner/mobspawner/whale_dusk/duo,
+	)
+
+//***********Spawners go here***********
+
+	//Peccatulae
+/obj/effect/spawner/mobspawner/brown_dawn
+	name = "mixed peccatulae spawn"
+	max_spawns = 2
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/sin_sloth = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_gluttony = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_gloom = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_pride = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_lust = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_wrath = 5,
+		/mob/living/simple_animal/hostile/ordeal/sin_envy/agent = 3,
+		/mob/living/simple_animal/hostile/ordeal/sin_envy/agent/captain = 1,
+		)
+
+/obj/effect/spawner/mobspawner/brown_dawn/noon
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/sin_sloth/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gloom/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_pride/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_lust/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_wrath/noon = 1,
+		)
+
+/obj/effect/spawner/mobspawner/brown_dawn/dusk
+	max_spawns = 2
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/sin_sloth/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gloom/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_pride/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_lust/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_wrath/noon = 1,
+		)
+
+/obj/effect/spawner/mobspawner/brown_dawn/midnight
+	max_spawns = 4
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/sin_sloth/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gluttony/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_gloom/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_pride/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_lust/noon = 1,
+		/mob/living/simple_animal/hostile/ordeal/sin_wrath/noon = 1,
+		)
+
+	//E.G.O Corrosions
+/obj/effect/spawner/mobspawner/gold_dawn
+	name = "gold dawn corrosion spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/dragonskull_corrosion = 5,
+		/mob/living/simple_animal/hostile/ordeal/fallen_amurdad_corrosion = 1,
+		/mob/living/simple_animal/hostile/ordeal/beanstalk_corrosion = 3,
+		)
+
+/obj/effect/spawner/mobspawner/gold_noon
+	name = "gold noon spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/tsa_corrosion = 10,
+//		/mob/living/simple_animal/hostile/ordeal/silentgirl_corrosion = 10,
+		/mob/living/simple_animal/hostile/ordeal/white_lake_corrosion = 1,
+		)
+
+/obj/effect/spawner/mobspawner/gold_dusk
+	name = "electric gold dusk spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/centipede_corrosion = 1 ,
+		/mob/living/simple_animal/hostile/ordeal/thunderbird_corrosion = 12,
+		/mob/living/simple_animal/hostile/ordeal/KHz_corrosion = 15,
+		)
+
+/obj/effect/spawner/mobspawner/gold_midnight
+	name = "corroded inquisition spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/snake_corrosion = 10,
+		/mob/living/simple_animal/hostile/ordeal/dog_corrosion = 10,
+		/mob/living/simple_animal/hostile/ordeal/dog_corrosion/strong = 3,
+		/mob/living/simple_animal/hostile/ordeal/snake_corrosion/strong = 3,
+		/mob/living/simple_animal/hostile/ordeal/NT_corrosion = 3,
+		/mob/living/simple_animal/hostile/ordeal/tso_corrosion = 1,//bosses
+		)
+
+/obj/effect/spawner/mobspawner/teth//generally these are supposed to be humans who died in the facility, but there aren't enough for good variety
+	name = "teth abnormality thrall spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/aminion/doomsday_doll = 10,
+		/mob/living/simple_animal/hostile/aminion/azure_stave = 1,//servant of wrath minion
+		)
+
+/obj/effect/spawner/mobspawner/he
+	name = "he abnormality thrall spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/aminion/shrimp = 10,//shrimp liquidation intern
+		/mob/living/simple_animal/hostile/aminion/shrimp/soldier = 1,//shotgun shrimp
+		/mob/living/simple_animal/hostile/aminion/gift = 1,//laetitia spider
+		/mob/living/simple_animal/hostile/aminion/grown_strong = 1,
+		/mob/living/simple_animal/hostile/aminion/nosferatu_mob = 10,
+		/mob/living/simple_animal/hostile/aminion/worker_bee = 10,
+		/mob/living/simple_animal/hostile/aminion/soldier_bee = 10,//identical to above, has a hat
+		/mob/living/simple_animal/hostile/aminion/artillery_bee = 5,
+		/mob/living/simple_animal/hostile/aminion/slime = 1,//ML slime (small)
+		)
+
+/obj/effect/spawner/mobspawner/waw
+	name = "waw abnormality thrall spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/aminion/yagaslave = 5,
+		/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling = 1,
+		/mob/living/simple_animal/hostile/aminion/thunder_zombie = 5,
+		)
+
+/obj/effect/spawner/mobspawner/aleph
+	name = "aleph abnormality thrall spawn"
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/aminion/little_prince_1 = 1,//this guy has a wopping 1200 hp
+		/mob/living/simple_animal/hostile/aminion/mini_censored = 1,
+		/mob/living/simple_animal/hostile/aminion/meatblob = 10,
+		/mob/living/simple_animal/hostile/aminion/meatblob/gunner = 5,
+		/mob/living/simple_animal/hostile/aminion/meatblob/gunner/shotgun = 5,
+		/mob/living/simple_animal/hostile/aminion/meatblob/gunner/sniper = 5,
+		/mob/living/simple_animal/hostile/aminion/slime/big = 2,//ML's chosen
+		)
+
+//Steel Singles
+/obj/effect/spawner/mobspawner/steel_dawn/solo
+	max_spawns = 1
+
+/obj/effect/spawner/mobspawner/steel_noon/solo
+	max_spawns = 1
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon = 3,
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon/flying = 1,
+		)
+
+/obj/effect/spawner/mobspawner/steel_noon/duo//dusk
+	max_spawns = 2
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon = 5,
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon/flying = 3,
+		/mob/living/simple_animal/hostile/ordeal/steel_dusk = 1,
+		)
+
+/obj/effect/spawner/mobspawner/steel_noon/quartet//midnight
+	max_spawns = 4
+	mobspawn_table = list(
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon = 5,
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon/flying = 5,
+		/mob/living/simple_animal/hostile/ordeal/steel_dusk = 1,
+		)
+
+//Green Singles (unused)
+/obj/effect/spawner/mobspawner/green_dawn/solo
+	max_spawns = 1
+
+/obj/effect/spawner/mobspawner/green_noon/solo
+	max_spawns = 1
+
+/obj/effect/spawner/mobspawner/green_dusk/solo
+	max_spawns = 1
+	mobspawn_table = list(/mob/living/simple_animal/hostile/ordeal/green_dusk = 1)
+
+/obj/effect/spawner/mobspawner/green_dusk/duo//midnight
+	max_spawns = 2
+	mobspawn_table = list(/mob/living/simple_animal/hostile/ordeal/green_dusk = 1)
+
+	//Indigo Sweepers
+/obj/effect/spawner/mobspawner/indigo_dawn/solo
+	max_spawns = 1
+
+/obj/effect/spawner/mobspawner/indigo_noon/solo
+	max_spawns = 1
+
+/obj/effect/spawner/mobspawner/indigo_dusk/duo//dusk
+	max_spawns = 2
+	mobspawn_table = list(
+	/mob/living/simple_animal/hostile/ordeal/indigo_noon = 10,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/red = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/white = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/black = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/pale = 1,
+	)
+
+/obj/effect/spawner/mobspawner/indigo_dusk/quartet//midnight
+	max_spawns = 4
+	mobspawn_table = list(
+	/mob/living/simple_animal/hostile/ordeal/indigo_noon = 5,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/red = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/white = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/black = 2,
+	/mob/living/simple_animal/hostile/ordeal/indigo_dusk/pale = 1,
+	)
+
+/obj/effect/spawner/mobspawner/whale_dawn
+	max_spawns = 1
+	mobspawn_table = list(
+	/mob/living/simple_animal/hostile/ordeal/mermaid_porous = 100,
+	/mob/living/simple_animal/hostile/ordeal/mermaid_porous/soldier = 1,
+	)
+
+/obj/effect/spawner/mobspawner/whale_noon
+	max_spawns = 1
+	mobspawn_table = list(
+	/mob/living/simple_animal/hostile/ordeal/mermaid_strand = 1,
+	)
+
+/obj/effect/spawner/mobspawner/whale_dusk
+	max_spawns = 1
+	mobspawn_table = list(
+	/mob/living/simple_animal/hostile/ordeal/lcb_pallid = 3,
+	/mob/living/simple_animal/hostile/ordeal/lcb_pallid/pistol = 1,
+	)
+
+/obj/effect/spawner/mobspawner/whale_dusk/duo
+	max_spawns = 2

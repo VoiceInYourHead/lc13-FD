@@ -123,7 +123,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 /datum/preferences/proc/announce_conflict(list/notadded)
 	to_chat(parent, "<span class='userdanger'>KEYBINDING CONFLICT!!!\n\
 	There are new keybindings that have defaults bound to keys you already set, They will default to Unbound. You can bind them in Setup Character or Game Preferences\n\
-	<a href='?_src_=prefs;preference=tab;tab=3'>Or you can click here to go straight to the keybindings page</a></span>")
+	<a href='byond://?_src_=prefs;preference=tab;tab=3'>Or you can click here to go straight to the keybindings page</a></span>")
 	for(var/item in notadded)
 		var/datum/keybinding/conflicted = item
 		to_chat(parent, "<span class='userdanger'>[conflicted.category]: [conflicted.full_name] needs updating")
@@ -158,7 +158,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//general preferences
 	READ_FILE(S["asaycolor"], asaycolor)
-	READ_FILE(S["brief_outfit"], brief_outfit)
 	READ_FILE(S["ooccolor"], ooccolor)
 	READ_FILE(S["lastchangelog"], lastchangelog)
 	READ_FILE(S["UI_style"], UI_style)
@@ -173,6 +172,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["tgui_lock"], tgui_lock)
 	READ_FILE(S["buttons_locked"], buttons_locked)
 	READ_FILE(S["client_language"], client_language)
+	READ_FILE(S["auxiliary_console_tgui"], auxiliary_console_tgui)
 	READ_FILE(S["windowflash"], windowflashing)
 	READ_FILE(S["be_special"] , be_special)
 
@@ -244,6 +244,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	tgui_lock		= sanitize_integer(tgui_lock, FALSE, TRUE, initial(tgui_lock))
 	buttons_locked	= sanitize_integer(buttons_locked, FALSE, TRUE, initial(buttons_locked))
 	client_language = sanitize_inlist(client_language, GLOB.allowed_client_languages, initial(client_language))
+	auxiliary_console_tgui = sanitize_integer(auxiliary_console_tgui, FALSE, TRUE, initial(auxiliary_console_tgui))
 	windowflashing	= sanitize_integer(windowflashing, FALSE, TRUE, initial(windowflashing))
 	default_slot	= sanitize_integer(default_slot, 1, max_save_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, (2**24)-1, initial(toggles))
@@ -260,7 +261,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	ghost_others	= sanitize_inlist(ghost_others, GLOB.ghost_others_options, GHOST_OTHERS_DEFAULT_OPTION)
 	menuoptions		= SANITIZE_LIST(menuoptions)
 	be_special		= SANITIZE_LIST(be_special)
-	brief_outfit	= sanitize_inlist(brief_outfit, subtypesof(/datum/outfit), null)
 	pda_style		= sanitize_inlist(pda_style, GLOB.pda_styles, initial(pda_style))
 	pda_color		= sanitize_hexcolor(pda_color, 6, 1, initial(pda_color))
 	key_bindings 	= sanitize_keybindings(key_bindings)
@@ -298,7 +298,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 
 	//general preferences
 	WRITE_FILE(S["asaycolor"], asaycolor)
-	WRITE_FILE(S["brief_outfit"], brief_outfit)
 	WRITE_FILE(S["ooccolor"], ooccolor)
 	WRITE_FILE(S["lastchangelog"], lastchangelog)
 	WRITE_FILE(S["UI_style"], UI_style)
@@ -312,6 +311,7 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["tgui_lock"], tgui_lock)
 	WRITE_FILE(S["buttons_locked"], buttons_locked)
 	WRITE_FILE(S["client_language"], client_language)
+	WRITE_FILE(S["auxiliary_console_tgui"], auxiliary_console_tgui)
 	WRITE_FILE(S["windowflash"], windowflashing)
 	WRITE_FILE(S["be_special"], be_special)
 	WRITE_FILE(S["default_slot"], default_slot)
@@ -391,10 +391,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["undershirt"], undershirt)
 	READ_FILE(S["socks"], socks)
 	READ_FILE(S["backpack"], backpack)
-	READ_FILE(S["jumpsuit_style"], jumpsuit_style)
 	READ_FILE(S["uplink_loc"], uplink_spawn_loc)
 	READ_FILE(S["playtime_reward_cloak"], playtime_reward_cloak)
-	READ_FILE(S["phobia"], phobia)
 	READ_FILE(S["randomise"],  randomise)
 	READ_FILE(S["feature_mcolor"], features["mcolor"])
 	READ_FILE(S["feature_ethcolor"], features["ethcolor"])
@@ -437,7 +435,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	READ_FILE(S["prefered_sephirah_boxcolor"], prefered_sephirah_boxcolor)
 
 	//Lore
-	READ_FILE(S["terragov_relation"], terragov_relation)
+	READ_FILE(S["home_district"], home_district)
+	READ_FILE(S["home_wealth"], home_wealth)
 
 	//Jobs
 	READ_FILE(S["joblessrole"], joblessrole)
@@ -500,7 +499,6 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	eye_color		= sanitize_hexcolor(eye_color, 3, 0)
 	skin_tone		= sanitize_inlist(skin_tone, GLOB.skin_tones)
 	backpack			= sanitize_inlist(backpack, GLOB.backpacklist, initial(backpack))
-	jumpsuit_style	= sanitize_inlist(jumpsuit_style, GLOB.jumpsuitlist, initial(jumpsuit_style))
 	uplink_spawn_loc = sanitize_inlist(uplink_spawn_loc, GLOB.uplink_spawn_loc_list, initial(uplink_spawn_loc))
 	playtime_reward_cloak = sanitize_integer(playtime_reward_cloak)
 	features["mcolor"]	= sanitize_hexcolor(features["mcolor"], 3, 0)
@@ -521,7 +519,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	persistent_scars = sanitize_integer(persistent_scars)
 
 	//Lore
-	terragov_relation = sanitize_inlist(terragov_relation, GLOB.relationship_prefs, initial(terragov_relation))
+	home_district = sanitize_inlist(home_district, GLOB.district_prefs, initial(home_district))
+	home_wealth = sanitize_inlist(home_wealth, GLOB.wealth_prefs, initial(home_wealth))
 
 	joblessrole	= sanitize_integer(joblessrole, 1, 3, initial(joblessrole))
 	//Validate job prefs
@@ -563,12 +562,10 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["undershirt"]			, undershirt)
 	WRITE_FILE(S["socks"]			, socks)
 	WRITE_FILE(S["backpack"]			, backpack)
-	WRITE_FILE(S["jumpsuit_style"]			, jumpsuit_style)
 	WRITE_FILE(S["uplink_loc"]			, uplink_spawn_loc)
 	WRITE_FILE(S["playtime_reward_cloak"]			, playtime_reward_cloak)
 	WRITE_FILE(S["randomise"]		, randomise)
 	WRITE_FILE(S["species"]			, pref_species.id)
-	WRITE_FILE(S["phobia"], phobia)
 	WRITE_FILE(S["feature_mcolor"]					, features["mcolor"])
 	WRITE_FILE(S["feature_ethcolor"]					, features["ethcolor"])
 	WRITE_FILE(S["feature_lizard_tail"]			, features["tail_lizard"])
@@ -597,7 +594,8 @@ SAVEFILE UPDATING/VERSIONING - 'Simplified', or rather, more coder-friendly ~Car
 	WRITE_FILE(S["prefered_sephirah_boxcolor"] , prefered_sephirah_boxcolor)
 
 	//Lore
-	WRITE_FILE(S["terragov_relation"], terragov_relation)
+	WRITE_FILE(S["home_district"], home_district)
+	WRITE_FILE(S["home_wealth"], home_wealth)
 
 	//Jobs
 	WRITE_FILE(S["joblessrole"]		, joblessrole)

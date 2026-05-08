@@ -10,13 +10,13 @@
 	del_on_death = FALSE
 	pixel_x = -16
 	base_pixel_x = -16
-	maxHealth = 900
-	health = 900
+	maxHealth = 200
+	health = 200
 	rapid_melee = 0.5
 	move_to_delay = 4
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.7, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
-	melee_damage_lower = 12
-	melee_damage_upper = 16
+	melee_damage_lower = 3
+	melee_damage_upper = 5
 	melee_damage_type = RED_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/abnormalities/fairy_longlegs/attack.ogg'
@@ -32,8 +32,10 @@
 		ABNORMALITY_WORK_REPRESSION = 0,
 		"Take cover" = 0,
 	)
-	work_damage_amount = 5
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 	death_message = "coalesces into a primordial egg."
 	death_sound = 'sound/abnormalities/fairy_longlegs/death.ogg'
 	abnormality_origin = ABNORMALITY_ORIGIN_LIMBUS
@@ -45,23 +47,23 @@
 	)
 
 	ego_list = list(
-		/datum/ego_datum/weapon/fourleaf_clover,
-		/datum/ego_datum/armor/fourleaf_clover,
+		/datum/ego_datum/weapon/sticking,
+		/datum/ego_datum/armor/sticking,
 	)
 	gift_type =  /datum/ego_gifts/fourleaf_clover
 
 	observation_prompt = "Come on, why don'cha stay under the umbrella with me? <br>\
 		Just for old times sake?"
-	observation_choices = list("Yes", "No")
-	correct_choices = list("No")
-	observation_success_message = "You'd think that you'd have learned your lesson by now. <br>\
-		You leave the cell, having narrowly dodged the imminent attack. <br>\
-		This guy will always be a crook."
-	observation_fail_message = "Ouch! <br>\
-		The moment you get in striking range of fairy long legs, you are attacked. <br>\
-		\"Heh. You really think you could be one of us, pal?\" <br>\
-		\"You aint part of the family, chump.\" <br>\
-		You walk away, and bandage the bleeding wound."
+	observation_choices = list(
+		"No" = list(TRUE, "You'd think that you'd have learned your lesson by now. <br>\
+			You leave the cell, having narrowly dodged the imminent attack. <br>\
+			This guy will always be a crook."),
+		"Yes" = list(FALSE, "Ouch! <br>\
+			The moment you get in striking range of fairy long legs, you are attacked. <br>\
+			\"Heh. You really think you could be one of us, pal?\" <br>\
+			\"You aint part of the family, chump.\" <br>\
+			You walk away, and bandage the bleeding wound."),
+	)
 
 	var/finishing = FALSE //cant move/attack when it's TRUE
 	var/work_count = 0
@@ -70,6 +72,7 @@
 
 
 /mob/living/simple_animal/hostile/abnormality/fairy_longlegs/death(gibbed)
+	icon = 'ModularTegustation/Teguicons/abno_cores/teth.dmi'
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
@@ -110,6 +113,7 @@
 	if((work_type == "Take cover") && raining) //Uh oh, you goofed up
 		to_chat(user, span_danger("You decide to take cover under the fairy's clover."))
 		work_count = 0
+		raining = FALSE
 		Execute(user)
 		return FALSE
 	if((work_type != "Take cover") && raining)
@@ -135,6 +139,7 @@
 		datum_reference.qliphoth_change(-2)
 
 /mob/living/simple_animal/hostile/abnormality/fairy_longlegs/proc/Execute(mob/living/carbon/human/user)
+	raining = FALSE
 	user.Stun(3 SECONDS)
 	step_towards(user, src)
 	sleep(0.5 SECONDS)
@@ -145,21 +150,24 @@
 	if(QDELETED(user))
 		return
 	user.visible_message(span_warning("You feel a stinging pain in your chest, is that...blood?!"))
-	playsound(get_turf(src), 'sound/abnormalities/fairy_longlegs/attack.ogg', 50, 1)
-	user.deal_damage(100, RED_DAMAGE)
+	icon_state = "fairy_longlegs_healing"
+	playsound(get_turf(src), 'sound/abnormalities/fairy_longlegs/heal.ogg', 50, 1)
+	user.deal_damage(30, RED_DAMAGE)
 	for(var/obj/effect/rainy_effect/rain in range(3, src))
 		rain.End(FALSE)
+	sleep(1.5 SECONDS)
+	icon_state = "fairy_longlegs"
 
 //Breach Stuff
-/mob/living/simple_animal/hostile/abnormality/fairy_longlegs/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/fairy_longlegs/AttackingTarget(atom/attacked_target)
 	if(finishing)
 		return FALSE
-	if(!istype(target, /mob/living/carbon/human))
+	if(!istype(attacked_target, /mob/living/carbon/human))
 		return ..()
 	finishing = TRUE
 	icon_state = "fairy_longlegs_healing"
 	playsound(get_turf(src), 'sound/abnormalities/fairy_longlegs/heal.ogg', 50, 1)
-	adjustBruteLoss(-(maxHealth*0.04)) //recovers 38 health per hit
+	adjustBruteLoss(-(maxHealth*0.04))
 	..()
 	SLEEP_CHECK_DEATH(15)
 	icon_state = "fairy_longlegs"
@@ -185,5 +193,5 @@
 	if(healing)
 		for(var/mob/living/carbon/human/H in get_turf(src))
 			to_chat(H, span_nicegreen("The rain is oddly reinvigorating."))
-			H.adjustBruteLoss(-80)
+			H.adjustBruteLoss(-20)
 	QDEL_IN(src, 50)

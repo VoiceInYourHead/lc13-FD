@@ -110,8 +110,7 @@
 /mob/living/simple_animal/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	if(.)
-		var/damage = rand(M.melee_damage_lower, M.melee_damage_upper)
-		return attack_threshold_check(damage, M.melee_damage_type)
+		return attack_threshold_check(rand(M.melee_damage_lower, M.melee_damage_upper), M.melee_damage_type) //Fixing a 1 year old bug...
 
 /mob/living/simple_animal/attack_slime(mob/living/simple_animal/slime/M)
 	if(..()) //successful slime attack
@@ -142,6 +141,7 @@
 
 	if(temp_damage >= 0 && temp_damage <= force_threshold)
 		visible_message(span_warning("[src] looks unharmed!"))
+		DamageEffect(0, damagetype)
 		return FALSE
 
 	if(actuallydamage)

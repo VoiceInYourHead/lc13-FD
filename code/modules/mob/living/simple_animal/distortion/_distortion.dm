@@ -23,7 +23,7 @@
 	simple_mob_flags = SILENCE_RANGED_MESSAGE
 	can_patrol = TRUE
 	/// Can this thing spawn?
-	var/can_spawn = 1
+	var/can_spawn = 0
 	/// Copy-pasted from megafauna.dm: This allows player controlled mobs to use abilities
 	var/chosen_attack = 1
 	/// Attack actions, sets chosen_attack to the number in the action
@@ -48,6 +48,8 @@
 	var/list/egoist_names = list()
 	/// Specific outfit datum for the unmanifested to spawn with; civilian by default.
 	var/egoist_outfit = /datum/outfit/job/civilian
+	/// Prolonged exposure to a monolith will convert the distortion into an abnormality. When if null, they are unaffected by it.
+	var/monolith_abnormality
 
 /mob/living/simple_animal/hostile/distortion/Initialize(mapload)
 	. = ..()

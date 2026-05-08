@@ -117,7 +117,7 @@
 	. = ..()
 	handle_layer()
 
-/obj/structure/chair/post_unbuckle_mob()
+/obj/structure/chair/post_unbuckle_mob(mob/living/M)
 	. = ..()
 	handle_layer()
 
@@ -272,8 +272,8 @@
 	lefthand_file = 'icons/mob/inhands/misc/chairs_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/chairs_righthand.dmi'
 	w_class = WEIGHT_CLASS_HUGE
-	force = 8
-	throwforce = 10
+	force = 2
+	throwforce = 3
 	throw_range = 3
 	hitsound = 'sound/items/trayhit1.ogg'
 	hit_reaction_chance = 50
@@ -342,10 +342,10 @@
 		return
 	if(prob(break_chance))
 		user.visible_message("<span class='danger'>[user] smashes \the [src] to pieces against \the [target]</span>")
-		if(iscarbon(target))
-			var/mob/living/carbon/C = target
-			if(C.health < C.maxHealth*0.5)
-				C.Paralyze(20)
+		// if(iscarbon(target))
+		// 	var/mob/living/carbon/C = target
+		// 	if(C.health < C.maxHealth*0.5)
+		// 		C.Paralyze(20)
 		smash(user)
 
 /obj/item/chair/greyscale
@@ -485,7 +485,7 @@
 	lefthand_file = 'icons/mob/inhands/misc/chairs_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/chairs_righthand.dmi'
 	w_class = WEIGHT_CLASS_NORMAL
-	force = 7
+	force = 2
 	throw_range = 5 //Lighter Weight --> Flies Farther.
 	custom_materials = list(/datum/material/plastic = 2000)
 	break_chance = 25

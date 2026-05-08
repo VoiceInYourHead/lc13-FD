@@ -2,8 +2,8 @@
 /mob/living/simple_animal/hostile/abnormality/red_shoes
 	name = "Red Shoes"
 	desc = "A pair of elegant red women's shoes. The design is antique, but there is no telling where and how they were made."
-	health = 800
-	maxHealth = 800
+	health = 150
+	maxHealth = 150
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "redshoes"
 	icon_living = "redshoes"
@@ -20,13 +20,16 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(99, 99, 50, 40, 30),
 		ABNORMALITY_WORK_REPRESSION = 0,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/wrath
+	max_boxes = 16
 	del_on_death = FALSE
 	death_message = "crumples into a pile of bones."
 	attack_sound = 'sound/abnormalities/redshoes/RedShoes_Attack.ogg'
-	melee_damage_lower = 15
-	melee_damage_upper = 30
+	melee_damage_lower = 3
+	melee_damage_upper = 6
 	melee_damage_type = RED_DAMAGE
 	move_to_delay = 2
 	rapid_melee = 2
@@ -39,14 +42,14 @@
 
 	observation_prompt = "There is a pair of red shoes. <br>\
 		It could be sitting in front of me, or in my feet. I am......"
-	observation_choices = list("Wearing them.", "Not wearing them.")
-	correct_choices = list("Wearing them.") //TODO: Second line of dialogue, must be coded
-	observation_success_message = "I am wearing the shoes. <br>\
-		They are perfect fit, it feels good. <br>I have a weird feeling as if I am in another world. <br>\
-		There is a sharp axe in front of me. Maybe it was there all along, or maybe I just haven't realized it until now. <br>\
-		A weapon will change a lot of things."
-	observation_fail_message = "I was not wearing the shoes. <br>\
-		The shoes' crimson color is getting deeper."
+	observation_choices = list( //TODO: Second line of dialogue, must be coded
+		"Wearing them." = list(TRUE, "I am wearing the shoes. <br>\
+			They are perfect fit, it feels good. <br>I have a weird feeling as if I am in another world. <br>\
+			There is a sharp axe in front of me. Maybe it was there all along, or maybe I just haven't realized it until now. <br>\
+			A weapon will change a lot of things."),
+		"Not wearing them." = list(FALSE, "I was not wearing the shoes. <br>\
+			The shoes' crimson color is getting deeper."),
+	)
 
 	var/mutable_appearance/breach_icon
 	var/mob/living/possessee
@@ -201,11 +204,10 @@
 
 //BreachEffect and combat
 /mob/living/simple_animal/hostile/abnormality/red_shoes/BreachEffect(mob/living/carbon/human/user, breach_type)
-	if(!(status_flags & GODMODE))
-		return
 	soundloop.stop()
 	for(var/mob/living/carbon/human/H in GLOB.mob_living_list)//stops possessing people, prevents runtimes. Panicked players are ghosted so use mob_living_list
 		UnPossess(H)
+	score_divider = 2 //Weird case due to it being 2 entities.
 	. = ..()
 	if(!possessee)
 		name = "Red Shoe"
@@ -214,21 +216,21 @@
 		icon_living = "redshoes_breach"
 		ChangeResistances(list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 1, PALE_DAMAGE = 1.5))
 		sleep(10)
-		new /mob/living/simple_animal/hostile/red_shoe(get_turf(src))
+		new /mob/living/simple_animal/hostile/aminion/red_shoe(get_turf(src))
 	datum_reference.qliphoth_change(-2)
 
 /mob/living/simple_animal/hostile/abnormality/red_shoes/Found(atom/A)//The solo breach generally sticks together
-	if(istype(A, /mob/living/simple_animal/hostile/red_shoe))
-		var/mob/living/simple_animal/hostile/red_shoe/S = A
+	if(istype(A, /mob/living/simple_animal/hostile/aminion/red_shoe))
+		var/mob/living/simple_animal/hostile/aminion/red_shoe/S = A
 		if(S.stat != DEAD && !S.target && !S.client && faction_check_mob(S))//cannibalized from steel ordeals
 			S.Goto(src,S.move_to_delay,1)
 
-/mob/living/simple_animal/hostile/abnormality/red_shoes/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/red_shoes/AttackingTarget(atom/attacked_target)
 	. = ..()
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return
-	var/mob/living/carbon/human/H = target
-	if(H.stat >= SOFT_CRIT || H.health < 0)
+	var/mob/living/carbon/human/H = attacked_target
+	if(istype(H) && (H.stat >= SOFT_CRIT || H.health < 0))
 		ChopFeet(H)
 
 /mob/living/simple_animal/hostile/abnormality/red_shoes/proc/ChopFeet(mob/living/carbon/human/H)
@@ -371,11 +373,11 @@
 	controller.blackboard[BB_INSANE_CURRENT_ATTACK_TARGET] = null
 
 //Simple mob
-/mob/living/simple_animal/hostile/red_shoe
+/mob/living/simple_animal/hostile/aminion/red_shoe
 	name = "Red Shoe"
 	desc = "Teeth and leg bones jut out of this ragged shoe, as if the wearer's will was made manifest."
-	health = 800
-	maxHealth = 800
+	health = 150
+	maxHealth = 150
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "redshoes_breach2"
 	icon_living = "redshoes_breach2"
@@ -385,22 +387,24 @@
 	del_on_death = TRUE
 	death_message = "crumples into a pile of bones."
 	attack_sound = 'sound/abnormalities/redshoes/RedShoes_Attack.ogg'
-	melee_damage_lower = 15
-	melee_damage_upper = 30
+	melee_damage_lower = 3
+	melee_damage_upper = 6
 	melee_damage_type = RED_DAMAGE
 	speed = 1
 	move_to_delay = 3
+	threat_level = HE_LEVEL
+	score_divider = 2
 	var/steppy = 0
 
-/mob/living/simple_animal/hostile/red_shoe/AttackingTarget()
+/mob/living/simple_animal/hostile/aminion/red_shoe/AttackingTarget(atom/attacked_target)
 	. = ..()
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return
-	var/mob/living/carbon/human/H = target
-	if(H.stat >= SOFT_CRIT || H.health < 0)
+	var/mob/living/carbon/human/H = attacked_target
+	if(istype(H) && (H.stat >= SOFT_CRIT || H.health < 0))
 		ChopFeet(H)
 
-/mob/living/simple_animal/hostile/red_shoe/proc/ChopFeet(mob/living/carbon/human/H)
+/mob/living/simple_animal/hostile/aminion/red_shoe/proc/ChopFeet(mob/living/carbon/human/H)
 	var/obj/item/bodypart/l_foot = H.get_bodypart(BODY_ZONE_L_LEG)//Feet are defined as BODY_ZONE_PRECISE_L_FOOT. Does the dismember proc not affect them?
 	var/obj/item/bodypart/r_foot = H.get_bodypart(BODY_ZONE_R_LEG)
 	if(HAS_TRAIT(H, TRAIT_NODISMEMBER))

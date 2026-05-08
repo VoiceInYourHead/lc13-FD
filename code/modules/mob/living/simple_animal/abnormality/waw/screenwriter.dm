@@ -11,9 +11,13 @@ Defeating the murderer also surpresses the abnormality.
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "screenwriter"
 	portrait = "screenwriter"
+	maxHealth = 1000
+	health = 1000
+	damage_coeff = list(RED_DAMAGE = 1.3, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 1.3, PALE_DAMAGE = 1.5)
 	faction = list("hostile")
 	threat_level = WAW_LEVEL
 	start_qliphoth = 2
+	blood_volume = 0
 	work_chances = list(
 		"Nutrition" = 35,
 		"Cleanliness" = 35,
@@ -29,8 +33,10 @@ Defeating the murderer also surpresses the abnormality.
 		"Violence" = JUSTICE_ATTRIBUTE,
 	)
 	max_boxes = 24
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 
 	ego_list = list(
 		/datum/ego_datum/weapon/scene,
@@ -40,12 +46,14 @@ Defeating the murderer also surpresses the abnormality.
 	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK //Technically it was in the beta but I dont want it showing it up in LC-only modes
 
 	observation_prompt = "The play started long ago. Here is the man who killed many. And you are holding a gun."
-	observation_choices = list("Shoot the man", "Wait and see", "Shoot someone else")
-	correct_choices = list("Shoot the man", "Wait and see", "Shoot someone else")
-	observation_success_message = "Whether you shoot or not, the play ends with tragedy." //TODO: multiple texts
+	observation_choices = list( //TODO: multiple texts
+		"Shoot the man" = list(TRUE, "Whether you shoot or not, the play ends with tragedy."),
+		"Wait and see" = list(TRUE, "Whether you shoot or not, the play ends with tragedy."),
+		"Shoot someone else" = list(TRUE, "Whether you shoot or not, the play ends with tragedy."),
+	)
 
 	pet_bonus = "shuffles" //saves a few lines of code by allowing funpet() to be called by attack_hand()
-	var/mob/living/simple_animal/hostile/actor/A
+	var/mob/living/simple_animal/hostile/aminion/actor/A
 	var/happy = FALSE
 	var/melting
 	var/preferred_work_type
@@ -55,6 +63,18 @@ Defeating the murderer also surpresses the abnormality.
 	. = ..()
 	preferred_work_type = pick(work_chances)
 	SpawnIcon()
+
+/mob/living/simple_animal/hostile/abnormality/screenwriter/Move()
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/screenwriter/CanAttack(atom/the_target)
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/screenwriter/Destroy()
+	if(A)
+		A.death()
+	EndScenario(FALSE)
+	return ..()
 
 //Work stuff
 /mob/living/simple_animal/hostile/abnormality/screenwriter/AttemptWork(mob/living/carbon/human/user, work_type)
@@ -110,6 +130,10 @@ Defeating the murderer also surpresses the abnormality.
 	MeltdownEffect()
 	return
 
+/mob/living/simple_animal/hostile/abnormality/screenwriter/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)
+		MeltdownEffect()
+
 /mob/living/simple_animal/hostile/abnormality/screenwriter/proc/MeltdownEffect()
 	var/turf/actor_location = pick(GLOB.department_centers) //Spawn the murderer
 	A = new (actor_location)
@@ -150,8 +174,9 @@ Defeating the murderer also surpresses the abnormality.
 		to_chat(Y, span_userdanger("You will play the role of the [S.role]!"))
 		S.AssignRole()
 
-/mob/living/simple_animal/hostile/abnormality/screenwriter/proc/EndScenario()
-	sleep(30)
+/mob/living/simple_animal/hostile/abnormality/screenwriter/proc/EndScenario(should_sleep = TRUE)
+	if(should_sleep)
+		sleep(30)
 	sound_to_playing_players_on_level('sound/abnormalities/screenwriter/finish.ogg', 25, zlevel = z)
 	for(var/mob/living/carbon/human/L in GLOB.player_list) // cleanse debuffs
 		if(faction_check_mob(L, FALSE) || L.stat >= HARD_CRIT || L.sanity_lost || z != L.z) // Dead or in hard crit, insane, or on a different Z level.
@@ -159,7 +184,8 @@ Defeating the murderer also surpresses the abnormality.
 		var/datum/status_effect/actor/S = L.has_status_effect(/datum/status_effect/actor)
 		if(S)
 			qdel(S)
-	UnregisterSignal(A, COMSIG_LIVING_DEATH)
+	if(A)
+		UnregisterSignal(A, COMSIG_LIVING_DEATH)
 
 //Overlays
 /mob/living/simple_animal/hostile/abnormality/screenwriter/proc/SpawnIcon()
@@ -210,7 +236,7 @@ Defeating the murderer also surpresses the abnormality.
 		status_holder.adjust_attribute_bonus(stat, -stat_modifier)
 	else
 		return
-	stat_modifier = -100
+	stat_modifier = -40
 	status_holder.adjust_all_attribute_bonuses(stat_modifier)
 	owner.cut_overlay(mutable_appearance('icons/effects/32x64.dmi', role, -ABOVE_MOB_LAYER))
 	role = "victim"
@@ -223,22 +249,22 @@ Defeating the murderer also surpresses the abnormality.
 	owner.add_overlay(mutable_appearance('icons/effects/32x64.dmi', role, -ABOVE_MOB_LAYER))
 	switch(role)
 		if("coward")
-			stat_modifier = -75
+			stat_modifier = -30
 			stat = JUSTICE_ATTRIBUTE
 		if("broken")
-			stat_modifier = -100
+			stat_modifier = -40
 			stat = FORTITUDE_ATTRIBUTE
 		if("failed")
-			stat_modifier = -100
+			stat_modifier = -40
 			stat = PRUDENCE_ATTRIBUTE
 		if("victim")
-			stat_modifier = -100
+			stat_modifier = -40
 			status_holder.adjust_all_attribute_bonuses(stat_modifier)
 			return
 	status_holder.adjust_attribute_bonus(stat, stat_modifier)
 
 //Mob
-/mob/living/simple_animal/hostile/actor
+/mob/living/simple_animal/hostile/aminion/actor
 	name = "The actor A"
 	desc = "A man wearing a creepy mask. They have a sleek pistol in one hand \
 			and a knife in the other."
@@ -247,11 +273,11 @@ Defeating the murderer also surpresses the abnormality.
 	icon_living = "actor"
 	icon_dead = "actor_dead"
 	faction = list("hostile")
-	maxHealth = 1400
-	health = 1400
+	maxHealth = 700
+	health = 700
 	melee_damage_type = WHITE_DAMAGE
-	melee_damage_lower = 10
-	melee_damage_upper = 20
+	melee_damage_lower = 5
+	melee_damage_upper = 10
 	rapid_melee = 3
 	melee_queue_distance = 4
 	ranged = TRUE
@@ -268,12 +294,12 @@ Defeating the murderer also surpresses the abnormality.
 	del_on_death = FALSE
 	can_patrol = TRUE
 
-/mob/living/simple_animal/hostile/actor/Initialize()
+/mob/living/simple_animal/hostile/aminion/actor/Initialize()
 	. = ..()
 	add_overlay(mutable_appearance('icons/effects/32x64.dmi', "abandoned", -ABOVE_MOB_LAYER))
 
 // Patrol Code
-/mob/living/simple_animal/hostile/actor/patrol_select() //Hunt down the "victim"s
+/mob/living/simple_animal/hostile/aminion/actor/patrol_select() //Hunt down the "victim"s
 	var/mob/living/carbon/human/potential_target
 	for(var/mob/living/carbon/human/L in GLOB.player_list)
 		if(faction_check_mob(L, FALSE) || L.stat >= HARD_CRIT || L.sanity_lost || z != L.z) // Dead or in hard crit, insane, or on a different Z level.
@@ -292,7 +318,7 @@ Defeating the murderer also surpresses the abnormality.
 		return
 	return ..()
 
-/mob/living/simple_animal/hostile/actor/PickTarget(list/Targets)
+/mob/living/simple_animal/hostile/aminion/actor/PickTarget(list/Targets)
 	var/list/priority = list()
 	for(var/mob/living/L in Targets)
 		if(!CanAttack(L))
@@ -310,12 +336,12 @@ Defeating the murderer also surpresses the abnormality.
 	if(LAZYLEN(priority))
 		return pick(priority)
 
-/mob/living/simple_animal/hostile/actor/AttackingTarget()
+/mob/living/simple_animal/hostile/aminion/actor/AttackingTarget(atom/attacked_target)
 	. = ..()
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return
 
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	if(!H.sanity_lost)
 		return
 
@@ -325,7 +351,7 @@ Defeating the murderer also surpresses the abnormality.
 	H.apply_status_effect(/datum/status_effect/panicked_type/scene)
 	LoseTarget(H)
 
-/mob/living/simple_animal/hostile/actor/death(gibbed)
+/mob/living/simple_animal/hostile/aminion/actor/death(gibbed)
 	icon_state = icon_dead
 	playsound(get_turf(src), 'sound/effects/ordeals/white/pale_pistol.ogg', 100, FALSE, 4)
 	visible_message(span_nicegreen("You hear gunfire from the distance, and [src] collapses to the ground!"))
@@ -364,7 +390,7 @@ Defeating the murderer also surpresses the abnormality.
 		playsound(get_turf(human_pawn), 'sound/weapons/fixer/generic/nail1.ogg', 100, FALSE, 4)
 		human_pawn.adjustBruteLoss(400)
 		human_pawn.jitteriness = 0
-		var/sanity_damage = get_user_level(human_pawn) * 70
+		var/sanity_damage = get_user_level(human_pawn) * 15
 		for(var/mob/living/carbon/human/H in view(7, human_pawn))
 			if(HAS_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE))
 				continue

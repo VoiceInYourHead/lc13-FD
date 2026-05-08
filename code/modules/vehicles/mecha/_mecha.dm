@@ -44,8 +44,10 @@
 	var/overload_step_energy_drain_min = 100
 	///chance to deflect the incoming projectiles, hits, or lesser the effect of ex_act.
 	var/deflect_chance = 10
+	///deflect but has reduced chance against specific ranged
+	var/dodge_chance = 0
 	///Modifiers for directional armor
-	var/list/facing_modifiers = list(MECHA_FRONT_ARMOUR = 0.66, MECHA_FRONT_DIAGONAL_ARMOUR = 0.8, MECHA_SIDE_ARMOUR = 1, MECHA_BACK_DIAGONAL_ARMOUR = 1.5, MECHA_BACK_ARMOUR = 2)
+	var/list/facing_modifiers = alist(MECHA_FRONT_ARMOUR = 0.66, MECHA_FRONT_DIAGONAL_ARMOUR = 0.8, MECHA_SIDE_ARMOUR = 1, MECHA_BACK_DIAGONAL_ARMOUR = 1.5, MECHA_BACK_ARMOUR = 2)
 	///if we cant use our equipment(such as due to EMP)
 	var/equipment_disabled = FALSE
 	/// Keeps track of the mech's cell
@@ -388,7 +390,7 @@
 			if(cabin_air && cabin_air.return_volume()>0)
 				cabin_air.temperature = min(6000+T0C, cabin_air.return_temperature()+rand(5,7.5)*delta_time)
 				if(cabin_air.return_temperature() > max_temperature/2)
-					take_damage(delta_time*2/round(max_temperature/cabin_air.return_temperature(),0.1), BURN, 0)
+					take_damage(delta_time*2/round(max_temperature/cabin_air.return_temperature(),0.1), FIRE, 0)
 
 		if(internal_damage & MECHA_INT_TEMP_CONTROL)
 			internal_temp_regulation = 0
@@ -785,7 +787,7 @@
 			to_chat(user, "[B.get_mecha_info()]")
 			break
 		//Nothing like a big, red link to make the player feel powerful!
-		to_chat(user, "<a href='?src=[REF(user)];ai_take_control=[REF(src)]'><span class='userdanger'>ASSUME DIRECT CONTROL?</span></a><br>")
+		to_chat(user, "<a href='byond://?src=[REF(user)];ai_take_control=[REF(src)]'><span class='userdanger'>ASSUME DIRECT CONTROL?</span></a><br>")
 	else
 		examine(user)
 		if(length(return_drivers()) > 0)
@@ -799,7 +801,7 @@
 		if(!can_control_mech)
 			to_chat(user, "<span class='warning'>You cannot control exosuits without AI control beacons installed.</span>")
 			return
-		to_chat(user, "<a href='?src=[REF(user)];ai_take_control=[REF(src)]'><span class='boldnotice'>Take control of exosuit?</span></a><br>")
+		to_chat(user, "<a href='byond://?src=[REF(user)];ai_take_control=[REF(src)]'><span class='boldnotice'>Take control of exosuit?</span></a><br>")
 
 /obj/vehicle/sealed/mecha/transfer_ai(interaction, mob/user, mob/living/silicon/ai/AI, obj/item/aicard/card)
 	. = ..()
@@ -1121,11 +1123,11 @@
 		if(suit)
 			H.dropItemToGround(suit, TRUE)
 			to_chat(H, span_interface("You remove your armor to put on the exosuit"))
-		H.physiology.red_mod *= 1 - clamp(armor[RED_DAMAGE], 0, 99) / 100
-		H.physiology.white_mod *= 1 - clamp(armor[WHITE_DAMAGE], 0, 99) / 100
-		H.physiology.black_mod *= 1 - clamp(armor[BLACK_DAMAGE], 0, 99) / 100
-		H.physiology.pale_mod *= 1 - clamp(armor[PALE_DAMAGE], 0, 99) / 100
-		H.physiology.burn_mod *= 1 - clamp(armor[BURN], 0, 99) / 100
+		H.physiology.red_mod *= 1 - clamp(armor.red, 0, 99) / 100
+		H.physiology.white_mod *= 1 - clamp(armor.white, 0, 99) / 100
+		H.physiology.black_mod *= 1 - clamp(armor.black, 0, 99) / 100
+		H.physiology.pale_mod *= 1 - clamp(armor.pale, 0, 99) / 100
+		H.physiology.burn_mod *= 1 - clamp(armor.fire, 0, 99) / 100
 
 /obj/vehicle/sealed/mecha/remove_occupant(mob/M)
 	if(!(M in occupants))
@@ -1144,11 +1146,11 @@
 	update_icon()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		H.physiology.red_mod /= 1 - clamp(armor[RED_DAMAGE], 0, 99) / 100
-		H.physiology.white_mod /= 1 - clamp(armor[WHITE_DAMAGE], 0, 99) / 100
-		H.physiology.black_mod /= 1 - clamp(armor[BLACK_DAMAGE], 0, 99) / 100
-		H.physiology.pale_mod /= 1 - clamp(armor[PALE_DAMAGE], 0, 99) / 100
-		H.physiology.burn_mod /= 1 - clamp(armor[BURN], 0, 99) / 100
+		H.physiology.red_mod /= 1 - clamp(armor.red, 0, 99) / 100
+		H.physiology.white_mod /= 1 - clamp(armor.white, 0, 99) / 100
+		H.physiology.black_mod /= 1 - clamp(armor.black, 0, 99) / 100
+		H.physiology.pale_mod /= 1 - clamp(armor.pale, 0, 99) / 100
+		H.physiology.burn_mod /= 1 - clamp(armor.fire, 0, 99) / 100
 
 /////////////////////////
 ////// Access stuff /////

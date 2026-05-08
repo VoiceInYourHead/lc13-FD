@@ -92,16 +92,6 @@
 /obj/machinery/light,
 /turf/open/floor/wood,
 /area/facility_hallway/human)
-"ck" = (
-/obj/structure/filingcabinet/zayininfo{
-	pixel_x = -10
-	},
-/obj/structure/filingcabinet/tethinfo,
-/obj/structure/filingcabinet/heinfo{
-	pixel_x = 10
-	},
-/turf/open/floor/facility,
-/area/test_range)
 "cl" = (
 /obj/structure/table/wood,
 /obj/item/paper/guides/jobs/teth{
@@ -215,9 +205,6 @@
 	pixel_x = -10
 	},
 /obj/structure/filingcabinet/lore/aleph,
-/obj/structure/filingcabinet/toolinfo{
-	pixel_x = 10
-	},
 /turf/open/floor/carpet/black,
 /area/department_main/human)
 "fz" = (
@@ -459,16 +446,6 @@
 /obj/item/disk/holodisk/tutorial/stats,
 /turf/open/floor/wood,
 /area/department_main/human)
-"oe" = (
-/obj/structure/filingcabinet/wawinfo{
-	pixel_x = -10
-	},
-/obj/structure/filingcabinet/alephinfo,
-/obj/structure/filingcabinet/toolinfo{
-	pixel_x = 10
-	},
-/turf/open/floor/facility,
-/area/test_range)
 "or" = (
 /obj/structure/plasticflaps/opaque,
 /obj/machinery/scanner_gate/tutorialscanner{
@@ -614,10 +591,6 @@
 /obj/machinery/vending/cola,
 /turf/open/floor/wood,
 /area/department_main/human)
-"sR" = (
-/obj/structure/toolabnormality/skin,
-/turf/open/floor/facility,
-/area/test_range)
 "sS" = (
 /obj/structure/table/reinforced,
 /turf/open/floor/wood,
@@ -646,6 +619,10 @@
 /obj/structure/tutorialbox,
 /turf/open/floor/wood,
 /area/department_main/human)
+"te" = (
+/obj/effect/mapping_helpers/records_spawner/second,
+/turf/open/floor/facility,
+/area/test_range)
 "tS" = (
 /obj/machinery/light{
 	dir = 1
@@ -698,11 +675,11 @@
 /area/department_main/human)
 "vX" = (
 /obj/machinery/quantumpad/warp{
-	teleport_cooldown = 40;
 	map_pad_id = "test_range_lobby";
 	map_pad_link_id = "test_range_arena";
-	teleport_speed = 20;
-	resistance_flags = 64
+	resistance_flags = 64;
+	teleport_cooldown = 40;
+	teleport_speed = 20
 	},
 /turf/open/floor/facility,
 /area/test_range)
@@ -876,6 +853,10 @@
 	},
 /turf/open/floor/wood,
 /area/department_main/human)
+"BJ" = (
+/obj/effect/mapping_helpers/records_spawner,
+/turf/open/floor/facility,
+/area/test_range)
 "Cc" = (
 /obj/machinery/door/airlock/highsecurity{
 	name = "Human Resources Department";
@@ -984,13 +965,7 @@
 /turf/open/floor/wood,
 /area/department_main/human)
 "Ev" = (
-/obj/structure/filingcabinet/wawinfo{
-	pixel_x = -10
-	},
-/obj/structure/filingcabinet/alephinfo,
-/obj/structure/filingcabinet/toolinfo{
-	pixel_x = 10
-	},
+/obj/effect/mapping_helpers/records_spawner/second,
 /turf/open/floor/carpet/black,
 /area/department_main/human)
 "Ex" = (
@@ -1013,10 +988,17 @@
 /obj/item/storage/belt/ego,
 /turf/open/floor/wood,
 /area/department_main/human)
-"FX" = (
-/obj/structure/toolabnormality/snake_oil,
-/turf/open/floor/facility,
-/area/test_range)
+"FE" = (
+/obj/structure/chair/wood{
+	dir = 8
+	},
+/obj/structure/plaque/static_plaque{
+	desc = "In memorial of Yoon-Hoo 'Protagonist' Beach. An intern that lived until midnight while drugged up on porccubus stims. Died to a Pink Midnight Dreaming Current breach. A hero to us all.";
+	name = "memorial plaque";
+	pixel_y = -32
+	},
+/turf/open/floor/wood,
+/area/department_main/human)
 "FY" = (
 /obj/structure/mirror{
 	pixel_y = 28
@@ -1254,10 +1236,6 @@
 	},
 /turf/open/floor/wood,
 /area/department_main/human)
-"LY" = (
-/obj/structure/toolabnormality/vivavoce,
-/turf/open/floor/facility,
-/area/test_range)
 "Mo" = (
 /obj/effect/light_emitter{
 	light_power = 4;
@@ -1494,10 +1472,6 @@
 	},
 /turf/open/indestructible/light,
 /area/facility_hallway/human)
-"Uf" = (
-/obj/structure/toolabnormality/theonite_slab,
-/turf/open/floor/facility,
-/area/test_range)
 "Uo" = (
 /obj/machinery/holopad/tutorial{
 	proximity_cooldown_time = 600
@@ -1577,13 +1551,7 @@
 /turf/open/floor/wood,
 /area/department_main/human)
 "VZ" = (
-/obj/structure/filingcabinet/heinfo{
-	pixel_x = 10
-	},
-/obj/structure/filingcabinet/zayininfo{
-	pixel_x = -10
-	},
-/obj/structure/filingcabinet/tethinfo,
+/obj/effect/mapping_helpers/records_spawner,
 /turf/open/floor/carpet/black,
 /area/department_main/human)
 "Wf" = (
@@ -6827,7 +6795,7 @@ XL
 XL
 XL
 nf
-ck
+BJ
 eg
 eg
 eg
@@ -6929,7 +6897,7 @@ XL
 XL
 XL
 nf
-oe
+te
 eg
 eg
 eg
@@ -7343,7 +7311,7 @@ eg
 eg
 eg
 eg
-FX
+eg
 nf
 XL
 XL
@@ -7445,7 +7413,7 @@ eg
 eg
 eg
 eg
-sR
+eg
 nf
 XL
 XL
@@ -7547,7 +7515,7 @@ eg
 eg
 eg
 eg
-LY
+eg
 nf
 XL
 XL
@@ -7649,7 +7617,7 @@ eg
 eg
 eg
 eg
-Uf
+eg
 nf
 XL
 XL
@@ -9156,7 +9124,7 @@ AY
 SJ
 Yl
 Yl
-Yl
+FE
 iU
 XL
 XL

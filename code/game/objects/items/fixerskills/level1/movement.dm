@@ -14,14 +14,18 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/dash
+	name = "Dash"
+	desc = "Dash fowards a few tiles. Costs stamina."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "dash"
 	name = "Dash"
-	cooldown_time = 30
+	cooldown_time = 3 SECONDS
 	var/direction = 1
+	var/stamina_damage = 10
 
 /datum/action/cooldown/dash/Trigger()
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 
 	if (owner.stat == DEAD)
@@ -39,15 +43,16 @@
 	if (ishuman(owner))
 		var/mob/living/carbon/human/human = owner
 		if (!human.IsParalyzed())
-			human.adjustStaminaLoss(20, TRUE, TRUE)
+			human.adjustStaminaLoss(stamina_damage, TRUE, TRUE)
 			human.throw_at(dodgelanding, 3, 2, spin = TRUE)
 			StartCooldown()
 			return TRUE
 
 /datum/action/cooldown/dash/back
+	name = "Backstep"
+	desc = "Dash backwards a few tiles. Costs stamina."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "backstep"
-	name = "Backstep"
 	direction = -1
 
 //Assault
@@ -59,7 +64,9 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/assault
-	cooldown_time = 200
+	name = "Assault"
+	desc = "Increase movement speed slightly for 10 seconds."
+	cooldown_time = 20 SECONDS
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "assault"
 
@@ -71,7 +78,7 @@
 	if (ishuman(owner))
 		var/mob/living/carbon/human/human = owner
 		human.add_movespeed_modifier(/datum/movespeed_modifier/assault)
-		addtimer(CALLBACK(human, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/assault), 5 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
+		addtimer(CALLBACK(human, TYPE_PROC_REF(/mob, remove_movespeed_modifier), /datum/movespeed_modifier/assault), 10 SECONDS, TIMER_UNIQUE | TIMER_OVERRIDE)
 		StartCooldown()
 
 /datum/movespeed_modifier/assault
@@ -87,10 +94,11 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/retreat
-	cooldown_time = 200
+	name = "Retreat"
+	desc = "Increase movement speed and decrease defense for 5 seconds."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "retreat"
-
+	cooldown_time = 20 SECONDS
 
 /datum/action/cooldown/retreat/Trigger()
 	. = ..()

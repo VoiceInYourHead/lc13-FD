@@ -9,26 +9,38 @@
 
 	access = list(ACCESS_MEDICAL)
 	minimal_access = list(ACCESS_MEDICAL)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_MEDICAL
 	paycheck = PAYCHECK_MEDIUM
 	paycheck_department = ACCOUNT_MED
 
-	job_attribute_limit = 0
+	roundstart_attributes = list(
+								FORTITUDE_ATTRIBUTE = 40,
+								PRUDENCE_ATTRIBUTE = 40,
+								TEMPERANCE_ATTRIBUTE = 40,
+								JUSTICE_ATTRIBUTE = 40
+								)
 
+
+
+	job_attribute_limit = 40
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 	liver_traits = list(TRAIT_MEDICAL_METABOLISM)
 	exp_requirements = 600
 
 	display_order = JOB_DISPLAY_ORDER_MEDICAL
 	alt_titles = list("Surgeon")
-	maptype = list("wonderlabs", "city", "fixers")
-	job_important = "You are the town doctor, visit your clinic to the east of town and start healing peopl who come in. You must charge money for your services."
-	job_notice = "You are forbidden from reviving lobotomy corp employees."
+	maptype = list("wonderlabs", "city", "fixers", "lcorp_city", "enkephalin_rush")
+	job_important = "You are the town doctor, visit your clinic to the east of town and start healing people who come in."
 
 /datum/job/doctor/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
 	..()
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	//Can't have assistants without a doctor.
 	for(var/datum/job/processing in SSjob.occupations)
+		if(SSmaptype.maptype == "lcorp_city")
+			if(istype(processing, /datum/job/doctor/nurse))
+				processing.total_positions = 1
+			return
+
 		if(istype(processing, /datum/job/doctor/nurse))
 			processing.total_positions = 2
 		if(SSmaptype.maptype == "fixers")
@@ -73,7 +85,7 @@
 	exp_requirements = 180
 
 	display_order = JOB_DISPLAY_ORDER_MEDICALASSIST
-	maptype = list("wonderlabs", "city", "fixers")
+	maptype = list("wonderlabs", "city", "fixers", "lcorp_city")
 	job_important = "You are an assistant to the town doctor, visit your clinic to the east of town and start healing people who come in. You must charge money for your services."
 
 /datum/outfit/job/doctor/nurse
@@ -126,6 +138,7 @@
 	exp_requirements = 180
 
 	display_order = JOB_DISPLAY_ORDER_MEDICALASSIST
+	departments = DEPARTMENT_MEDICAL | DEPARTMENT_FIXERS
 	maptype = list("wonderlabs", "city", "fixers")
 	job_important = "You are an a medical fixer. Your job is to explore the backstreets to grab dead fixers to bring back to the clinic."
 
@@ -138,4 +151,4 @@
 	head = /obj/item/clothing/head/soft/paramedic
 	suit =  /obj/item/clothing/suit/toggle/labcoat/paramedic
 	backpack_contents = list(/obj/item/pinpointer/crew=1)
-	l_hand = /obj/item/gun/ego_gun/pistol/kcorp
+	l_hand = /obj/item/ego_weapon/ranged/pistol/kcorp

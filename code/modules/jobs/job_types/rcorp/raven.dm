@@ -15,7 +15,8 @@
 
 	access = list(ACCESS_RND)
 	minimal_access = list(ACCESS_RND)
-
+	departments = DEPARTMENT_R_CORP
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 40,
 								PRUDENCE_ATTRIBUTE = 40,
@@ -26,10 +27,6 @@
 	job_important = "You take the role of a scout support unit."
 	job_notice = "You cannot use guns, but are fast, and have access to night vision. Scout ahead and relay information to the group. \
 		You are also capable of striking with surgical precision and high speed."
-
-/datum/job/raven/after_spawn(mob/living/carbon/human/H, mob/M)
-	. = ..()
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 
 
 /datum/job/raven/support
@@ -66,6 +63,7 @@
 
 	access = list(ACCESS_RND, ACCESS_COMMAND)
 	minimal_access = list(ACCESS_RND, ACCESS_COMMAND)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_R_CORP
 
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 40,

@@ -8,11 +8,11 @@
 	icon_living = "rudolta"
 	icon_dead = "rudolta_dead"
 	portrait = "rudolta"
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 250
+	health = 250
 	pixel_x = -16
 	base_pixel_x = -16
-	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
+	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 1, PALE_DAMAGE = 2, FIRE = 1.5)
 	stat_attack = HARD_CRIT
 	can_breach = TRUE
 	threat_level = HE_LEVEL
@@ -25,8 +25,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(40, 50, 50, 45, 40),
 		ABNORMALITY_WORK_REPRESSION = 0,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 4
+	work_damage_lower = 3
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
+	max_boxes = 18
 	friendly_verb_continuous = "scorns"
 	friendly_verb_simple = "scorns"
 
@@ -44,16 +47,16 @@
 		That night, when everyone was sleeping. <br>I waited for the man, sitting next to sleeping Alex. <br>\
 		Sometimes, for someone, an absurd fairy tale is a silver lining of hope. <br>When I met Santa, I imagined dismembering him. <br>... <br>\
 		In front of me is Santa. <br>My ideal. <br>People don't call it Santa. <br>Something is twitching inside of that sack. I......"
-	observation_choices = list("Opened the sack.", "Did not open the sack.")
-	correct_choices = list("Did not open the sack.")
-	observation_success_message = "Inside of the sack is a desire. <br>\
-		A hope that I've been waiting for since when I was very young. <br>I never opened the sack. <br>Did you wish come true?"
-	observation_fail_message = "There was something that I have been longing for my entire life. <br>\
-		Like Pandora's Box, it will never go back into the sack."
+	observation_choices = list(
+		"Did not open the sack" = list(TRUE, "Inside of the sack is a desire. <br>\
+			A hope that I've been waiting for since when I was very young. <br>I never opened the sack. <br>Did your wish come true?"),
+		"Opened the sack" = list(FALSE, "There was something that I have been longing for my entire life. <br>\
+			Like Pandora's Box, it will never go back into the sack."),
+	)
 
 	var/pulse_cooldown
 	var/pulse_cooldown_time = 1.8 SECONDS
-	var/pulse_damage = 20
+	var/pulse_damage = 5
 
 /mob/living/simple_animal/hostile/abnormality/rudolta/NeutralEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()

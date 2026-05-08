@@ -318,7 +318,7 @@
 	info_text = "As an <span class='danger'>Uranium Golem</span>, your very touch burns and irradiates organic lifeforms. You don't hit as hard as most golems, but you are far more durable against blunt force trauma."
 	attack_verb = "burn"
 	attack_sound = 'sound/weapons/sear.ogg'
-	attack_type = BURN
+	attack_type = FIRE
 	var/last_event = 0
 	var/active = null
 	armor = 40
@@ -705,9 +705,7 @@
 	..()
 
 /datum/species/golem/cloth/check_roundstart_eligible()
-	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
-		return TRUE
-	return ..()
+	return FALSE // previously enabled during halloween, but these guys are literally immortal.
 
 /datum/species/golem/cloth/random_name(gender,unique,lastname)
 	var/pharaoh_name = pick("Neferkare", "Hudjefa", "Khufu", "Mentuhotep", "Ahmose", "Amenhotep", "Thutmose", "Hatshepsut", "Tutankhamun", "Ramses", "Seti", \

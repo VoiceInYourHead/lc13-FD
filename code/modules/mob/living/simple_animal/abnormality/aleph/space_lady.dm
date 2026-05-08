@@ -6,8 +6,8 @@
 	icon_living = "space"
 	portrait = "space"
 	del_on_death = TRUE
-	maxHealth = 3200
-	health = 3200
+	maxHealth = 1600
+	health = 1600
 	damage_coeff = list(RED_DAMAGE = 0.7, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 1)
 	faction = list("hostile")
 	can_breach = TRUE
@@ -21,8 +21,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(40, 40, 40, 45, 45),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 30, 30, 30),
 	)
-	work_damage_amount = 16	//Half white, half black damage
+	work_damage_upper = 9
+	work_damage_lower = 6	//Half white, half black damage
 	work_damage_type = list(WHITE_DAMAGE, BLACK_DAMAGE)
+	chem_type = /datum/reagent/abnormality/sin/gluttony	//Literally a black hole (and a white hole I guess)
 
 	ego_list = list(
 		/datum/ego_datum/weapon/space,
@@ -37,15 +39,24 @@
 
 	observation_prompt = "What touched this place cannot be quantified or understood by human science. <br>It was just a color out of space. <br>\
 		It exists on the border of our waking minds, where darkness and light are one, and time and space do not intersect. <br>She has a message, from another place, another time."
-	observation_choices = list("Hear the past", "Hear the present", "Hear the future")
-	correct_choices = list("Hear the past", "Hear the present", "Hear the future") //waiting for multiple answer functionality
-	observation_success_message = "What I learned and saw during those two hideous days and nights, it is better not to tell." //temporary
+	observation_choices = list(
+		"Hear the past" = list(TRUE, "What I learned and saw during those two hideous days and nights, it is better not to tell."),
+		"Hear the present" = list(TRUE, "A thousand years compressed into a day, a countably infinite number of people work, die and live in its corridors; <br>\
+			the line between them and the monsters they keep gets blurrier and blurrier. <br>\
+			A seed is about to sprout..."),
+		"Hear the future" = list(TRUE, "The Library is what the Bookhunters call it, a mystical place of life and death. <br>\
+			Should you conquer its trials, they say, you can find the book that will grant the answers to whatever it is you seek. <br>\
+			Black feathers and regret..."),
+	)
 
 	var/explosion_timer = 2 SECONDS
 	var/explosion_state = 3
-	var/explosion_damage = 100
+	var/explosion_damage = 30
 	var/can_act = TRUE
 	var/negative_range = 10
+	var/negative_damage = 20
+	var/negative_damage_scale = 10
+	var/list/been_hit = list()
 
 //She can't move or attack.
 /mob/living/simple_animal/hostile/abnormality/space_lady/Move()
@@ -54,6 +65,8 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/space_lady/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	OpenFire()
 	return
 
@@ -120,7 +133,7 @@
 	var/turf/T = pick(GLOB.department_centers)
 	forceMove(T)
 
-//Inverts Sanity, kills the insane
+//Does white damage that scales with range, kills the insane
 /mob/living/simple_animal/hostile/abnormality/space_lady/proc/NegativeField()
 	say("Ashes to ashes...")
 	can_act = FALSE
@@ -134,14 +147,17 @@
 				continue
 			new /obj/effect/temp_visual/negativelook(T)
 			for(var/mob/living/carbon/human/L in T)
+				if(L in been_hit)
+					continue
+				been_hit += L
 				if(L.sanity_lost)					//DIE FOOL. LADY BLAST
-					L.death()
-				var/sanity_holder = L.sanityhealth	//Hold your current sanity
-				L.adjustSanityLoss(-20000) 			//bring you back to full sanity
-				L.adjustSanityLoss(sanity_holder)	//and then deal damage equal to your sanity before this attack
-
+					L.dust(TRUE, TRUE)
+				L.deal_damage(negative_damage, WHITE_DAMAGE)
 			all_turfs -= T
+		negative_damage += negative_damage_scale//Every tile it traves it does 10 more damage up to 120
 		SLEEP_CHECK_DEATH(3)
+	negative_damage = initial(negative_damage)
+	been_hit = list()
 	can_act = TRUE
 
 //Time stop
@@ -223,6 +239,7 @@
 	if(get_user_level(user) < 3)
 		datum_reference.qliphoth_change(-1)
 		animate(user, transform = user.transform*0.01, time = 5)
+		user.death(TRUE)
 		QDEL_IN(user, 5)
 	return TRUE
 
@@ -244,7 +261,8 @@
 
 /mob/living/simple_animal/hostile/abnormality/space_lady/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
-	Teleport()
+	if(breach_type != BREACH_MINING)
+		Teleport()
 
 
 //Bullets
@@ -263,7 +281,7 @@
 			continue
 		new /obj/effect/temp_visual/revenant(T)
 		for(var/mob/living/carbon/human/L in T)
-			L.deal_damage(100, WHITE_DAMAGE)
+			L.deal_damage(30, WHITE_DAMAGE)
 
 
 /obj/projectile/black_hole
@@ -282,7 +300,7 @@
 			continue
 		new /obj/effect/temp_visual/revenant(T)
 		for(var/mob/living/carbon/human/L in T)
-			L.deal_damage(100, BLACK_DAMAGE)
+			L.deal_damage(30, BLACK_DAMAGE)
 
 /obj/projectile/loos_bullet
 	name = "white beam"
@@ -290,7 +308,7 @@
 	desc = "A beam of white light."
 	hitsound = "sound/effects/footstep/slime1.ogg"
 	speed = 5		//very slow bullets
-	damage = 40		//She fires a lot of them
+	damage = 12		//She fires a lot of them
 	damage_type = WHITE_DAMAGE
 	spread = 360	//Fires in a 360 Degree radius
 	white_healing = FALSE

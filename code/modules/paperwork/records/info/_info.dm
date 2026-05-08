@@ -68,10 +68,15 @@ For escape damage you will have to get creative and figure out how dangerous it 
 			Qliphoth Counter: [initial(abno_type.start_qliphoth)]<br>"
 
 	// Work damage
+	var/initial_work_damage_type = initial(abno_type.work_damage_type)
 	if(isnull(abno_work_damage_type))
-		abno_work_damage_type = uppertext(initial(abno_type.work_damage_type))
+		abno_work_damage_type = uppertext(initial_work_damage_type)
+	if(GLOB.damage_type_shuffler?.is_enabled && IsColorDamageType(initial_work_damage_type))
+		abno_work_damage_type = uppertext(GLOB.damage_type_shuffler.mapping_offense[initial_work_damage_type])
+	// We need to get the average work damage, and it only accepts whole numbers. So we get the average and round.
 	if(isnull(abno_work_damage_count))
-		abno_work_damage_count = SimpleWorkDamageToText(initial(abno_type.work_damage_amount))
+		var/avgworkdamage = round((initial(abno_type.work_damage_upper) + initial(abno_type.work_damage_lower)) * 0.5)
+		abno_work_damage_count = SimpleWorkDamageToText(avgworkdamage)
 	info += "Work Damage Type: [abno_work_damage_type]<br>"
 	info += "Work Damage: [abno_work_damage_count]<br><br>"
 
@@ -99,7 +104,10 @@ For escape damage you will have to get creative and figure out how dangerous it 
 
 	info += "<h3><center>Breach Information</center></h3><br>"
 	if(isnull(abno_breach_damage_type))
-		abno_breach_damage_type = uppertext(initial(abno_type.melee_damage_type))
+		var/damage_type = initial(abno_type.melee_damage_type)
+		if(GLOB.damage_type_shuffler?.is_enabled && IsColorDamageType(damage_type))
+			damage_type = GLOB.damage_type_shuffler.mapping_offense[damage_type]
+		abno_breach_damage_type = uppertext(damage_type)
 	if(isnull(abno_breach_damage_count))
 		abno_breach_damage_count = SimpleDamageToText(initial(abno_type.melee_damage_upper) * initial(abno_type.rapid_melee))
 	info += "<h4>Escape Damage Type:</h4> [abno_breach_damage_type]<br>"
@@ -107,9 +115,12 @@ For escape damage you will have to get creative and figure out how dangerous it 
 
 	// Resistances
 	for(var/line in abno_resistances)
-		var/resist = abno_resistances[line]
+		var/damage_type = line
+		if(GLOB.damage_type_shuffler?.is_enabled && IsColorDamageType(line))
+			damage_type = GLOB.damage_type_shuffler.mapping_defense[line]
+		var/resist = abno_resistances[damage_type]
 		if(!resist)
-			resist = SimpleResistanceToText(GLOB.cached_abno_resistances[abno_type][line])
+			resist = SimpleResistanceToText(GLOB.cached_abno_resistances[abno_type][damage_type])
 		info += "<h4>[capitalize(line)] Resistance:</h4> [resist]<br>"
 
 /obj/item/paper/fluff/info/AltClick(mob/living/user, obj/item/I)
@@ -133,7 +144,7 @@ For escape damage you will have to get creative and figure out how dangerous it 
 /obj/item/paper/fluff/info/aleph
 	icon_state = "aleph"
 
-/obj/item/paper/fluff/info/zayin/archive_guide
+/obj/item/paper/fluff/info/tool/archive_guide
 	name = "Archive Guide"
 	info = {"<h1><center>Archive Guide</center></h1>	<br>
 	Welcome to Lobotomy Corps Digital Archive! <br>

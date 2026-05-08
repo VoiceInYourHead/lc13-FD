@@ -4,20 +4,20 @@
 	icon = 'ModularTegustation/Teguicons/48x96.dmi'
 	icon_state = "wayward"
 	icon_living = "wayward_breach"
-	icon_dead = "wayward_dead"
+	icon_dead = "waywardpass_egg"
 	core_icon = "waywardpass_egg"
 	portrait = "wayward_passenger"
 	del_on_death = FALSE
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 220
+	health = 220
 
 	move_to_delay = 4
 	damage_coeff = list(RED_DAMAGE = 0.7, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5)//lovetown residents LOVE physical pain, so highly resistant to black and red
 	stat_attack = HARD_CRIT
 
 	ranged = TRUE
-	melee_damage_lower = 20
-	melee_damage_upper = 24
+	melee_damage_lower = 4
+	melee_damage_upper = 5
 	melee_damage_type = RED_DAMAGE
 	attack_sound = 'sound/abnormalities/wayward_passenger/attack2.ogg'
 	can_breach = TRUE
@@ -32,8 +32,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 30,
 		ABNORMALITY_WORK_REPRESSION = list(55, 60, 60, 60, 55),
 	)
-	work_damage_amount = 11
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/envy
 	fear_level = WAW_LEVEL
 	max_boxes = 16
 	base_pixel_x = -8
@@ -59,20 +61,20 @@
 		but they’ll simply pretend that the passenger never existed. <br>\
 		Lost and abandoned, tossed out like trash, <br>\
 		having no place left in the City."
-	observation_choices = list("Sit still", "Guide them out")
-	correct_choices = list("Guide them out")
-	observation_success_message = "You take a few steps, and the passenger follows. <br>\
-		As you draw closer to what appears to be an exit, the passenger bows down as though to show you gratitude. <br>\
-		You heard something fall; it left behind a gift. <br>\
-		Looks like it wasn't lost after all. It may have been an employee that happened to be patrolling the area. <br>\
-		Maybe you didn't guide it—maybe it was merely following you to make sure that you found the right exit."
-	observation_fail_message = "It idly stared in your direction. <br>\
-		Then, it began shambling for you, realizing something. <br>\
-		As it drew closer, you were able to identify <br>\
-		that the being was an employee of a certain transport company, not a passenger. <br>\
-		The ID card on its chest gave it away. <br>\
-		This stranded employee was approaching you, <br>\
-		preparing to go through the motions."
+	observation_choices = list(
+		"Guide them out" = list(TRUE, "You take a few steps, and the passenger follows. <br>\
+			As you draw closer to what appears to be an exit, the passenger bows down as though to show you gratitude. <br>\
+			You heard something fall; it left behind a gift. <br>\
+			Looks like it wasn't lost after all. It may have been an employee that happened to be patrolling the area. <br>\
+			Maybe you didn't guide it—maybe it was merely following you to make sure that you found the right exit."),
+		"Sit still" = list(FALSE, "It idly stared in your direction. <br>\
+			Then, it began shambling for you, realizing something. <br>\
+			As it drew closer, you were able to identify <br>\
+			that the being was an employee of a certain transport company, not a passenger. <br>\
+			The ID card on its chest gave it away. <br>\
+			This stranded employee was approaching you, <br>\
+			preparing to go through the motions."),
+	)
 
 	//teleport vars
 	var/teleport_cooldown
@@ -101,7 +103,10 @@
 	chosen_attack_num = 2
 
 //*** Simple mob procs ***
-/mob/living/simple_animal/hostile/abnormality/wayward/death()
+/mob/living/simple_animal/hostile/abnormality/wayward/death(gibbed)
+	playsound(src, 'sound/effects/limbus_death.ogg', 100, 1)
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
+	pixel_x = -16
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
@@ -273,7 +278,7 @@
 			playsound(L, attack_sound, 75, 1)
 			var/turf/LT = get_turf(L)
 			new /obj/effect/temp_visual/kinetic_blast(LT)
-			L.deal_damage(60, RED_DAMAGE)
+			L.deal_damage(12, RED_DAMAGE)
 			been_hit += L
 	for(var/obj/vehicle/sealed/mecha/V in turfs_to_hit)
 		if(V in been_hit)
@@ -282,7 +287,7 @@
 		to_chat(V.occupants, span_userdanger("[src] rushes past you, searing your mech with its blades!"))
 		playsound(V, attack_sound, 75, 1)
 		new /obj/effect/temp_visual/kinetic_blast(get_turf(V))
-		V.take_damage(60, RED_DAMAGE, attack_dir = get_dir(V, src))
+		V.take_damage(12, RED_DAMAGE, attack_dir = get_dir(V, src))
 		been_hit += V
 	addtimer(CALLBACK(src, PROC_REF(Do_Dash), move_dir, (times_ran + 1)), 1)
 

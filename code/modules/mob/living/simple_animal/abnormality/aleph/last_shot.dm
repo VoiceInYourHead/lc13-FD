@@ -5,11 +5,12 @@ GLOBAL_LIST_EMPTY(meat_list)
 	desc = "A large ball of flesh, pulsating slowly."
 	icon = 'ModularTegustation/Teguicons/48x48.dmi'
 	icon_state = "last_shot"
+	core_icon = "last_shot"
 	portrait = "last_shot"
 	pixel_x = -8
 	base_pixel_x = -8
-	maxHealth = 3100
-	health = 3100
+	maxHealth = 2200
+	health = 2200
 	threat_level = ALEPH_LEVEL
 
 	work_chances = list( //Calculated later
@@ -19,8 +20,12 @@ GLOBAL_LIST_EMPTY(meat_list)
 		ABNORMALITY_WORK_REPRESSION = 40,
 	)
 
-	work_damage_amount = 5		//Damage is low, could be doubled or quadrupled.
+	work_damage_upper = 9
+	work_damage_lower = 7
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/last_shot
+	harvest_phrase = span_notice("You peel off some rotten flesh off the floor surrounding %ABNO and collect it in %VESSEL.")
+	harvest_phrase_third = "%PERSON harvest some rotten flesh surrounding %ABNO."
 	max_boxes = 27
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 2)
 	start_qliphoth = 2
@@ -37,16 +42,16 @@ GLOBAL_LIST_EMPTY(meat_list)
 		\"You won't survive out there. <br>Every single day in this facility is a constant, unending battle.\" <br>\
 		\"The only way you'll survive is if you join me. <br>To serve L-Corp til your last breath.\" <br>\
 		A tendril of rotten meat is held out to you, beckoning for you to join it."
-	observation_choices = list("EMBRACE IT", "REJECT IT")
-	correct_choices = list("EMBRACE IT")
-	observation_success_message = "You grab onto the tendril. You can feel your flesh tingling. <br>\
-		\"Good choice.\" <br>\
-		\"Don't worry. <br>You won't regret this, you know? <br>This is the only path you had.\" <br>\
-		\"You're dead meat out there. <br>Might as well accept who you are.\""
-	observation_fail_message = "You slap the tendril away. <br>\
-		\"Feh. <br>So be it. <br>You won't survive out there, you know?\" <br>\
-		\"When there's nothing left of the staff but blood and gore, I'll remain. <br>Do you understand?\" <br>\
-		You can't help but to shudder in disgust as you exit the cell. <br>Was it right? You'll never know."
+	observation_choices = list(
+		"EMBRACE IT" = list(TRUE, "You grab onto the tendril. You can feel your flesh tingling. <br>\
+			\"Good choice.\" <br>\
+			\"Don't worry. <br>You won't regret this, you know? <br>This is the only path you had.\" <br>\
+			\"You're dead meat out there. <br>Might as well accept who you are.\""),
+		"REJECT IT" = list(FALSE, "You slap the tendril away. <br>\
+			\"Feh. <br>So be it. <br>You won't survive out there, you know?\" <br>\
+			\"When there's nothing left of the staff but blood and gore, I'll remain. <br>Do you understand?\" <br>\
+			You can't help but to shudder in disgust as you exit the cell. <br>Was it right? You'll never know."),
+	)
 
 	var/list/gremlins = list()	//For the meatballs
 	var/list/meat = list()		//For the floors
@@ -60,7 +65,9 @@ GLOBAL_LIST_EMPTY(meat_list)
 /mob/living/simple_animal/hostile/abnormality/last_shot/Move()
 	return FALSE
 
-/mob/living/simple_animal/hostile/abnormality/last_shot/BreachEffect()
+/mob/living/simple_animal/hostile/abnormality/last_shot/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)
+		return ..()
 	var/turf/T = pick(GLOB.department_centers)
 	forceMove(T)
 	..()
@@ -79,17 +86,18 @@ GLOBAL_LIST_EMPTY(meat_list)
 	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) <= 80)
 		newchance += 20
 	else if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) >= 100)
-		newchance -= 20
+		newchance -= 10
 
-	work_damage_amount = initial(work_damage_amount)
+	work_damage_lower = initial(work_damage_lower)
+	work_damage_upper = initial(work_damage_upper)
 
 	//Fort or justice too low? take more damage.
-	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) <= 100)
-		work_damage_amount*=2
-
-	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) <= 100)
-		work_damage_amount*=2
-
+	if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 100)
+		work_damage_lower += 3
+		work_damage_upper += 3
+	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) < 100)
+		work_damage_lower += 3
+		work_damage_upper += 3
 	return newchance
 
 /mob/living/simple_animal/hostile/abnormality/last_shot/FailureEffect(mob/living/carbon/human/user, work_type, pe)
@@ -111,19 +119,19 @@ GLOBAL_LIST_EMPTY(meat_list)
 	var/gunnerchance = (100 / meat_reach) //Less likely to get gunners later on
 	for(var/i=spawn_number, i>=1, i--)	//This counts down. - Spawn meat guards
 		if(prob(gunnerchance))
-			var/mob/living/simple_animal/hostile/meatblob/gunner/G = new(get_turf(src))
+			var/mob/living/simple_animal/hostile/aminion/meatblob/gunner/G = new(get_turf(src))
 			gremlins+=G
 			continue
 		if(prob(gunnerchance))
-			var/mob/living/simple_animal/hostile/meatblob/gunner/sniper/S = new(get_turf(src))
+			var/mob/living/simple_animal/hostile/aminion/meatblob/gunner/sniper/S = new(get_turf(src))
 			gremlins+=S
 			continue
 		if(prob(gunnerchance))
-			var/mob/living/simple_animal/hostile/meatblob/gunner/shotgun/SG = new(get_turf(src))
+			var/mob/living/simple_animal/hostile/aminion/meatblob/gunner/shotgun/SG = new(get_turf(src))
 			gremlins+=SG
 			continue
 		else
-			var/mob/living/simple_animal/hostile/meatblob/V = new(get_turf(src))
+			var/mob/living/simple_animal/hostile/aminion/meatblob/V = new(get_turf(src))
 			gremlins+=V
 
 	for(var/turf/open/L in view(7, src)) //Spawn barricades on meat
@@ -139,8 +147,8 @@ GLOBAL_LIST_EMPTY(meat_list)
 			new /obj/structure/barricade/meatbags(L)
 
 	var/guards_count = 0 //How many armed blobs do we have nearby?
-	for(var/mob/living/simple_animal/hostile/meatblob/theblob in range(meat_reach, src))
-		if(!is_type_in_list(theblob, subtypesof(/mob/living/simple_animal/hostile/meatblob))) //It's unarmed
+	for(var/mob/living/simple_animal/hostile/aminion/meatblob/theblob in range(meat_reach, src))
+		if(!is_type_in_list(theblob, subtypesof(/mob/living/simple_animal/hostile/aminion/meatblob))) //It's unarmed
 			continue
 		if(theblob.can_patrol)
 			continue
@@ -256,19 +264,19 @@ GLOBAL_LIST_EMPTY(meat_list)
 ////////
 
 //They mostly are supposed to be slow goobers
-/mob/living/simple_animal/hostile/meatblob
+/mob/living/simple_animal/hostile/aminion/meatblob
 	name = "flesh ball"
 	desc = "A writhing ball of flesh, vaguely humanoid in shape. This one seems unarmed."
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "meatboi"
 	icon_living = "meatboi"
 	faction = list("hostile")
-	health = 800
-	maxHealth = 800
+	health = 250
+	maxHealth = 250
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 2)
-	melee_damage_lower = 15
-	melee_damage_upper = 20
+	melee_damage_lower = 5
+	melee_damage_upper = 10
 	robust_searching = TRUE
 	stat_attack = HARD_CRIT
 	attack_verb_continuous = "glomps"
@@ -277,9 +285,10 @@ GLOBAL_LIST_EMPTY(meat_list)
 	speak_emote = list("gargles")
 	move_to_delay = 4.5
 	can_patrol = TRUE //The stronger blobs use commander AI, these will wander if alone.
+	threat_level = HE_LEVEL // A neat reference to how Ttls was a he at one point
+	score_divider = 16//Worth fuck all since its an aleph
 
-
-/mob/living/simple_animal/hostile/meatblob/Move()
+/mob/living/simple_animal/hostile/aminion/meatblob/Move()
 	..()
 	if(!isturf(loc) || isspaceturf(loc))
 		return
@@ -287,16 +296,16 @@ GLOBAL_LIST_EMPTY(meat_list)
 		return
 	new /obj/structure/meatfloor(loc)
 
-/mob/living/simple_animal/hostile/meatblob/gunner
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner
 	name = "suppressing flesh ball"
 	desc = "A writhing ball of flesh, vaguely humanoid in shape. This one has a rifle."
 	icon = 'ModularTegustation/Teguicons/32x48.dmi'
 	icon_state = "meatboi_rifle"
 	icon_living = "meatboi_rifle"
-	health = 400
-	maxHealth = 400
-	melee_damage_lower = 20
-	melee_damage_upper = 25
+	health = 150
+	maxHealth = 150
+	melee_damage_lower = 7
+	melee_damage_upper = 9
 	ranged = 1
 	retreat_distance = 3
 	minimum_distance = 4
@@ -312,14 +321,14 @@ GLOBAL_LIST_EMPTY(meat_list)
 	var/maximum_bullets = 20
 	var/reload_sound = 'sound/weapons/gun/general/bolt_rack.ogg'
 
-/mob/living/simple_animal/hostile/meatblob/gunner/Initialize(mapload)
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/Initialize(mapload)
 	..()
 	var/units_to_add = list(
-		/mob/living/simple_animal/hostile/meatblob = 1,
+		/mob/living/simple_animal/hostile/aminion/meatblob = 1,
 		)
 	AddComponent(/datum/component/ai_leadership, units_to_add, 3, TRUE, TRUE)
 
-/mob/living/simple_animal/hostile/meatblob/gunner/OpenFire(atom/A)
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/OpenFire(atom/A)
 	if(!can_act)
 		return FALSE
 	if(get_dist(src, A) < 2) // We can't fire normal ranged attack if we're too busy trying to run away
@@ -331,34 +340,34 @@ GLOBAL_LIST_EMPTY(meat_list)
 		remaining_bullets = maximum_bullets
 		playsound(get_turf(src), "[reload_sound]", 50, FALSE)
 
-/mob/living/simple_animal/hostile/meatblob/gunner/Shoot()
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/Shoot()
 	. = ..()
 	remaining_bullets -= 1
 
-/mob/living/simple_animal/hostile/meatblob/gunner/proc/FinishReload()
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/proc/FinishReload()
 	can_act = TRUE
 	deltimer(guntimer)
 
-/mob/living/simple_animal/hostile/meatblob/gunner/Move()
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/Move()
 	if(!can_act)
 		return FALSE
 	..()
 
-/mob/living/simple_animal/hostile/meatblob/gunner/AttackingTarget()
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/AttackingTarget()
 	if(!can_act)
 		return FALSE
 	..()
 
 
-/mob/living/simple_animal/hostile/meatblob/gunner/shotgun
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/shotgun
 	name = "trailblazing flesh ball"
 	desc = "A writhing ball of flesh, vaguely humanoid in shape. This one has a shotgun."
 	icon_state = "meatboi_shotgun"
 	icon_living = "meatboi_shotgun"
-	health = 600
-	maxHealth = 600
-	melee_damage_lower = 30
-	melee_damage_upper = 45
+	health = 200
+	maxHealth = 200
+	melee_damage_lower = 10
+	melee_damage_upper = 15
 	projectiletype = null
 	casingtype = /obj/item/ammo_casing/caseless/last_shot
 	rapid = 1
@@ -368,13 +377,13 @@ GLOBAL_LIST_EMPTY(meat_list)
 	reload_time = 5
 	reload_sound = 'sound/weapons/gun/shotgun/insert_shell.ogg'
 
-/mob/living/simple_animal/hostile/meatblob/gunner/sniper
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/sniper
 	name = "cowering flesh ball"
 	desc = "A writhing ball of flesh, vaguely humanoid in shape. This one has a sniper rifle."
 	icon_state = "meatboi_sniper"
 	icon_living = "meatboi_sniper"
-	health = 300
-	maxHealth = 300
+	health = 100
+	maxHealth = 100
 	retreat_distance = 5
 	minimum_distance = 4
 	projectiletype = /obj/projectile/bonebullet/bonebullet_piercing
@@ -385,14 +394,14 @@ GLOBAL_LIST_EMPTY(meat_list)
 	reload_time = 30
 	var/datum/beam/current_beam = null
 
-/mob/living/simple_animal/hostile/meatblob/gunner/sniper/OpenFire(atom/A)
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/sniper/OpenFire(atom/A)
 	if(!can_act)
 		return
 	if(PrepareToFire(A))
 		return ..()
 	return FALSE
 
-/mob/living/simple_animal/hostile/meatblob/gunner/sniper/proc/PrepareToFire(atom/A)
+/mob/living/simple_animal/hostile/aminion/meatblob/gunner/sniper/proc/PrepareToFire(atom/A)
 	current_beam = Beam(A, icon_state="blood", time = 3 SECONDS)
 	can_act = FALSE
 	SLEEP_CHECK_DEATH(30)
@@ -401,3 +410,12 @@ GLOBAL_LIST_EMPTY(meat_list)
 		return FALSE
 	can_act = TRUE
 	return TRUE
+
+/datum/reagent/abnormality/last_shot
+	name = "Meat Moss"
+	description = "It reeks to high hell. Protects your body and emboldens your Fortitude."
+	metabolization_rate = 0.8 * REAGENTS_METABOLISM
+	color = "#3D0004"
+	stat_changes = list(10, 0, 0, 0)
+	damage_mods = list(0.8, 1, 1, 1) //Improves your fort and red resistance. It's an ALEPH so I feel like its chem being strong is fair.
+

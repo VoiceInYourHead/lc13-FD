@@ -13,6 +13,7 @@
 	var/last_expand = 0 //last world.time this weed expanded
 	var/expand_cooldown = 1.5 SECONDS
 	var/can_expand = TRUE
+	var/bypass_density = FALSE
 	var/static/list/blacklisted_turfs
 
 /obj/structure/spreading/Initialize()
@@ -42,7 +43,7 @@
 	for(var/turf/T in spread_turfs)
 		var/obj/machinery/M = locate(/obj/machinery) in T
 		if(M)
-			if(M.density)
+			if(M.density && !bypass_density)
 				continue
 		var/obj/structure/spreading/S = locate(/obj/structure/spreading) in T
 		if(S)
@@ -75,6 +76,41 @@
 	pixel_y = -8
 	base_pixel_y = -8
 	anchored = TRUE
+
+/*
+* Wave Spawners. Uses the monwave_spawners component.
+*/
+/obj/structure/den
+	name = "spawning_den"
+	desc = "subtype for dens you shouldnt be seeing this."
+	icon_state = "hole"
+	icon = 'icons/mob/nest.dmi'
+	max_integrity = 200
+	anchored = TRUE
+	density = FALSE
+	var/list/moblist = list()
+
+/obj/structure/den/tunnel/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/monwave_spawner, attack_target = get_turf(src), new_wave_order = moblist)
+
+/obj/structure/den/proc/changeTarget(thing)
+	var/turf/target_turf = get_turf(thing)
+	if(!target_turf)
+		return FALSE
+	var/datum/component/monwave_spawner/target_component = datum_components[/datum/component/monwave_spawner]
+	target_component.GeneratePath(target_turf)
+	return TRUE
+
+/obj/structure/den/tunnel
+	name = "tunnel entrance"
+	desc = "A entrance to a underground tunnel. It would only take a few whacks to cave it in."
+	icon_state = "hole"
+	icon = 'icons/mob/nest.dmi'
+	moblist = list(
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn = 3,
+		/mob/living/simple_animal/hostile/ordeal/steel_dawn/steel_noon/flying = 1,
+	)
 
 /**
  * List of button counters
@@ -132,3 +168,29 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/sign/button_counter, 32)
 			. += span_info("Good work!")
 		if(11 to INFINITY)
 			. += span_info("Incredible!")
+
+/obj/structure/pallid//floor waste
+	name = "pallid waste"
+	desc = "A pale, fleshy substance that reeks of fish."
+	icon = 'ModularTegustation/Teguicons/lc13_structures.dmi'
+	icon_state = "pallid"
+	max_integrity = 5
+	anchored = TRUE
+	density = FALSE
+	layer = LOW_OBJ_LAYER
+
+/obj/structure/pallid/Crossed(atom/movable/AM)
+	. = ..()
+	if(ishuman(AM))
+		var/mob/living/carbon/human/H = AM
+		if(prob(5))
+			H.Immobilize(5)
+			to_chat(H, span_warning("You stumble over the uneven terrain!"))
+
+/obj/structure/pallid/Destroy()
+	if(prob(30))
+		new /obj/item/food/meat/slab/pallid(loc)
+	..()
+
+/obj/structure/pallid/grate
+	icon_state = "pallid_grate"

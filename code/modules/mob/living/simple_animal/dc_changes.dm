@@ -17,6 +17,9 @@
 /datum/dc_change/rend/black
 	damage_type = BLACK_DAMAGE
 
+/datum/dc_change/rend/black/weak
+	potency = 1.1
+
 /datum/dc_change/rend/pale // Unused atm
 	damage_type = PALE_DAMAGE
 
@@ -60,4 +63,19 @@
 /// x1,5 universal modifier, inflicted by Road Of Gold
 /datum/dc_change/gold_staggered
 	potency = 1.5
+	damage_type = list(RED_DAMAGE, WHITE_DAMAGE, BLACK_DAMAGE, PALE_DAMAGE)
+
+/// up to 2.16x damage, My Form Empties
+/datum/dc_change/karma
+	potency = 1.1
+	damage_type = list(RED_DAMAGE, WHITE_DAMAGE, BLACK_DAMAGE, PALE_DAMAGE)
+
+// x1.4 black modifier, inflicted by Weakness analyzed skill
+/datum/dc_change/seven
+	potency = 1.4
+	damage_type = BLACK_DAMAGE
+
+/// 1.2x modifiers, used by Qliphoth Shredder
+/datum/dc_change/qliphothshred
+	potency = 1.2
 	damage_type = list(RED_DAMAGE, WHITE_DAMAGE, BLACK_DAMAGE, PALE_DAMAGE)

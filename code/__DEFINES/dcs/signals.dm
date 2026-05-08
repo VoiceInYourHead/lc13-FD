@@ -38,9 +38,11 @@
 // An abnormality cell was swapped with another;
 // First argument is main abno of a swap, second argument is a target abno of a swap: (/datum/abnormality, /datum/abnormality)
 #define COMSIG_GLOB_ABNORMALITY_SWAP "!abno_swap"
-
+///from base of atom/movable/onTransitZ(): (mob/living, old_z, new_z)
+#define COMSIG_GLOB_MOVABLE_Z_CHANGED "!movable_ztransit"
 /// signals from globally accessible objects
-
+/// a human mob got un insaned (mob/living/carbon/human)
+#define COMSIG_GLOB_HUMAN_RESANE "!human_resane"
 ///from SSsun when the sun changes position : (azimuth)
 #define COMSIG_SUN_MOVED "sun_moved"
 
@@ -437,6 +439,8 @@
 #define COMSIG_MOB_SWAP_HANDS "mob_swap_hands"
 	#define COMPONENT_BLOCK_SWAP (1<<0)
 #define COMSIG_MOB_EMOTED(emote_key) "mob_emoted_[emote_key]"
+///from client/keyDown(): (key)
+#define COMSIG_MOB_KEYDOWN "mob_keydown"
 
 ///from /obj/structure/door/crush(): (mob/living/crushed, /obj/machinery/door/crushing_door)
 #define COMSIG_LIVING_DOORCRUSHED "living_doorcrush"
@@ -463,7 +467,8 @@
 ///From post-can inject check of syringe after attack (mob/user)
 #define COMSIG_LIVING_TRY_SYRINGE "living_try_syringe"
 
-
+///from /mob/living/bullet_act() since it does not call /atom/bullet_act()
+#define COMSIG_LIVING_BULLET_ACT "living_bullet_act"
 ///Sent when bloodcrawl ends in mob/living/phasein(): (phasein_decal)
 #define COMSIG_LIVING_AFTERPHASEIN "living_phasein"
 
@@ -567,6 +572,7 @@
 
 // /mob/living/simple_animal/hostile signals
 #define COMSIG_HOSTILE_ATTACKINGTARGET "hostile_attackingtarget"
+#define COMSIG_HOSTILE_LOSTTARGET "hostile_losttarget"
 	#define COMPONENT_HOSTILE_NO_ATTACK (1<<0)
 /// a hostile has started their patrol (datum/source, mob/living/simple_animal/hostile/mover, turf/target_location)
 #define COMSIG_GLOB_PATROL_START "!patrol_start"
@@ -1043,6 +1049,10 @@
 #define COMSIG_ITEM_AFTERATTACK "item_afterattack"
 ///from base of obj/item/attack_qdeleted(): (atom/target, mob/user, params)
 #define COMSIG_ITEM_ATTACK_QDELETED "item_attack_qdeleted"
+///from base of obj/item/MiddleClickAction(): (atom/target, mob/living/user, params)
+#define COMSIG_ITEM_MIDDLE_CLICK_ACTION "item_middle_click_action"
+	///cancels middle click action
+	#define COMPONENT_CANCEL_MIDDLE_CLICK_ACTION (1<<0)
 ///from base of atom/attack_hand(): (mob/user)
 #define COMSIG_MOB_ATTACK_HAND "mob_attack_hand"
 ///from base of /obj/item/attack(): (mob/M, mob/user)
@@ -1084,7 +1094,19 @@
 #define COMSIG_FEAR_EFFECT "fear_effect"
 ///Whenever the season is changed through god of the seasons or its E.G.O.
 #define COMSIG_GLOB_SEASON_CHANGE "!change_season"
+///Whenever SetEmergencyLevel() is called
+#define COMSIG_TRUMPET_CHANGED "trumpet_change"
 
 // Ordeal signals
+// When the ordeal starts; (/datum/ordeal)
+#define COMSIG_GLOB_ORDEAL_START "!ordeal_start"
 // When the ordeal ends; (/datum/ordeal)
 #define COMSIG_GLOB_ORDEAL_END "!ordeal_end"
+
+
+// Crate signals
+#define COMSIG_CRATE_LOOTING_STARTED "looting_started"
+#define COMSIG_CRATE_LOOTING_ENDED "looting_ended"
+
+#define COMSIG_PARCEL_DELIVERED "parcel_delivered"
+#define COMSIG_ITEM_DELIVERED "item_delivered"

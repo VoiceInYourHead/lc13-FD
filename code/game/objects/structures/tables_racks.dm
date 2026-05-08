@@ -107,10 +107,10 @@
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return TRUE
 
-/obj/structure/table/CanAStarPass(ID, dir, caller)
+/obj/structure/table/CanAStarPass(ID, dir, requester)
 	. = !density
-	if(ismovable(caller))
-		var/atom/movable/mover = caller
+	if(ismovable(requester))
+		var/atom/movable/mover = requester
 		. = . || (mover.pass_flags & PASSTABLE)
 
 /obj/structure/table/proc/tableplace(mob/living/user, mob/living/pushed_mob)
@@ -215,6 +215,8 @@
 		return TRUE
 
 	if(user.a_intent != INTENT_HARM && !(I.item_flags & ABSTRACT))
+		if(!Adjacent(user)) // Prevents weirdness like dropping things on tables from far away with reach weapons.
+			return
 		if(user.transferItemToLoc(I, drop_location(), silent = FALSE))
 			//Center the icon where the user clicked.
 			if(!LAZYACCESS(modifiers, ICON_X) || !LAZYACCESS(modifiers, ICON_Y))
@@ -663,7 +665,7 @@
 				playsound(loc, 'sound/items/dodgeball.ogg', 80, TRUE)
 			else
 				playsound(loc, 'sound/weapons/tap.ogg', 50, TRUE)
-		if(BURN)
+		if(FIRE)
 			playsound(loc, 'sound/items/welder.ogg', 40, TRUE)
 
 /*

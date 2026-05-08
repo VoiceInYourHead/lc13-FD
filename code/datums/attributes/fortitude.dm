@@ -5,11 +5,5 @@
 	initial_stat_value = DEFAULT_HUMAN_MAX_HEALTH
 
 /datum/attribute/fortitude/get_printed_level_bonus()
-	return round(level * FORTITUDE_MOD) + initial_stat_value
+	return max(initial_stat_value, round(get_level() * FORTITUDE_MOD))
 
-/datum/attribute/fortitude/on_update(mob/living/carbon/user)
-	if(!istype(user))
-		return FALSE
-	user.death_threshold = HEALTH_THRESHOLD_DEAD - round((level + level_buff) * 0.5)
-	user.hardcrit_threshold = HEALTH_THRESHOLD_FULLCRIT - round((level + level_buff) * 0.25)
-	return TRUE

@@ -126,7 +126,7 @@
 			if(O.throwing)
 				continue
 			ObjSink(thing)
-			if(istype(O, /obj/item/food/fish || /obj/item/aquarium_prop))
+			if(istype(O, /obj/item/food/fish || /obj/item/aquarium_prop || /obj/item/food/freshfish))
 				//Fish exit the game world and enter the water world.
 				qdel(O)
 				continue
@@ -137,9 +137,11 @@
 				for(var/I in locker.contents)
 					if(isliving(I))
 						MobSink(I)
-			/* This may cause issues later on. Without this people can sit on office chairs
-				and push themselves into water with no negative effects except being warped.
-				This appears to just leave people on the shore with the item being teleported. -IP */
+			/*
+			This may cause issues later on. Without this people can sit on office chairs
+			and push themselves into water with no negative effects except being warped.
+			This appears to just leave people on the shore with the item being teleported. -IP
+			*/
 			if(O.has_buckled_mobs())
 				O.unbuckle_all_mobs()
 				visible_message(span_notice("[O] capsizes."))
@@ -163,12 +165,9 @@
 				WarpSunkStuff(L)
 				return FALSE
 
-	//Overridable Unique Reaction. Currently only used to pollute water.
 /turf/open/water/deep/proc/ObjSink(atom/movable/sinkin_thing)
-	if(istype(sinkin_thing, /obj/item/food/fish/emulsijack))
-		//Become polluted.
-		TerraformTurf(/turf/open/water/deep/polluted)
-		return TRUE
+	// Removed for now due to Emulsijack conversion being the bane of mappers.
+	return
 
 	//Overridable Mob Reaction
 /turf/open/water/deep/proc/MobSink(mob/living/drowner)
@@ -256,20 +255,25 @@
 		/obj/item/food/breadslice/moldy = 2,
 	)
 	loot_level2 = list(
-		/obj/item/food/fish/fresh_water/catfish = 50,
-		/obj/item/food/fish/fresh_water/bass = 15,
+		/obj/item/food/fish/fresh_water/catfish = 35,
+		/obj/item/food/fish/fresh_water/salmon = 15,
+		/obj/item/food/fish/fresh_water/bass = 10,
+		/obj/item/food/fish/fresh_water/eel = 10,
 		/obj/item/stack/sheet/sinew/wolf = 10,
 		/obj/item/stack/sheet/leather = 10,
-		/obj/item/reagent_containers/food/drinks/bottle/wine/unlabeled = 10,
+		/obj/item/reagent_containers/food/drinks/bottle/wine/unlabeled = 5,
 		/obj/item/clothing/head/beret/fishing_hat = 5,
 	)
 	loot_level3 = list(
+		/obj/item/food/fish/fresh_water/ufo = 5,
+		/obj/item/food/fish/fresh_water/unidentifiedfishobject = 1,
 		/obj/item/food/fish/fresh_water/ratfish = 25,
 		/obj/item/food/fish/fresh_water/waterflea = 20,
 		/obj/item/food/fish/fresh_water/yin = 20,
 		/obj/item/food/fish/fresh_water/yang = 20,
 		/mob/living/simple_animal/hostile/retaliate/frog = 10,
 		/obj/item/food/fish/emulsijack = 5,
+		/obj/item/food/fish/fresh_water/weever_blue_album = 5,
 	)
 
 /turf/open/water/deep/saltwater
@@ -284,16 +288,26 @@
 		/obj/item/stack/sheet/mineral/wood = 10,
 	)
 	loot_level2 = list(
-		/obj/item/food/fish/trout = 35,
-		/obj/item/food/fish/salt_water/cardinal = 30,
-		/obj/item/food/fish/salt_water/sheephead = 20,
+		/obj/item/food/fish/salt_water/seabunny = 5,
+		/obj/item/food/fish/trout = 20,
+		/obj/item/food/fish/salt_water/salmon = 15,
+		/obj/item/food/fish/salt_water/cardinal = 25,
+		/obj/item/food/fish/salt_water/sheephead = 10,
+		/obj/item/food/fish/salt_water/blue_tang = 10,
 		/obj/item/reagent_containers/food/drinks/bottle/wine/unlabeled = 10,
+		/obj/item/food/fish/salt_water/squid = 5,
 		/obj/item/clothing/head/beret/fishing_hat = 5,
 	)
 	loot_level3 = list(
-		/obj/item/food/fish/salt_water/lanternfish = 75,
+		/obj/item/food/fish/salt_water/fishmael = 8,
+		/obj/item/food/fish/salt_water/searabbit = 5,
+		/obj/item/food/fish/salt_water/lanternfish = 45,
+		/obj/item/food/fish/salt_water/lobster = 15,
+		/obj/item/food/fish/salt_water/smolshark = 10,
 		/obj/item/food/fish/salt_water/tuna_pallid = 10,
 		/mob/living/simple_animal/crab = 10,
+		/obj/item/food/fish/salt_water/deep_fry = 5,
+		/obj/item/food/fish/salt_water/pigfish = 5,
 		/obj/item/food/fish/emulsijack = 5,
 	)
 
@@ -317,17 +331,18 @@
 		/obj/item/stack/sheet/plastic = 15,
 		/obj/item/ego_weapon/city/rats/brick = 10,
 		/obj/item/food/tofu/prison = 3,
-		/mob/living/simple_animal/hostile/shrimp = 2,
+		/mob/living/simple_animal/hostile/aminion/shrimp = 2,
 	)
 	loot_level3 = list(
+		/obj/item/food/fish/fresh_water/boxin_man = 10,
+		/obj/item/food/fish/fresh_water/walkin_man = 10,
+		/obj/item/food/fish/fresh_water/unidentifiedfishobject = 5,
 		/obj/item/food/fish/fresh_water/mosb = 25,
 		/obj/item/food/fish/salt_water/tuna_pallid = 25,
 		/obj/item/food/fish/salt_water/piscine_mermaid = 45,
 		/obj/item/food/fish/emulsijack = 5,
+		/obj/item/food/fish/fresh_water/weever_blue_album = 6,
 	)
-
-/turf/open/water/deep/polluted/ObjSink(atom/movable/sinkin_thing)
-	return TRUE
 
 /* Change this later so that it is not a subtype since the variable is in the deep type.
 	Safe subtype isnt nessesary since it pre sets safe to TRUE when we can just set it to
@@ -337,14 +352,18 @@
  * Safe turfs, they wont sink you when you enter them
  */
 
+/turf/open/water/deep/saltwater
+	density = FALSE
+
 /turf/open/water/deep/saltwater/safe/IsSafe()
 	return TRUE
 
 /turf/open/water/deep/obsessing_water
-	safe = TRUE
 	name = "Obsessing water"
 	desc = "A strange black and teal water."
 	icon_state = "obsessing_water"
+	safe = TRUE
+	density = FALSE
 	loot_level1 = list(
 		/obj/item/stack/sheet/mineral/wood = 30,
 		/obj/item/food/grown/harebell = 35,

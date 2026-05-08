@@ -18,9 +18,7 @@
 
 
 /datum/species/dullahan/check_roundstart_eligible()
-	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
-		return TRUE
-	return FALSE
+	return FALSE // Have problems related to being unkillable when its normally allowed to spawn during h'ween.
 
 /datum/species/dullahan/on_species_gain(mob/living/carbon/human/H, datum/species/old_species)
 	. = ..()
@@ -29,7 +27,7 @@
 	if(head)
 		head.drop_limb()
 		if(!QDELETED(head)) //drop_limb() deletes the limb if no drop location exists and character setup dummies are located in nullspace.
-			head.throwforce = 25
+			head.throwforce = 6
 			myhead = new /obj/item/dullahan_relay (head, H)
 			H.put_in_hands(head)
 			var/obj/item/organ/eyes/E = H.getorganslot(ORGAN_SLOT_EYES)

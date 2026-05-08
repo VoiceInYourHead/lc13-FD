@@ -85,13 +85,13 @@ GLOBAL_LIST_INIT(transit_tube_recipes, list(
 	var/all_layers
 
 /datum/pipe_info/proc/Render(dispenser)
-	var/dat = "<li><a href='?src=[REF(dispenser)]&[Params()]'>[name]</a></li>"
+	var/dat = "<li><a href='byond://?src=[REF(dispenser)]&[Params()]'>[name]</a></li>"
 
 	// Stationary pipe dispensers don't allow you to pre-select pipe directions.
 	// This makes it impossble to spawn bent versions of bendable pipes.
 	// We add a "Bent" pipe type with a preset diagonal direction to work around it.
 	if(istype(dispenser, /obj/machinery/pipedispenser) && (dirtype == PIPE_BENDABLE || dirtype == /obj/item/pipe/binary/bendable))
-		dat += "<li><a href='?src=[REF(dispenser)]&[Params()]&dir=[NORTHEAST]'>Bent [name]</a></li>"
+		dat += "<li><a href='byond://?src=[REF(dispenser)]&[Params()]&dir=[NORTHEAST]'>Bent [name]</a></li>"
 
 	return dat
 
@@ -188,8 +188,8 @@ GLOBAL_LIST_INIT(transit_tube_recipes, list(
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	flags_1 = CONDUCT_1
-	force = 10
-	throwforce = 10
+	force = 3
+	throwforce = 3
 	throw_speed = 1
 	throw_range = 5
 	w_class = WEIGHT_CLASS_NORMAL

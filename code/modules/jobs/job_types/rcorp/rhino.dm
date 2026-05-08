@@ -15,7 +15,8 @@
 
 	access = list(ACCESS_ARMORY, ACCESS_CENT_GENERAL)
 	minimal_access = list(ACCESS_ARMORY, ACCESS_CENT_GENERAL)
-
+	departments = DEPARTMENT_R_CORP
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 40,
 								PRUDENCE_ATTRIBUTE = 40,
@@ -26,10 +27,6 @@
 	job_important = "You take the role of ranged armored unit."
 	job_notice = "Equip your mecha in the supply tent to the northwest. Take point, and cover for the rabbits. \
 		You can heal your mech with the welder. Keep in mind that certain attacks can pierce your mecha"
-
-/datum/job/rhino/after_spawn(mob/living/carbon/human/H, mob/M)
-	. = ..()
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 
 /datum/job/rhino/hammer
 	title = "R-Corp Hammer Rhino"
@@ -61,6 +58,7 @@
 
 	access = list(ACCESS_ARMORY, ACCESS_COMMAND, ACCESS_CENT_GENERAL)
 	minimal_access = list(ACCESS_ARMORY, ACCESS_COMMAND, ACCESS_CENT_GENERAL)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_R_CORP
 
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 80,
@@ -84,7 +82,7 @@
 	shoes = /obj/item/clothing/shoes/combat
 	gloves = /obj/item/clothing/gloves/color/black
 	implants = list(/obj/item/organ/cyberimp/eyes/hud/security)
-	belt = null
+	belt = /obj/item/storage/belt/rhino/full
 
 /datum/outfit/job/rhino/melee
 	name = "R-Corp Hammer Rhino"
@@ -97,4 +95,4 @@
 	jobtype = /datum/job/rcorp_captain/rhino
 	glasses = /obj/item/clothing/glasses/hud/diagnostic/sunglasses
 	ears = /obj/item/radio/headset/heads/headset_discipline
-
+	belt = /obj/item/storage/belt/rhino/captain

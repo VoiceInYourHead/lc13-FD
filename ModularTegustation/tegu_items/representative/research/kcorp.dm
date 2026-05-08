@@ -7,8 +7,8 @@
 	cost = AVERAGE_RESEARCH_PRICE
 	corp = K_CORP_REP
 
-/datum/data/lc13research/syringe/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Ampule ",	/obj/item/ksyringe, 300)
+/datum/data/lc13research/syringe/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Ampule ",	/obj/item/reagent_containers/hypospray/medipen/safety/kcorp, 300)
 	..()
 
 /datum/data/lc13research/krevival
@@ -18,8 +18,8 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/syringe
 
-/datum/data/lc13research/krevival/ResearchEffect(obj/structure/representative_console/caller)
-	new /obj/item/krevive(get_turf(caller))
+/datum/data/lc13research/krevival/ResearchEffect(obj/structure/representative_console/requester)
+	new /obj/item/krevive(get_turf(requester))
 	..()
 
 /datum/data/lc13research/krevival2
@@ -29,8 +29,8 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/krevival
 
-/datum/data/lc13research/krevival2/ResearchEffect(obj/structure/representative_console/caller)
-	new /obj/item/krevive(get_turf(caller))
+/datum/data/lc13research/krevival2/ResearchEffect(obj/structure/representative_console/requester)
+	new /obj/item/krevive(get_turf(requester))
 	..()
 
 //Misc stuff.
@@ -40,8 +40,8 @@
 	cost = AVERAGE_RESEARCH_PRICE
 	corp = K_CORP_REP
 
-/datum/data/lc13research/bullets/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Manager Bullet",	/obj/item/managerbullet, 100)
+/datum/data/lc13research/bullets/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Manager Bullet",	/obj/item/managerbullet, 100)
 	..()
 
 /datum/data/lc13research/injector
@@ -50,28 +50,16 @@
 	cost = AVERAGE_RESEARCH_PRICE
 	corp = K_CORP_REP
 
-/datum/data/lc13research/injector/ResearchEffect(obj/structure/representative_console/caller)
-	new /obj/item/reagent_containers/syringe/epinephrine(get_turf(caller))
-	ItemUnlock(caller.order_list, "K Corp Implanter",	/obj/item/implanter, 50)
-	ItemUnlock(caller.order_list, "K Corp Chem Implant",	/obj/item/implantcase/chem, 300)
+/datum/data/lc13research/injector/ResearchEffect(obj/structure/representative_console/requester)
+	new /obj/item/reagent_containers/syringe/epinephrine(get_turf(requester))
+	ItemUnlock(requester.order_list, "K Corp Implanter",	/obj/item/implanter, 50)
+	ItemUnlock(requester.order_list, "K Corp Chem Implant",	/obj/item/implantcase/chem, 300)
 	..()
 
 /datum/data/lc13research/regenerator_overcharge/kcorp
 	research_name = "Repeatable: RAK the Regenerator System"
 	research_desc = "KCorp made this system for LCorp. <br>All you need to do is enter the following code into the machine, 9887. <br>Don't let LCorp know or they'll use it all the time and they'll break it; they have warranty."
 	corp = K_CORP_REP
-
-//Health booster
-/datum/data/lc13research/healthboost
-	research_name = "Health Booster Syringe"
-	research_desc = "Hey man, its Joe from research. <br>We've got a new item over here, something about increasing your overall health? <br>They only really made one of these and told us to get it tested ASAP, i'm assuming that want to wait before investing. Mind helping us out?"
-	cost = AVERAGE_RESEARCH_PRICE
-	corp = K_CORP_REP
-	required_research = /datum/data/lc13research/syringe
-
-/datum/data/lc13research/healthboost/ResearchEffect(obj/structure/representative_console/caller)
-	new /obj/item/khpboost(get_turf(caller))
-	..()
 
 //ERTs
 /datum/data/lc13research/mobspawner/k1team
@@ -98,7 +86,7 @@
 	required_research = /datum/data/lc13research/mobspawner/k1team
 	mobspawner_type = /obj/effect/mob_spawn/human/supplypod/r_corp/kcorp_call/killteam
 
-/datum/data/lc13research/mobspawner/kteamkill/ResearchEffect(obj/structure/representative_console/caller)
+/datum/data/lc13research/mobspawner/kteamkill/ResearchEffect(obj/structure/representative_console/requester)
 	minor_announce("Attention all L-Corp branch employees. We have discovered unauthorized usage of our equipment. An Asset Protection Team is enroute to your location.", "K Corp HQ Update:", TRUE)
 	..()
 
@@ -118,9 +106,9 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/kweapons
 
-/datum/data/lc13research/kspears/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Spear",	/obj/item/ego_weapon/city/kcorp/spear, 600)
-	ItemUnlock(caller.order_list, "K Corp DoubleSpear",	/obj/item/ego_weapon/city/kcorp/dspear, 600)
+/datum/data/lc13research/kspears/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Spear",	/obj/item/ego_weapon/city/kcorp/spear, 600)
+	ItemUnlock(requester.order_list, "K Corp DoubleSpear",	/obj/item/ego_weapon/city/kcorp/dspear, 600)
 	..()
 
 
@@ -131,9 +119,9 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/kweapons
 
-/datum/data/lc13research/kguns/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Machinepistole",	/obj/item/gun/ego_gun/pistol/kcorp/smg, 600)
-	ItemUnlock(caller.order_list, "K Corp Light Grenade Launcher",	/obj/item/gun/ego_gun/pistol/kcorp/nade, 600)
+/datum/data/lc13research/kguns/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Machinepistole",	/obj/item/ego_weapon/ranged/pistol/kcorp/smg, 600)
+	ItemUnlock(requester.order_list, "K Corp Light Grenade Launcher",	/obj/item/ego_weapon/ranged/pistol/kcorp/nade, 600)
 	..()
 
 /datum/data/lc13research/karmor1
@@ -143,10 +131,10 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/kweapons
 
-/datum/data/lc13research/karmor1/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Class-1 Armor", /obj/item/clothing/suit/armor/ego_gear/city/kcorp_l1/weak, 600)
-	ItemUnlock(caller.order_list, "K Corp L1 Helmet",	/obj/item/clothing/head/ego_hat/helmet/kcorp, 100)
-	ItemUnlock(caller.order_list, "K Corp L1 Visor Helmet",	/obj/item/clothing/head/ego_hat/helmet/kcorp/visor, 100)
+/datum/data/lc13research/karmor1/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Class-1 Armor", /obj/item/clothing/suit/armor/ego_gear/city/kcorp_l1/weak, 600)
+	ItemUnlock(requester.order_list, "K Corp L1 Helmet",	/obj/item/clothing/head/ego_hat/helmet/kcorp, 100)
+	ItemUnlock(requester.order_list, "K Corp L1 Visor Helmet",	/obj/item/clothing/head/ego_hat/helmet/kcorp/visor, 100)
 	..()
 
 //Spawners
@@ -157,6 +145,6 @@
 	corp = K_CORP_REP
 	required_research = /datum/data/lc13research/syringe
 
-/datum/data/lc13research/kguns/ResearchEffect(obj/structure/representative_console/caller)
-	ItemUnlock(caller.order_list, "K Corp Drone Spawner",	/obj/item/grenade/spawnergrenade/khealing, 600)
+/datum/data/lc13research/kdrones/ResearchEffect(obj/structure/representative_console/requester)
+	ItemUnlock(requester.order_list, "K Corp Drone Spawner",	/obj/item/grenade/spawnergrenade/khealing, 600)
 	..()

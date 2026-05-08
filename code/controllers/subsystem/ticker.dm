@@ -65,6 +65,12 @@ SUBSYSTEM_DEF(ticker)
 	/// Why an emergency shuttle was called
 	var/emergency_reason
 
+	//ordeals that spawned
+	var/list/ordeal_info = list()
+	var/core_suppression = null
+	var/post_midnight_core = null
+	var/list/superbosses = list()
+
 /datum/controller/subsystem/ticker/Initialize(timeofday)
 	load_mode()
 
@@ -84,8 +90,10 @@ SUBSYSTEM_DEF(ticker)
 	)
 
 	var/list/provisional_title_music = flist("[global.config.directory]/title_music/sounds/")
-	var/list/music = list()
+	var/list/music = list() //Normal music files
+	var/list/exclusivemusic = list() //Rare music, map-exclusives go in a separate list
 	var/use_rare_music = prob(1)
+	var/map_name = lowertext(SSmapping.config.map_name)
 
 	for(var/S in provisional_title_music)
 		var/lower = lowertext(S)
@@ -93,36 +101,48 @@ SUBSYSTEM_DEF(ticker)
 		switch(L.len)
 			if(3) //rare+MAP+sound.ogg or MAP+rare.sound.ogg -- Rare Map-specific sounds
 				if(use_rare_music)
-					if(L[1] == "rare" && L[2] == SSmapping.config.map_name)
-						music += S
-					else if(L[2] == "rare" && L[1] == SSmapping.config.map_name)
-						music += S
+					if(L[1] == "rare" && L[2] == map_name)
+						exclusivemusic += S
+					else if(L[2] == "rare" && L[1] == map_name)
+						exclusivemusic += S
 			if(2) //rare+sound.ogg or MAP+sound.ogg -- Rare sounds or Map-specific sounds
-				if((use_rare_music && L[1] == "rare") || (L[1] == SSmapping.config.map_name))
-					music += S
+				if((use_rare_music && L[1] == "rare") || (L[1] == map_name))
+					exclusivemusic += S
 			if(1) //sound.ogg -- common sound
 				if(L[1] == "exclude")
 					continue
 				music += S
 
-	var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
-	if(music.len > 1)
-		music -= old_login_music
-
-	for(var/S in music)
+	for(var/S in exclusivemusic) // Check if we have a map exclusive or rare sound first
 		var/list/L = splittext(S,".")
 		if(L.len >= 2)
 			var/ext = lowertext(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
 			if(byond_sound_formats[ext])
 				continue
-		music -= S
+		exclusivemusic -= S
 
-	if(!length(music))
-		music = world.file2list(ROUND_START_MUSIC_LIST, "\n")
-		login_music = pick(music)
-	else
-		login_music = "[global.config.directory]/title_music/sounds/[pick(music)]"
 
+	if(length(exclusivemusic)) //If we have a map exclusive or whatnot
+		login_music = "[global.config.directory]/title_music/sounds/[pick(exclusivemusic)]"
+
+	if(!login_music) // if we use common music instead...
+		var/old_login_music = trim(file2text("data/last_round_lobby_music.txt"))
+		if(music.len > 1)
+			music -= old_login_music
+
+		for(var/S in music)
+			var/list/L = splittext(S,".")
+			if(L.len >= 2)
+				var/ext = lowertext(L[L.len]) //pick the real extension, no 'honk.ogg.exe' nonsense here
+				if(byond_sound_formats[ext])
+					continue
+			music -= S
+
+		if(!length(music))
+			music = world.file2list(ROUND_START_MUSIC_LIST, "\n")
+			login_music = pick(music)
+		else
+			login_music = "[global.config.directory]/title_music/sounds/[pick(music)]"
 
 	if(!GLOB.syndicate_code_phrase)
 		GLOB.syndicate_code_phrase	= generate_code_phrase(return_list=TRUE)
@@ -250,11 +270,13 @@ SUBSYSTEM_DEF(ticker)
 		if(!(istype(mode, /datum/game_mode/combat)))
 			mode = new /datum/game_mode/combat
 	else
-		var/choosingmode = pick(/datum/game_mode/management/classic, 
-			//	/datum/game_mode/management/pure, 
-			//	/datum/game_mode/management/branch
-				)
-		mode = new choosingmode
+
+		mode = new /datum/game_mode/management/classic
+		if(SSevents.holidays && SSevents.holidays[APRIL_FOOLS]) //runs in April 1st
+			mode = new /datum/game_mode/management/joke
+
+	for(var/obj/structure/filingcabinet/smart/cabinet in GLOB.records_cabinets)
+		cabinet.spawn_records()
 
 	CHECK_TICK
 
@@ -462,7 +484,7 @@ SUBSYSTEM_DEF(ticker)
 	if(!hpc)
 		listclearnulls(queued_players)
 		for (var/mob/dead/new_player/NP in queued_players)
-			to_chat(NP, "<span class='userdanger'>The alive players limit has been released!<br><a href='?src=[REF(NP)];late_join=override'>[html_encode(">>Join Game<<")]</a></span>")
+			to_chat(NP, "<span class='userdanger'>The alive players limit has been released!<br><a href='byond://?src=[REF(NP)];late_join=override'>[html_encode(">>Join Game<<")]</a></span>")
 			SEND_SOUND(NP, sound('sound/misc/notice1.ogg'))
 			NP.LateChoices()
 		queued_players.len = 0
@@ -477,7 +499,7 @@ SUBSYSTEM_DEF(ticker)
 			listclearnulls(queued_players)
 			if(living_player_count() < hpc)
 				if(next_in_line?.client)
-					to_chat(next_in_line, "<span class='userdanger'>A slot has opened! You have approximately 20 seconds to join. <a href='?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a></span>")
+					to_chat(next_in_line, "<span class='userdanger'>A slot has opened! You have approximately 20 seconds to join. <a href='byond://?src=[REF(next_in_line)];late_join=override'>\>\>Join Game\<\<</a></span>")
 					SEND_SOUND(next_in_line, sound('sound/misc/notice1.ogg'))
 					next_in_line.LateChoices()
 					return

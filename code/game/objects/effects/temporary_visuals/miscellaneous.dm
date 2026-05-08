@@ -265,6 +265,13 @@
 	name = "spooky lights"
 	icon_state = "purplesparkles"
 
+/obj/effect/temp_visual/revenant/halfsecond
+	duration = 5
+
+/obj/effect/temp_visual/pale_sparks
+	name = "pale lights"
+	icon_state = "shieldsparkles"
+
 /obj/effect/temp_visual/revenant/cracks
 	name = "glowing cracks"
 	icon_state = "purplecrack"
@@ -622,6 +629,33 @@
 	. = ..()
 	animate(src, alpha = 0, time = duration)
 
+/obj/effect/temp_visual/paradise_attack_large
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "paradise_attack_center"
+	pixel_x = -32
+	pixel_y = 2
+	duration = 10
+	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+
+/obj/effect/temp_visual/paradise_attack_large/Initialize()
+	. = ..()
+	transform = matrix(matrix(1, 0, MATRIX_SCALE),0, -48, MATRIX_TRANSLATE)
+	animate(src, transform = matrix(), time = 1.5, easing = CIRCULAR_EASING | EASE_IN)
+	addtimer(CALLBACK(src, PROC_REF(fade_out)), 7)
+
+/obj/effect/temp_visual/paradise_attack_large/proc/fade_out()
+	animate(src, alpha = 0, time = 3)
+
+/obj/effect/temp_visual/paradise_attack_large/left
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "paradise_attack_left"
+	pixel_x = 0
+
+/obj/effect/temp_visual/paradise_attack_large/right
+	icon = 'icons/effects/96x96.dmi'
+	icon_state = "paradise_attack_right"
+	pixel_x = -64
+
 /obj/effect/temp_visual/water_waves
 	name = "ocean"
 	icon = 'icons/turf/floors.dmi'
@@ -849,48 +883,10 @@
 	pixel_y = 0
 	pixel_x = -16
 
-/obj/effect/temp_visual/healing
-	icon_state = "healing"
+/obj/effect/temp_visual/crit
+	icon_state = "critical"
 	layer = ABOVE_ALL_MOB_LAYER
-//duration based on the frames in the sprites.
-	duration = 8
-
-/obj/effect/temp_visual/healing/Initialize(mapload)
-	. = ..()
-	pixel_x = rand(-12, 12)
-	pixel_y = rand(-9, 0)
-
-/obj/effect/temp_visual/healing/no_dam
-	icon_state = "no_dam"
-
-//Damage Effects
-/obj/effect/temp_visual/damage_effect
-	icon = 'ModularTegustation/Teguicons/lc13_coloreffect.dmi'
-	layer = ABOVE_ALL_MOB_LAYER
-	//Icon state is actually the base icon for intilization
-
-/obj/effect/temp_visual/damage_effect/Initialize(mapload)
-	icon_state = "[icon_state][rand(1,2)]"
-	pixel_x = rand(-12, 12)
-	pixel_y = rand(-9, 9)
-	return ..()
-
-/obj/effect/temp_visual/damage_effect/red
-	icon_state = "dam_red"
-
-/obj/effect/temp_visual/damage_effect/white
-	icon_state = "dam_white"
-
-/obj/effect/temp_visual/damage_effect/black
-	icon_state = "dam_black"
-
-/obj/effect/temp_visual/damage_effect/pale
-	icon_state = "dam_pale"
-
-/obj/effect/temp_visual/pale_eye_attack
-	name = "pale particles"
-	icon_state = "ion_fade_flight"
-	duration = 5
+	duration = 15
 
 /obj/effect/temp_visual/pale_eye_attack/Initialize()
 	. = ..()
@@ -1102,3 +1098,12 @@
 	icon = 'icons/obj/manager_bullets.dmi'
 	icon_state = "execution"
 	duration = 10
+
+/obj/effect/temp_visual/seasons_wisp_death
+	icon = 'ModularTegustation/Teguicons/32x32.dmi'
+	icon_state = "seasons_wisp_death"
+	duration = 15
+
+/obj/effect/temp_visual/sparkle
+	icon_state = "sparkle"
+	duration = 5

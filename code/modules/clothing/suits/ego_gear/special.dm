@@ -1,29 +1,52 @@
-// Special Armor doesn't have any armors or attribute requirements, maybe we should put twi and paradise there, idk idk
+// Special Armor doesn't have any armors or attribute requirements
 
-//This is tutorial armor
-/obj/item/clothing/suit/armor/ego_gear/rookie
-	name = "rookie"
-	desc = "This armor is strong to red, check it's defenses to see!"
-	icon_state = "rookie"
-	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -40, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)
+//Dingle Dangle
+/obj/item/clothing/suit/armor/ego_gear/he/lutemis
+	name = "dear lutemis"
+	desc = "Let's all dangle down."
+	icon_state = "lutemis"
+	//White armor, weak to red. Red is pretty valuable.
+	armor = list(RED_DAMAGE = -20, WHITE_DAMAGE = 60, BLACK_DAMAGE = 20, PALE_DAMAGE = 20) // 80, Special armor.
+	attribute_requirements = list(
+							PRUDENCE_ATTRIBUTE = 40
+							)
 
-/obj/item/clothing/suit/armor/ego_gear/fledgling
-	name = "fledgling"
-	desc = "This armor is strong to white, check it's defenses to see!"
-	icon_state = "fledgling"
-	armor = list(RED_DAMAGE = 0, WHITE_DAMAGE = 40, BLACK_DAMAGE = -40, PALE_DAMAGE = 0)
+//General Bee
+/obj/item/clothing/suit/armor/ego_gear/aleph/praetorian
+	name = "praetorian"
+	desc = "The queen's last line of defense."
+	icon_state = "praetorian"
+	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 40)	// 240, Armor was made before the abnormality.
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 100,
+							PRUDENCE_ATTRIBUTE = 80,
+							TEMPERANCE_ATTRIBUTE = 80,
+							JUSTICE_ATTRIBUTE = 80
+							)
+//Apocalypse Bird
+/obj/item/clothing/suit/armor/ego_gear/aleph/twilight
+	name = "twilight"
+	desc = "The three birds united their efforts to defeat the beast. \
+	This could stop countless incidents, but you’ll have to be prepared to step into the Black Forest…"
+	icon_state = "twilight"
+	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 80, PALE_DAMAGE = 80) // 300
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 120,
+							PRUDENCE_ATTRIBUTE = 120,
+							TEMPERANCE_ATTRIBUTE = 120,
+							JUSTICE_ATTRIBUTE = 120
+							)
 
-/obj/item/clothing/suit/armor/ego_gear/apprentice
-	name = "apprentice"
-	desc = "This armor is strong to black, check it's defenses to see!"
-	icon_state = "apprentice"
-	armor = list(RED_DAMAGE = 0, WHITE_DAMAGE = 0, BLACK_DAMAGE = 40, PALE_DAMAGE = -40)
-
-/obj/item/clothing/suit/armor/ego_gear/freshman
-	name = "freshman"
-	desc = "This armor is strong to pale, check it's defenses to see!"
-	icon_state = "freshman"
-	armor = list(RED_DAMAGE = -40, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 40)
+//Crumbling armor gift
+/obj/item/clothing/suit/armor/ego_gear/he/crumbling_armor
+	name = "crumbling armor"
+	desc = "Looks like a replica of the crumbling armor abnormality. Boasts high defenses to those who are reckless."
+	icon_state = "crumbling_armor"
+	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 30, BLACK_DAMAGE = 30, PALE_DAMAGE = -100) // -10
+	attribute_requirements = list(
+							JUSTICE_ATTRIBUTE = 40
+							)
 
 //Nihil Event rewards
 /obj/item/clothing/suit/armor/ego_gear/despair_nihil

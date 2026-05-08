@@ -17,10 +17,10 @@ GLOBAL_LIST_INIT(l3squads, list("Axe", "Buckler", "Cleaver"))
 	outfit = /datum/outfit/job/wcorpl3
 	display_order = 2
 
-
 	access = list() //add accesses as necessary
 	minimal_access = list()
-
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_W_CORP
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 		FORTITUDE_ATTRIBUTE = 100,
 		PRUDENCE_ATTRIBUTE = 100,
@@ -35,7 +35,6 @@ GLOBAL_LIST_INIT(l3squads, list("Axe", "Buckler", "Cleaver"))
 /datum/job/wcorpl3/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
 	var/squad = pick_n_take(GLOB.l3squads)
 	.=..()
-	ADD_TRAIT(outfit_owner, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	to_chat(M, span_userdanger("You are the leader of the [squad] squad."))
 
 	//Headset stuff
@@ -74,7 +73,7 @@ GLOBAL_LIST_INIT(l3squads, list("Axe", "Buckler", "Cleaver"))
 	gloves = /obj/item/clothing/gloves/color/black
 	implants = list(/obj/item/organ/cyberimp/eyes/hud/security)
 	head = null
-	suit = /obj/item/clothing/suit/armor/ego_gear/wcorp/noreq
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/wcorp/noreq
 	l_pocket = /obj/item/commandprojector
 	r_pocket = /obj/item/flashlight/seclite
 

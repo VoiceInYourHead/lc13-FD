@@ -23,7 +23,7 @@ SUBSYSTEM_DEF(shuttle)
 	var/obj/docking_port/mobile/emergency/emergency
 	var/obj/docking_port/mobile/arrivals/arrivals
 	var/obj/docking_port/mobile/emergency/backup/backup_shuttle
-	var/emergencyCallTime = 6000	//time taken for emergency shuttle to reach the station when called (in deciseconds)
+	var/emergencyCallTime = 3000	//time taken for emergency shuttle to reach the station when called (in deciseconds)
 	var/emergencyDockTime = 1800	//time taken for emergency shuttle to leave again once it has docked (in deciseconds)
 	var/emergencyEscapeTime = 1200	//time taken for emergency shuttle to reach a safe distance after leaving station (in deciseconds)
 	var/area/emergencyLastCallLoc
@@ -231,15 +231,15 @@ SUBSYSTEM_DEF(shuttle)
 
 	call_reason = trim(html_encode(call_reason))
 
-	if(length(call_reason) < CALL_SHUTTLE_REASON_LENGTH && seclevel2num(get_security_level()) > SEC_LEVEL_GREEN)
+	if(length(call_reason) < CALL_SHUTTLE_REASON_LENGTH && emgcylevel2num(get_emergency_level()) > TRUMPET_0)
 		to_chat(user, span_alert("You must provide a reason."))
 		return
 
 	var/area/signal_origin = get_area(user)
 	var/emergency_reason = "\nNature of emergency:\n\n[call_reason]"
-	var/security_num = seclevel2num(get_security_level())
-	switch(security_num)
-		if(SEC_LEVEL_RED,SEC_LEVEL_DELTA)
+	var/emergency_num = emgcylevel2num(get_emergency_level())
+	switch(emergency_num)
+		if(TRUMPET_2,TRUMPET_3)
 			emergency.request(null, signal_origin, html_decode(emergency_reason), 1) //There is a serious threat we gotta move no time to give them five minutes.
 		else
 			emergency.request(null, signal_origin, html_decode(emergency_reason), 0)
@@ -260,7 +260,7 @@ SUBSYSTEM_DEF(shuttle)
 		SSblackbox.record_feedback("text", "shuttle_reason", 1, "[call_reason]")
 		log_shuttle("Shuttle call reason: [call_reason]")
 		SSticker.emergency_reason = call_reason
-	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A HREF='?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
+	message_admins("[ADMIN_LOOKUPFLW(user)] has called the shuttle. (<A HREF='byond://?_src_=holder;[HrefToken()];trigger_centcom_recall=1'>TRIGGER CENTCOM RECALL</A>)")
 
 /datum/controller/subsystem/shuttle/proc/centcom_recall(old_timer, admiral_message)
 	if(emergency.mode != SHUTTLE_CALL || emergency.timer != old_timer)
@@ -300,12 +300,12 @@ SUBSYSTEM_DEF(shuttle)
 /datum/controller/subsystem/shuttle/proc/canRecall()
 	if(!emergency || emergency.mode != SHUTTLE_CALL || adminEmergencyNoRecall || emergencyNoRecall || SSticker.mode.name == "meteor")
 		return
-	var/security_num = seclevel2num(get_security_level())
+	var/security_num = emgcylevel2num(get_emergency_level())
 	switch(security_num)
-		if(SEC_LEVEL_GREEN)
+		if(TRUMPET_0)
 			if(emergency.timeLeft(1) < emergencyCallTime)
 				return
-		if(SEC_LEVEL_BLUE)
+		if(TRUMPET_1)
 			if(emergency.timeLeft(1) < emergencyCallTime * 0.5)
 				return
 		else
@@ -335,6 +335,9 @@ SUBSYSTEM_DEF(shuttle)
 		if(T && is_station_level(T.z))
 			callShuttle = FALSE
 			break
+
+	if(SSmaptype.maptype in SSmaptype.lc_maps || SSmaptype.maptype == "lcorp_city" || SSmaptype.maptype == "city")
+		callShuttle = FALSE
 
 	if(callShuttle)
 		if(EMERGENCY_IDLE_OR_RECALLED)

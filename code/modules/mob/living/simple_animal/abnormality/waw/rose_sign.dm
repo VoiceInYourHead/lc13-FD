@@ -11,8 +11,8 @@
 	del_on_death = FALSE
 	gender = NEUTER
 	threat_level = WAW_LEVEL
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 800
+	health = 800
 	max_boxes = 16
 	pixel_x = -16
 	base_pixel_x = -16
@@ -23,8 +23,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 10, 20, 20, 20),
 		ABNORMALITY_WORK_REPRESSION = 0,
 	)
-	work_damage_amount = 6
+	work_damage_upper = 7
+	work_damage_lower = 5
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust	///Of course the gregnant ID is a lust one.
 	can_breach = TRUE
 	start_qliphoth = 2
 	damage_coeff = list(RED_DAMAGE = 0.2, WHITE_DAMAGE = 0.2, BLACK_DAMAGE = 0.2, PALE_DAMAGE = 0.5)
@@ -39,22 +41,23 @@
 	observation_prompt = "What does this signboard say? <br>\
 		It hangs itself on a tree, trying to make its content known. <br>\
 		Its desperation is almost pitiable."
-	observation_choices = list("Pick a rose", "Unravel the brambles")
-	correct_choices = list("Pick a rose")
-	observation_success_message = "You pick a rose out of it. <br>\
-		With closer examination, you notice <br>\
-		that it has an intestinal texture. <br>\
-		What is a flower-shaped organ for?"
-	observation_fail_message = "As you try to untangle the vines, <br>\
-		sallow bits of flesh fall off. <br>\
-		The thorny brambles you thought were a source of constricting pain <br>\
-		ironically had been keeping the body together. <br>\
-		The body writhes as its flesh falls apart. <br>\
-		Blossoms of flowers sprawled on the ground substitute its screams."
+	observation_choices = list(
+		"Pick a rose" = list(TRUE, "You pick a rose out of it. <br>\
+			With closer examination, you notice <br>\
+			that it has an intestinal texture. <br>\
+			What is a flower-shaped organ for?"),
+		"Unravel the brambles" = list(FALSE, "As you try to untangle the vines, <br>\
+			sallow bits of flesh fall off. <br>\
+			The thorny brambles you thought were a source of constricting pain <br>\
+			ironically had been keeping the body together. <br>\
+			The body writhes as its flesh falls apart. <br>\
+			Blossoms of flowers sprawled on the ground substitute its screams."),
+	)
 
 	var/list/work_roses = list()
 	var/list/work_damages = list()
 	var/list/summoned_roses = list()
+	var/rose_type = /mob/living/simple_animal/hostile/rose_summoned
 	var/rose_max = 4
 	var/rose_cooldown
 	var/rose_cooldown_time = 160 SECONDS
@@ -68,6 +71,8 @@
 
 /mob/living/simple_animal/hostile/abnormality/rose_sign/AttackingTarget(atom/attacked_target)
 	if(prob(30))
+		if(!target)
+			GiveTarget(attacked_target)
 		return OpenFire()
 	return
 
@@ -82,6 +87,7 @@
 /mob/living/simple_animal/hostile/abnormality/rose_sign/death()
 	for(var/mob/living/R in summoned_roses)
 		R.death()
+	icon = 'ModularTegustation/Teguicons/abno_cores/waw.dmi'
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
@@ -203,7 +209,10 @@
 		work_roses -= R
 		qdel(R)
 	var/turf/T = pick(GLOB.department_centers)
-	forceMove(T)
+	if(breach_type != BREACH_MINING)//TODO: create attacking roses for this breach type
+		forceMove(T)
+	else
+		rose_type = /mob/living/simple_animal/hostile/rose_summoned/combat
 
 /mob/living/simple_animal/hostile/abnormality/rose_sign/proc/PickTargets()//this is called by life()
 	rose_cooldown = world.time + rose_cooldown_time
@@ -226,18 +235,21 @@
 	sound_to_playing_players_on_level("sound/abnormalities/rosesign/rose_summon.ogg", 100, zlevel = z)
 
 /mob/living/simple_animal/hostile/abnormality/rose_sign/proc/SpawnBreachRose(mob/living/carbon/human/target, turf/T)
+	if(rose_type == /mob/living/simple_animal/hostile/rose_summoned/combat)//during a mining breach, these are spawned around players
+		T = get_ranged_target_turf(get_turf(target), pick(GLOB.alldirs), 1)
 	if(locate(/mob/living/simple_animal/hostile/rose_summoned) in get_turf(T))//Needs to be tested in a multiplayer environment
 		T = get_ranged_target_turf(T, pick(GLOB.alldirs), 1)//This will move the target's turf to an adjacent one, preventing stacking and visual clutter to some degree.
 	var/list/flower_damtype = list()
 	var/damtype
-	var/mob/living/simple_animal/hostile/rose_summoned/R = new(T)//Spawns the rose
+	var/mob/living/simple_animal/hostile/rose_summoned/R
+	R = new rose_type(T)//Spawns the rose
 	summoned_roses += R
 	for(var/obj/item/W in target.held_items + target.get_equipped_items())//Searches the human for any E.G.O and adds them to a list.
-		if(istype(W, /obj/item/ego_weapon))//FIXME!!!! The above line doesn't actually check suit storage slots, could be more efficient too
+		if(is_ego_melee_weapon(W)) //FIXME!!!! The above line doesn't actually check suit storage slots, could be more efficient too
 			flower_damtype += W.damtype
-		if(istype(W, /obj/item/gun/ego_gun))
-			var/obj/item/gun/ego_gun/G = W
-			flower_damtype += G.chambered.BB.damage_type
+		else if(is_ego_weapon(W))
+			var/obj/item/ego_weapon/ranged/G = W
+			flower_damtype += G.last_projectile_type
 	if(LAZYLEN(flower_damtype))//Picks damage types from the list compiled previously, spawning a rose of that color.
 		damtype = pick(flower_damtype)
 	else
@@ -295,7 +307,7 @@
 	pull_force = INFINITY
 	generic_canpass = FALSE
 	movement_type = PHASING | FLYING
-	var/boom_damage = 45
+	var/boom_damage = 15
 	var/grabbed
 	layer = POINT_LAYER//Sprite should always be visible
 
@@ -337,7 +349,8 @@
 	pull_force = INFINITY
 	generic_canpass = FALSE
 	movement_type = PHASING | FLYING
-	var/root_damage = 30 //Black Damage
+	damtype = BLACK_DAMAGE
+	var/root_damage = 10 //Black Damage
 	layer = POINT_LAYER//should always be visible.
 
 /obj/effect/roseRoot/Initialize()
@@ -350,7 +363,7 @@
 	for(var/turf/T in view(0, target_turf))
 		new /obj/effect/temp_visual/thornspike(T)
 		for(var/mob/living/L in T)
-			L.deal_damage(root_damage, BLACK_DAMAGE)
+			L.deal_damage(root_damage, damtype)
 			if(L.stat == DEAD)
 				if(L.has_status_effect(/datum/status_effect/stacking/crownthorns))//Stops a second crucifix from appearing
 					L.remove_status_effect(STATUS_EFFECT_THORNS)
@@ -360,6 +373,15 @@
 				var/obj/structure/rose_crucifix/N = new(get_turf(T))
 				N.buckle_mob(L)
 	qdel(src)
+
+/obj/effect/roseRoot/red
+	damtype = RED_DAMAGE
+
+/obj/effect/roseRoot/white
+	damtype = WHITE_DAMAGE
+
+/obj/effect/roseRoot/pale
+	damtype = PALE_DAMAGE
 
 //***Breach Roses***//
 
@@ -373,13 +395,13 @@
 	maxHealth = 500
 	health = 500
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 0.5)
-	del_on_death = FALSE
+	del_on_death = TRUE
 	var/flower_damage_type
 	var/mob/living/simple_animal/hostile/abnormality/rose_sign/master
 	var/mob/living/status_target
 	var/killed = TRUE
 
-/mob/living/simple_animal/hostile/rose_summoned/proc/PickColor(picked_color)//fixme: new roses STILL spawn with added weaknesses, even from spawn commands
+/mob/living/simple_animal/hostile/rose_summoned/proc/PickColor(picked_color)
 	icon_state = "rose_" + picked_color
 	desc = "The heavier your sins, the deeper the color of petals will be."
 	flower_damage_type = picked_color
@@ -400,7 +422,7 @@
 /mob/living/simple_animal/hostile/rose_summoned/CanAttack(atom/the_target)
 	return FALSE
 
-/mob/living/simple_animal/hostile/rose_summoned/death()
+/mob/living/simple_animal/hostile/rose_summoned/Destroy()
 	if(!killed || !status_target)
 		return ..()
 	if(flower_damage_type && master)
@@ -408,10 +430,43 @@
 		master.ChangeResistance(flower_damage_type, (master.damage_coeff.getCoeff(flower_damage_type) + 0.3), update = TRUE)
 	if(status_target.has_status_effect(/datum/status_effect/stacking/crownthorns))
 		status_target.remove_status_effect(STATUS_EFFECT_THORNS)
-	density = FALSE
-	animate(src, alpha = 0, time = 10 SECONDS)
-	QDEL_IN(src, 10 SECONDS)
+	return ..()
+
+/mob/living/simple_animal/hostile/rose_summoned/combat//mining breach variant
+	maxHealth = 1000
+	health = 1000
+	ranged = TRUE
+	var/root_type = /obj/effect/roseRoot
+	var/can_act = TRUE
+
+/mob/living/simple_animal/hostile/rose_summoned/combat/CanAttack(atom/the_target)
+	if(prob(30))
+		return OpenFire()
+
+/mob/living/simple_animal/hostile/rose_summoned/combat/OpenFire()
+	if(!can_act)
+		return
+	rootBarrage(target)//Ebony queen-style basic attack
+
+/mob/living/simple_animal/hostile/rose_summoned/combat/PickColor(picked_color)
 	..()
+	switch(picked_color)
+		if(RED_DAMAGE)
+			root_type = /obj/effect/roseRoot/red
+		if(WHITE_DAMAGE)
+			root_type = /obj/effect/roseRoot/white
+		if(PALE_DAMAGE)
+			root_type = /obj/effect/roseRoot/pale
+
+/mob/living/simple_animal/hostile/rose_summoned/combat/proc/rootBarrage(target, picked_color)//Ebony queen's basic attack, fired at a low rate.
+	can_act = FALSE
+	playsound(get_turf(target), 'sound/creatures/venus_trap_hurt.ogg', 75, 0, 5)
+	SLEEP_CHECK_DEATH(3)
+	var/turf/target_turf = get_turf(target)
+	for(var/turf/T in view(0, target_turf))
+		new root_type(T)
+	SLEEP_CHECK_DEATH(3)
+	can_act = TRUE
 
 //***Work-Based Roses***//
 /obj/structure/rose_work
@@ -510,6 +565,7 @@
 	if(master)
 		master.adjustBruteLoss(-100)
 	if(!status_holder.stat >= HARD_CRIT || stacks != max_stacks)
+		INVOKE_ASYNC(src, PROC_REF(PointToFlower))
 		return
 	status_applicant.killed = FALSE
 	status_applicant.death()
@@ -528,6 +584,18 @@
 	status_holder.adjust_attribute_bonus(FORTITUDE_ATTRIBUTE, attribute_penalty)
 	status_holder.adjustBruteLoss(-attribute_penalty)
 	return ..()
+
+/datum/status_effect/stacking/crownthorns/proc/PointToFlower()
+	if(!owner || !status_applicant)
+		return
+	var/list/rose_path = get_path_to(get_turf(owner), get_turf(status_applicant), TYPE_PROC_REF(/turf, Distance_cardinal), 100)
+	var/i = 0
+	for(var/turf/T in rose_path)
+		if(i > 10)
+			break
+		new /obj/effect/temp_visual/cult/sparks(T)
+		i++
+		sleep(1)
 
 //On-kill visual effect
 /obj/structure/rose_crucifix

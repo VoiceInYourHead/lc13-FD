@@ -8,12 +8,12 @@
 	pixel_x = -16
 	base_pixel_x = -16
 	del_on_death = TRUE
-	maxHealth = 1800 //It's fucking slow as hell, and you can beat it to death if you're alone for free
-	health = 1800
+	maxHealth = 350 //It's fucking slow as hell, and you can beat it to death if you're alone for free
+	health = 350
 	move_to_delay = 5
 	damage_coeff = list(RED_DAMAGE = 0.6, WHITE_DAMAGE = 0.2, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 0.7)
-	melee_damage_lower = 40		//Yeah it's super slow, and you're not gonna get hit by it too often
-	melee_damage_upper = 48
+	melee_damage_lower = 8		//Yeah it's super slow, and you're not gonna get hit by it too often
+	melee_damage_upper = 9
 	melee_damage_type = RED_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/abnormalities/scarecrow/attack.ogg'
@@ -28,8 +28,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(40, 40, 40, 30, 20),
 		ABNORMALITY_WORK_REPRESSION = list(40, 45, 50, 55, 60),
 	)
-	work_damage_amount = 7
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/wrath
+	max_boxes = 18
 
 	ego_list = list(
 		/datum/ego_datum/weapon/gaze,
@@ -39,14 +42,14 @@
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
 	observation_prompt = "You put on the blindfold and entered the containment unit. <br>You can feel the metal box's gaze through the thick fabric."
-	observation_choices = list("Take off the blindfold", "Feel for the wall")
-	correct_choices = list("Feel for the wall")
-	observation_success_message = "You turn to the wall and feel for it until you find your way back to the door. <br>\
-		The box can't ever be more than a box, it can only exist as something real in the gaze of others. <br>Perhaps you're more alike than you think."
-	observation_fail_message = "You remove the blindfold and wait a moment for your eyes to adjust to the light, your gaze meets the eye in the keyhole's. <br>\
-		The box comes to life with saws and blades, but all it is for - is to catch your attention."
+	observation_choices = list(
+		"Feel for the wall" = list(TRUE, "You turn to the wall and feel for it until you find your way back to the door. <br>\
+			The box can't ever be more than a box, it can only exist as something real in the gaze of others. <br>Perhaps you're more alike than you think."),
+		"Take off the blindfold" = list(FALSE, "You remove the blindfold and wait a moment for your eyes to adjust to the light, your gaze meets the eye in the keyhole's. <br>\
+			The box comes to life with saws and blades, but all it is for - is to catch your attention."),
+	)
 
-	var/seen	//Are you being looked at right now?
+	var/seen //Are you being looked at right now?
 	var/solo_punish	//Is an agent alone on the Z level, but not overall?
 	var/total_players
 

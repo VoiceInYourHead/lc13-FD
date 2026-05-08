@@ -59,7 +59,7 @@
 	to_chat(user, "<span class='notice'>Your name has been sent to your employers for approval.</span>")
 	// Autoapproves after a certain time
 	response_timer_id = addtimer(CALLBACK(src, PROC_REF(rename_station), new_name, user.name, user.real_name, key_name(user)), approval_time, TIMER_STOPPABLE)
-	to_chat(GLOB.admins, "<span class='adminnotice'><b><font color=orange>CUSTOM STATION RENAME:</font></b>[ADMIN_LOOKUPFLW(user)] proposes to rename the [name_type] to [new_name] (will autoapprove in [DisplayTimeText(approval_time)]). [ADMIN_SMITE(user)] (<A HREF='?_src_=holder;[HrefToken(TRUE)];reject_custom_name=[REF(src)]'>REJECT</A>) [ADMIN_CENTCOM_REPLY(user)]</span>")
+	to_chat(GLOB.admins, "<span class='adminnotice'><b><font color=orange>CUSTOM STATION RENAME:</font></b>[ADMIN_LOOKUPFLW(user)] proposes to rename the [name_type] to [new_name] (will autoapprove in [DisplayTimeText(approval_time)]). [ADMIN_SMITE(user)] (<A HREF='byond://?_src_=holder;[HrefToken(TRUE)];reject_custom_name=[REF(src)]'>REJECT</A>) [ADMIN_CENTCOM_REPLY(user)]</span>")
 	for(var/client/admin_client in GLOB.admins)
 		if(admin_client.prefs.toggles & SOUND_ADMINHELP)
 			window_flash(admin_client, ignorepref = TRUE)
@@ -108,7 +108,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/banners_righthand.dmi'
 	desc = "A cunning device used to claim ownership of planets."
 	w_class = 5
-	force = 15
+	force = 4
 
 /obj/item/station_charter/flag/rename_station(designation, uname, ureal_name, ukey)
 	set_station_name(designation)

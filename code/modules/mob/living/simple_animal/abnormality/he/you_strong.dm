@@ -5,8 +5,9 @@
 	icon_state = "you_strong_pause"
 	icon_living = "you_strong_pause"
 	portrait = "grown_strong"
-	maxHealth = 200
-	health = 200
+	maxHealth = 400
+	health = 400
+	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 0)
 	threat_level = HE_LEVEL
 	start_qliphoth = 3
 	work_chances = list(
@@ -17,8 +18,10 @@
 		"YES" = 0,
 		"NO" = 0,
 	)
-	work_damage_amount = 8
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/envy
 	ego_list = list(
 		/datum/ego_datum/weapon/get_strong,
 		/datum/ego_datum/armor/get_strong,
@@ -28,6 +31,7 @@
 
 	max_boxes = 16
 	speak_emote = list("beeps", "crackles", "buzzes")
+	speech_span = SPAN_ROBOT
 
 	pixel_x = -32
 	pixel_y = -8
@@ -37,9 +41,9 @@
 		'I would never amount to anything in life or in death', I thought until one day I recieved a curious offer, a pamphlet in my mail. <br>\
 		\"Have you become strong? Strong for your City? Become Strong! Strong for your City!\" The suspicious pamphlet had an address and I followed it, <br>\
 		I detested my weakness and I cared not if I lived or died, I'd take any chance to not be weak. <br>At the address was a most curious machine and an instruction to enter."
-	observation_choices = list("Enter the machine")
-	correct_choices = list("Enter the machine")
-	observation_success_message = "I did as instructed and entered; now I have become strong, strong for my City. <br>I love the City I live in."
+	observation_choices = list(
+		"Enter the machine" = list(TRUE, "I did as instructed and entered; now I have become strong, strong for my City. <br>I love the City I live in."),
+	)
 
 	var/penalize = FALSE
 	var/work_count = 0
@@ -61,12 +65,29 @@
 	var/datum/looping_sound/server/soundloop
 
 	var/operating = FALSE
+	var/breaching = FALSE
+	var/summon_cooldown
+	var/summon_cooldown_time = 120 SECONDS
+	var/summon_count = 0
 
 /mob/living/simple_animal/hostile/abnormality/you_strong/Initialize(mapload)
 	. = ..()
 	soundloop = new(list(src), FALSE)
 	soundloop.volume = 75
 	soundloop.extra_range = 0
+
+/mob/living/simple_animal/hostile/abnormality/you_strong/Move()
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/you_strong/CanAttack(atom/the_target)
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/you_strong/Life()
+	. = ..()
+	if(!breaching)
+		return
+	if((summon_cooldown < world.time) && !(status_flags & GODMODE))
+		SummonAdds()
 
 /mob/living/simple_animal/hostile/abnormality/you_strong/WorkComplete(mob/living/carbon/human/user, work_type, pe, work_time, canceled)
 	. = ..()
@@ -123,13 +144,27 @@
 	icon_state = "you_strong_work"
 	SLEEP_CHECK_DEATH(30 SECONDS)
 	soundloop.stop()
-	src.datum_reference.qliphoth_change(3)
+	if(datum_reference)
+		src.datum_reference.qliphoth_change(3)
 	icon_state = "you_strong_make"
 	SLEEP_CHECK_DEATH(6)
 	for(var/i = 1 to 3)
-		new /mob/living/simple_animal/hostile/grown_strong(get_step(src, EAST))
+		new /mob/living/simple_animal/hostile/aminion/grown_strong(get_step(src, EAST))
+		if(breaching)
+			summon_count += 1
 	SLEEP_CHECK_DEATH(6)
 	icon_state = "you_strong_pause"
+
+/mob/living/simple_animal/hostile/abnormality/you_strong/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)
+		breaching = TRUE
+	return ..()
+
+/mob/living/simple_animal/hostile/abnormality/you_strong/proc/SummonAdds()
+	summon_cooldown = world.time + summon_cooldown_time
+	if(summon_count > 9)//this list is not subtracted when minions are killed. Limited to 10 per breach
+		return
+	ZeroQliphoth()
 
 /mob/living/simple_animal/hostile/abnormality/you_strong/attacked_by(obj/item/I, mob/living/user)
 	if(!(I.type in taken_parts))
@@ -204,7 +239,7 @@
 	prosthetic.replace_limb(M)
 	manual_emote("makes a grinding noise.")
 	M.emote("scream")
-	M.deal_damage(50, BRUTE) // Bro your [X] just got chopped off, no armor's gonna resist that.
+	M.deal_damage(10, BRUTE) // Bro your [X] just got chopped off, no armor's gonna resist that.
 	to_chat(M, span_notice("Your [old_part.name] has been replaced!"))
 	qdel(old_part)
 	M.regenerate_icons()
@@ -215,19 +250,19 @@
 	operating = FALSE
 	return
 
-/mob/living/simple_animal/hostile/grown_strong
+/mob/living/simple_animal/hostile/aminion/grown_strong
 	name = "Grown Strong"
 	desc = "A humanoid figure reeking of blood and made out of... plastic?"
 	icon_state = "grown_strong"
 	icon_living = "grown_strong"
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
-	maxHealth = 500
-	health = 500
+	maxHealth = 100
+	health = 100
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 0)
 
 	move_to_delay = 5
-	melee_damage_lower = 3
-	melee_damage_upper = 5
+	melee_damage_lower = 2
+	melee_damage_upper = 4
 	melee_damage_type = RED_DAMAGE
 
 	attack_sound = "swing_hit"
@@ -239,27 +274,38 @@
 	can_patrol = TRUE
 
 	del_on_death = FALSE
-
+	score_divider = 1.5//3 of them should equal 1 HE
+	threat_level = TETH_LEVEL
 	var/gear = 2
 	COOLDOWN_DECLARE(gear_shift)
 	var/gear_cooldown = 1 MINUTES
 	//tracks speed change even if altered by other speed modifiers.
 	var/gear_speed = 0
+	var/gear_health = 0.35 // This determines the amount of times surgery can activate. If the max HP is lower than this percentage, the creature will gib.
+	var/can_act = TRUE//necessary sanity for spin attacks
 
-/mob/living/simple_animal/hostile/grown_strong/Move(atom/newloc, dir, step_x, step_y)
+/mob/living/simple_animal/hostile/aminion/grown_strong/Move(atom/newloc, dir, step_x, step_y)
 	if(status_flags & GODMODE)
+		return FALSE
+	if(can_act == FALSE)
 		return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/grown_strong/AttackingTarget(atom/attacked_target)
+/mob/living/simple_animal/hostile/aminion/grown_strong/AttackingTarget(atom/attacked_target)
 	if(status_flags & GODMODE)
 		return FALSE
+	if(can_act == FALSE)
+		return FALSE
+	if(gear == 10)
+		if(prob(15))
+			SpinAttack()
+			return
 	return ..()
 
-/mob/living/simple_animal/hostile/grown_strong/proc/UpdateGear()
+/mob/living/simple_animal/hostile/aminion/grown_strong/proc/UpdateGear()
 	manual_emote("shifts into [gear]\th gear!")
-	melee_damage_lower = 3*gear
-	melee_damage_upper = 5*gear
+	melee_damage_lower = 2 * max(1, gear*0.5)
+	melee_damage_upper = 4 * max(1, gear*0.5)
 	//Reset the speed. First proc changes this only with 0.
 	ChangeMoveToDelayBy(gear_speed)
 	//Calculate speed change.
@@ -268,17 +314,17 @@
 	ChangeMoveToDelayBy(-gear_speed)
 	rapid_melee = gear > 7 ? 2 : 1
 
-/mob/living/simple_animal/hostile/grown_strong/Life()
+/mob/living/simple_animal/hostile/aminion/grown_strong/Life()
 	. = ..()
 	if(!COOLDOWN_FINISHED(src, gear_shift) || (status_flags & GODMODE))
 		return
 	gear = clamp(gear + rand(-1, 3), 1, 10)
 	UpdateGear()
-	src.apply_damage(150, BRUTE, null, 0, spread_damage = TRUE)// OOF OUCH MY BONES
+	src.apply_damage(30, BRUTE, null, 0, spread_damage = TRUE)// OOF OUCH MY BONES
 	COOLDOWN_START(src, gear_shift, gear_cooldown)
 
-/mob/living/simple_animal/hostile/grown_strong/death(gibbed)
-	if(maxHealth > 200)
+/mob/living/simple_animal/hostile/aminion/grown_strong/death(gibbed)
+	if(maxHealth > initial(maxHealth) * gear_health)
 		INVOKE_ASYNC(src, PROC_REF(Undie))
 		return FALSE
 	visible_message(span_notice("[src] explodes into a mess of plastic and gore!"))
@@ -286,9 +332,9 @@
 	gib(TRUE, TRUE, TRUE)
 	return
 
-/mob/living/simple_animal/hostile/grown_strong/proc/Undie()
+/mob/living/simple_animal/hostile/aminion/grown_strong/proc/Undie()
 	manual_emote("shudders to a hault, insides whirling...")
-	src.maxHealth = max(maxHealth - 100, 200)
+	src.maxHealth = min(maxHealth - initial(maxHealth) * 0.2, initial(maxHealth))
 	src.adjustBruteLoss(-9999)
 	status_flags |= GODMODE
 	SLEEP_CHECK_DEATH(3 SECONDS)
@@ -296,7 +342,34 @@
 	src.adjustBruteLoss(-9999)
 	gear = clamp(gear + 2, 1, 10)
 	manual_emote("shudders back to life!")
+	switch(gear)
+		if(0 to 6)//gear is set to 2 at initialize, would need to be varedited to go under that
+			playsound(src, 'sound/weapons/ego/strong_uncharged.ogg', 60)
+		if(6 to 8)
+			playsound(src, 'sound/weapons/ego/strong_charged1.ogg', 60)
+		else
+			playsound(src, 'sound/weapons/ego/strong_charged2.ogg', 60)
 	UpdateGear()
+
+/mob/living/simple_animal/hostile/aminion/grown_strong/proc/SpinAttack()
+	can_act = FALSE
+	manual_emote("outstretches its arms, upper torso starting to rotate!")
+	playsound(src, 'sound/weapons/ego/strong_uncharged.ogg', 60)
+	SLEEP_CHECK_DEATH(20)
+	for(var/i = 0, i <=4, ++i)
+		for(var/turf/T in oview(2, src))
+			new /obj/effect/temp_visual/smash_effect(T)
+		for(var/mob/living/L in oview(2, src))
+			if(faction_check_mob(L))
+				continue
+			L.apply_damage(melee_damage_lower, RED_DAMAGE, null, L.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+		playsound(src, 'sound/weapons/ego/strong_charged2.ogg', 60)
+		emote("spin")
+		SLEEP_CHECK_DEATH(5)
+	playsound(src, 'sound/weapons/ego/strong_gauntlet.ogg', 60)
+	can_act = TRUE
+	UpdateGear()
+
 
 ////// Parts! //////
 

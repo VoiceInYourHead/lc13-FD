@@ -431,7 +431,7 @@
 		/obj/item/food/cake/birthday=1)
 
 /datum/outfit/job/raven/ert
-	name = "R-Corp Scout Raven"
+	name = "Raven Team"
 	jobtype = /datum/job/raven
 
 	ears = /obj/item/radio/headset/headset_cent/alt
@@ -443,11 +443,27 @@
 	head = /obj/item/clothing/head/rabbit_helmet/raven/grunt
 	suit = /obj/item/clothing/suit/armor/ego_gear/rabbit/raven
 	belt = /obj/item/ego_weapon/city/rabbit_blade/raven
-	r_pocket = /obj/item/pinpointer/nuke/rcorp
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/kcorp
 	backpack_contents = list(
 		/obj/item/grenade/smokebomb = 1)
 
 /datum/outfit/job/raven/ert/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/implant/sanity_death/L = new/obj/item/implant/sanity_death(H)
+	L.implant(H, null, 1)
+	H.faction |= "rabbit"
+	..()
+
+/datum/outfit/job/reindeer/berserker/ert
+	name = "Reindeer team"
+
+	ears = /obj/item/radio/headset/headset_cent/alt
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/lcorp
+	belt = /obj/item/ego_weapon/city/reindeer
+
+/datum/outfit/job/reindeer/berserker/ert/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
 	if(visualsOnly)
 		return
 
@@ -545,6 +561,36 @@
 	H.faction |= "rabbit"
 	..()
 
+/datum/outfit/job/roadrunner/ert
+	name = "Roadrunner Team"
+
+	ears = /obj/item/radio/headset/headset_cent/alt
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/kcorp
+
+/datum/outfit/job/roadrunner/ert/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/implant/sanity_death/L = new/obj/item/implant/sanity_death(H)
+	L.implant(H, null, 1)
+	H.faction |= "rabbit"
+	..()
+
+/datum/outfit/job/rooster/ert
+	name = "Rooster Team"
+
+	ears = /obj/item/radio/headset/headset_cent/alt
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/kcorp
+
+/datum/outfit/job/rooster/ert/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE)
+	if(visualsOnly)
+		return
+
+	var/obj/item/implant/sanity_death/L = new/obj/item/implant/sanity_death(H)
+	L.implant(H, null, 1)
+	H.faction |= "rabbit"
+	..()
+
 /datum/outfit/zwei_shield
 	name = "Zwei Shield"
 
@@ -556,8 +602,8 @@
 	ears = /obj/item/radio/headset/headset_cent/alt
 	l_hand = /obj/item/ego_weapon/city/zweihander/noreq
 	r_hand = /obj/item/clothing/accessory/lawyers_badge/fixer
-	l_pocket = /obj/item/reagent_containers/hypospray/medipen/salacid
-	r_pocket = /obj/item/reagent_containers/hypospray/medipen/mental
+	l_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/kcorp
+	r_pocket = /obj/item/reagent_containers/hypospray/medipen/safety/lcorp
 	implants = list(/obj/item/implant/mindshield, /obj/item/organ/cyberimp/eyes/hud/security)
 
 /datum/outfit/zwei_shield/veteran

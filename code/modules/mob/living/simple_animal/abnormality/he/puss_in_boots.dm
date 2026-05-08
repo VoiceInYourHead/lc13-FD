@@ -9,29 +9,33 @@
 	var/icon_friendly = "cat_breached_friendly"
 	icon_dead = "cat_breached"  //defeated icon? Maybe someday.
 	portrait = "puss_in_boots"
-	maxHealth = 1000
-	health = 1000
+	maxHealth = 200
+	health = 200
 	threat_level = HE_LEVEL
 	faction = list("neutral")
 	del_on_death = FALSE
 	attack_sound = 'sound/weapons/ego/rapier1.ogg'
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 5
-	melee_damage_upper = 15
+	melee_damage_lower = 2
+	melee_damage_upper = 4
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 	rapid_melee = 4
 	can_breach = TRUE
 	ranged = TRUE
 	start_qliphoth = 2
+	can_affect_emergency = FALSE
+	trigger_lights = FALSE
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 60,
 		ABNORMALITY_WORK_INSIGHT = 0,
 		ABNORMALITY_WORK_ATTACHMENT = 45,
 		ABNORMALITY_WORK_REPRESSION = list(50, 45, 40, 40, 40),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 1
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
 
 	ego_list = list(
 		/datum/ego_datum/weapon/inheritance,
@@ -43,10 +47,10 @@
 	observation_prompt = "The miller, my old master, when he passed he left his mill, his donkey and myself to his three sons. <br>\
 		I was left to the youngest and the elders denied him any right to the mill. <br>I felt for the poor lad and so, I turned the young master into a Prince, <br>\
 		and one day a King. <br>I can do the same for you - Are you ready to claim your inheritance?"
-	observation_choices = list("Yes", "No")
-	correct_choices = list("Yes")
-	observation_success_message = "Excellent, by my paw you shall make a fine master, envy of all your peers!"
-	observation_fail_message = "Bah! When will someone worthy arrive?"
+	observation_choices = list(
+		"Yes" = list(TRUE, "Excellent, by my paw you shall make a fine master, envy of all your peers!"),
+		"No" = list(FALSE, "Bah! When will someone worthy arrive?"),
+	)
 
 	//Work/misc Vars
 	var/list/stats = list(
@@ -114,7 +118,6 @@
 	RegisterSignal(user, COMSIG_LIVING_DEATH, PROC_REF(BlessedDeath))
 	RegisterSignal(user, COMSIG_HUMAN_INSANE, PROC_REF(BlessedDeath))
 	RegisterSignal(user, COMSIG_WORK_STARTED, PROC_REF(OnWorkStart))
-	RegisterSignal(SSdcs, COMSIG_GLOB_ABNORMALITY_BREACH, PROC_REF(OnAbnoBreach))
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/proc/BlessedDeath(datum/source, gibbed)
 	SIGNAL_HANDLER
@@ -134,23 +137,18 @@
 		return FALSE
 	BlessedDeath(blessed_human)
 
-//Qliphoth Stuff
-/mob/living/simple_animal/hostile/abnormality/puss_in_boots/proc/OnAbnoBreach(datum/source, mob/living/simple_animal/hostile/abnormality/abno)
-	SIGNAL_HANDLER
-	if(!IsContained(src))
-		return
-	if(abno == src)
-		if(client)
-			to_chat(src, span_notice("You start feeling a bit impatient."))
-		else
-			manual_emote("perks up for a moment, then settles back down, looking annoyed.")
-		return
-	if(datum_reference.qliphoth_meter > 1)
-		if(client)
-			to_chat(src, span_notice("You hear something..."))
-		else
-			manual_emote("perks up slightly, as though it hears something.")
-	datum_reference.qliphoth_change(-1)
+/mob/living/simple_animal/hostile/abnormality/puss_in_boots/proc/emergency_check()
+	if(!IsContained() && friendly && (GLOB.emergency_level == TRUMPET_0))
+		death()
+		return TRUE
+	//if CONTAINED and shits going down
+	if(IsContained() && friendly && (GLOB.emergency_level >= TRUMPET_1) && (datum_reference?.emergency_breach))
+		ignored = FALSE
+		BreachEffect() // We must help our friend!
+		if(datum_reference)
+			datum_reference.emergency_breach = FALSE
+			datum_reference.qliphoth_meter = 0
+	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/MeltdownStart()
 	. = ..()
@@ -174,6 +172,7 @@
 	if(get_user_level(blessed_human) >= 2) //no buffing to get ahead
 		BlessedDeath(blessed_human)
 		return
+	emergency_check()
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/Move()
 	if(!can_act)
@@ -186,26 +185,29 @@
 	..()
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/BreachEffect(mob/living/carbon/human/user, breach_type)
-	. = ..()
 	desc = "He's got a sword!"
 	if(friendly)
 		fear_level = ZAYIN_LEVEL
+		maxHealth = 300
 		health = 300 //He's pretty tough at max HP
-		addtimer(CALLBACK(src, PROC_REF(escape)), 45 SECONDS)
+		breach_index = MOB_ABNO_PASSIVE_INDEX
 		GoToFriend()
 		density = FALSE
 		icon_state = icon_friendly
 		update_icon()
-		return
-	if(!density) //sanity check for if he was friendly breaching and is no longer friendly
-		density = TRUE
-		fear_level = HE_LEVEL
-		FearEffect()
-		src.visible_message(span_warning("[src] is looking around, eyes wild with rage!"))
+		return ..()
 	icon_state = icon_aggro
 	update_icon()
 	faction = list("hostile") //he's gone feral!
-	return
+	if(!density) //sanity check for if he was friendly breaching and is no longer friendly
+		density = TRUE
+		fear_level = HE_LEVEL
+		src.visible_message(span_warning("[src] is looking around, eyes wild with rage!"))
+		HostileMode(TRUE)
+		breach_affected = list()
+		FearEffect()
+		return
+	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/proc/GoToFriend()
 	if(!blessed_human)
@@ -290,7 +292,7 @@
 	target.apply_damage(50, PALE_DAMAGE, null, target.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE) //50% of your health in red damage
 	to_chat(target, span_danger("[src] is trying to cut you in half!"))
 	if(!ishuman(target))
-		target.deal_damage(100, PALE_DAMAGE) //bit more than usual DPS in pale damage
+		target.deal_damage(50, PALE_DAMAGE)
 		return
 	if(target.health > 0)
 		return
@@ -313,7 +315,7 @@
 //Death/Defeat
 /mob/living/simple_animal/hostile/abnormality/puss_in_boots/death(gibbed)
 	if(health <= 0)
-		playsound(get_turf(src), 'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 50, 0, 2)
+		playsound(get_turf(src), 'sound/effects/limbus_death.ogg', 50, 0, 2)
 	density = FALSE
 	animate(src, alpha = 0, time = 5 SECONDS)
 	QDEL_IN(src, 5 SECONDS)
@@ -373,19 +375,29 @@
 	return ..()
 
 /datum/status_effect/chosen/proc/StatUpdate(mob/living/carbon/human/user)
-	var/new_bonus = 0
-	if(world.time >= 75 MINUTES) // Full facility expected
-		new_bonus = 80
-	else if(world.time >= 60 MINUTES) // More than one ALEPH
-		new_bonus = 60
-	else if(world.time >= 45 MINUTES) // Wowzer, an ALEPH?
-		new_bonus = 50
-	else if(world.time >= 30 MINUTES) // Expecting WAW
-		new_bonus = 40
-	else if(world.time >= 15 MINUTES) // Usual time for HEs
-		new_bonus = 30
-	else
-		new_bonus = 20
+	var/new_bonus = 20
+	var/facility_full_percentage = 0
+	if(SSabnormality_queue.spawned_abnos) // dont divide by 0
+		facility_full_percentage = 100 * (SSabnormality_queue.spawned_abnos / SSabnormality_queue.rooms_start)
+	// how full the facility is, from 0 abnormalities out of 24 cells being 0% and 24/24 cells being 100%
+	switch(facility_full_percentage)
+		if(15 to 29) // Shouldn't be anything more than TETHs (4 Abnormalities)
+			new_bonus *= 1.5
+
+		if(29 to 44) // HEs (8 Abnormalities)
+			new_bonus *= 2
+
+		if(44 to 59) // A bit before WAWs (11 Abnormalities)
+			new_bonus *= 2.5
+
+		if(59 to 69) // WAWs around here (15 Abnormalities)
+			new_bonus *= 3
+
+		if(69 to 79) // ALEPHs starting to spawn (17 Abnormalities)
+			new_bonus *= 3.5
+
+		if(79 to 100) // ALEPHs around here (20 Abnormalities)
+			new_bonus *= 4
 	if(new_bonus <= attribute_bonus)
 		return
 	for(var/attribute in user.attributes)

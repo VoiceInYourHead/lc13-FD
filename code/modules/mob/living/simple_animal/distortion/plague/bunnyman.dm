@@ -7,15 +7,16 @@
 	desc = "Looks like a carnival mascot."
 	icon = 'ModularTegustation/Teguicons/48x48.dmi'
 	icon_state = "bunnyman"
-	maxHealth = 2000 //low health, high damage
-	health = 2000
+	maxHealth = 1000 //low health, high damage
+	health = 1000
 	pixel_x = -16
 	base_pixel_x = -16
 	fear_level = WAW_LEVEL
+	can_spawn = TRUE
 	move_to_delay = 3
 	damage_coeff = list(RED_DAMAGE = 0.2, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1.5)
-	melee_damage_lower = 25
-	melee_damage_upper = 30
+	melee_damage_lower = 13
+	melee_damage_upper = 15
 	melee_damage_type = RED_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/weapons/ego/axe2.ogg'
@@ -38,6 +39,8 @@
 	egoist_attributes = 80
 	//Loot on death; distortions should be valuable targets in general.
 	loot = list(/obj/item/documents/ncorporation, /obj/item/documents/ncorporation) //Placeholder, we need more loot items
+	/// Prolonged exposure to a monolith will convert the distortion into an abnormality. When if null, they are unaffected by it.
+	monolith_abnormality = /mob/living/simple_animal/hostile/abnormality/norinori
 	//Custon unmanifest effect
 	unmanifest_effect = /obj/effect/gibspawner/human
 
@@ -95,8 +98,8 @@
 	playsound(src, 'sound/weapons/chainsawhit.ogg', 250, FALSE, 4)
 	attack_sound = 'sound/abnormalities/helper/attack.ogg'
 	ChangeResistances(list(RED_DAMAGE = 0.7, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 2))
-	melee_damage_lower = 30
-	melee_damage_upper = 45
+	melee_damage_lower = 15
+	melee_damage_upper = 20
 	rapid_melee = 3
 	ChangeMoveToDelay(2)
 	icon_state = "bunnyman_enraged"

@@ -33,7 +33,11 @@
 	to_chat(user, span_danger("You sip of the sap."))
 
 	if(user in used)
-		if(prob(20))
+		var/boom_chance = 20
+		for(var/upgradecheck in GLOB.jcorp_upgrades)
+			if(upgradecheck == "Tool Gacha")
+				boom_chance -= 5
+		if(prob(boom_chance))
 			user.apply_status_effect(STATUS_EFFECT_BOOMSAP)
 		else
 			user.apply_status_effect(STATUS_EFFECT_TREESAP)
@@ -68,7 +72,7 @@
 /datum/status_effect/boomsap/on_remove()
 	. = ..()
 	owner.gib()
-	for(var/mob/living/carbon/human/L in livinginrange(10, src))
+	for(var/mob/living/carbon/human/L in urange(10, src))
 		L.deal_damage(60, WHITE_DAMAGE)
 		to_chat(L, span_danger("Oh god, what the fuck was that!?"))
 

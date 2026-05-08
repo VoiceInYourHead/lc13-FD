@@ -4,6 +4,11 @@
 	icon_state = "promise"
 	var/processing = FALSE
 
+	ego_list = list(
+		/datum/ego_datum/weapon/promise,
+		/datum/ego_datum/armor/promise,
+	)
+
 /obj/structure/toolabnormality/promise/attackby(obj/item/I, mob/living/carbon/human/user)
 	. = ..()
 	if(!do_after(user, 0.5 SECONDS))
@@ -13,7 +18,7 @@
 		to_chat(user, span_notice("[src] is busy!"))
 		return
 
-	if(istype(I, /obj/item/ego_weapon))
+	if(is_ego_melee_weapon(I))
 		var/obj/item/ego_weapon/theweapon = I
 		if(theweapon.force_multiplier == 1)
 			DoTheThing(I, 50)
@@ -23,7 +28,7 @@
 			to_chat(user, span_notice("You can no longer improve [I]!"))
 			return
 
-	if(istype(I, /obj/item/gun/ego_gun/pistol) || istype(I, /obj/item/gun/ego_gun) && !istype(I, /obj/item/gun/ego_gun/clerk))
+	else if(is_ego_weapon(I))
 		var/obj/item/gun/thegun = I
 		if(thegun.projectile_damage_multiplier == 1)
 			DoTheOtherThing(I, 50)
@@ -36,6 +41,9 @@
 /obj/structure/toolabnormality/promise/proc/DoTheThing(obj/item/ego_weapon/I, successrate)
 	processing = TRUE
 	I.forceMove(src)
+	for(var/upgradecheck in GLOB.jcorp_upgrades)
+		if(upgradecheck == "Tool Gacha")
+			successrate += 25
 	if(prob(successrate))
 		SuccessEffect()
 		I.force_multiplier += 0.1
@@ -51,6 +59,7 @@
 	I.forceMove(src)
 	if(prob(successrate))
 		SuccessEffect()
+		I.force_multiplier += 0.1
 		I.projectile_damage_multiplier += 0.1
 		I.forceMove(get_turf(src))
 	else

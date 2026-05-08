@@ -29,9 +29,7 @@
 	veryrareloot =	list(
 		/obj/item/trait_injector/agent_workchance_trait_injector,
 		/obj/item/trait_injector/clerk_fear_immunity_injector,
-		/obj/item/trait_injector/officer_upgrade_injector,
 		/obj/item/ego_gift_extractor,
-		/obj/item/device/Plushie_Extractor,
 	)
 
 //K Corporation
@@ -44,22 +42,22 @@
 	cosmeticchance = 5
 	lootlist =	list(
 		/obj/item/managerbullet,
-		/obj/item/ksyringe,
+		/obj/item/reagent_containers/hypospray/medipen/safety/kcorp
 	)
 
 	rareloot =	list(
 		/obj/item/ego_weapon/city/kcorp,
 		/obj/item/ego_weapon/shield/kcorp,
 		/obj/item/ego_weapon/city/kcorp/axe,
-		/obj/item/gun/ego_gun/pistol/kcorp,
+		/obj/item/ego_weapon/ranged/pistol/kcorp,
 		/obj/item/storage/box/kcorp_armor,
 	)
 
 	veryrareloot =	list(
 		/obj/item/ego_weapon/city/kcorp/spear,
 		/obj/item/ego_weapon/city/kcorp/dspear,
-		/obj/item/gun/ego_gun/pistol/kcorp/smg,
-		/obj/item/gun/ego_gun/pistol/kcorp/nade,
+		/obj/item/ego_weapon/ranged/pistol/kcorp/smg,
+		/obj/item/ego_weapon/ranged/pistol/kcorp/nade,
 		/obj/item/clothing/suit/armor/ego_gear/city/kcorp_l3,
 		/obj/item/toy/plush/bongy,
 	)
@@ -112,7 +110,6 @@
 	veryrarechance = 5
 	cosmeticchance = 33
 	lootlist =	list(
-		/obj/item/powered_gadget/detector_gadget/ordeal,
 		/obj/item/clothing/suit/space/hardsuit/rabbit,
 		/obj/item/clothing/suit/space/hardsuit/rabbit/leader,
 		/obj/item/gun/energy/e_gun/rabbitdash,
@@ -143,40 +140,7 @@
 		/obj/item/clothing/under/suit/lobotomy/rcorp_command,
 		/obj/item/clothing/head/beret/tegu/rcorp,
 		/obj/item/clothing/neck/cloak/rcorp,
-	)
-
-//S Corporation
-/obj/structure/lootcrate/s_corp
-	name = "S Corp Crate"
-	desc = "A crate recieved from the mysterious S-Corp. Open with a Crowbar."
-	icon_state = "crate_shrimp"
-	veryrarechance = 5
-	cosmeticchance = 5
-	lootlist =	list(
-		/obj/item/reagent_containers/food/drinks/soda_cans/wellcheers_red,
-		/obj/item/reagent_containers/food/drinks/soda_cans/wellcheers_white,
-		/obj/item/reagent_containers/food/drinks/soda_cans/wellcheers_purple,
-		/obj/item/gun/ego_gun/sodashotty,
-		/obj/item/gun/ego_gun/sodarifle,
-		/obj/item/gun/ego_gun/sodasmg,
-		/obj/item/gun/ego_gun/shrimp/assault,
-	)
-
-	rareloot =	list(
-		/obj/item/gun/ego_gun/shrimp/minigun,
-		/obj/item/grenade/spawnergrenade/shrimp,
-		/obj/item/trait_injector/shrimp_injector,
-	)
-
-	veryrareloot = list(
-		/obj/item/grenade/spawnergrenade/shrimp/super,
-		/obj/item/grenade/spawnergrenade/shrimp/hostile,
-		/obj/item/reagent_containers/pill/shrimptoxin,
-		/obj/item/fishing_rod/wellcheers,
-	)
-
-	cosmeticloot = list(
-		/mob/living/simple_animal/hostile/shrimp,
+		/obj/item/powered_gadget/detector_gadget/ordeal,
 	)
 
 //W Corporation
@@ -189,8 +153,7 @@
 	cosmeticchance = 25
 	lootlist =	list(
 		/obj/item/ego_weapon/city/wcorp,
-		/obj/item/clothing/suit/armor/ego_gear/wcorp,
-		/obj/item/powered_gadget/teleporter,
+		/obj/item/clothing/suit/armor/ego_gear/city/wcorp,
 	)
 
 	rareloot =	list(
@@ -212,4 +175,5 @@
 	cosmeticloot = list(
 		/obj/item/clothing/head/ego_hat/wcorp,
 		/obj/item/clothing/under/suit/lobotomy/wcorp,
+		/obj/item/powered_gadget/teleporter,
 	)

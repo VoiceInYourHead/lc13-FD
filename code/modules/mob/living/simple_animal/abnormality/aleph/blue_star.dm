@@ -1,8 +1,8 @@
 /mob/living/simple_animal/hostile/abnormality/bluestar
 	name = "Blue Star"
 	desc = "Floating heart-shaped object. It's alive, and soon you will become one with it."
-	health = 4000
-	maxHealth = 4000
+	health = 2200
+	maxHealth = 2200
 	pixel_x = -32
 	base_pixel_x = -32
 	pixel_y = -16
@@ -27,8 +27,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = 40,
 	)
-	work_damage_amount = 16
+	work_damage_upper = 9
+	work_damage_lower = 6
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
+	max_boxes = 33
 	can_patrol = FALSE
 
 	wander = FALSE
@@ -48,17 +51,17 @@
 	observation_prompt = "A group of employees worship this abnormality, despite the fact nothing can be sacred in this place. <br>\
 		You recall how you pulled away one employee away from it in the past, even as she screamed and wailed that you were keeping her chained to this world. <br>You thought you were saving her. <br>\
 		You can hear a distant howl emanating from the centre of the blue-coloured heart. <br>It's the sound of stars. <br>They're welcoming you, asking you to join them as a star."
-	observation_choices = list("Be pulled in", "Hold yourself tight")
-	correct_choices = list("Be pulled in")
-	observation_success_message = "You don't hesitate as you approach the centre of the void. <br>Sensation in your hands and legs are the first things to go, creeping up your body until you couldn't feel anything physical at all. <br>\
-		Despite how scary it should have been, you feel at peace, <br>this isn't an end it's a new beginning - You're a martyr. <br>\
-		Let's meet everyone again, as stars."
-	observation_fail_message = "You wrapped your arms around yourself and shut your eyes, turning your senses inward until the temptation passes and the sounds become distant howls again. <br>\
-		You opened your eyes and looked again at the heart. <br>It remains in the air, floating towards a new beginning."
+	observation_choices = list(
+		"Be pulled in" = list(TRUE, "You don't hesitate as you approach the centre of the void. <br>Sensation in your hands and legs are the first things to go, creeping up your body until you couldn't feel anything physical at all. <br>\
+			Despite how scary it should have been, you feel at peace, <br>this isn't an end it's a new beginning - You're a martyr. <br>\
+			Let's meet everyone again, as stars."),
+		"Hold yourself tight" = list(FALSE, "You wrapped your arms around yourself and shut your eyes, turning your senses inward until the temptation passes and the sounds become distant howls again. <br>\
+			You opened your eyes and looked again at the heart. <br>It remains in the air, floating towards a new beginning."),
+	)
 
 	var/pulse_cooldown
-	var/pulse_cooldown_time = 12 SECONDS
-	var/pulse_damage = 120 // Scales with distance; Ideally, you shouldn't be able to outheal it with white V armor or less
+	var/pulse_cooldown_time = 8 SECONDS
+	var/pulse_damage = 30 // Scales with distance; Ideally, you shouldn't be able to outheal it with white V armor or less
 
 	var/datum/looping_sound/bluestar/soundloop
 
@@ -99,13 +102,14 @@
 			continue
 		if(faction_check_mob(L))
 			continue
-		L.deal_damage((pulse_damage - get_dist(src, L)), WHITE_DAMAGE)
+		var/falloff = (0.3 * (get_dist(src, L)))//1 damage for every 3 tiles
+		L.deal_damage(pulse_damage - falloff, WHITE_DAMAGE)
 		flash_color(L, flash_color = COLOR_BLUE_LIGHT, flash_time = 70)
 		if(!ishuman(L))
 			continue
 		var/mob/living/carbon/human/H = L
 		if(H.sanity_lost) // TODO: TEMPORARY AS HELL
-			H.death()
+			H.death(TRUE)
 			animate(H, transform = H.transform*0.01, time = 5)
 			QDEL_IN(H, 5)
 	SLEEP_CHECK_DEATH(3)
@@ -138,6 +142,7 @@
 	. = ..()
 	var/turf/T = pick(GLOB.department_centers)
 	soundloop.start()
-	forceMove(T)
+	if(breach_type != BREACH_MINING)
+		forceMove(T)
 	BluePulse()
 	return

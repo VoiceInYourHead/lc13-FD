@@ -33,7 +33,8 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 0, 0, 10, 20),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 45, 50, 55),
 	)
-	work_damage_amount = 14
+	work_damage_upper = 9
+	work_damage_lower = 6
 	work_damage_type = WHITE_DAMAGE
 	attack_sound = 'sound/abnormalities/crying_children/attack_salvador.ogg'
 	death_sound = 'sound/abnormalities/crying_children/death.ogg'
@@ -187,12 +188,13 @@
 			continue
 		to_chat(L, span_userdanger("You're boiling alive from the heat of a miniature sun!"))
 		playsound(L, 'sound/abnormalities/crying_children/attack_aoe.ogg', 50, TRUE)
-		L.deal_damage(300, RED_DAMAGE)
+		L.deal_damage(175, RED_DAMAGE)
+		L.deal_damage(75, FIRE)
 		L.apply_lc_burn(50)
 		new /obj/effect/temp_visual/fire/fast(get_turf(L))
 
 /mob/living/simple_animal/hostile/abnormality/crying_children/BreachEffect(mob/living/carbon/human/user, breach_type)
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(show_global_blurb), 20, "No one’s going to cry on my behalf even if I’m sad.", 25))
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(show_global_blurb), 20, "No one's going to cry on my behalf even if I'm sad.", 25))
 	..()
 	desc = "A towering angel statue, setting everything on it's path ablaze"
 	icon = 'ModularTegustation/Teguicons/96x96.dmi'
@@ -262,24 +264,24 @@
 		Combusting_Courage()
 	return
 
-/mob/living/simple_animal/hostile/abnormality/crying_children/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/crying_children/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return FALSE
 	if(!client)
 		if(desperate && (courage_cooldown <= world.time) && prob(30))
 			return Combusting_Courage()
 		if(sorrow_cooldown <= world.time && prob(25))
-			return Wounds_Of_Sorrow(target)
+			return Wounds_Of_Sorrow(attacked_target)
 
 	if(prob(35))
-		return Bygone_Illusion(target)
+		return Bygone_Illusion(attacked_target)
 
 	// Distorted Illusion
 	can_act = FALSE
 	icon_state = "[icon_phase]_salvador"
 	. = ..()
-	if(isliving(target))
-		var/mob/living/L = target
+	if(isliving(attacked_target))
+		var/mob/living/L = attacked_target
 		L.apply_lc_burn(5*burn_mod)
 	SLEEP_CHECK_DEATH(10)
 	icon_state = "[icon_phase]_idle"
@@ -395,7 +397,7 @@
 // Decrease charge for every 20% HP lost
 /mob/living/simple_animal/hostile/abnormality/crying_children/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
 	var/oldhealth = health
-	..()
+	. = ..()
 	for(var/i = 1, i < 4, i++)
 		if(health < (maxHealth * 0.2 * i) && oldhealth >= (maxHealth * 0.2 * i))
 			charge -= 10
@@ -458,13 +460,13 @@
 		forceMove(T)
 
 /mob/living/simple_animal/hostile/abnormality/crying_children/proc/FinalPhase()
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(show_global_blurb), 20, "I don’t want to hear anything. I don’t want to see anything, or speak anything…", 25))
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(show_global_blurb), 20, "I don't want to hear anything. I don't want to see anything, or speak anything!", 25))
 	icon_phase = "desperation"
 	icon_living = "[icon_phase]_idle"
 	icon_state = "[icon_phase]_idle"
 	desperate = TRUE
 	maxHealth = 4000
-	damage_coeff = list(RED_DAMAGE = 0.4, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.4, PALE_DAMAGE = 1)
+	ChangeResistances(list(RED_DAMAGE = 0.4, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.4, PALE_DAMAGE = 1))
 	revive(full_heal = TRUE, admin_revive = FALSE)
 	ChangeMoveToDelay(4)
 	burn_mod = 2
@@ -499,7 +501,7 @@
 	toggle_ai(AI_OFF)
 
 /mob/living/simple_animal/hostile/child/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
-	..()
+	. = ..()
 	if(!tagged)
 		toggle_ai(initial(src.AIStatus))
 		for(var/mob/living/carbon/human/H in view(src, 10)) // Immediately attacks on getting tagged
@@ -508,7 +510,7 @@
 			if(!target)
 				target = H
 		if(target in view(1, src))
-			AttackingTarget()
+			AttackingTarget(target)
 		tagged = TRUE
 
 // Unseeing

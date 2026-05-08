@@ -10,8 +10,8 @@
 	pixel_x = -8
 	base_pixel_x = -8
 
-	maxHealth = 650
-	health = 650
+	maxHealth = 150
+	health = 150
 	del_on_death = FALSE
 	threat_level = TETH_LEVEL
 	work_chances = list(
@@ -20,9 +20,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(30, 15, -50, -50, -50),
 		ABNORMALITY_WORK_REPRESSION = 65,
 	)
-	work_damage_amount = 5
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
-	chem_type = /datum/reagent/abnormality/violence
+	chem_type = /datum/reagent/abnormality/sin/envy
 
 	ego_list = list(
 		/datum/ego_datum/weapon/horn,
@@ -36,19 +37,19 @@
 		These puddles are evidence of monster's futile struggle to end its life. \
 		\"Kill me. Stab me with that knife you have.\" The monster cannot talk. However, the soul trapped in it can talk and I can hear it. \
 		\"Why are you not helping me when you can hear me?\" The monster asks reproachfully."
-	observation_choices = list("Because I don't have a knife.", "Because this problem can't be solved with death.")
-	correct_choices = list("Because this problem can't be solved with death.")
-	observation_success_message = "'That's not important. Every single second is an agony for me. \
-		Death is a prize compared to this endless pain.' \"But you are right. It is your job to solve it. Not mine.\" \
-		\"Child, would you make a promise? Would you free me from this cycle when you are ready?\""
-	observation_fail_message = "You are lying. You know you can pull out that knife out from your pocket whenever you want."
+	observation_choices = list(
+		"Because this problem can't be solved with death" = list(TRUE, "'That's not important. Every single second is an agony for me. \
+			Death is a prize compared to this endless pain.' \"But you are right. It is your job to solve it. Not mine.\" \
+			\"Child, would you make a promise? Would you free me from this cycle when you are ready?\""),
+		"Because I don't have a knife" = list(FALSE, "You are lying. You know you can pull out that knife out from your pocket whenever you want."),
+	)
 
 	var/injured = FALSE
 
 //it needs to use PostSpawn or we can't get the datum of beauty
 /mob/living/simple_animal/hostile/abnormality/beauty/PostSpawn()
 	. = ..()
-	var/cursed = RememberVar(1)
+	var/cursed = RememberVar("cursed")
 	if(!cursed)
 		return
 	for(var/mob/dead/observer/O in GLOB.player_list) //we grab the last person that died to beauty and yeet them in there
@@ -57,7 +58,7 @@
 			src.ckey = cursed
 			to_chat(src, span_userdanger("You begin to have hundreds of eyes burst from your mouth, while a pair of horns expel from your eye sockets, adorning themselves with flowers. Now the Beast, you forever search for someone to lift your curse."))
 			to_chat(src, span_notice("(If you wish to leave this body you can simply ghost with the ooc tab > ghost, there is no consequence for doing so.)"))
-			TransferVar(1, null) //we reset the cursed just in case
+			TransferVar("cursed", null) //we reset the cursed just in case
 			return
 
 /mob/living/simple_animal/hostile/abnormality/beauty/death(gibbed)
@@ -73,7 +74,7 @@
 			icon_state = "beauty_injured"
 
 		else if (!(GODMODE in user.status_flags))//If you already did repression, die.
-			TransferVar(1, user.ckey)
+			TransferVar("cursed", user.ckey)
 			user.gib()
 			death()
 

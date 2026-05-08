@@ -7,13 +7,14 @@
 	icon_state = "so_that_no_cry"
 	icon_living = "so_that_no_cry"
 	portrait = "so_that_no_cry"
-	maxHealth = 1200 //High health, can be stunned.
-	health = 1200
+	core_icon = "cry_egg"
+	maxHealth = 300 //High health, can be stunned.
+	health = 300
 	rapid_melee = 2
 	move_to_delay = 3
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
-	melee_damage_lower = 6
-	melee_damage_upper = 12
+	melee_damage_lower = 3
+	melee_damage_upper = 4
 	melee_damage_type = BLACK_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/abnormalities/so_that_no_cry/attack.ogg'
@@ -28,8 +29,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = 60,
 	)
-	work_damage_amount = 8
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 	base_pixel_x = -12
 	pixel_x = -12
 
@@ -44,15 +47,15 @@
 		In this cramped cell, the wooden doll stands. <br>\
 		Are the talismans here to fulfill a wish? <br>\
 		Does this wooden doll wish for anything?"
-	observation_choices = list("Remove the doll's talismans", "Do nothing")
-	correct_choices = list("Remove the doll's talismans")
-	observation_success_message = "After you removed them, the doll knelt. <br>\
-		Is it begging you not to take it,<br>\
-		or is it a gesture of gratitude?<br>\
-		You won’t know for now."
-	observation_fail_message = "Nothing happened. <br>\
-		The doll would simply stand there, producing small noises. <br>\
-		It now ignores you, as if disappointed."
+	observation_choices = list(
+		"Remove the doll's talismans" = list(TRUE, "After you removed them, the doll knelt. <br>\
+			Is it begging you not to take it,<br>\
+			or is it a gesture of gratitude?<br>\
+			You won’t know for now."),
+		"Do nothing" = list(FALSE, "Nothing happened. <br>\
+			The doll would simply stand there, producing small noises. <br>\
+			It now ignores you, as if disappointed."),
+	)
 
 	var/can_act = TRUE
 	/// When this reaches 400 - begins reflecting damage
@@ -162,7 +165,7 @@
 		return
 	var/damage = I.force
 	if(ishuman(user))
-		damage *= 1 + (get_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+		damage *= get_attack_multiplier(user)
 	ReflectDamage(user, I.damtype, damage)
 
 //Reflect Code
@@ -175,7 +178,7 @@
 		return
 	if(!can_act)
 		return
-	if(damage_taken > 400 && !damage_reflection)
+	if(damage_taken > maxHealth * 0.4 && !damage_reflection)
 		StartReflecting()
 
 /mob/living/simple_animal/hostile/abnormality/so_that_no_cry/proc/StartReflecting()
@@ -193,12 +196,12 @@
 	can_act = TRUE
 
 //Talisman Stuff
-/mob/living/simple_animal/hostile/abnormality/so_that_no_cry/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/so_that_no_cry/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return ..()
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	Apply_Talisman(H)
 	return ..()
 

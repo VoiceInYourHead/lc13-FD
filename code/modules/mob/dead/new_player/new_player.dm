@@ -35,6 +35,7 @@
 
 /mob/dead/new_player/Destroy()
 	GLOB.new_player_list -= src
+
 	return ..()
 
 /mob/dead/new_player/prepare_huds()
@@ -319,8 +320,19 @@
 		return JOB_NOT_MENTOR
 	return JOB_AVAILABLE
 
+/mob/dead/new_player/proc/IsNameUnavailable()
+	for(var/datum/data/record/t in GLOB.data_core.general)
+		var/name = t.fields["name"]
+		if(client.prefs.real_name == name)
+			return TRUE
+	return FALSE
+
 /mob/dead/new_player/proc/AttemptLateSpawn(rank)
-	var/error = IsJobUnavailable(rank)
+	var/error = IsNameUnavailable()
+	if(error)
+		alert(src, "You cannot join again under the same name. Please pick a different name.")
+		return FALSE
+	error = IsJobUnavailable(rank)
 	if(error != JOB_AVAILABLE)
 		alert(src, get_job_unavailable_error_message(error, rank))
 		return FALSE
@@ -444,6 +456,8 @@
 			if(job_datum && IsJobUnavailable(job_datum.title, TRUE) == JOB_AVAILABLE)
 				var/altjobline = "" //tegu edit - alt job titles
 				var/command_bold = ""
+				if(job_datum.alts_only)//LC13 edit
+					altjobline = "(as [job_datum.alt_titles[1]])"//This is overwritten by any alt job prefs
 				if(client && client.prefs && client.prefs.alt_titles_preferences[job_datum.title])//tegu edit - alt job titles
 					altjobline = "(as [client.prefs.alt_titles_preferences[job_datum.title]])"//tegu edit - alt job titles
 				if(job in GLOB.command_positions)
@@ -523,11 +537,10 @@
 		return
 	client.crew_manifest_delay = world.time + (1 SECONDS)
 
-	var/dat = "<html><head><meta http-equiv='Content-Type' content='text/html; charset=UTF-8'></head><body>"
-	dat += "<h4>Crew Manifest</h4>"
-	dat += GLOB.data_core.get_manifest_html()
+	if(!GLOB.crew_manifest_tgui)
+		GLOB.crew_manifest_tgui = new /datum/crew_manifest(src)
 
-	src << browse(dat, "window=manifest;size=387x420;can_close=1")
+	GLOB.crew_manifest_tgui.ui_interact(src)
 
 /mob/dead/new_player/Move()
 	return 0

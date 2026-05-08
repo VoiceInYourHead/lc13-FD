@@ -24,7 +24,9 @@
 /obj/structure/closet/secure_closet/freezer/meat,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
-/mob/living/simple_animal/hostile/ordeal/amber_bug,
+/mob/living/simple_animal/hostile/ordeal/amber_bug{
+	wander = 0
+	},
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 9
 	},
@@ -41,7 +43,9 @@
 /obj/structure/closet/secure_closet/freezer/fridge,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
-/mob/living/simple_animal/hostile/ordeal/amber_bug,
+/mob/living/simple_animal/hostile/ordeal/amber_bug{
+	wander = 0
+	},
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 8
 	},
@@ -67,7 +71,6 @@
 /area/city/backstreets_alley)
 "P" = (
 /obj/structure/closet/secure_closet/freezer/kitchen,
-/mob/living/simple_animal/hostile/ordeal/amber_bug/morsel,
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 8
 	},
@@ -82,13 +85,15 @@
 /area/city/backstreets_alley)
 "X" = (
 /obj/machinery/door/airlock/freezer,
-/turf/open/space/basic,
+/turf/open/floor/plasteel/freezer,
 /area/city/backstreets_alley)
 "Y" = (
 /obj/structure/closet/secure_closet/freezer/cream_pie,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
 /mob/living/simple_animal/hostile/ordeal/amber_bug,
-/mob/living/simple_animal/hostile/ordeal/amber_bug,
+/mob/living/simple_animal/hostile/ordeal/amber_bug{
+	wander = 0
+	},
 /obj/effect/turf_decal/weather/snow/corner{
 	dir = 8
 	},

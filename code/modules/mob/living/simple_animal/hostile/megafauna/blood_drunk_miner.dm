@@ -109,7 +109,7 @@ Difficulty: Medium
 	transform_weapon()
 
 /obj/item/melee/transforming/cleaving_saw/miner //nerfed saw because it is very murdery
-	force = 6
+	force = 2
 	force_on = 10
 
 /obj/item/melee/transforming/cleaving_saw/miner/attack(mob/living/target, mob/living/carbon/human/user)
@@ -144,9 +144,9 @@ Difficulty: Medium
 		return
 	return ..()
 
-/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/MeleeAction(patience = TRUE)
+/*/mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/MeleeAction(patience = TRUE)
 	transform_stop_attack = FALSE
-	return ..()
+	return ..()*/
 
 /mob/living/simple_animal/hostile/megafauna/blood_drunk_miner/AttackingTarget()
 	if(client)

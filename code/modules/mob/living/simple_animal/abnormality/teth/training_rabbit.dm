@@ -5,8 +5,8 @@
 	icon_state = "training_rabbit"
 	icon_living = "training_rabbit"
 	portrait = "training_rabbit"
-	maxHealth = 14 //hit with baton twice
-	health = 14
+	maxHealth = 20
+	health = 20
 	threat_level = TETH_LEVEL
 	fear_level = 0 //rabbit not scary
 	move_to_delay = 16
@@ -16,9 +16,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = 100,
 		ABNORMALITY_WORK_REPRESSION = 40,
 	)
-	work_damage_amount = 2
+	work_damage_upper = 2
+	work_damage_lower = 1
 	work_damage_type = RED_DAMAGE
 	chem_type = /datum/reagent/blood
+	max_boxes = 10
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	can_breach = TRUE
 	start_qliphoth = 1
@@ -26,6 +28,8 @@
 	//ego_list = list(datum/ego_datum/weapon/training, datum/ego_datum/armor/training)
 	gift_type =  /datum/ego_gifts/standard
 	can_patrol = FALSE
+	can_affect_emergency = FALSE
+	trigger_lights = FALSE
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 
 	secret_chance = TRUE // people NEEDED a bunny girl waifu
@@ -37,14 +41,14 @@
 	observation_prompt = "This is the training dummy that Lobotomy Corporation uses for training new agents. <br>\
 		But is that really all there is to it? <br>\
 		Looking closely, you find..."
-	observation_choices = list("A dead body?", "Nothing")
-	correct_choices = list("A dead body?")
-	observation_success_message = "The facial structure, the torso, arms and legs, not to mention the stench... <br>\
-		There's no doubt that this is just a dead body in a body bag, flipped upside-down. <br>\
-		In spite of all this, it provides a gift to you. It continues moving around as if it were alive. <br>\
-		So this is what they call an abnormality. <br>\
-		Are all abnormalities at Lobotomy Corporation this strange?"
-	observation_fail_message = "Your imagination must be going hawywire due to the stress. <br>There's no way such an out-of-place thing could be there!"
+	observation_choices = list(
+		"A dead body?" = list(TRUE, "The facial structure, the torso, arms and legs, not to mention the stench... <br>\
+			There's no doubt that this is just a dead body in a body bag, flipped upside-down. <br>\
+			In spite of all this, it provides a gift to you. It continues moving around as if it were alive. <br>\
+			So this is what they call an abnormality. <br>\
+			Are all abnormalities at Lobotomy Corporation this strange?"),
+		"Nothing" = list(FALSE, "Your imagination must be going haywire due to the stress. <br>There's no way such an out-of-place thing could be there!"),
+	)
 
 /mob/living/simple_animal/hostile/abnormality/training_rabbit/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()

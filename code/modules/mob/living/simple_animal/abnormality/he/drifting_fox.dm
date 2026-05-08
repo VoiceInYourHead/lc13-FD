@@ -17,14 +17,15 @@
 	base_pixel_x = -24
 	base_pixel_y = -26
 	del_on_death = FALSE
-	maxHealth = 1000
-	health = 1000
+	maxHealth = 200
+	health = 200
 	rapid_melee = 2
 	move_to_delay = 7
 	damage_coeff = list( RED_DAMAGE = 0.9, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 1.5 )
-	melee_damage_lower = 5
-	melee_damage_upper = 15 // Idea taken from the old PR, have a large damage range to immitate its fucked rolls and crit chance.
+	melee_damage_lower = 2
+	melee_damage_upper = 8
 	melee_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/abnormalities/drifting_fox/fox_melee_sound.ogg'
 	attack_verb_simple = "thwacks"
@@ -38,7 +39,8 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(15, 20, 25, 30, 35),
 		ABNORMALITY_WORK_REPRESSION = 15,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = BLACK_DAMAGE
 	abnormality_origin = ABNORMALITY_ORIGIN_LIMBUS
 
@@ -55,20 +57,20 @@
 		The umbrellas jiggled. <br.\
 		Looking closer, there’s a large fox underneath. <br.\
 		The umbrellas’ rusted iron blades have firmly rooted themselves in its back."
-	observation_choices = list("Pet the fox", "Pull out the umbrellas")
-	correct_choices = list("Pet the fox")
-	observation_success_message = "Its growl recedes. <br.\
-		You stroke it once more, <br.\
-		and it closes its eyes, pleased. <br.\
-		You stroke it once more, <br.\
-		and it settles on the ground, comforted. <br.\
-		You stroke it once more, <br.\
-		and it shrinks to become a statue."
-	observation_fail_message = "Those umbrellas seem to be causing it pain. <br.\
-		When you pull them out with force, bits of its flesh come off with them. <br.\
-		The fox yelped sharply and gave us a glare. <br.\
-		Then, it smacked you with the umbrella in its mouth. <br.\
-		It seemed to reprimand your attitude of pursuing resolution without forethought."
+	observation_choices = list(
+		"Pet the fox" = list(TRUE, "Its growl recedes. <br.\
+			You stroke it once more, <br.\
+			and it closes its eyes, pleased. <br.\
+			You stroke it once more, <br.\
+			and it settles on the ground, comforted. <br.\
+			You stroke it once more, <br.\
+			and it shrinks to become a statue."),
+		"Pull out the umbrellas" = list(FALSE, "Those umbrellas seem to be causing it pain. <br.\
+			When you pull them out with force, bits of its flesh come off with them. <br.\
+			The fox yelped sharply and gave us a glare. <br.\
+			Then, it smacked you with the umbrella in its mouth. <br.\
+			It seemed to reprimand your attitude of pursuing resolution without forethought."),
+	)
 
 	var/list/pet = list()
 	pet_bonus = "yips"
@@ -78,20 +80,37 @@
 	var/list/spawned_mobs = list()
 	var/initial_mobs_spawned
 
+/mob/living/simple_animal/hostile/abnormality/drifting_fox/Login()
+	. = ..()
+	to_chat(src, "<h1>You are Drifting Fox, A Combat Role Abnormality.</h1><br>\
+		<b>|Tattored Shelter|: After losing 10% of your health, you will start spawning Worn Umbrellas around you. \
+		Worn Umbrellas will teleport to you if you move too far away from them. \
+		Also, You will gain a slight speed boost for each Umbrella you have alive.<br>\
+		<br>\
+		|Worn Umbrellas|: Worn Umbrellas will passively attack humans that they can see by firing a 3x3 AoE on their targets. \
+		If the target gets hit by the AoE, They will gain a debuff which causes them to take more BLACK damage from all sources. \
+		However, if the umbrellas are broken you will lose 5% for each umbrella broken.<br></b>")
+
 /mob/living/simple_animal/hostile/abnormality/drifting_fox/funpet(mob/petter)
-	pet += petter
+	pet |= petter
 	return ..()
+
+/mob/living/simple_animal/hostile/abnormality/drifting_fox/AttemptWork(mob/living/carbon/human/user, work_type)
+	if(user in pet)
+		if(work_type == ABNORMALITY_WORK_ATTACHMENT)
+			to_chat(user, span_notice("The abnormality seems to like this type of work more than usual!"))
+		else
+			to_chat(user, span_warning("The abnormality does not seem happy with your choice of work."))
+	. = ..()
 
 /mob/living/simple_animal/hostile/abnormality/drifting_fox/WorkChance(mob/living/carbon/human/user, chance, work_type)
 	if(user in pet)
 		if(work_type == ABNORMALITY_WORK_ATTACHMENT)
 			chance += 30
-			pet -= user
-			to_chat(user, span_notice("The abnormality seems to like this type of work more than usual!"))
 		else
 			chance -= 10
-			to_chat(user, span_warning("The abnormality does not seem happy with your choice of work."))
 		return chance
+	. = ..()
 
 /mob/living/simple_animal/hostile/abnormality/drifting_fox/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	if(user in pet)
@@ -111,6 +130,9 @@
 	pixel_y = -6
 
 /mob/living/simple_animal/hostile/abnormality/drifting_fox/death(gibbed)
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
+	pixel_x = -16
+	pixel_y = 0
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
@@ -125,13 +147,14 @@
 		initial_mobs_spawned = TRUE
 		addtimer(CALLBACK(src, PROC_REF(UmbrellaLoop)), 30 SECONDS)
 		for(var/i=4, i>=1, i--) //spawn 4 umbrellas right off the bat
-			var/mob/living/simple_animal/hostile/umbrella/newmob = new(get_turf(src))
+			var/mob/living/simple_animal/hostile/aminion/umbrella/newmob = new(get_turf(src))
 			newmob.faction = faction
 			spawned_mobs+=newmob
 			newmob.friend = src
 			newmob.GoToFox()
 			newmob.ranged_cooldown_time = rand(20,80)
 			move_to_delay = clamp(move_to_delay - 1, 3, 7) //Speed up
+			UpdateSpeed()
 
 /mob/living/simple_animal/hostile/abnormality/drifting_fox/proc/UmbrellaLoop()
 	listclearnulls(spawned_mobs)
@@ -140,7 +163,7 @@
 			spawned_mobs -= L
 	if(length(spawned_mobs) >= umbrella_spawn_limit)
 		return
-	var/mob/living/simple_animal/hostile/umbrella/newmob = new(get_turf(src))
+	var/mob/living/simple_animal/hostile/aminion/umbrella/newmob = new(get_turf(src))
 	newmob.faction = faction
 	spawned_mobs+=newmob
 	newmob.friend = src
@@ -150,7 +173,7 @@
 	addtimer(CALLBACK(src, PROC_REF(UmbrellaLoop)), umbrella_spawn_time)
 
 //Summons
-/mob/living/simple_animal/hostile/umbrella
+/mob/living/simple_animal/hostile/aminion/umbrella
 	name = "Umbrella"
 	desc = "A tattered and worn umbrella; The fox seems to have many to spare."
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
@@ -160,27 +183,30 @@
 	maxHealth = 125
 	health = 125
 	density = FALSE
+	status_flags = MUST_HIT_PROJECTILE // Allows projectiles to hit non-dense mob
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 0.7, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 2)
 	del_on_death = FALSE
 	ranged = TRUE
 	ranged_cooldown_time = 3 SECONDS
+	fear_level = 0
+	can_affect_emergency = FALSE //they're not really minions fully
 	var/teleport_cooldown_time = 10 SECONDS
 	var/teleport_cooldown
 	/// The drifting fox
 	var/mob/living/simple_animal/hostile/abnormality/friend
 
 /// Deal damge to the fox
-/mob/living/simple_animal/hostile/umbrella/death(gibbed)
+/mob/living/simple_animal/hostile/aminion/umbrella/death(gibbed)
 	visible_message(span_notice("[src] falls to the ground as the umbrella closes in on itself!"))
 	if(friend)
-		friend.deal_damage(100, BLACK_DAMAGE)
+		friend.deal_damage(50, BLACK_DAMAGE)
 		friend.move_to_delay = clamp(move_to_delay + 1, 3, 7) //Slowdown
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
 	return ..()
 
 ///checks if the fox is in view every 10 seconds, and if not teleports to it
-/mob/living/simple_animal/hostile/umbrella/Life()
+/mob/living/simple_animal/hostile/aminion/umbrella/Life()
 	. = ..()
 	if(!friend || stat == DEAD) //for some reason life() works on death ain't that something
 		return
@@ -192,7 +218,7 @@
 		if(!can_see(src, friend, vision_range))
 			GoToFox()
 
-/mob/living/simple_animal/hostile/umbrella/proc/GoToFox()
+/mob/living/simple_animal/hostile/aminion/umbrella/proc/GoToFox()
 	if(!friend)
 		return
 	var/turf/move_turf = get_step(friend, pick(1,2,4,5,6,8,9,10))
@@ -201,7 +227,7 @@
 	forceMove(move_turf)
 	LoseTarget()
 
-/mob/living/simple_animal/hostile/umbrella/OpenFire()
+/mob/living/simple_animal/hostile/aminion/umbrella/OpenFire()
 	ranged_cooldown_time = rand(20,80) //keeps them attacking asynchronously
 	if(!isliving(target))
 		LoseTarget()
@@ -212,15 +238,17 @@
 	SLEEP_CHECK_DEATH(6)
 	for(var/turf/T in view(1, target_turf))
 		new /obj/effect/temp_visual/small_smoke/halfsecond(T)
-		for(var/mob/living/carbon/human/H in HurtInTurf(T, list(), 15, BLACK_DAMAGE, null, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE))
+		for(var/mob/living/carbon/human/H in HurtInTurf(T, list(), 5, BLACK_DAMAGE, null, TRUE, FALSE, TRUE, FALSE, TRUE, TRUE))
 			H.apply_status_effect(STATUS_EFFECT_FALSEKIND)
 	playsound(target_turf, 'sound/abnormalities/drifting_fox/fox_umbrella.ogg', 25, TRUE, 4)
 	ranged_cooldown = world.time + ranged_cooldown_time
 
-/mob/living/simple_animal/hostile/umbrella/Move()
+/mob/living/simple_animal/hostile/aminion/umbrella/Move()
 	return FALSE
 
-/mob/living/simple_animal/hostile/umbrella/AttackingTarget(atom/attacked_target)
+/mob/living/simple_animal/hostile/aminion/umbrella/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	OpenFire()
 	return
 

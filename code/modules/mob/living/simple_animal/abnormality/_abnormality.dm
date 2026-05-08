@@ -7,6 +7,7 @@
 	layer = LARGE_MOB_LAYER
 	a_intent = INTENT_HARM
 	del_on_death = TRUE
+	area_index = MOB_ABNORMALITY_INDEX
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_tox" = 0, "max_tox" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	minbodytemp = 0
@@ -20,12 +21,23 @@
 	blood_volume = BLOOD_VOLUME_NORMAL // THERE WILL BE BLOOD. SHED.
 	simple_mob_flags = SILENCE_RANGED_MESSAGE
 	can_patrol = TRUE
+	trigger_lights = TRUE
+	//Does this enemy count for the emergency system
+	var/can_affect_emergency = TRUE
+	//The divider for score for the emergency system. We don't want minion spam to count too much
+	var/score_divider = 1
+	//Incase you want an enemy to add a constant amount of points
+	var/set_score = null
+	//Does this enemy count for the min emergency level?
+	var/can_affect_min = TRUE
+	/// The index that is swapped to when an abnormality breaches
+	var/breach_index = MOB_ABNORMALITY_INDEX
 	/// Can this abnormality spawn normally during the round?
 	var/can_spawn = TRUE
 	/// Reference to the datum we use
 	var/datum/abnormality/datum_reference = null
 	/// The threat level of the abnormality. It is passed to the datum on spawn
-	var/threat_level = ZAYIN_LEVEL
+	threat_level = ZAYIN_LEVEL
 	/// Separate level of fear. If null - will use threat level.
 	var/fear_level = null
 	/// Maximum qliphoth level, passed to datum
@@ -49,10 +61,11 @@
 	)
 	/// Work Types and corresponding their attributes
 	var/list/work_attribute_types = WORK_TO_ATTRIBUTE
-	/// How much damage is dealt to user on each work failure
-	var/work_damage_amount = 2
+	/// Range of how much damage is dealt to user on each work failure
+	var/work_damage_upper = 2
+	var/work_damage_lower = 1
 	/// What damage type is used for work failures
-	/// Can be a list, work_damage_amount in that case is divided by the objects in the list and visuals are chosen randomly
+	/// Can be a list, work damage in that case is divided by the objects in the list and visuals are chosen randomly
 	var/work_damage_type = RED_DAMAGE
 	/// Maximum amount of PE someone can obtain per work procedure, if not null or 0.
 	var/max_boxes = null
@@ -60,6 +73,8 @@
 	var/success_boxes = null
 	/// How much PE you have to produce for neutral result, if not null or 0.
 	var/neutral_boxes = null
+	/// Check to see if the abnormality hates goods or can't get them.
+	var/good_hater = FALSE
 	/// List of ego equipment datums
 	var/list/ego_list = list()
 	/// EGO Gifts
@@ -80,11 +95,7 @@
 	var/harvest_phrase_third = "%PERSON harvests... something... into %VESSEL."
 	// Dummy chemicals - called if chem_type is null.
 	var/list/dummy_chems = list(
-		/datum/reagent/abnormality/nutrition,
-		/datum/reagent/abnormality/cleanliness,
-		/datum/reagent/abnormality/consensus,
-		/datum/reagent/abnormality/amusement,
-		/datum/reagent/abnormality/violence,
+		/datum/reagent/abnormality/sin/emptiness,	//Set to a useless dummy chem rn. Should actually be replaced on every abno
 	)
 	// Increased Abno appearance chance
 	/// Assoc list, you do [path] = [probability_multiplier] for each entry
@@ -93,6 +104,9 @@
 	var/portrait = "UNKNOWN"
 	var/core_icon = ""
 	var/core_enabled = TRUE
+
+	/// If an abnormality should not be possessed even if possessibles are enabled, mainly for admins.
+	var/do_not_possess = FALSE
 
 	// secret skin variables ahead
 
@@ -108,6 +122,8 @@
 	var/secret_icon_state
 	/// An icon state assigned when an abnormality is alive
 	var/secret_icon_living
+	// An icon state assigned when an abnormality gets suppressed in its secret form
+	var/secret_icon_dead
 	/// An icon file assigned to the abnormality in its secret form, usually should not be needed to change
 	var/secret_icon_file
 
@@ -116,13 +132,28 @@
 	/// Offset for secret skins in the Y axis
 	var/secret_vertical_offset = 0
 
-	/// Final Observation details
-	var/observation_in_progress = FALSE
+	/// Final Observation stuffs
+	/// The prompt we get alongside our choices for observing it
 	var/observation_prompt = "The abnormality is watching you. What will you do?"
-	var/list/observation_choices = list("Approach", "Leave")
-	var/list/correct_choices = list("Approach", "Leave")
-	var/observation_success_message = "Final Observation Success!"
-	var/observation_fail_message = "Final Observation Failed!"
+	/**
+	 * observation_choices is made in the format of:
+	 * "Choice" = list(TRUE or FALSE [depending on if the answer is correct], "Response"),
+	 */
+	var/list/observation_choices = list(
+		"Approach" = list(TRUE, "You approach the abnormality... and obtain a gift from it."),
+		"Leave" = list(TRUE, "You leave the abnormality... and before you notice a gift is in your hands."),
+	)
+	/// Is there a currently on-going observation?
+	var/observation_in_progress = FALSE
+
+	// rcorp stuff
+	var/rcorp_team
+
+/mob/living/simple_animal/hostile/abnormality/Login()
+	. = ..()
+	if(!. || !client)
+		return FALSE
+	manual_emote("awakens...")
 
 /mob/living/simple_animal/hostile/abnormality/Initialize(mapload)
 	SHOULD_CALL_PARENT(TRUE)
@@ -158,7 +189,7 @@
 	else
 		gift_message += "\nYou are granted a gift by [src]!"
 
-	if(secret_chance && (prob(1)))
+	if(secret_chance && prob(1))
 		InitializeSecretIcon()
 
 /mob/living/simple_animal/hostile/abnormality/proc/InitializeSecretIcon()
@@ -180,6 +211,9 @@
 	if(secret_vertical_offset)
 		base_pixel_y = secret_vertical_offset
 
+	if(secret_icon_dead)
+		icon_dead = secret_icon_dead
+
 /mob/living/simple_animal/hostile/abnormality/Destroy()
 	SHOULD_CALL_PARENT(TRUE)
 	if(istype(datum_reference)) // Respawn the mob on death
@@ -188,10 +222,7 @@
 	else if(core_enabled)//Abnormality Cores are spawned if there is no console tied to the abnormality
 		CreateAbnoCore(name, core_icon)//If cores are manually disabled for any reason, they won't generate.
 	. = ..()
-	if(loc)
-		if(isarea(loc))
-			var/area/a = loc
-			a.RefreshLights()
+	SSlobotomy_emergency.UpdateMin()//A fail safe incase they get deleted
 
 /mob/living/simple_animal/hostile/abnormality/add_to_mob_list()
 	. = ..()
@@ -229,8 +260,7 @@
 	if(!(status_flags & GODMODE))
 		to_chat(user, span_notice("Now isn't the time!"))
 		return
-	var/obj/item/chemical_extraction_attachment/attachment = locate() in datum_reference.console.contents
-	if(!attachment)
+	if(datum_reference.console.mechanical_upgrades["abnochem"] == 0)
 		to_chat(user, span_notice("This abnormality's cell is not properly equipped for substance extraction."))
 		return
 	if(world.time < chem_cooldown_timer)
@@ -325,13 +355,6 @@
 /mob/living/simple_animal/hostile/abnormality/proc/PostSpawn()
 	SHOULD_CALL_PARENT(TRUE)
 	HandleStructures()
-	var/condition = FALSE //Final observation debug
-	for(var/answer in observation_choices)
-		if(answer in correct_choices)
-			condition = TRUE
-	if(!condition)
-		CRASH("Abnormality has no correct choice for final observation!")
-	return
 
 // Moves structures already in its datum; Overrides can spawn structures here.
 /mob/living/simple_animal/hostile/abnormality/proc/HandleStructures()
@@ -358,17 +381,18 @@
 	datum_reference.connected_structures[A] = list(x_offset, y_offset)
 	return A
 
-// transfers a var to the datum to be used later
-/mob/living/simple_animal/hostile/abnormality/proc/TransferVar(index, value)
+/* Transfers a var to the datum to be used later
+The variable's key needs to be non-numerical.*/
+/mob/living/simple_animal/hostile/abnormality/proc/TransferVar(key, value)
 	if(isnull(datum_reference))
 		return
-	LAZYSET(datum_reference.transferable_var, value, index)
+	LAZYSET(datum_reference.transferable_var, key, value)
 
 // Access an item in the "transferable_var" list of the abnormality's datum
-/mob/living/simple_animal/hostile/abnormality/proc/RememberVar(index)
+/mob/living/simple_animal/hostile/abnormality/proc/RememberVar(key)
 	if(isnull(datum_reference))
 		return
-	return LAZYACCESS(datum_reference.transferable_var, index)
+	return LAZYACCESS(datum_reference.transferable_var, key)
 
 // Modifiers for work chance
 /mob/living/simple_animal/hostile/abnormality/proc/WorkChance(mob/living/carbon/human/user, chance, work_type)
@@ -438,11 +462,13 @@
 
 // Additional effect on each individual work tick success
 /mob/living/simple_animal/hostile/abnormality/proc/WorktickSuccess(mob/living/carbon/human/user)
+	playsound(datum_reference.console, 'sound/machines/synth_yes.ogg', 25, FALSE, -4)
 	return
 
 // Additional effect on each individual work tick failure
 /mob/living/simple_animal/hostile/abnormality/proc/WorktickFailure(mob/living/carbon/human/user)
-	user.deal_damage(work_damage_amount, work_damage_type)
+	playsound(datum_reference.console, 'sound/machines/synth_no.ogg', 25, FALSE, -4)
+	user.deal_damage(rand(work_damage_lower,work_damage_upper), work_damage_type)
 	WorkDamageEffect()
 	return
 
@@ -455,6 +481,9 @@
 	else // its a list, we gotta pick one
 		var/list/damage_types = work_damage_type
 		damage.icon_state = pick(damage_types)
+	var/damage_type = damage.icon_state
+	if(GLOB.damage_type_shuffler?.is_enabled && IsColorDamageType(damage_type))
+		damage.icon_state = GLOB.damage_type_shuffler.mapping_offense[damage_type]
 
 // Dictates whereas this type of work can be performed at the moment or not
 /mob/living/simple_animal/hostile/abnormality/proc/AttemptWork(mob/living/carbon/human/user, work_type)
@@ -482,9 +511,12 @@
 		// If a custom breach is called and the mob has no way of handling it, just ignore it.
 		// Should follow normal behaviour with ..()
 		return FALSE
+	swap_area_index(breach_index)
 	toggle_ai(AI_ON) // Run.
 	status_flags &= ~GODMODE
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_ABNORMALITY_BREACH, src)
+	if(istype(datum_reference))
+		deadchat_broadcast(" has breached containment.", "<b>[src.name]</b>", src, get_turf(src))
 	FearEffect()
 	return TRUE
 
@@ -498,6 +530,10 @@
 /mob/living/simple_animal/hostile/abnormality/proc/MeltdownStart()
 	if(istype(datum_reference))
 		datum_reference.overload_chance = list()
+	return
+
+// When qliphoth meltdown ends
+/mob/living/simple_animal/hostile/abnormality/proc/MeltdownEnd()
 	return
 
 /mob/living/simple_animal/hostile/abnormality/proc/OnQliphothChange(mob/living/carbon/human/user, amount = 0, pre_qlip = start_qliphoth)
@@ -536,25 +572,29 @@
 			return
 		to_chat(user, span_warning("You already have a gift in the [gift_type.slot] slot, dissolve it first!"))
 		return
-	var/condition = FALSE
+
 	if(observation_in_progress)
 		to_chat(user, span_notice("Someone is already observing [src]!"))
 		return
 	observation_in_progress = TRUE
-	var/answer = final_observation_alert(user, "[observation_prompt]", "Final Observation of [src]", observation_choices, timeout = 60 SECONDS)
-	if(answer in correct_choices)
-		condition = TRUE
-	ObservationResult(user, condition)
+	var/answer = final_observation_alert(user, "[observation_prompt]", "Final Observation of [src]", shuffle(observation_choices), timeout = 60 SECONDS)
+	if(answer == "timed out")
+		ObservationResult(user, reply = answer)
+	else
+		var/list/answer_vars = observation_choices[answer]
+		ObservationResult(user, answer_vars[1], answer_vars[2])
+
 	observation_in_progress = FALSE
 
-/mob/living/simple_animal/hostile/abnormality/proc/ObservationResult(mob/living/carbon/human/user, condition)
-	if(condition) //Successful, could override for longer observations as well.
-		final_observation_alert(user,"[observation_success_message]", "OBSERVATION SUCCESS",list("Ok"), timeout=20 SECONDS) //Some of these take a long time to read
+/mob/living/simple_animal/hostile/abnormality/proc/ObservationResult(mob/living/carbon/human/user, success = FALSE, reply = "")
+	if(success) //Successful, could override for longer observations as well.
+		final_observation_alert(user, "[reply]", "OBSERVATION SUCCESS", list("Ok"), timeout = 20 SECONDS) //Some of these take a long time to read
 		if(gift_type)
 			user.Apply_Gift(new gift_type)
 			playsound(get_turf(user), 'sound/machines/synth_yes.ogg', 30 , FALSE)
 	else
-		final_observation_alert(user,"[observation_fail_message]", "OBSERVATION FAIL",list("Ok"), timeout=20 SECONDS)
+		if(reply != "timed out")
+			final_observation_alert(user, "[reply]", "OBSERVATION FAIL", list("Ok"), timeout = 20 SECONDS)
 		playsound(get_turf(user), 'sound/machines/synth_no.ogg', 30 , FALSE)
 	datum_reference.observation_ready = FALSE
 
@@ -566,6 +606,7 @@
 	C.icon_state = core_icon
 	C.contained_abno = src.type
 	C.threat_level = threat_level
+	C.ego_list += ego_list
 	switch(GetRiskLevel())
 		if(1)
 			return
@@ -577,6 +618,19 @@
 			C.icon = 'ModularTegustation/Teguicons/abno_cores/waw.dmi'
 		if(5)
 			C.icon = 'ModularTegustation/Teguicons/abno_cores/aleph.dmi'
+
+/mob/living/simple_animal/hostile/abnormality/proc/HostileMode(should_trigger)//this is used by a few abnormalities to turn on a breaching mode
+	QuickChangeLights(TRUE)
+	can_affect_emergency = TRUE
+	breach_index = MOB_ABNORMALITY_INDEX // Now able to disrupt regenerators
+	swap_area_index(breach_index)
+	if(should_trigger)
+		SSlobotomy_emergency.OnAbnoBreach(null, src)
+
+/mob/living/simple_animal/hostile/abnormality/spawn_gibs()
+	if(blood_volume <= 0)
+		return
+	return new /obj/effect/gibspawner/generic(drop_location(), src, get_static_viruses())
 
 // Actions
 /datum/action/innate/abnormality_attack

@@ -912,7 +912,7 @@
 	name = "perfect meat"
 	desc = "An awful jiggling chunk of meat cut from the hide of a worm. It tastes foul and has the texture of spoiled jelly."
 	icon_state = "wormmeat"
-	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4, /datum/reagent/yuck = 5)
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4, /datum/reagent/yuck = 5, /datum/reagent/amber = 5)
 	tastes = list("slime" = 1, "jelly" = 1)
 	foodtypes = MEAT | RAW | TOXIC | GROSS
 
@@ -938,6 +938,63 @@
 
 /obj/item/food/meat/slab/crimson/MakeGrillable()
 	AddComponent(/datum/component/grillable, /obj/item/food/meat/steak/crimson, rand(30 SECONDS, 90 SECONDS), TRUE, TRUE)
+
+/obj/item/food/meat/slab/buggy
+	name = "buggy meat"
+	desc = "A chunk of horrible and unpalatable mutated meat and chitin. Some bits are still moving..."
+	icon_state = "buggymeat"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4)
+	tastes = list("tender meat" = 1, "gristle" = 1)
+	foodtypes = MEAT | RAW | GROSS
+
+/obj/item/food/meat/slab/buggy/MakeGrillable()
+	AddComponent(/datum/component/grillable, /obj/item/food/meat/steak/meatproduct, rand(30 SECONDS, 90 SECONDS), TRUE, TRUE) // too lazy to add a new sprite
+
+/obj/item/food/meat/slab/corroded
+	name = "corroded meat"
+	desc = "Human meat, with other stuff mixed in. Hardly has any resemblance to the original anymore."
+	icon_state = "xenomeat" // Placeholder
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4)
+	tastes = list("tough meat" = 1)
+	foodtypes = MEAT | RAW | GROSS
+
+/obj/item/food/meat/slab/corroded/MakeGrillable()
+	AddComponent(/datum/component/grillable, /obj/item/food/meat/steak/meatproduct, rand(30 SECONDS, 90 SECONDS), TRUE, TRUE) // too lazy to add a new sprite
+
+/obj/item/food/meat/slab/sinnew
+	name = "sin-eew"
+	desc = "Eyeballs, veins, and offal that came from something no longer resembling a human."
+	icon_state = "sinnew"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 1)
+	tastes = list("blood" = 1, "tough meat" = 1)
+	foodtypes = MEAT | RAW | GROSS
+
+/obj/item/food/meat/slab/sinnew/MakeGrillable()
+	AddComponent(/datum/component/grillable, /obj/item/food/meat/steak/meatproduct, rand(30 SECONDS, 90 SECONDS), TRUE, TRUE) // too lazy to add a new sprite
+
+/obj/item/food/meat/slab/pallid
+	name = "pallid waste"
+	desc = "Nasty, meaty dross scraped off god knows where. It's extremely tough and stringy; you probably shouldn't eat this."
+	icon_state = "pallidmeat"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4, /datum/reagent/toxin/pallidwaste = 10)
+	tastes = list("fish guts" = 1, "tough meat" = 1)
+	foodtypes = MEAT | RAW | TOXIC | GROSS
+
+/obj/item/food/meat/slab/whale
+	name = "whale blubber"
+	desc = "Thick, fatty layers of meat carved off of a whale from the Great Lake. Its oil is a critical resource in District 21."
+	icon_state = "meat_whale"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4, /datum/reagent/toxin/pallidwaste = 3)//Later: add whale oil as a reagent
+	tastes = list("fat" = 1, "tough meat" = 1)
+	foodtypes = MEAT | RAW | TOXIC | GROSS
+
+/obj/item/food/meat/slab/mermaid
+	name = "mermaid meat"
+	desc = "A slab of mutated fish meat. Their anatomy disturbingly resembles a human's."
+	icon_state = "meat_mermaid"
+	food_reagents = list(/datum/reagent/consumable/nutriment/protein = 4)
+	tastes = list("fish guts" = 1, "tough meat" = 1)
+	foodtypes = MEAT | RAW | GROSS
 
 ////////////////////////////////////// MEAT STEAKS ///////////////////////////////////////////////////////////
 

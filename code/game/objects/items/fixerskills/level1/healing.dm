@@ -7,20 +7,24 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/healing
+	name = "Healing"
+	desc = "Heals the HP of all other humans around you."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "healing"
-	name = "Healing"
-	cooldown_time = 300
-	var/healamount = 15
+	cooldown_time = 30 SECONDS
+	var/healamount = 20
 
 /datum/action/cooldown/healing/Trigger()
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 
 	if (owner.stat == DEAD)
 		return FALSE
 
 	for(var/mob/living/carbon/human/H in view(2, get_turf(src)))
+		if(H == owner)
+			continue
 		if(H.stat >= HARD_CRIT)
 			continue
 		H.adjustBruteLoss(-healamount)	//Healing for those around.
@@ -36,20 +40,24 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/soothing
+	name = "Soothing"
+	desc = "Heals the SP all other humans around you."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "soothing"
-	name = "Soothing"
-	cooldown_time = 300
-	var/healamount = 15
+	cooldown_time = 30 SECONDS
+	var/healamount = 20
 
 /datum/action/cooldown/soothing/Trigger()
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 
 	if (owner.stat == DEAD)
 		return FALSE
 
 	for(var/mob/living/carbon/human/H in view(2, get_turf(src)))
+		if(H == owner)
+			continue
 		if(H.stat >= HARD_CRIT)
 			continue
 		H.adjustSanityLoss(-healamount)	//Healing for those around.
@@ -66,20 +74,24 @@
 	custom_premium_price = 600
 
 /datum/action/cooldown/curing
+	name = "Curing"
+	desc = "Heals both HP and SP all other humans around you."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "curing"
-	name = "Curing"
-	cooldown_time = 300
-	var/healamount = 5
+	cooldown_time = 30 SECONDS
+	var/healamount = 10
 
 /datum/action/cooldown/curing/Trigger()
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 
-	if (owner.stat == DEAD)
+	if(owner.stat == DEAD)
 		return FALSE
 
 	for(var/mob/living/carbon/human/H in view(2, get_turf(src)))
+		if(H == owner)
+			continue
 		if(H.stat >= HARD_CRIT)
 			continue
 		H.adjustSanityLoss(-healamount)	//Healing for those around.

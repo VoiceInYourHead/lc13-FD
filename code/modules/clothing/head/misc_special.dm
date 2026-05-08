@@ -47,9 +47,9 @@
 	hitsound = 'sound/weapons/tap.ogg'
 	var/hitsound_on = 'sound/weapons/sear.ogg' //so we can differentiate between cakehat and energyhat
 	var/hitsound_off = 'sound/weapons/tap.ogg'
-	var/force_on = 15
-	var/throwforce_on = 15
-	var/damtype_on = BURN
+	var/force_on = 6
+	var/throwforce_on = 4
+	var/damtype_on = FIRE
 	flags_inv = HIDEEARS|HIDEHAIR
 	armor = list(MELEE = 0, BULLET = 0, LASER = 0,ENERGY = 0, BOMB = 0, BIO = 0, RAD = 0, FIRE = 0, ACID = 0)
 	light_range = 2 //luminosity when on
@@ -416,6 +416,14 @@
 /obj/item/clothing/head/rabbit_helmet/raccoon
 	name = "\improper raccoon team helmet"
 	icon_state = "raccoon_helmet"
+
+/obj/item/clothing/head/rabbit_helmet/raccoonsniper
+	name = "\improper raccoon sniper helmet"
+	icon_state = "raccoon_sniper"
+
+/obj/item/clothing/head/rabbit_helmet/raccooncap
+	name = "\improper raccoon captain helmet"
+	icon_state = "raccoon_cap"
 
 /obj/item/clothing/head/rabbit_helmet/roadrunner
 	name = "\improper roadrunner team helmet"

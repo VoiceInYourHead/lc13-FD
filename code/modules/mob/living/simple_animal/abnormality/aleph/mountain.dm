@@ -6,13 +6,13 @@
 	icon_living = "mosb"
 	icon_dead = "mosb_dead"
 	portrait = "mountain"
-	maxHealth = 1500
-	health = 1500
+	maxHealth = 500
+	health = 500
 	pixel_x = -16
 	base_pixel_x = -16
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 0.5)
-	melee_damage_lower = 25
-	melee_damage_upper = 35
+	melee_damage_lower = 7
+	melee_damage_upper = 11
 	melee_damage_type = RED_DAMAGE
 	rapid_melee = 2
 	stat_attack = DEAD
@@ -32,8 +32,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 0, 50, 55),
 	)
-	work_damage_amount = 16
+	work_damage_upper = 8
+	work_damage_lower = 6
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 
 	ego_list = list(
 		/datum/ego_datum/weapon/smile,
@@ -49,10 +51,10 @@
 	observation_prompt = "It smells like death itself in its containment unit, the mound of rotted, half-purtefied flesh stares at you with its many faces. <br>\
 		Arms and legs bent at odd angles, entrails draped like lazy christmas decorations, innumerable limbs twisted and distorted into a sphere - all blanketed black with necrotic skin. <br>\
 		Yet the faces remain intact, pale from a lack of blood, but still as recognizable as they've always been. <br>They're smiling at you."
-	observation_choices = list("I recognize those faces", "I don't recognize them")
-	correct_choices = list("I recognize those faces")
-	observation_success_message = "From the mountain of bodies; the dead give their life to be something greater. <br>Why shouldn't they be smiling? <br>You should be smiling too."
-	observation_fail_message = "They're holding all the laughter of those who cannot be seen here. <br>The mounds begins to shamble, upon borrowed hands and feet, it has your scent now and it will never be satisfied."
+	observation_choices = list(
+		"I recognize those faces" = list(TRUE, "From the mountain of bodies; the dead give their life to be something greater. <br>Why shouldn't they be smiling? <br>You should be smiling too."),
+		"I don't recognize them" = list(FALSE, "They're holding all the laughter of those who cannot be seen here. <br>The mounds begins to shamble, upon borrowed hands and feet, it has your scent now and it will never be satisfied."),
+	)
 
 	/// Is user performing work hurt at the beginning?
 	var/agent_hurt = FALSE
@@ -62,10 +64,10 @@
 	var/phase = 1
 	var/scream_cooldown
 	var/scream_cooldown_time = 6 SECONDS
-	var/scream_damage = 40
+	var/scream_damage = 20
 	var/slam_cooldown
 	var/slam_cooldown_time = 2 SECONDS
-	var/slam_damage = 30
+	var/slam_damage = 10
 	var/spit_cooldown
 	var/spit_cooldown_time = 8 SECONDS
 	/// Actually it fires this amount thrice, so, multiply it by 3 to get actual amount
@@ -120,16 +122,18 @@
 			return TRUE
 	return FALSE
 
-/mob/living/simple_animal/hostile/abnormality/mountain/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/mountain/AttackingTarget(atom/attacked_target)
 	if(finishing)
 		return FALSE
 	if(phase >= 2)
+		if(!target)
+			GiveTarget(attacked_target)
 		if(prob(35) && OpenFire())
 			return
 	. = ..()
-	if(. && isliving(target))
-		var/mob/living/L = target
-		if(isliving(target) && (L.health < 0 || L.stat == DEAD))
+	if(. && isliving(attacked_target))
+		var/mob/living/L = attacked_target
+		if(isliving(attacked_target) && (L.health < 0 || L.stat == DEAD))
 			finishing = TRUE
 			if(phase == 3)
 				icon_state = "mosb_bite2"
@@ -221,10 +225,10 @@
 	// Increase stage
 	if(increase)
 		if(belly >= 2)
-			if(phase < 3 && SSmaptype.maptype != "limbus_labs")
+			if(phase < 3)
 				playsound(get_turf(src), 'sound/abnormalities/mountain/level_up.ogg', 75, 1)
 				adjustHealth(-5000)
-				maxHealth += 1000
+				maxHealth *= 2
 				phase += 1
 				belly = 0
 			icon = 'ModularTegustation/Teguicons/96x96.dmi'
@@ -245,7 +249,7 @@
 		return FALSE
 	playsound(get_turf(src), 'sound/abnormalities/mountain/level_down.ogg', 75, 1)
 	adjustHealth(-5000)
-	maxHealth -= 1000
+	maxHealth /= 2
 	phase -= 1
 	icon_living = "mosb_breach"
 	if(phase == 1)

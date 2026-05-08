@@ -14,10 +14,10 @@ GLOBAL_LIST_INIT(l2asquads, list("Axe", "Buckler", "Cleaver"))
 
 	outfit = /datum/outfit/job/wcorpl2recon
 	display_order = 3
-
-
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	access = list() //add accesses as necessary
 	minimal_access = list()
+	departments = DEPARTMENT_W_CORP
 
 	roundstart_attributes = list(
 		FORTITUDE_ATTRIBUTE = 80,
@@ -30,7 +30,6 @@ GLOBAL_LIST_INIT(l2asquads, list("Axe", "Buckler", "Cleaver"))
 	job_notice = "You are a agent tasked with assisting with communications and coordination between your squad and other squads. Support your squadron with your equipment."
 
 /datum/job/wcorpl2recon/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
-	ADD_TRAIT(outfit_owner, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	var/squad = pick_n_take(GLOB.l2asquads)
 	. = ..()
 
@@ -48,7 +47,7 @@ GLOBAL_LIST_INIT(l2asquads, list("Axe", "Buckler", "Cleaver"))
 	gloves = /obj/item/clothing/gloves/color/black
 	implants = list(/obj/item/organ/cyberimp/eyes/hud/security)
 	head = /obj/item/clothing/head/ego_hat/wcorp
-	suit = /obj/item/clothing/suit/armor/ego_gear/wcorp/noreq
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/wcorp/noreq
 	l_pocket = /obj/item/commandprojector
 	r_pocket = /obj/item/storage/packet
 

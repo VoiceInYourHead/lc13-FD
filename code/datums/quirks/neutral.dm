@@ -1,30 +1,6 @@
 //traits with no real impact that can be taken freely
 //MAKE SURE THESE DO NOT MAJORLY IMPACT GAMEPLAY. those should be positive or negative traits.
 
-/datum/quirk/nerd
-	name = "Nerd"
-	desc = "You take 5% less WHITE damage, but take 10% more RED damage. You spend all your free time playing niche video games and reading Korean light novels."
-	value = 0
-	gain_text = "<span class='notice'>You feel nervous about touching grass.</span>"
-	medical_record_text = "Patient displays severe socially avoidant behaviours."
-
-/datum/quirk/nerd/on_spawn()
-	var/mob/living/carbon/human/H = quirk_holder
-	H.physiology.red_mod += 0.1
-	H.physiology.white_mod -= 0.05
-
-/datum/quirk/brawler
-	name = "Brawler"
-	desc = "You take 5% less RED damage, but take 10% more WHITE damage. Instead of getting an education, you chose to train and become the best Fixer in the City."
-	value = 0
-	gain_text = "<span class='notice'>Time to chew ass and kick bubblegum.</span>"
-	medical_record_text = "Patient is more physically fit than the average person."
-
-/datum/quirk/brawler/on_spawn()
-	var/mob/living/carbon/human/H = quirk_holder
-	H.physiology.red_mod -= 0.05
-	H.physiology.white_mod += 0.1
-
 /datum/quirk/family_heirloom // re-naming the quirk in the code causes a lot of problems, so leaving it as-is
 	name = "Plushie Lover"
 	desc = "You love plushies so much that you take them to work with you. You start with one plushie that changes based on your job."
@@ -40,6 +16,10 @@
 		// Command
 		if("Manager")
 			heirloom_type = pick(/obj/item/toy/plush/angela)
+		if("Training Officer")
+			heirloom_type = pick(/obj/item/toy/plush/hod)
+		if("Disciplinary Officer")
+			heirloom_type = pick(/obj/item/toy/plush/gebura)
 		if("Extraction Officer")
 			heirloom_type = pick(/obj/item/toy/plush/binah)
 		if("Records Officer")
@@ -50,9 +30,9 @@
 			heirloom_type = pick(/obj/item/toy/plush/malkuth, /obj/item/toy/plush/netzach, /obj/item/toy/plush/hod, /obj/item/toy/plush/lisa, /obj/item/toy/plush/enoch, /obj/item/toy/plush/yesod, /obj/item/toy/plush/gebura)
 		// Common folk
 		if("Agent")
-			heirloom_type = pick(/obj/item/toy/plush/bigbird, /obj/item/toy/plush/big_bad_wolf, /obj/item/toy/plush/pinocchio)
+			heirloom_type = pick(/obj/item/toy/plush/bigbird, /obj/item/toy/plush/big_bad_wolf, /obj/item/toy/plush/pinocchio, /obj/item/toy/plush/pbird, /obj/item/toy/plush/jbird)
 		if("Agent Intern")
-			heirloom_type = pick(/obj/item/toy/plush/scorched)
+			heirloom_type = pick(/obj/item/toy/plush/scorched, /obj/item/toy/plush/pbird, /obj/item/toy/plush/voiddream)
 		if("Clerk")
 			heirloom_type = pick(/obj/item/toy/plush/moth)
 		// Ruins test
@@ -147,15 +127,6 @@
 	lose_text = "<span class='notice'>You feel like standing up for yourself.</span>"
 	medical_record_text = "Patient presents a notably unassertive personality and is easy to manipulate."
 
-/datum/quirk/empath
-	name = "Empath"
-	desc = "Whether it's a sixth sense or careful study of body language, it only takes you a quick glance at someone to understand how they feel."
-	value = 0
-	mob_trait = TRAIT_EMPATH
-	gain_text = "<span class='notice'>You feel in tune with those around you.</span>"
-	lose_text = "<span class='danger'>You feel isolated from others.</span>"
-	medical_record_text = "Patient is highly perceptive of and sensitive to social cues, or may possibly have ESP. Further testing needed."
-
 /datum/quirk/light_drinker
 	name = "Light Drinker"
 	desc = "You just can't handle your drinks and get drunk very quickly."
@@ -166,59 +137,13 @@
 	medical_record_text = "Patient demonstrates a low tolerance for alcohol. (Wimp)"
 	hardcore_value = 3
 
-/datum/quirk/bad_touch
-	name = "Bad Touch"
-	desc = "You don't like hugs. You'd really prefer if people just left you alone."
-	mob_trait = TRAIT_BADTOUCH
-	value = 0
-	gain_text = "<span class='danger'>You just want people to leave you alone.</span>"
-	lose_text = "<span class='notice'>You could use a big hug.</span>"
-	medical_record_text = "Patient has disdain for being touched. Potentially has undiagnosed haphephobia."
-
-/datum/quirk/friendly
-	name = "Friendly"
-	desc = "You give the best hugs, even if they dont matter in this bloodshed enviroment."
-	value = 0
-	mob_trait = TRAIT_FRIENDLY
-	gain_text = "<span class='notice'>You want to hug someone.</span>"
-	lose_text = "<span class='danger'>You no longer feel compelled to hug others.</span>"
-	medical_record_text = "Patient demonstrates low-inhibitions for physical contact and well-developed arms. Requesting another doctor take over this case."
-
-
-/datum/quirk/extrovert
-	name = "Extrovert"
-	desc = "You are energized by talking to others, and enjoy spending your free time in the bar."
-	value = 0
-	mob_trait = TRAIT_EXTROVERT
-	gain_text = "<span class='notice'>You feel like hanging out with other people.</span>"
-	lose_text = "<span class='danger'>You feel like you're over the bar scene.</span>"
-	medical_record_text = "Patient will not shut the hell up."
-
-/datum/quirk/introvert
-	name = "Introvert"
-	desc = "You are energized by having time to yourself, and enjoy spending your free time in the library."
-	value = 0
-	mob_trait = TRAIT_INTROVERT
-	gain_text = "<span class='notice'>You feel like reading a good book quietly.</span>"
-	lose_text = "<span class='danger'>You feel like libraries are boring.</span>"
-	medical_record_text = "Patient doesn't seem to say much."
-
-/datum/quirk/no_taste
-	name = "Ageusia"
-	desc = "You can't taste anything! Toxic food will still poison you."
-	value = 0
-	mob_trait = TRAIT_AGEUSIA
-	gain_text = "<span class='notice'>You can't taste anything!</span>"
-	lose_text = "<span class='notice'>You can taste again!</span>"
-	medical_record_text = "Patient suffers from ageusia and is incapable of tasting food or reagents."
-
 /datum/quirk/foreigner
 	name = "Foreigner"
-	desc = "You're not from around here. You don't know Galactic Common!"
+	desc = "You're not from around here. You don't know Common!"
 	value = 0
 	gain_text = "<span class='notice'>The words being spoken around you don't make any sense."
-	lose_text = "<span class='notice'>You've developed fluency in Galactic Common."
-	medical_record_text = "Patient does not speak Galactic Common and may require an interpreter."
+	lose_text = "<span class='notice'>You've developed fluency in Common."
+	medical_record_text = "Patient does not speak Common and may require an interpreter."
 
 /datum/quirk/foreigner/add()
 	var/mob/living/carbon/human/H = quirk_holder
@@ -264,44 +189,6 @@
 	medical_record_text = "Patient seems to be rather stuck up."
 	mob_trait = TRAIT_SNOB
 
-/datum/quirk/pineapple_liker
-	name = "Ananas Affinity"
-	desc = "You find yourself greatly enjoying fruits of the ananas genus. You can't seem to ever get enough of their sweet goodness!"
-	value = 0
-	gain_text = "<span class='notice'>You feel an intense craving for pineapple.</span>"
-	lose_text = "<span class='notice'>Your feelings towards pineapples seem to return to a lukewarm state.</span>"
-	medical_record_text = "Patient demonstrates a pathological love of pineapple."
-
-/datum/quirk/pineapple_liker/add()
-	var/mob/living/carbon/human/H = quirk_holder
-	var/datum/species/species = H.dna.species
-	species.liked_food |= PINEAPPLE
-
-/datum/quirk/pineapple_liker/remove()
-	var/mob/living/carbon/human/H = quirk_holder
-	if(H)
-		var/datum/species/species = H.dna.species
-		species.liked_food &= ~PINEAPPLE
-
-/datum/quirk/pineapple_hater
-	name = "Ananas Aversion"
-	desc = "You find yourself greatly detesting fruits of the ananas genus. Serious, how the hell can anyone say these things are good? And what kind of madman would even dare putting it on a pizza!?"
-	value = 0
-	gain_text = "<span class='notice'>You find yourself pondering what kind of idiot actually enjoys pineapples...</span>"
-	lose_text = "<span class='notice'>Your feelings towards pineapples seem to return to a lukewarm state.</span>"
-	medical_record_text = "Patient is correct to think that pineapple is disgusting."
-
-/datum/quirk/pineapple_hater/add()
-	var/mob/living/carbon/human/H = quirk_holder
-	var/datum/species/species = H.dna.species
-	species.disliked_food |= PINEAPPLE
-
-/datum/quirk/pineapple_hater/remove()
-	var/mob/living/carbon/human/H = quirk_holder
-	if(H)
-		var/datum/species/species = H.dna.species
-		species.disliked_food &= ~PINEAPPLE
-
 /datum/quirk/deviant_tastes
 	name = "Deviant Tastes"
 	desc = "You dislike food that most people enjoy, and find delicious what they don't."
@@ -341,21 +228,6 @@
 /datum/quirk/monochromatic/remove()
 	if(quirk_holder)
 		quirk_holder.remove_client_colour(/datum/client_colour/monochrome)
-
-/datum/quirk/phobia
-	name = "Phobia"
-	desc = "You are irrationally afraid of something."
-	value = 0
-	medical_record_text = "Patient has an irrational fear of something."
-
-/datum/quirk/phobia/post_add()
-	var/mob/living/carbon/human/H = quirk_holder
-	H.gain_trauma(new /datum/brain_trauma/mild/phobia(H.client?.prefs.phobia), TRAUMA_RESILIENCE_ABSOLUTE)
-
-/datum/quirk/phobia/remove()
-	var/mob/living/carbon/human/H = quirk_holder
-	if(H)
-		H.cure_trauma_type(/datum/brain_trauma/mild/phobia, TRAUMA_RESILIENCE_ABSOLUTE)
 
 /datum/quirk/needswayfinder
 	name = "Navigationally Challenged"
@@ -518,3 +390,41 @@
 		return
 	var/mob/living/carbon/human/H = quirk_holder
 	H.remove_language(/datum/language/bong, TRUE, TRUE, LANGUAGE_MIND)
+
+/datum/quirk/spiritual
+	name = "Spiritual"
+	desc = "You hold a spiritual belief, whether in God, nature or the arcane rules of the universe. You gain comfort from the presence of holy people, and believe that your prayers are more special than others."
+	value = 0
+	mob_trait = TRAIT_SPIRITUAL
+	gain_text = "<span class='notice'>You have faith in a higher power.</span>"
+	lose_text = "<span class='danger'>You lose faith!</span>"
+	medical_record_text = "Patient reports a belief in a higher power."
+
+/datum/quirk/spiritual/on_spawn()
+	var/mob/living/carbon/human/H = quirk_holder
+	H.equip_to_slot_or_del(new /obj/item/storage/fancy/candle_box(H), ITEM_SLOT_BACKPACK)
+	H.equip_to_slot_or_del(new /obj/item/storage/box/matches(H), ITEM_SLOT_BACKPACK)
+
+/datum/quirk/tagger
+	name = "Tagger"
+	desc = "You're an experienced artist. People will actually be impressed by your graffiti, and you can get twice as many uses out of drawing supplies."
+	value = 0
+	mob_trait = TRAIT_TAGGER
+	gain_text = "<span class='notice'>You know how to tag walls efficiently.</span>"
+	lose_text = "<span class='danger'>You forget how to tag walls properly.</span>"
+	medical_record_text = "Patient was recently seen for possible paint huffing incident."
+
+/datum/quirk/tagger/on_spawn()
+	var/mob/living/carbon/human/H = quirk_holder
+	var/obj/item/toy/crayon/spraycan/spraycan = new(get_turf(H))
+	H.put_in_hands(spraycan)
+	H.equip_to_slot(spraycan, ITEM_SLOT_BACKPACK)
+	H.regenerate_icons()
+
+/datum/quirk/prosopagnosia
+	name = "Prosopagnosia"
+	desc = "You have a mental disorder that prevents you from being able to recognize faces at all."
+	value = 0
+	mob_trait = TRAIT_PROSOPAGNOSIA
+	medical_record_text = "Patient suffers from prosopagnosia and cannot recognize faces."
+	hardcore_value = 2

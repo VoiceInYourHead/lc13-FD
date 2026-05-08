@@ -13,8 +13,8 @@
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "silent_girl"
 	portrait = "silent_girl"
-	maxHealth = 650
-	health = 650
+	maxHealth = 130
+	health = 130
 	gender = FEMALE // Is this used basically anywhere? Not that I know of. But seeing "Gender: Male" on Silent Girl doesn't seem right.
 	threat_level = HE_LEVEL
 	work_chances = list(
@@ -23,8 +23,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = -50,
 		ABNORMALITY_WORK_REPRESSION = list(50, 55, 55, 60, 60),
 	)
-	work_damage_amount = 5
+	work_damage_upper = 5
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 	start_qliphoth = 3
 
 	ego_list = list(
@@ -35,11 +37,11 @@
 	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK
 
 	observation_prompt = "..."
-	observation_choices = list("Accept your guilt", "Plead your ignorance")
-	correct_choices = list("Accept your guilt")
-	observation_success_message = "The nails pierce your heart as the girl in the white dress hammers them home. <br>\
-		She opens hers eyes and you meet her gaze. <br>You're forgiven."
-	observation_fail_message = "The nails pierce your heart as the girl in the white dress hammers them home."
+	observation_choices = list(
+		"Accept your guilt" = list(TRUE, "The nails pierce your heart as the girl in the white dress hammers them home. <br>\
+			She opens hers eyes and you meet her gaze. <br>You're forgiven."),
+		"Plead your ignorance" = list(FALSE, "The nails pierce your heart as the girl in the white dress hammers them home."),
+	)
 
 /mob/living/simple_animal/hostile/abnormality/silent_girl/proc/GuiltEffect(mob/living/carbon/human/user, enable_qliphoth = TRUE, stack_count = 1)
 	if (user.stat == DEAD)
@@ -124,7 +126,7 @@
 	to_chat(status_holder, span_userdanger("You feel a heavy weight upon your shoulders."))
 	playsound(get_turf(status_holder), 'sound/abnormalities/silentgirl/Guilt_Apply.ogg', 50, 0, 2)
 	status_holder.add_overlay(guilt_icon)
-	status_holder.physiology.work_success_mod *= 0.70
+	status_holder.physiology.work_success_mod *= 0.75
 	RegisterSignal(status_holder, COMSIG_WORK_COMPLETED, PROC_REF(OnWorkComplete))
 
 /datum/status_effect/sg_guilty/on_remove()
@@ -135,7 +137,7 @@
 	to_chat(status_holder, span_nicegreen("You feel a weight lift from your shoulders."))
 	playsound(get_turf(status_holder), 'sound/abnormalities/silentgirl/Guilt_Remove.ogg', 50, 0, 2)
 	status_holder.cut_overlay(guilt_icon)
-	status_holder.physiology.work_success_mod /= 0.70
+	status_holder.physiology.work_success_mod /= 0.75
 	UnregisterSignal(status_holder, COMSIG_WORK_COMPLETED)
 	if(!isnull(datum_reference))
 		INVOKE_ASYNC(datum_reference, TYPE_PROC_REF(/datum/abnormality, qliphoth_change), 1, owner)

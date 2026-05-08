@@ -116,11 +116,49 @@
 		addtimer(CALLBACK(src, PROC_REF(send_intercept), 0), rand(waittime_l, waittime_h))
 	generate_station_goals()
 
-	addtimer(CALLBACK(SSabnormality_queue, TYPE_PROC_REF(/datum/controller/subsystem/abnormality_queue, HandleStartingAbnormalities)), ABNORMALITY_DELAY)
+	if(name != "Combat Mode") // Is this a bit shitcodey? Yeah, it is.
+		addtimer(CALLBACK(SSabnormality_queue, TYPE_PROC_REF(/datum/controller/subsystem/abnormality_queue, HandleStartingAbnormalities)), ABNORMALITY_DELAY)
+
+	if(SSmaptype.maptype == "skeld")
+		addtimer(CALLBACK(src, PROC_REF(SetSkeldAntags)), 3 MINUTES)
 
 	gamemode_ready = TRUE
 	return TRUE
 
+
+//Assigns antagonists in Skeld
+/datum/game_mode/proc/SetSkeldAntags()
+
+	var/list/innocent_roles = list("Agent Captain", "Sephirah", "Main Office Representative") //Roles to not be antags in Skeld
+	var/list/possible_antags = list()
+	var/list/charlie_names = list("a captain", "a security officer", "an engineer", "a scientist", "a doctor", "an assistant")
+	CONFIG_SET(flag/norespawn, 1) //We cant have murdered people spoiling the surprise
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(H.stat == DEAD)
+			continue
+		if(!H.client)
+			continue
+		if(!H.mind)
+			continue
+		if(H.name in charlie_names)
+			continue
+		if(!(ROLE_TRAITOR in H.client.prefs.be_special))
+			continue
+		else
+			if(H.mind.assigned_role in innocent_roles)
+				continue
+			if(is_centcom_level(H.z))
+				continue
+			possible_antags += H
+			continue
+
+	for(var/i = 1 to 3)
+		if(LAZYLEN(possible_antags) > 0)
+			var/mob/M = pick(possible_antags)
+			possible_antags -= M
+			var/datum/antagonist/traitor/newTraitor = new
+			M.mind.add_antag_datum(newTraitor)
+	message_admins("Traitors have been assigned!")
 
 ///Handles late-join antag assignments
 /datum/game_mode/proc/make_antag_chance(mob/living/carbon/human/character)
@@ -186,7 +224,7 @@
 	if(CONFIG_GET(flag/protect_assistant_from_antagonist))
 		replacementmode.restricted_jobs += "Assistant"
 
-	message_admins("The roundtype will be converted. If you have other plans for the station or feel the station is too messed up to inhabit <A HREF='?_src_=holder;[HrefToken()];toggle_midround_antag=[REF(usr)]'>stop the creation of antags</A> or <A HREF='?_src_=holder;[HrefToken()];end_round=[REF(usr)]'>end the round now</A>.")
+	message_admins("The roundtype will be converted. If you have other plans for the station or feel the station is too messed up to inhabit <A HREF='byond://?_src_=holder;[HrefToken()];toggle_midround_antag=[REF(usr)]'>stop the creation of antags</A> or <A HREF='byond://?_src_=holder;[HrefToken()];end_round=[REF(usr)]'>end the round now</A>.")
 	log_game("Roundtype converted to [replacementmode.name]")
 
 	. = 1
@@ -298,8 +336,8 @@
 
 	print_command_report(intercepttext, "Central Command Status Summary", announce=FALSE)
 	priority_announce("A summary has been copied and printed to all communications consoles.", "Enemy communication intercepted. Security level elevated.", ANNOUNCER_INTERCEPT)
-	if(GLOB.security_level < SEC_LEVEL_BLUE)
-		set_security_level(SEC_LEVEL_BLUE)
+	if(GLOB.emergency_level < TRUMPET_1)
+		SSlobotomy_emergency.SetEmergencyLevel(TRUMPET_1)
 
 /*
  * Generate a list of station goals available to purchase to report to the crew.

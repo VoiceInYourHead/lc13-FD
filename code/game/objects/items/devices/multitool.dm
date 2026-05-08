@@ -18,7 +18,7 @@
 	inhand_icon_state = "multitool"
 	lefthand_file = 'icons/mob/inhands/equipment/tools_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
-	force = 5
+	force = 2
 	w_class = WEIGHT_CLASS_SMALL
 	tool_behaviour = TOOL_MULTITOOL
 	throwforce = 0
@@ -32,6 +32,14 @@
 	usesound = 'sound/weapons/empty.ogg'
 	var/obj/machinery/buffer // simple machine buffer for device linkage
 	var/mode = 0
+	var/city_break = TRUE
+
+/obj/item/multitool/Initialize()
+	. = ..()
+	if(city_break)
+		if(SSmaptype.maptype in SSmaptype.citymaps)
+			qdel(src)
+			return INITIALIZE_HINT_QDEL
 
 /obj/item/multitool/examine(mob/user)
 	. = ..()
@@ -41,6 +49,8 @@
 	user.visible_message(span_suicide("[user] puts the [src] to [user.p_their()] chest. It looks like [user.p_theyre()] trying to pulse [user.p_their()] heart off!"))
 	return OXYLOSS//theres a reason it wasn't recommended by doctors
 
+/obj/item/multitool/admin
+	city_break = FALSE
 
 // Syndicate device disguised as a multitool; it will turn red when an AI camera is nearby.
 

@@ -18,17 +18,18 @@
 	icon_dead = "snowqueen_dead"
 	portrait = "snow_queen"
 	mob_biotypes = MOB_MINERAL
-	maxHealth = 1500
-	health = 1500
+	maxHealth = 300
+	health = 300
+	blood_volume = 0
 	move_to_delay = 5
-	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.1, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 0.8) //ASK SOMEONE GOOD AT BALANCING ABOUT THIS -IP
+	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.1, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 0.8, FIRE = 2) //ASK SOMEONE GOOD AT BALANCING ABOUT THIS -IP
 	base_pixel_x = -16
 	pixel_x = -16
 	can_breach = TRUE
 	del_on_death = FALSE
 	threat_level = HE_LEVEL
-	melee_damage_lower = 15
-	melee_damage_upper = 20
+	melee_damage_lower = 3
+	melee_damage_upper = 4
 	melee_damage_type = RED_DAMAGE
 	ranged = TRUE
 	ranged_cooldown_time = 10 SECONDS
@@ -40,8 +41,11 @@
 		ABNORMALITY_WORK_REPRESSION = 0,
 		"Rescue" = 100,
 		)
-	work_damage_amount = 10
+	work_damage_upper = 5
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
+	max_boxes = 18
 	wander = FALSE
 
 	observation_prompt = "You remember her. <br>\
@@ -50,18 +54,16 @@
 		Freezing and cold. <br>\
 		You thought about it often, seeing she who couldn't see her dreams come true, trapped inside ice. <br>\
 		The brave agent headed to the Snow Palace and..."
-	observation_choices = list("Saved Kai", "Met the Snow Queen")
-	correct_choices = list("Met the Snow Queen")
-	observation_success_message = "The Snow Queen was cold and beautiful. <br>You heard ice melting."
-	observation_fail_message = "Gerda saved Kai and returned home. <br>They lived happily ever after."
+	observation_choices = list(
+		"Met the Snow Queen" = list(TRUE, "The Snow Queen was cold and beautiful. <br>You heard ice melting."),
+		"Saved Kai" = list(FALSE, "Gerda saved Kai and returned home. <br>They lived happily ever after."),
+	)
 
 	ego_list = list(
+		/datum/ego_datum/weapon/frostsplinter,
 		/datum/ego_datum/armor/frostsplinter,
-		/datum/ego_datum/weapon/frostsplinter
 	)
-	gift_type = /datum/ego_gifts/frost_splinter
-	//Gift is rewarded at the end of a duel with Snow Queen.
-	gift_chance = 0
+	gift_type = /datum/ego_gifts/frostcrown
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
 	var/can_act = TRUE
 	//The purpose of this variable is to prevent people from ghosting in the arena and making snow queen unworkable.
@@ -90,6 +92,8 @@
 	var/static/list/arena_cleave = list()
 	//We may be getting too many lists now. List for existing temporary elements like illusions
 	var/static/list/temp_effects = list()
+	//Reusable visuals for cleave attacks.
+	var/datum/reusable_visual_pool/RVP = new(200)
 
 /mob/living/simple_animal/hostile/abnormality/snow_queen/Move()
 	if(!can_act)
@@ -138,8 +142,10 @@
 		if(!QDELETED(frozen_employee))
 			if(!storybook_hero)
 				BringToArena(src, user, snow_prison)
+				datum_reference.console.meltdown = FALSE
 			else
 				to_chat(user, span_notice("The Snow Queen is currently in battle."))
+				datum_reference.console.meltdown = FALSE
 				return FALSE
 		else
 			to_chat(user, span_notice("No one is frozen by the Snow Queen yet."))
@@ -156,14 +162,21 @@
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/snow_queen/BreachEffect(mob/living/carbon/human/user, breach_type)
+	//If your in the arena dont breach, if your not in godmode dont breach.
 	if(breach_type == BREACH_PINK)
 		faction += "pink_midnight"
-	if(!IsCombatMap())
-		var/turf/T = pick(GLOB.department_centers)
-		forceMove(T)
 	//Call root code but with normal breach
 	. = ..(null, BREACH_NORMAL)
+	if(!IsCombatMap() && breach_type != BREACH_MINING)
+		var/turf/T = pick(GLOB.department_centers)
+		forceMove(T)
 	update_icon()
+
+/mob/living/simple_animal/hostile/abnormality/snow_queen/ZeroQliphoth(mob/living/carbon/human/user)
+	if(arena_attacks)
+		datum_reference.qliphoth_change(1)
+		return
+	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/snow_queen/Life()
 	. = ..()
@@ -195,16 +208,16 @@
 		return TRUE
 	return ..()
 
-/mob/living/simple_animal/hostile/abnormality/snow_queen/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/snow_queen/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return FALSE
 	if(client)
 		return ..()
 	//Destroy them. They lost the duel.
-	if(ishuman(target))
-		var/mob/living/carbon/human/H = target
+	if(ishuman(attacked_target))
+		var/mob/living/carbon/human/H = attacked_target
 		if(H.stat == DEAD && (H == storybook_hero || H == frozen_employee))
-			H.dust(TRUE, FALSE)
+			H.dust(TRUE, TRUE)
 			return FALSE
 	//If arena attacks is true then dont have a chance connected to it.
 	if(slash_cooldown < world.time && (prob(50) || arena_attacks))
@@ -215,7 +228,7 @@
 				can_act = TRUE
 				return
 			can_act = TRUE
-		Slash(target, wide = pick(TRUE, FALSE))
+		Slash(attacked_target, wide = pick(TRUE, FALSE))
 		return
 	//Dont do normal attacks if in the arena.
 	if(!arena_attacks)
@@ -229,7 +242,13 @@
 	density = FALSE
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
-	..()
+	return ..()
+
+//Prevents gibbing during the duel.
+/mob/living/simple_animal/hostile/abnormality/snow_queen/gib()
+	if(arena_attacks)
+		return FALSE
+	return ..()
 
 //This is here so that people can see the death animation before snow queen is defeated.
 /mob/living/simple_animal/hostile/abnormality/snow_queen/Destroy()
@@ -238,7 +257,8 @@
 	else
 		ReleasePrisoners()
 	ClearEffects()
-	..()
+	QDEL_NULL(RVP)
+	return ..()
 
 		/*---------------------\
 		|CROSS ABNO INTERACTION|
@@ -304,7 +324,7 @@
 	dir = dir_to_target
 	for(var/turf/T in area_of_effect)
 		new /obj/effect/temp_visual/smash_effect(T)
-		for(var/mob/living/L in HurtInTurf(T, list(), 20, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE))
+		for(var/mob/living/L in HurtInTurf(T, list(), 4, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE))
 			playsound(get_turf(src), 'sound/magic/teleport_app.ogg', 30, 1)
 
 	SLEEP_CHECK_DEATH(0.5 SECONDS)
@@ -386,7 +406,7 @@
 	arena_cleave.Cut()
 	if(!arena_landmarks.len)
 		return FALSE
-	arena_cleave = list(
+	arena_cleave = alist(
 		ICE_ARENA_CENTER = list(),
 		ICE_ARENA_NORTH = list(),
 		ICE_ARENA_EAST = list(),
@@ -463,7 +483,7 @@
 	slash_cooldown_time = 2 SECONDS
 	//Drop all your weapons.
 	for(var/obj/item/E in hero.GetAllContents())
-		if(!istype(E, /obj/item/ego_weapon) && !istype(E, /obj/item/gun/ego_gun))
+		if(!is_ego_weapon(E))
 			continue
 		hero.dropItemToGround(E, TRUE, TRUE)
 	hero.forceMove(arena_landmarks[ICE_ARENA_HERO_SPAWN])
@@ -498,12 +518,15 @@
 	storybook_hero = null
 	frozen_employee = null
 
-/mob/living/simple_animal/hostile/abnormality/snow_queen/proc/RewardPrisoner(mob/living/carbon/rewardee)
+/mob/living/simple_animal/hostile/abnormality/snow_queen/proc/RewardPrisoner(mob/living/carbon/human/rewardee)
 	if(!rewardee)
 		return
 	rewardee.forceMove(release_location)
 	to_chat(rewardee, "The roses blossom and the Snow Palace falls. Not a single soul remembered the woman sleeping there.")
-	GiftUser(rewardee, 1, 100)
+	if(ishuman(rewardee))
+		var/datum/ego_gifts/frostsplinter/S = new
+		S.datum_reference = datum_reference
+		rewardee.Apply_Gift(S)
 
 //Procs when the hero is dusted by Snow Queen or the arena timer runs out.
 /mob/living/simple_animal/hostile/abnormality/snow_queen/proc/WinterContinues()
@@ -544,7 +567,7 @@
 	else
 		if(do_after(src, 1 SECONDS, target = src) && get_health == health)
 			for(var/turf/after_spike in after_image_locations)
-				AoeTurfEffect(after_spike, /obj/effect/temp_visual/ice_spike)
+				AoeTurfEffect(after_spike, 6)
 			BladeDash(target)
 
 //Rapidly shoots frost splinters at the target
@@ -606,9 +629,10 @@
 		if(second_attack_area)
 			turfs_to_hit = ReturnNoOverlap(arena_cleave[attack_area], arena_cleave[second_attack_area])
 
+		var/cleave_chargeup = (3 SECONDS) - (i * 5)
 		for(var/turf/T in turfs_to_hit)
-			AoeTurfEffect(T, /obj/effect/temp_visual/floor_cracks, TRUE)
-		if(do_after(src, (3 SECONDS) - (i * 5), target = src) && snow_health <= health)
+			AoeTurfEffect(T, cleave_chargeup, TRUE)
+		if(do_after(src, cleave_chargeup, target = src) && snow_health <= health)
 			if(i > 0)
 				ProjectileHell(target)
 			Cleave(turfs_to_hit)
@@ -624,7 +648,7 @@
 /mob/living/simple_animal/hostile/abnormality/snow_queen/proc/Cleave(list/turfs_to_cleave)
 	playsound(get_turf(src), 'sound/effects/podwoosh.ogg', 100, 1)
 	for(var/turf/T in turfs_to_cleave)
-		AoeTurfEffect(T, /obj/effect/temp_visual/ice_spike)
+		AoeTurfEffect(T, 4)
 
 //Shoots projectiles from teleport spots that the snow queen isnt at.
 /mob/living/simple_animal/hostile/abnormality/snow_queen/proc/ProjectileHell(mob/living/L)
@@ -637,13 +661,13 @@
 		playsound(shootems, 'sound/abnormalities/despairknight/attack.ogg', 50, 0, 4)
 
 //Determines if the effect on a AOE area is telegraphed or actually harmful.
-/mob/living/simple_animal/hostile/abnormality/snow_queen/proc/AoeTurfEffect(turf/T, effect_type, telegraph = FALSE)
-	if(!effect_type)
+/mob/living/simple_animal/hostile/abnormality/snow_queen/proc/AoeTurfEffect(turf/T, duration, telegraph = FALSE)
+	if(!T)
 		return
-	new effect_type(T)
+	RVP.NewSnowQueenEffect(T, duration, telegraph)
 	if(telegraph)
 		return
-	return HurtInTurf(T, list(), 35, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
+	return HurtInTurf(T, list(), 7, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
 
 //Code taken from big_wolf.dm. Essentially is a 3by3 dash at the target.
 /mob/living/simple_animal/hostile/abnormality/snow_queen/proc/BladeDash(dash_target)
@@ -674,25 +698,29 @@
 				if(isclosedturf(T))
 					continue
 				new /obj/effect/temp_visual/slice(T)
-				hit_mob = HurtInTurf(T, hit_mob, 20, RED_DAMAGE, null, TRUE, FALSE, TRUE, hurt_structure = FALSE)
+				hit_mob = HurtInTurf(T, hit_mob, 4, RED_DAMAGE, null, TRUE, FALSE, TRUE, hurt_structure = FALSE)
 	can_act = TRUE
 	icon_state = "snowqueen"
 	update_icon()
 
-//Used in Steel noons for if they are allowed to fly through something.
-/mob/living/simple_animal/hostile/abnormality/snow_queen/proc/ClearSky(turf/T)
-	if(!T || isclosedturf(T) || T == loc)
-		return FALSE
-	if(locate(/obj/structure/window) in T.contents)
-		return FALSE
-	if(locate(/obj/structure/table) in T.contents)
-		return FALSE
-	if(locate(/obj/structure/railing) in T.contents)
-		return FALSE
-	for(var/obj/machinery/door/D in T.contents)
-		if(D.density)
-			return FALSE
-	return TRUE
+		/*-------------------\
+		|REUSABLE VISUAL PROC|
+		\-------------------*/
+// It feels like this should be more modular but i dont want to overstep
+/datum/reusable_visual_pool/proc/NewSnowQueenEffect(turf/location, duration = 10, telegraph = FALSE)
+	var/obj/effect/reusable_visual/RV = TakePoolElement()
+	if(telegraph)
+		RV.name = "cracked floor"
+		RV.icon = 'ModularTegustation/Teguicons/tegu_effects.dmi'
+		RV.icon_state = "cracks_dark"
+	else
+		RV.name = "ice spike"
+		RV.icon = 'ModularTegustation/Teguicons/32x48.dmi'
+		RV.icon_state = pick("ice_spike1", "ice_spike2", "ice_spike3")
+	RV.layer = ABOVE_MOB_LAYER
+	RV.loc = location
+	DelayedReturn(RV, duration)
+	return RV
 
 		/*-----------\
 		|MAP ELEMENTS|
@@ -739,7 +767,7 @@
 	if(healing_cooldown <= world.time)
 		var/turf/where_we_are = get_turf(src)
 		healing_cooldown = world.time + healing_cooldown_time
-		new /obj/effect/area_heal(where_we_are)
+		new /obj/effect/temp_visual/area_heal(where_we_are)
 		for(var/mob/living/carbon/human/H in range(1, where_we_are))
 			if(H.stat != DEAD)
 				to_chat(H, span_nicegreen("The warmth of spring melts away the winter frost and restores you."))
@@ -765,6 +793,8 @@
 			ReleaseSafe()
 			return
 		to_chat(user, span_notice("The ice slowly melts."))
+		playsound(get_turf(src), 'sound/effects/glass_step.ogg', 50, TRUE)
+		return
 	return ..()
 
 /obj/structure/snowqueened_employee/Destroy()
@@ -782,20 +812,20 @@
 	if(!H)
 		return
 	H.forceMove(src)
-	ADD_TRAIT(H, TRAIT_NOBREATH, ICE_ARENA_VICTEM_SPAWN)
-	ADD_TRAIT(H, TRAIT_INCAPACITATED, ICE_ARENA_VICTEM_SPAWN)
-	ADD_TRAIT(H, TRAIT_IMMOBILIZED, ICE_ARENA_VICTEM_SPAWN)
-	ADD_TRAIT(H, TRAIT_HANDS_BLOCKED, ICE_ARENA_VICTEM_SPAWN)
+	ADD_TRAIT(H, TRAIT_NOBREATH, src)
+	ADD_TRAIT(H, TRAIT_INCAPACITATED, src)
+	ADD_TRAIT(H, TRAIT_IMMOBILIZED, src)
+	ADD_TRAIT(H, TRAIT_HANDS_BLOCKED, src)
 
 /obj/structure/snowqueened_employee/proc/ReleaseSafe()
 	release_safe = TRUE
-	QDEL_IN(src, 5)
+	Destroy()
 
 /obj/structure/snowqueened_employee/proc/ReleaseEmployee(mob/living/carbon/human/prisoner)
-	REMOVE_TRAIT(prisoner, TRAIT_NOBREATH, ICE_ARENA_VICTEM_SPAWN)
-	REMOVE_TRAIT(prisoner, TRAIT_INCAPACITATED, ICE_ARENA_VICTEM_SPAWN)
-	REMOVE_TRAIT(prisoner, TRAIT_IMMOBILIZED, ICE_ARENA_VICTEM_SPAWN)
-	REMOVE_TRAIT(prisoner, TRAIT_HANDS_BLOCKED, ICE_ARENA_VICTEM_SPAWN)
+	REMOVE_TRAIT(prisoner, TRAIT_NOBREATH, src)
+	REMOVE_TRAIT(prisoner, TRAIT_INCAPACITATED, src)
+	REMOVE_TRAIT(prisoner, TRAIT_IMMOBILIZED, src)
+	REMOVE_TRAIT(prisoner, TRAIT_HANDS_BLOCKED, src)
 
 /obj/structure/chair/snowqueen
 	name = "Snow Queen's Throne"
@@ -838,9 +868,10 @@
 	if(dueling_sword)
 		user.put_in_hands(dueling_sword)
 		RegisterSignal(dueling_sword, COMSIG_PARENT_QDELETING, PROC_REF(Refresh))
-		to_chat(user, span_notice("You pull out [dueling_sword]!."))
+		to_chat(user, span_notice("You pull out [dueling_sword]!"))
 		src.add_fingerprint(user)
 		empty = TRUE
+		playsound(get_turf(src), 'sound/items/unsheath.ogg', 50, TRUE)
 		update_icon()
 		return
 
@@ -864,16 +895,17 @@
 /obj/item/ego_weapon/shield/ice_sword
 	name = "old sword"
 	desc = "This blade is almost encased in frost yet it eminates a soothing warmth."
+	special = "Use in hand to deflect attacks and prevent damage."
 	icon = 'ModularTegustation/Teguicons/lc13_weapons.dmi'
 	lefthand_file = 'ModularTegustation/Teguicons/lc13_left.dmi'
 	righthand_file = 'ModularTegustation/Teguicons/lc13_right.dmi'
 	icon_state = "philip"
-	force = 30
+	force = 14
 	damtype = RED_DAMAGE
 	attack_verb_continuous = list("slashes", "stabs")
 	attack_verb_simple = list("slash", "stab")
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	reductions = list(40, 20, 20, 0) // 80
+	reductions = list(80, 0, 0, 0) // 80
 	projectile_block_duration = 0.5 SECONDS
 	block_duration = 1 SECONDS
 	block_cooldown = 3 SECONDS
@@ -883,6 +915,7 @@
 	hit_message = "parries the attack!"
 	block_cooldown_message = "You rearm your blade."
 	//For deleting it whenever seperated from user.
+	slot_flags = null
 	item_flags = DROPDEL
 
 /obj/item/ego_weapon/shield/ice_sword/Initialize()

@@ -10,8 +10,10 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	icon_state = "singingmachine_closed_clean"
 	icon_living = "singingmachine_closed_clean"
 	portrait = "singing_machine"
-	maxHealth = 200
-	health = 200
+	maxHealth = 600
+	health = 600
+	damage_coeff = list(RED_DAMAGE = 0.7, WHITE_DAMAGE = 0.7, BLACK_DAMAGE = 1.5, PALE_DAMAGE = 1)
+	speak_emote = list("sings")
 	threat_level = HE_LEVEL
 	start_qliphoth = 2
 	work_chances = list(
@@ -21,8 +23,12 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 		ABNORMALITY_WORK_REPRESSION = 40,
 	)
 	// Adjusted the work chances a little to really funnel people through Instinct work. You can do other stuff... sort of.
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
+	max_boxes = 18
+
 	ego_list = list(
 		/datum/ego_datum/weapon/harmony,
 		/datum/ego_datum/weapon/rhythm,
@@ -35,28 +41,29 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	base_pixel_x = -8
 	buckled_mobs = list()
 	buckle_lying = TRUE
-	max_boxes = 16
 
 	observation_prompt = "You know that people die every time this machine sings. <br>\
 		Or perhaps this machine sings when people die. <br>Though it has spilled blood of countless people, the song put you in a rapturous mood."
-	observation_choices = list("Listen to the music", "Turn off the machine")
-	correct_choices = list("Turn off the machine")
-	observation_success_message = "You turned the machine off. Silence fills the air."
-	observation_fail_message = "Aah. The music gives you sense of warm coziness and relaxation."
+	observation_choices = list(
+		"Turn off the machine" = list(TRUE, "You turned the machine off. Silence fills the air."),
+		"Listen to the music" = list(FALSE, "Aah. The music gives you sense of warm coziness and relaxation."),
+	)
 
 	var/cleanliness = "clean"
 	var/statChecked = 0
 	var/bonusRed = 0
-	var/grindRed = 4
-	var/minceRed = 8
+	var/grindRed = 2
+	var/minceRed = 4
 	var/playTiming = 5 SECONDS
 	var/playLength = 60 SECONDS
 	var/playStatus = 0
 	var/playRange = 20
-	var/noiseFactor = 2
+	var/noiseFactor = 1
 	var/datum/looping_sound/singing_grinding/grindNoise
 	var/datum/looping_sound/singing_music/musicNoise
 	var/list/musicalAddicts = list()
+
+	var/obj/particle_emitter/singing_note/particle_note
 
 /mob/living/simple_animal/hostile/abnormality/singing_machine/Life()
 	if(playStatus > 0) // If playstatus isn't 0, deal some damage in range.
@@ -69,6 +76,18 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 				to_chat(H, span_warning("You can hear it again... it needs more..."))
 			else
 				to_chat(H, span_warning("That terrible grinding noise..."))
+	return ..()
+
+/mob/living/simple_animal/hostile/abnormality/singing_machine/Move()
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/singing_machine/CanAttack(atom/the_target)
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/singing_machine/Destroy()
+	if(!particle_note)
+		return ..()
+	particle_note.fadeout()
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/singing_machine/AttemptWork(mob/living/carbon/human/user, work_type)
@@ -148,6 +167,10 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	playStatus = 1
 	return
 
+/mob/living/simple_animal/hostile/abnormality/singing_machine/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)
+		ZeroQliphoth()
+
 /mob/living/simple_animal/hostile/abnormality/singing_machine/proc/removeAddict(mob/living/carbon/human/addict)
 	if(addict)
 		musicalAddicts -= addict // Your five minutes are over, you're free.
@@ -158,6 +181,9 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	if(musicNoise)
 		QDEL_NULL(musicNoise)
 	playStatus = 0 // This exists solely because I needed to call it via a callback.
+	if(!particle_note)
+		return
+	particle_note.fadeout()
 
 /mob/living/simple_animal/hostile/abnormality/singing_machine/proc/eatBody(mob/living/carbon/human/user)
 	user.gib()
@@ -172,6 +198,10 @@ Finally, an abnormality that DOESN'T have to do any fancy movement shit. It's a 
 	datum_reference.qliphoth_change(2)
 	grindNoise = new(list(src), TRUE)
 	musicNoise = new(list(src), TRUE)
+	if(!particle_note)
+		particle_note = new(get_turf(src))
+		particle_note.pixel_x = 18
+		particle_note.pixel_y = 22
 	addtimer(CALLBACK(src, PROC_REF(stopPlaying)), playLength) // This is the callback from earlier.
 
 /mob/living/simple_animal/hostile/abnormality/singing_machine/proc/driveInsane(list/addicts)

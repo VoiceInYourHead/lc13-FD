@@ -2,7 +2,7 @@
 	name = "laser"
 	icon_state = "laser"
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
-	damage = 20
+	damage = 10
 	damage_type = BLACK_DAMAGE
 	hitsound = 'sound/weapons/sear.ogg'
 	hitsound_wall = 'sound/weapons/effects/searwall.ogg'
@@ -23,7 +23,7 @@
 	tracer_type = /obj/effect/projectile/tracer/laser
 	muzzle_type = /obj/effect/projectile/muzzle/laser
 	impact_type = /obj/effect/projectile/impact/laser
-	damage = 12
+	damage = 6
 	wound_bonus = -100
 	bare_wound_bonus = -100
 
@@ -60,7 +60,7 @@
 /obj/projectile/beam/laser/hellfire
 	name = "hellfire laser"
 	wound_bonus = 0
-	damage = 25
+	damage = 12
 	speed = 0.6 // higher power = faster, that's how light works right
 
 /obj/projectile/beam/laser/hellfire/Initialize()
@@ -70,7 +70,7 @@
 /obj/projectile/beam/laser/heavylaser
 	name = "heavy laser"
 	icon_state = "heavylaser"
-	damage = 100
+	damage = 50
 	tracer_type = /obj/effect/projectile/tracer/heavy_laser
 	muzzle_type = /obj/effect/projectile/muzzle/heavy_laser
 	impact_type = /obj/effect/projectile/impact/heavy_laser
@@ -92,14 +92,14 @@
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/purple_laser
 
 /obj/projectile/beam/laser/heavylaser/pale
-	damage = 35
+	damage = 17
 	damage_type = PALE_DAMAGE
 	light_color = COLOR_PALE_BLUE_GRAY
 	icon_state = "blueheavylaser"
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 
 /obj/projectile/beam/weak
-	damage = 10
+	damage = 5
 
 /obj/projectile/beam/weak/penetrator
 	armour_penetration = 50
@@ -112,12 +112,12 @@
 /obj/projectile/beam/scatter
 	name = "laser pellet"
 	icon_state = "scatterlaser"
-	damage = 5
+	damage = 2
 
 /obj/projectile/beam/xray
 	name = "\improper X-ray beam"
 	icon_state = "xray"
-	damage = 15
+	damage = 7
 	irradiate = 300
 	range = 15
 	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE | PASSCLOSEDTURF | PASSMACHINE | PASSSTRUCTURE
@@ -131,7 +131,7 @@
 /obj/projectile/beam/disabler
 	name = "disabler beam"
 	icon_state = "omnilaser"
-	damage = 30
+	damage = 15
 	damage_type = WHITE_DAMAGE
 	hitsound = 'sound/weapons/tap.ogg'
 	eyeblur = 0
@@ -144,7 +144,7 @@
 /obj/projectile/beam/pulse
 	name = "pulse"
 	icon_state = "u_laser"
-	damage = 50
+	damage = 25
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser
 	light_color = LIGHT_COLOR_BLUE
 	tracer_type = /obj/effect/projectile/tracer/pulse
@@ -161,7 +161,7 @@
 			SSexplosions.medturf += target
 
 /obj/projectile/beam/pulse/shotgun
-	damage = 30
+	damage = 15
 
 /obj/projectile/beam/pulse/heavy
 	name = "heavy pulse laser"
@@ -177,7 +177,7 @@
 /obj/projectile/beam/emitter
 	name = "emitter beam"
 	icon_state = "emitter"
-	damage = 30
+	damage = 15
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/green_laser
 	light_color = LIGHT_COLOR_GREEN
 	wound_bonus = -40
@@ -245,7 +245,7 @@
 /obj/projectile/beam/instakill
 	name = "instagib laser"
 	icon_state = "purple_laser"
-	damage = 200
+	damage = 100
 	damage_type = PALE_DAMAGE
 	impact_effect_type = /obj/effect/temp_visual/impact_effect/purple_laser
 	light_color = LIGHT_COLOR_PURPLE
@@ -287,7 +287,7 @@
 /obj/projectile/beam/fairy
 	name = "fairy"
 	icon_state = "fairy"
-	damage = 50
+	damage = 25
 	damage_type = BLACK_DAMAGE
 	hit_stunned_targets = TRUE
 	white_healing = FALSE
@@ -307,31 +307,39 @@
 	impact_light_range = 3
 	impact_light_color_override = LIGHT_COLOR_YELLOW
 
+/obj/projectile/beam/fairy/red
+	damage_type = RED_DAMAGE
+	light_color = COLOR_RED
+	beam_type = list("fairy_red", 'icons/effects/beam.dmi')
+	hitscan_light_color_override = COLOR_RED
+	muzzle_flash_color_override = COLOR_RED
+	impact_light_color_override = COLOR_RED
+
+/obj/projectile/beam/fairy/white
+	light_color = COLOR_WHITE
+	beam_type = list("fairy_white", 'icons/effects/beam.dmi')
+	damage_type = WHITE_DAMAGE
+	hitscan_light_color_override = COLOR_WHITE
+	muzzle_flash_color_override = COLOR_WHITE
+	impact_light_color_override = COLOR_WHITE
+
+/obj/projectile/beam/fairy/black
+	light_color = COLOR_PURPLE
+	beam_type = list("fairy_black", 'icons/effects/beam.dmi')
+	hitscan_light_color_override = COLOR_PURPLE
+	muzzle_flash_color_override = COLOR_PURPLE
+	impact_light_color_override = COLOR_PURPLE
+
+/obj/projectile/beam/fairy/pale
+	light_color = LIGHT_COLOR_CYAN
+	beam_type = list("fairy_pale", 'icons/effects/beam.dmi')
+	damage = 15
+	damage_type = PALE_DAMAGE
+	hitscan_light_color_override = LIGHT_COLOR_CYAN
+	muzzle_flash_color_override = LIGHT_COLOR_CYAN
+	impact_light_color_override = LIGHT_COLOR_CYAN
+
 /obj/projectile/beam/nobody
-	name = "whip"
-	icon_state = "nobody"
-	damage = 30
-	hitsound = 'sound/weapons/slash.ogg'
-	hitsound_wall = 'sound/weapons/slash.ogg'
-	damage_type = BLACK_DAMAGE
-	hit_stunned_targets = TRUE
-	white_healing = FALSE
-	projectile_piercing = PASSMOB
-	projectile_phasing = (ALL & (~PASSMOB) & (~PASSCLOSEDTURF))
-	hitscan = TRUE
-	tracer_type = /obj/effect/projectile/tracer/laser/nobody
-	muzzle_type = /obj/effect/projectile/tracer/laser/nobody
-	impact_type = /obj/effect/projectile/impact/laser/nobody
-
-/obj/effect/projectile/tracer/laser/nobody
-	name = "whip tracer"
-	icon_state = "nobody"
-
-/obj/effect/projectile/impact/laser/nobody
-	name = "whip impact"
-	icon_state = "nobody"
-
-/obj/projectile/beam/oberon
 	name = "whip"
 	icon_state = "nobody"
 	damage = 15
@@ -346,17 +354,29 @@
 	tracer_type = /obj/effect/projectile/tracer/laser/nobody
 	muzzle_type = /obj/effect/projectile/tracer/laser/nobody
 	impact_type = /obj/effect/projectile/impact/laser/nobody
+	var/mob/living/simple_animal/hostile/abnormality/titania/fairy//used for oberon
 
-/obj/projectile/beam/oberon/on_hit(atom/target, blocked = FALSE)
+/obj/effect/projectile/tracer/laser/nobody
+	name = "whip tracer"
+	icon_state = "nobody"
+
+/obj/effect/projectile/impact/laser/nobody
+	name = "whip impact"
+	icon_state = "nobody"
+
+/obj/projectile/beam/nobody/on_hit(atom/target, blocked = FALSE)
 	. = ..()
-	if(iscarbon(target))
-		var/mob/living/carbon/M = target
-		M.apply_damage(15, RED_DAMAGE, null, M.run_armor_check(null, RED_DAMAGE), spread_damage = TRUE)
+	if(fairy)
+		if(ishuman(target))
+			var/mob/living/carbon/human/M = target
+			M.apply_damage(8, WHITE_DAMAGE, null, M.run_armor_check(null, WHITE_DAMAGE), spread_damage = TRUE)
+			if(M.sanity_lost)
+				fairy.Convert(M)
 
 /obj/projectile/beam/nobody_friendly
 	name = "whip"
 	icon_state = "nobody"
-	damage = 30
+	damage = 15
 	hitsound = 'sound/weapons/slash.ogg'
 	hitsound_wall = 'sound/weapons/slash.ogg'
 	damage_type = BLACK_DAMAGE
@@ -366,3 +386,37 @@
 	tracer_type = /obj/effect/projectile/tracer/laser/nobody
 	muzzle_type = /obj/effect/projectile/tracer/laser/nobody
 	impact_type = /obj/effect/projectile/impact/laser/nobody
+
+
+/obj/projectile/beam/laser/iff
+	damage_type = RED_DAMAGE
+	light_color = COLOR_RED
+	nodamage = TRUE	//Damage is calculated later
+	projectile_piercing = PASSMOB
+
+/obj/projectile/beam/laser/iff/on_hit(atom/target, blocked = FALSE)
+	if(isliving(target))
+		var/mob/living/L = target
+		if("neutral" in L.faction)
+			return
+	nodamage = FALSE
+	. = ..()
+	qdel(src)
+
+/obj/projectile/beam/laser/iff/white
+	damage_type = WHITE_DAMAGE
+	light_color = COLOR_WHITE
+	icon_state = "whitelaser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/white_laser
+
+/obj/projectile/beam/laser/iff/black
+	damage_type = BLACK_DAMAGE
+	light_color = COLOR_PURPLE
+	icon_state = "purplelaser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/purple_laser
+
+/obj/projectile/beam/laser/iff/pale
+	damage_type = PALE_DAMAGE
+	light_color = COLOR_PALE_BLUE_GRAY
+	icon_state = "omnilaser"
+	impact_effect_type = /obj/effect/temp_visual/impact_effect/blue_laser

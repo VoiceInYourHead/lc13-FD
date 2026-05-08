@@ -18,6 +18,7 @@
 	minimal_access = list()
 
 	allow_bureaucratic_error = FALSE
+	departments = DEPARTMENT_SECURITY
 
 	job_important = "You are a L-Corp Agent. Your job is to work on and suppress Abnormalities. Use :h to talk on your departmental radio."
 
@@ -25,19 +26,19 @@
 
 	/// Values set in after_spawn() depending on var/normal_attribute_level and abnormality number per total abnormality cells
 	roundstart_attributes = list(FORTITUDE_ATTRIBUTE, PRUDENCE_ATTRIBUTE, TEMPERANCE_ATTRIBUTE, JUSTICE_ATTRIBUTE)
-	var/normal_attribute_level = 20 // Scales with round time & facility upgrades
+	normal_attribute_level = 20 // Scales with round time & facility upgrades
+
+	var/department
 
 /datum/job/agent/after_spawn(mob/living/carbon/human/outfit_owner, mob/M, latejoin = FALSE)
 	// Assign department security
-	var/department
+	job_attribute_limit = 130		//Have to set because it's a datum and may be changed later
 	if(M && M.client && M.client.prefs)
-		department = M.client.prefs.prefered_agent_department
+		if(!department)
+			department = M.client.prefs.prefered_agent_department
 	var/ears = null
 	var/accessory = null
 	switch(department)
-		if("Control")
-			ears = /obj/item/radio/headset/headset_control
-			accessory = /obj/item/clothing/accessory/armband/lobotomy
 		if("Command")
 			ears = /obj/item/radio/headset/headset_command
 			accessory = /obj/item/clothing/accessory/armband/lobotomy/command
@@ -59,10 +60,16 @@
 		if("Record")
 			ears = /obj/item/radio/headset/headset_records
 			accessory = /obj/item/clothing/accessory/armband/lobotomy/records
-
-		else //Pick a department or get training.
+		if("Training")
 			ears = /obj/item/radio/headset/headset_training
 			accessory = /obj/item/clothing/accessory/armband/lobotomy/training
+		if("Architecture")
+			ears = /obj/item/radio/headset/headset_command//Do not distribute the architecture one
+			accessory = /obj/item/clothing/accessory/armband/lobotomy/architecture
+
+		else //Pick a department or get control.
+			ears = /obj/item/radio/headset/headset_control
+			accessory = /obj/item/clothing/accessory/armband/lobotomy
 
 	if(accessory)
 		var/obj/item/clothing/under/U = outfit_owner.w_uniform
@@ -77,35 +84,6 @@
 	else
 		to_chat(M, "<b>You have not been assigned to any department.</b>")
 
-	var/set_attribute = normal_attribute_level
-	var/facility_full_percentage = 0
-	if(SSabnormality_queue.spawned_abnos) // dont divide by 0
-		facility_full_percentage = 100 * (SSabnormality_queue.spawned_abnos / SSabnormality_queue.rooms_start)
-	// how full the facility is, from 0 abnormalities out of 24 cells being 0% and 24/24 cells being 100%
-	switch(facility_full_percentage)
-		if(15 to 29) // Shouldn't be anything more than TETHs (4 Abnormalities)
-			set_attribute *= 1.5
-
-		if(29 to 44) // HEs (8 Abnormalities)
-			set_attribute *= 2
-
-		if(44 to 59) // A bit before WAWs (11 Abnormalities)
-			set_attribute *= 2.5
-
-		if(59 to 69) // WAWs around here (15 Abnormalities)
-			set_attribute *= 3
-
-		if(69 to 79) // ALEPHs starting to spawn (17 Abnormalities)
-			set_attribute *= 3.5
-
-		if(79 to 100) // ALEPHs around here (20 Abnormalities)
-			set_attribute *= 4
-
-	set_attribute += GetFacilityUpgradeValue(UPGRADE_AGENT_STATS)
-
-	for(var/attribute in roundstart_attributes)
-		roundstart_attributes[attribute] = round(set_attribute)
-
 	//Check the lcorp global upgrades
 	for(var/upgradecheck in GLOB.lcorp_upgrades)
 		if(upgradecheck == "Agent Workchance")
@@ -113,62 +91,57 @@
 		if(upgradecheck == "Health Hud")
 			var/datum/atom_hud/medsensor = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
 			medsensor.add_hud_to(outfit_owner)
-
-	//Enable suppression agents.
-	for(var/datum/job/processing in SSjob.occupations)
-		if(istype(processing, /datum/job/suppression/captain))
-			processing.total_positions = 1
-
 	return ..()
 
+/datum/job/agent/RespawnStats()
+	var/set_attribute = normal_attribute_level
+	var/facility_full_percentage = 0
+	if(SSabnormality_queue.spawned_abnos) // dont divide by 0
+		facility_full_percentage = 100 * (SSabnormality_queue.spawned_abnos / SSabnormality_queue.rooms_start)
+	// how full the facility is, from 0 abnormalities out of 24 cells being 0% and 24/24 cells being 100%
+	if(GLOB.lobotomy_damages)//Enkephalin Rush baby!
+		facility_full_percentage = 100 * (GLOB.lobotomy_repairs / GLOB.lobotomy_damages)
+	else
+		switch(facility_full_percentage)
+			if(15 to 29) // Shouldn't be anything more than TETHs (4 Abnormalities)
+				set_attribute *= 1.5
+
+			if(29 to 44) // HEs (8 Abnormalities)
+				set_attribute *= 2
+
+			if(44 to 59) // A bit before WAWs (11 Abnormalities)
+				set_attribute *= 2.5
+
+			if(59 to 69) // WAWs around here (15 Abnormalities)
+				set_attribute *= 3
+
+			if(69 to 79) // ALEPHs starting to spawn (17 Abnormalities)
+				set_attribute *= 3.5
+
+			if(79 to 100) // ALEPHs around here (20 Abnormalities)
+				set_attribute *= 4
+
+	set_attribute += GetFacilityUpgradeValue(UPGRADE_AGENT_STATS)
+	return set_attribute
 
 /datum/outfit/job/agent
 	name = "Agent"
 	jobtype = /datum/job/agent
 
-	head = /obj/item/clothing/head/beret/tegu/lobotomy/agent
 	belt = /obj/item/pda/security
 	ears = /obj/item/radio/headset/alt
-	glasses = /obj/item/clothing/glasses/sunglasses
 	uniform = /obj/item/clothing/under/suit/lobotomy
 	shoes = /obj/item/clothing/shoes/laceup
 	gloves = /obj/item/clothing/gloves/color/black
 	implants = list(/obj/item/organ/cyberimp/eyes/hud/security)
 
+	box = /obj/item/storage/box/survival/lobotomy
 	backpack_contents = list(
 		/obj/item/melee/classic_baton,
 		/obj/item/info_printer,
-	)
-
-// Captain
-/datum/job/agent/captain
-	title = "Agent Captain"
-	selection_color = "#BB9999"
-	total_positions = 1
-	spawn_positions = 1
-	outfit = /datum/outfit/job/agent/captain
-	display_order = JOB_DISPLAY_ORDER_CAPTAIN
-
-	access = list(ACCESS_COMMAND) // LC13:To-Do
-	exp_requirements = 6000
-	exp_type = EXP_TYPE_CREW
-	exp_type_department = EXP_TYPE_SECURITY
-	mapexclude = list("wonderlabs", "mini")
-	job_important = "You are an Agent Captain. As an experienced Agent, you are expected to disseminate important information and use your experience lead other Agents."
-
-	job_abbreviation = "CPT"
-
-/datum/outfit/job/agent/captain
-	name = "Agent Captain"
-	jobtype = /datum/job/agent/captain
-	head = /obj/item/clothing/head/hos/beret
-	ears = /obj/item/radio/headset/heads/agent_captain/alt
-	l_pocket = /obj/item/commandprojector
-
-	backpack_contents = list(
-		/obj/item/melee/classic_baton,
-		/obj/item/info_printer,
-		/obj/item/announcementmaker/lcorp,
+		/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+		/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+		/obj/item/restraints/legcuffs/bola,
 	)
 
 // Trainee, for new players
@@ -195,6 +168,7 @@
 	name = "Agent Intern"
 	jobtype = /datum/job/agent/intern
 	head = null
+	l_hand = null
 
 	backpack_contents = list(
 		/obj/item/melee/classic_baton,
@@ -202,5 +176,7 @@
 		/obj/item/paper/fluff/tutorial/risk,
 		/obj/item/paper/fluff/tutorial/damage,
 		/obj/item/paper/fluff/tutorial/tips,
+		/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+		/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
 		/obj/item/info_printer,
 	)

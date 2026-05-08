@@ -36,8 +36,10 @@ GLOBAL_LIST_EMPTY(army)
 		ABNORMALITY_WORK_REPRESSION = 30,
 		"Protection" = 0, //shouldn't attempt to generate any PE
 	)
-	work_damage_amount = 17
+	work_damage_upper = 9
+	work_damage_lower = 7
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/wrath
 
 	//E.G.O list
 	ego_list = list(
@@ -55,11 +57,11 @@ GLOBAL_LIST_EMPTY(army)
 
 	observation_prompt = "\"We're here to help sir, to keep the hearts of humans a clean pink, we're willing to dirty our own. We won't overlook a single speck of black.\" <br>\
 		The soldier in pink makes a salute. <br>You..."
-	observation_choices = list("Don't salute", "Salute him back")
-	correct_choices = list("Don't salute")
-	observation_success_message = "The soldier frowns. <br>\"As expected. <br>You're only human, a clean heart is only ever temporary for you. <br>Yours is rife with sin. <br>Ours are...\" <br>\
-		The soldier falls silent, as if in deep thought."
-	observation_fail_message = "The soldier in pink smiles. <br>\"Glad to have you on board Sir, with our help, there will be no more black hearts.\""
+	observation_choices = list(
+		"Don't salute" = list(TRUE, "The soldier frowns. <br>\"As expected. <br>You're only human, a clean heart is only ever temporary for you. <br>\
+			Yours is rife with sin. <br>Ours are...\" <br>The soldier falls silent, as if in deep thought."),
+		"Salute him back" = list(FALSE, "The soldier in pink smiles. <br>\"Glad to have you on board Sir, with our help, there will be no more black hearts.\""),
+	)
 
 	//Unique variables
 	var/death_counter = 0
@@ -67,7 +69,7 @@ GLOBAL_LIST_EMPTY(army)
 	var/protected_targets = list()
 	var/summoned_army = list()//hostile unit list
 	var/boom_radius = 20
-	var/boom_damage = 70
+	var/boom_damage = 45
 	var/adds_max = 1
 
 /***Simple mob procs***/
@@ -97,9 +99,17 @@ GLOBAL_LIST_EMPTY(army)
 /mob/living/simple_animal/hostile/abnormality/army/Move()
 	return FALSE
 
+/mob/living/simple_animal/hostile/abnormality/army/IsContained()
+	if(LAZYLEN(summoned_army))//We really, REALLY need to check this or else it'll think it's "contained"
+		return FALSE
+	return ..()
+
 /***Work procs***/
 //protect work grants you a buff in exchange for reducing its counter
 /mob/living/simple_animal/hostile/abnormality/army/AttemptWork(mob/living/carbon/human/user, work_type)
+	if(LAZYLEN(protected_targets))
+		to_chat(user, span_warning("The Abnormality has breached containment!"))
+		return FALSE
 	..()
 	if(work_type == "Protection")
 		if(datum_reference?.qliphoth_meter > 1)
@@ -150,21 +160,27 @@ GLOBAL_LIST_EMPTY(army)
 //*--Combat Mechanics--*
 /mob/living/simple_animal/hostile/abnormality/army/BreachEffect(mob/living/carbon/human/user, breach_type)
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_ABNORMALITY_BREACH, src)
-	FearEffect()
-	Blackify()
-	SpawnAdds()//set its alpha to 0 and make it non-dense
+	if(breach_type == BREACH_MINING)
+		for(var/i in 1 to 3)
+			var/mob/living/simple_animal/hostile/aminion/army_enemy/E = new(get_turf(src))
+			RegisterSignal(E, COMSIG_PARENT_QDELETING, PROC_REF(ArmyDeath))
+	else
+		FearEffect()
+		Blackify()
+		SpawnAdds()//set its alpha to 0 and make it non-dense
 	for(var/mob/living/L in protected_targets)
 		L.remove_status_effect(STATUS_EFFECT_PROTECTION)
 	density = FALSE
 	alpha = 0
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	remove_from_mob_list()
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/army/proc/SpawnAdds()
 	var/list/spawns = shuffle(GLOB.xeno_spawn)
 	for(var/i = 1 to adds_max)//# of iterations is equal to adds_max
 		for(var/turf/T in spawns)//this picks the first few shuffled xeno spawns. Maybe change it to a different type of loop
-			var/mob/living/simple_animal/hostile/army_enemy/E = new(get_turf(T))
+			var/mob/living/simple_animal/hostile/aminion/army_enemy/E = new(get_turf(T))
 			summoned_army += E//the actual army list
 			RegisterSignal(E, COMSIG_PARENT_QDELETING, PROC_REF(ArmyDeath))
 			spawns -= T
@@ -173,7 +189,7 @@ GLOBAL_LIST_EMPTY(army)
 /mob/living/simple_animal/hostile/abnormality/army/proc/ArmyDeath(mob/E)//return to containment when all armies are dead
 	UnregisterSignal(E, COMSIG_PARENT_QDELETING)
 	summoned_army -= E
-	if(LAZYLEN(summoned_army) <=1)
+	if(!LAZYLEN(summoned_army))
 		qdel(src)//suppress the abnormality
 		return
 
@@ -183,12 +199,12 @@ GLOBAL_LIST_EMPTY(army)
 		var/datum/status_effect/protection/P = A.has_status_effect(/datum/status_effect/protection)
 		P.boom = FALSE
 		A.remove_status_effect(STATUS_EFFECT_PROTECTION)
-		var/mob/living/simple_animal/hostile/army_enemy/B = new(get_turf(A))
+		var/mob/living/simple_animal/hostile/aminion/army_enemy/B = new(get_turf(A))
 		protected_targets -= A
 		summoned_army += B
 
 //hostile breach mob
-/mob/living/simple_animal/hostile/army_enemy
+/mob/living/simple_animal/hostile/aminion/army_enemy
 	name = "Army In Black"
 	desc = "Yes.. we, the Army in Black.. blend into the human heart.. and drive away good thoughts.."
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
@@ -202,8 +218,8 @@ GLOBAL_LIST_EMPTY(army)
 	attack_verb_simple = "attack"
 	attack_sound = 'sound/abnormalities/armyinblack/pink_heal.ogg'
 	/*Core stats*/
-	health = 900
-	maxHealth = 900
+	health = 450
+	maxHealth = 450
 	obj_damage = 50
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 0.6, BLACK_DAMAGE = 1.0, PALE_DAMAGE = 0.8)
 	ranged = TRUE
@@ -214,33 +230,33 @@ GLOBAL_LIST_EMPTY(army)
 	del_on_death = FALSE
 	density = FALSE
 	is_flying_animal = TRUE
-	var/list/fear_affected = list()
+	can_affect_emergency = FALSE
+	threat_level = ALEPH_LEVEL
 	var/shot_cooldown
 	var/shot_cooldown_time = 5 SECONDS
-	var/boom_damage = 70
+	var/boom_damage = 45
 	var/targetted_beacon
 	var/list/moving_path
 
 //movement and AI
-/mob/living/simple_animal/hostile/army_enemy/AttackingTarget()
+/mob/living/simple_animal/hostile/aminion/army_enemy/AttackingTarget()
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/proc/GoToBeacon()
+/mob/living/simple_animal/hostile/aminion/army_enemy/proc/GoToBeacon()
 	if(QDELETED(src))
 		return
 	patrol_to(get_turf(targetted_beacon))//this causes a runtime when the unit is deleted due to invoking asynchronous move_to! Please help!
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/Life()
+/mob/living/simple_animal/hostile/aminion/army_enemy/Life()
 	. = ..()
 	if(!.)
 		return
 	if(targetted_beacon)
 		GoToBeacon()
-	FearEffect()
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/Initialize()
+/mob/living/simple_animal/hostile/aminion/army_enemy/Initialize()
 	. = ..()
 	addtimer(CALLBACK(src, PROC_REF(Explode)), 120 SECONDS)
 	var/list/depts = shuffle(GLOB.department_centers)
@@ -268,12 +284,12 @@ GLOBAL_LIST_EMPTY(army)
 			INVOKE_ASYNC(src, PROC_REF(SetSpeed))
 			break
 
-/mob/living/simple_animal/hostile/army_enemy/death()
+/mob/living/simple_animal/hostile/aminion/army_enemy/death()
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
 	..()
 
-/mob/living/simple_animal/hostile/army_enemy/proc/SetSpeed()
+/mob/living/simple_animal/hostile/aminion/army_enemy/proc/SetSpeed()
 	if(!LAZYLEN(patrol_path))
 		sleep(5)
 		SetSpeed()//wait for a patrol path. What could possibly go wrong?
@@ -281,26 +297,13 @@ GLOBAL_LIST_EMPTY(army)
 	var/dist_travelled = LAZYLEN(patrol_path)
 	ChangeMoveToDelayBy(-clamp((dist_travelled / 4), 0, 15)) //armies that spawn closest to dept centers can actually be suppressed this way, while further ones remain a threat. Math needs tweaking
 
-/mob/living/simple_animal/hostile/army_enemy/proc/FearEffect()
-	for(var/mob/living/carbon/human/H in view(7, src))
-		if(H in fear_affected)
-			continue
-		if(HAS_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE))
-			continue
-		H.adjustSanityLoss(H.maxSanity*0.3)
-		fear_affected += H
-		if(H.sanity_lost)
-			continue
-		to_chat(H, span_warning("Oh dear."))
-	return
-
 //explosion definition
-/mob/living/simple_animal/hostile/army_enemy/proc/Explode()
+/mob/living/simple_animal/hostile/aminion/army_enemy/proc/Explode()
 	if(QDELETED(src))
 		return
 	playsound(get_turf(src), 'sound/abnormalities/armyinblack/black_explosion.ogg', 125, 0, 8)
 	visible_message(span_danger("[src] suddenly explodes!"))
-	for(var/mob/living/simple_animal/hostile/abnormality/P in range(20, src))
+	for(var/mob/living/simple_animal/hostile/abnormality/P in livinginrange(20, src))
 		if(!P.datum_reference)//Prevents a runtime if the abno lacks datums, such as those spawned by contract
 			continue
 		P.datum_reference.qliphoth_change(-1)
@@ -310,33 +313,33 @@ GLOBAL_LIST_EMPTY(army)
 	qdel(src)
 
 //aoe attacks
-/mob/living/simple_animal/hostile/army_enemy/ListTargets()//Move Move Move! This prevents it from aggroing anything
+/mob/living/simple_animal/hostile/aminion/army_enemy/ListTargets()//Move Move Move! This prevents it from aggroing anything
 	return FALSE
 
-/mob/living/simple_animal/hostile/army_enemy/attackby(obj/item/W, mob/user, params)
+/mob/living/simple_animal/hostile/aminion/army_enemy/attackby(obj/item/W, mob/user, params)
 	. = ..()
 	OpenFire(user)
 
-/mob/living/simple_animal/hostile/army_enemy/attack_hand(mob/living/carbon/human/M)
+/mob/living/simple_animal/hostile/aminion/army_enemy/attack_hand(mob/living/carbon/human/M)
 	. = ..()
 	OpenFire()
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/attack_animal(mob/living/simple_animal/M)
+/mob/living/simple_animal/hostile/aminion/army_enemy/attack_animal(mob/living/simple_animal/M)
 	. = ..()
 	OpenFire()
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/bullet_act()//it retaliates, but you can still out-range it
+/mob/living/simple_animal/hostile/aminion/army_enemy/bullet_act()//it retaliates, but you can still out-range it
 	. = ..()
 	OpenFire()
 	return
 
-/mob/living/simple_animal/hostile/army_enemy/OpenFire()
+/mob/living/simple_animal/hostile/aminion/army_enemy/OpenFire()
 	if(shot_cooldown <= world.time)
 		BlackAoe()
 
-/mob/living/simple_animal/hostile/army_enemy/proc/BlackAoe()
+/mob/living/simple_animal/hostile/aminion/army_enemy/proc/BlackAoe()
 	if(stat == DEAD)
 		return
 	for(var/turf/T in view(4, src))
@@ -344,7 +347,7 @@ GLOBAL_LIST_EMPTY(army)
 	for(var/mob/living/L in view(4, src))
 		if(faction_check_mob(L))
 			continue
-		L.deal_damage(50, BLACK_DAMAGE)
+		L.deal_damage(25, BLACK_DAMAGE)
 	playsound(get_turf(src), 'sound/abnormalities/armyinblack/black_attack.ogg', 100, 0, 8)
 	shot_cooldown = world.time + shot_cooldown_time
 
@@ -417,7 +420,7 @@ GLOBAL_LIST_EMPTY(army)
 
 /obj/effect/pink_beacon/Crossed(atom/movable/AM)//this atom eventually qdeletes itself, no need to worry about cleanup
 	. = ..()
-	var/mob/living/simple_animal/hostile/army_enemy/E = targetted_army
+	var/mob/living/simple_animal/hostile/aminion/army_enemy/E = targetted_army
 	if(AM == E)
 		E.Explode()
 		qdel(src)

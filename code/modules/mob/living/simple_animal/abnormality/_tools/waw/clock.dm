@@ -17,9 +17,16 @@
 
 	var/list/exceptions = list( //It only affects abnormalities and ordeals, so claw and arbiter are not even included.
 		/mob/living/simple_animal/hostile/abnormality/white_night,
+		/mob/living/simple_animal/hostile/aminion/apostle/scythe,
+		/mob/living/simple_animal/hostile/aminion/apostle/staff,
+		/mob/living/simple_animal/hostile/aminion/apostle/spear,
+		/mob/living/simple_animal/hostile/aminion/apostle/scythe/guardian,
 		/mob/living/simple_animal/hostile/abnormality/distortedform,
 		/mob/living/simple_animal/hostile/abnormality/nihil,
-		/mob/living/simple_animal/hostile/abnormality/sukuna,
+		/mob/living/simple_animal/hostile/aminion/apocalypse_bird,
+		/mob/living/simple_animal/hostile/aminion/apocalypse_egg/beak,
+		/mob/living/simple_animal/hostile/aminion/apocalypse_egg/eyes,
+		/mob/living/simple_animal/hostile/aminion/apocalypse_egg/arm,
 	)
 
 	ego_list = list(
@@ -66,7 +73,7 @@
 	Operate(get_user_level(user))
 	clock_cooldown = world.time + clock_cooldown_time
 	banned += user.ckey
-	user.dust()
+	user.dust(TRUE, TRUE)
 	light_count = 0
 	sleep(70)
 	update_icon()
@@ -96,6 +103,12 @@
 		A.deal_damage(damage_dealt, BRUTE)
 
 	for(var/mob/living/L in GLOB.ordeal_list)
+		new /obj/effect/temp_visual/sparks/quantum(L)
+		L.deal_damage(damage_dealt, BRUTE)
+
+	for(var/mob/living/L in GLOB.abnormality_minion_list)
+		if(L in exceptions)
+			continue
 		new /obj/effect/temp_visual/sparks/quantum(L)
 		L.deal_damage(damage_dealt, BRUTE)
 

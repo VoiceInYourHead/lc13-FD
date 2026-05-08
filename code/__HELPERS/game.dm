@@ -136,6 +136,9 @@
 
 	return dist
 
+/proc/get_dist_manhattan(atom/Loc1, atom/Loc2)
+	return abs(Loc1.x - Loc2.x) + abs(Loc1.y - Loc2.y)
+
 /proc/circlerangeturfs(center=usr,radius=3)
 
 	var/turf/centerturf = get_turf(center)
@@ -161,6 +164,57 @@
 		if(dx*dx + dy*dy <= rsq)
 			turfs += T
 	return turfs
+
+
+/**
+ * Gets a list of turfs that forms a slash pattern
+ *
+ * Arguments:
+ * * start - Initial start
+ * * target_turf - Used to get an angle
+ * * distance - Overall size of the slash
+ * * max_angle - Total angle the slash will cover
+ * * old_style - Uses a much wider version of it
+ * * distance_offset - euclidian distance offset
+ */
+/proc/Make_Slash(turf/start, turf/target_turf, distance, max_angle, old_style = FALSE, distance_offset = 0.4)
+	var/angle_to_target = Get_Angle(start, target_turf)
+	if(old_style)
+		distance += 1
+	else
+		start = get_step_towards(start, target_turf)
+	var/angle = angle_to_target + max_angle/2
+	if(angle > 360)
+		angle -= 360
+	else if(angle < 0)
+		angle += 360
+	var/angle2 = angle_to_target - max_angle/2
+	if(angle2 > 360)
+		angle2 -= 360
+	else if(angle2 < 0)
+		angle2 += 360
+	var/list/area = list(start)
+	var/list/circle = range(start, distance)
+	for(var/turf/T in circle)
+		if(get_dist_euclidian(start,T) > (distance-1) + distance_offset)
+			continue
+		var/new_angle = Get_Angle(start, T)
+		if(new_angle > 360)
+			new_angle -= 360
+		else if(new_angle < 0)
+			new_angle += 360
+		if(angle > angle2)
+			if(new_angle > angle)
+				continue
+			if(new_angle < angle2)
+				continue
+			area += T
+		else
+			if(new_angle < angle)
+				area += T
+			if(new_angle > angle2)
+				area += T
+	return uniqueList(area)
 
 
 //This is the new version of recursive_mob_check, used for say().
@@ -526,6 +580,13 @@
 	var/displayed_rank = rank
 	if(character.client && character.client.prefs && character.client.prefs.alt_titles_preferences[rank])
 		displayed_rank = character.client.prefs.alt_titles_preferences[rank]
+
+	//LC13 alt jobs
+	var/datum/job/J = SSjob.GetJob(character.job)
+	if(J.alts_only && !character.client.prefs.alt_titles_preferences[J.title])//assign the first alt job if no preferences are loaded
+		displayed_rank = "[J.alt_titles[1]]"
+	//LC13 end
+
 	var/obj/machinery/announcement_system/announcer = pick(GLOB.announcement_systems)
 	announcer.announce("ARRIVAL", character.real_name, displayed_rank, list()) //make the list empty to make it announce it in common
 //Tegu edit ends

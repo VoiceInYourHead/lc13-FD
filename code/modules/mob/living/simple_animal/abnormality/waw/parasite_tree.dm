@@ -25,8 +25,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 50, 50, 50, 55),
 		ABNORMALITY_WORK_REPRESSION = 20,
 	)
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 5
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
+	max_boxes = 24
 
 	ego_list = list(
 		/datum/ego_datum/weapon/hypocrisy,
@@ -41,11 +44,19 @@
 		At the heart of the minituare forest you see a lush green tree with heavy, ripened fruit and a peaceful-looking face upon its trunk. <br>\
 		\"Hello, have you come here to recieve my blessing, too?\" <br>\
 		The voice on the wind (there is no wind) spoke, carrying a sweet, flowery scent asked. \"I just want to help you all, could you bring your friends to me as well?\" "
-	observation_choices = list("Accept the blessing and do as it asks", "Accept the blessing and refuse", "Refuse the blessing") //waiting for multiple answer functionality
-	correct_choices = list("Accept the blessing and refuse")
-	observation_success_message = "\"You're a bad child, I don't need someone like you.\" <br>\
-		Blessings should be given earnestly, not treated as an obligation. <br>You leave the chamber, pleased with yourself."
-	observation_fail_message = "I can feel something sprouting from my body." //temporary
+	observation_choices = list(
+		"Accept the blessing and refuse" = list(TRUE, "\"You're a bad child, I don't need someone like you.\" <br>\
+			Blessings should be given earnestly, not treated as an obligation. <br>You leave the chamber, pleased with yourself."),
+		"Refuse the blessing" = list(FALSE, "\"If you say you've never had need of anyone's blessing, then that's a lie.\" The tree said, frowning deeply. <br>\
+			\"... if you don't need my blessing then you're a bad person. <br>\
+			There's nothing for you here, leave.\" <br>\
+			You leave the verdant containment unit behind, the tree waits for someone else to fall into its snare."),
+		"Accept the blessing and do as it asks" = list(FALSE, "You venture out and find some of your most trusting colleagues. <br>\
+			\"Come with me, I have something wonderous to show you all\", you tell them as you bring them to stand before the tree, that same calm visage etched into its trunk. <br>\
+			\"You're a good child, aren't you? Thank you for bringing these children to me.\" <br>\
+			It says as you all stare rapturously at the bulbs about to flower. \"Let me gift you with something...\" <br>\
+			I feel something sprout from my body..."),
+	)
 
 	var/origin_cooldown = 0 //null when compared to numbers is a eldritch concept so world.time cannot be more or less.
 	var/static/list/blessed = list() //keeps track of status effected individuals
@@ -92,6 +103,7 @@
 		cut_overlays()
 		var/mutable_appearance/colored_overlay = mutable_appearance(icon, "parasitetreeeye", layer + 0.1)
 		add_overlay(colored_overlay)
+		icon_state = "parasitetreeshine_purple"
 		for(var/datum/status_effect/display/parasite_tree_blessing/P in blessed)
 			P.facadeFalls()
 	else
@@ -116,6 +128,7 @@
 	add_overlay(colored_overlay)
 
 /mob/living/simple_animal/hostile/abnormality/parasite_tree/proc/resetQliphoth()
+	icon_state = "parasitetreeshine"
 	datum_reference.qliphoth_change(6)
 
 /mob/living/simple_animal/hostile/abnormality/parasite_tree/proc/endBreach()
@@ -151,14 +164,14 @@
 				new /obj/structure/liars_leaf(pick(possibleleafturf))
 
 	//SAPLING MINION
-/mob/living/simple_animal/hostile/parasite_tree_sapling
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling
 	name = "toxic sapling"
 	desc = "A humanoid tree, it spews thick noxious gas from its agonized face."
 	icon = 'ModularTegustation/Teguicons/32x48.dmi'
 	icon_state = "sapling"
 	icon_living = "sapling"
-	maxHealth = 800
-	health = 800
+	maxHealth = 400
+	health = 400
 	can_patrol = FALSE
 	wander = 0
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 0.6, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 0.8)
@@ -171,9 +184,11 @@
 	death_sound = 'sound/creatures/venus_trap_death.ogg'
 	attacked_sound = 'sound/creatures/venus_trap_hurt.ogg'
 	projectilesound = 'sound/machines/clockcult/steam_whoosh.ogg'
+	threat_level = HE_LEVEL
+	score_divider = 8
 	var/mob/living/simple_animal/hostile/abnormality/parasite_tree/connected_abno
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/Initialize()
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/Initialize()
 	. = ..()
 	icon_living = "sapling[pick(1,2)]"
 	icon_state = icon_living
@@ -181,7 +196,7 @@
 	if(connected_abno)
 		connected_abno.minions += src
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/death()
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/death()
 	if(connected_abno)
 		connected_abno.minions -= src
 		connected_abno.endBreach()
@@ -189,7 +204,7 @@
 		AM.forceMove(get_turf(src))
 	..()
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/CanAttack(mob/living/carbon/human/the_target) //Your target has to be human and not have the tree curse.
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/CanAttack(mob/living/carbon/human/the_target) //Your target has to be human and not have the tree curse.
 	if(isturf(the_target) || !the_target || the_target.type == /atom/movable/lighting_object) // bail out on invalids
 		return FALSE
 
@@ -205,13 +220,15 @@
 		return TRUE
 	return FALSE
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/Move()
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/Move()
 	return FALSE
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/AttackingTarget(atom/attacked_target)
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
-/mob/living/simple_animal/hostile/parasite_tree_sapling/OpenFire()
+/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/OpenFire()
 	if(ranged_cooldown > world.time)
 		return FALSE
 	ranged_cooldown = world.time + ranged_cooldown_time
@@ -245,12 +262,12 @@
 	if(C.has_status_effect(THE_TREE_CURSE)) //If you have the status effect already dont mess with them.
 		return FALSE
 	C.smoke_delay++
-	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
+	addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living, remove_smoke_delay)), 10)
 	return smoke_mob_effect(C)
 
 
 /obj/effect/particle_effect/smoke/parasite_tree/proc/smoke_mob_effect(mob/living/carbon/human/M)
-	M.deal_damage(30, WHITE_DAMAGE)
+	M.deal_damage(10, WHITE_DAMAGE)
 	if(prob(15))
 		M.emote("cough")
 	if(M.sanity_lost)
@@ -350,7 +367,7 @@
 		connected_abno.endBreach()
 		return ..()
 	if(status_holder.sanity_lost && status_holder.stat != DEAD)
-		var/mob/living/simple_animal/hostile/parasite_tree_sapling/new_mob = new(owner.loc)
+		var/mob/living/simple_animal/hostile/aminion/parasite_tree_sapling/new_mob = new(owner.loc)
 		nested_items(new_mob, status_holder.get_item_by_slot(ITEM_SLOT_SUITSTORE))
 		nested_items(new_mob, status_holder.get_item_by_slot(ITEM_SLOT_BELT))
 		nested_items(new_mob, status_holder.get_item_by_slot(ITEM_SLOT_BACK))
@@ -365,7 +382,7 @@
 /datum/status_effect/display/parasite_tree_curse/proc/TransformOverride(mob/living/carbon/human/H)
 	if(H && H.has_status_effect(/datum/status_effect/display/melting_love_blessing))
 		to_chat(H, span_warning("You feel the pink slime dissolve your flesh before it becomes wood."))
-		H.deal_damage(800, BLACK_DAMAGE)
+		H.deal_damage(400, BLACK_DAMAGE)
 		H.remove_status_effect(/datum/status_effect/display/melting_love_blessing)
 		if(!H || H.stat == DEAD)
 			return TRUE

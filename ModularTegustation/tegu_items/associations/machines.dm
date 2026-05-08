@@ -14,15 +14,23 @@
 		/obj/item/food/meat/slab/sweeper,
 		/obj/item/food/meat/slab/worm,
 		/obj/item/food/meat/slab/robot,
-		/obj/item/food/meat/slab/human/mutant/moth,
+		/obj/item/food/meat/slab/buggy,
+		/obj/item/food/meat/slab/corroded,
+		/obj/item/food/meat/slab/sinnew,
+		/obj/item/food/meat/slab/crimson,
+		/obj/item/rawpe,
+		/obj/item/reagent_containers/food/drinks/bottle/wine/unlabeled,
 	)
 	var/list/level_2 = list(
 		/obj/item/clothing/suit/armor/ego_gear/city,
 		/obj/item/ego_weapon/city,
-		/obj/item/gun/ego_gun,
+		/obj/item/ego_weapon/ranged,
+		/obj/item/head_trophy,
+		/obj/item/tape/resurgence,
+		/obj/item/refinedpe,
+		/obj/item/raw_anomaly_core,
 	)
 	var/list/level_3 = list(
-		/obj/item/raw_anomaly_core,
 		/obj/item/documents,
 		/obj/item/folder/syndicate,
 		/obj/item/folder/documents,
@@ -34,6 +42,13 @@
 		/obj/item/ego_weapon/city = "All Non-'Workshop' Weapons",
 		/obj/item/food/fish = "All Fish",
 	)
+
+	var/list/prices = list(
+		10,
+		50,
+		200,
+		1000,
+		)
 
 /obj/structure/itemselling/Initialize()
 	. = ..()
@@ -57,6 +72,7 @@
 	level_2.Remove(typecacheof(/obj/item/clothing/suit/armor/ego_gear/city/steel_armor))
 	level_2.Remove(typecacheof(/obj/item/clothing/suit/armor/ego_gear/city/amber_armor))
 	level_2.Remove(typecacheof(/obj/item/clothing/suit/armor/ego_gear/city/green_armor))
+	level_2.Remove(typecacheof(/obj/item/clothing/suit/armor/ego_gear/city/azure_armor))
 	temp.Cut()
 	for(var/T in level_3)
 		temp.Add(typecacheof(T))
@@ -68,10 +84,10 @@
 /obj/structure/itemselling/examine(mob/user)
 	. = ..()
 	. += span_notice("Hit with a storage item to dump all items in it into the machine.")
-	. += "<a href='?src=[REF(src)];tier_3=1'>List Tier 3 Prices</a>"
-	. += "<a href='?src=[REF(src)];tier_2=1'>List Tier 2 Prices</a>"
-	. += "<a href='?src=[REF(src)];tier_1=1'>List Tier 1 Prices</a>"
-	. += "<a href='?src=[REF(src)];tier_0=1'>List Tier 0 Prices</a>"
+	. += "<a href='byond://?src=[REF(src)];tier_3=1'>List Tier 3 Prices</a>"
+	. += "<a href='byond://?src=[REF(src)];tier_2=1'>List Tier 2 Prices</a>"
+	. += "<a href='byond://?src=[REF(src)];tier_1=1'>List Tier 1 Prices</a>"
+	. += "<a href='byond://?src=[REF(src)];tier_0=1'>List Tier 0 Prices</a>"
 	/**
 	. += "Secret Documents - 1000 Ahn"
 	. += "Secret Documents Folders - 1000 Ahn"
@@ -90,16 +106,16 @@
 	var/display_text = ""
 	var/list/items = list()
 	if(href_list["tier_3"])
-		display_text = span_notice("<b>The following items are worth 1000 Ahn:</b>")
+		display_text = span_notice("<b>The following items are worth [prices[4]] Ahn:</b>")
 		items.Add(level_3)
 	if(href_list["tier_2"])
-		display_text = span_notice("<b>The following items are worth 200 Ahn:</b>")
+		display_text = span_notice("<b>The following items are worth [prices[3]] Ahn:</b>")
 		items.Add(level_2)
 	if(href_list["tier_1"])
-		display_text = span_notice("<b>The following items are worth 50 Ahn:</b>")
+		display_text = span_notice("<b>The following items are worth [prices[2]] Ahn:</b>")
 		items.Add(level_1)
 	if(href_list["tier_0"])
-		display_text = span_notice("<b>The following items are worth 10 Ahn:</b>")
+		display_text = span_notice("<b>The following items are worth [prices[1]] Ahn:</b>")
 		items.Add(level_0)
 	for(var/I in items)
 		item_name = ""
@@ -167,6 +183,11 @@
 		JUSTICE_ATTRIBUTE,
 	)
 
+/obj/structure/potential/Initialize()
+	. = ..()
+	new /obj/item/paper/fluff/fixer_skills (get_turf(src))
+	new /obj/item/paper/fluff/fixer_skills (get_turf(src))
+
 //Very dumb way to implement "empty hand AND full hand."
 //These two code blocks are the same except for their triggers - if you've got a better idea, please use it.
 /obj/structure/potential/proc/calculate_grade(mob/living/user)
@@ -208,6 +229,8 @@
 
 /obj/structure/timelock/Initialize()
 	..()
+	if(SSmaptype.maptype in list("city", "fixers"))
+		new /obj/machinery/scanner_gate/officescanner (get_turf(src))
 	addtimer(CALLBACK(src, PROC_REF(die)), 15 MINUTES)
 
 /obj/structure/timelock/proc/die()
@@ -233,3 +256,46 @@
 	if(inflation%50 == 0)
 		message_admins("<span class='notice'>Investigate the high volume of Ahn being printed by Hana Association. They have currently printed [inflation*1000] Ahn. \
 			Hana is supposed to print as needed, not bank up large sums of ahn.</span>")
+
+GLOBAL_LIST_EMPTY(loaded_quest_z_levels)
+
+/obj/structure/maploader
+	name = "ticker reader"
+	desc = "A small machine with a spot to insert tickets. Could give new locations to the bus to travel to."
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "minidispenser"
+	anchored = TRUE
+	density = TRUE
+	resistance_flags = INDESTRUCTIBLE
+	var/obj/machinery/computer/shuttle/quests_console/linked_console = null
+
+/obj/structure/maploader/attackby(obj/item/I, mob/living/user, params)
+	if (istype(I, /obj/item/quest_ticket))
+		var/obj/item/quest_ticket/T = I
+		if (!GLOB.loaded_quest_z_levels.Find(T.map))
+			to_chat(user, span_notice("You insert your ticket into [src]"))
+			say("Locating path to [T.ticket_name]...")
+			GLOB.loaded_quest_z_levels += T.map
+			load_new_z_level(T.map, T.map_name)
+			if (!linked_console)
+				for(var/obj/machinery/computer/shuttle/quests_console/C in range(src, 5))
+					linked_console = C
+			linked_console.possible_destinations += ";[T.map_name]"
+			say("[T.ticket_name] has been located, The bus has been updated with it's coordinates.")
+
+/obj/item/quest_ticket
+	name = "'Dilapidated Town' ticket"
+	desc = "A small sheet of paper with a barcode. Could be given to a ticket reader to access to a new area."
+	icon = 'icons/obj/bureaucracy.dmi'
+	icon_state = "ticket"
+	inhand_icon_state = "ticket"
+	worn_icon_state = "ticket"
+	var/map = "_maps/Quests/ruined_town.dmm"
+	var/map_name = "ruined_town_floor"
+	var/ticket_name = "Dilapidated Town"
+
+/obj/machinery/computer/shuttle/quests_console
+
+/obj/machinery/computer/shuttle/quests_console/connect_to_shuttle(obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
+	return
+

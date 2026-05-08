@@ -7,13 +7,15 @@
 	custom_premium_price = 1200
 
 /datum/action/cooldown/confusion
+	name = "Confusion"
+	desc = "Confuses all humans on the screen, making them easier to kill."
 	icon_icon = 'icons/hud/screen_skills.dmi'
 	button_icon_state = "confusion"
-	name = "Confusion"
-	cooldown_time = 500
+	cooldown_time = 50 SECONDS
 
 /datum/action/cooldown/confusion/Trigger()
-	if(!..())
+	. = ..()
+	if(!.)
 		return FALSE
 
 	if (owner.stat == DEAD)

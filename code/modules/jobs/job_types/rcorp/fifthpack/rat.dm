@@ -13,7 +13,8 @@
 
 	access = list()
 	minimal_access = list()
-
+	departments = DEPARTMENT_R_CORP | DEPARTMENT_MEDICAL
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 60,
 								PRUDENCE_ATTRIBUTE = 60,
@@ -26,8 +27,6 @@
 
 /datum/job/rat/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
-
 	//Adding huds, blame some guy from at least 3 years ago.
 	var/datum/atom_hud/secsensor = GLOB.huds[DATA_HUD_SECURITY_ADVANCED]
 	var/datum/atom_hud/medsensor = GLOB.huds[DATA_HUD_MEDICAL_ADVANCED]
@@ -52,6 +51,7 @@
 
 	access = list(ACCESS_COMMAND)
 	minimal_access = list(ACCESS_COMMAND)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_R_CORP | DEPARTMENT_MEDICAL
 
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 80,
@@ -83,10 +83,13 @@
 	head = /obj/item/clothing/head/rabbit_helmet/rat
 	suit = /obj/item/clothing/suit/armor/ego_gear/rabbit/rat
 	belt = /obj/item/ego_weapon/city/rabbit_blade
-	suit_store = /obj/item/gun/energy/e_gun/rabbitdash/small
+	suit_store = /obj/item/gun/energy/e_gun/rabbitdash/shotgun
 	l_pocket = /obj/item/flashlight/seclite
 	r_pocket = /obj/item/pinpointer/nuke/rcorp
 	backpack_contents = list(
+		/obj/item/grenade/r_corp,
+		/obj/item/grenade/r_corp/black,
+		/obj/item/grenade/r_corp/white,
 		/obj/item/storage/firstaid/revival = 1)
 
 

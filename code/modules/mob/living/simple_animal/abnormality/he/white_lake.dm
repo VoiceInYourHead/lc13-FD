@@ -8,8 +8,8 @@
 	icon_state = "white_lake"
 	icon_living = "white_lake"
 	portrait = "white_lake"
-	maxHealth = 600
-	health = 600
+	maxHealth = 120
+	health = 120
 	threat_level = HE_LEVEL
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 0,
@@ -17,8 +17,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 50,
 		ABNORMALITY_WORK_REPRESSION = 40,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 	//Has the weapon been given out?
 	var/sword = FALSE
 	start_qliphoth = 3
@@ -34,13 +36,13 @@
 	observation_prompt = "The feathered lady dances in the centre of the containment unit to a tempo that exists only in her world, it's elegant and precise. <br>\
 		\"This domain, my lunar palace, it's mine birdcage gilded with fine gold. <br>Whatever I wish, it is brought for me and all that is expected of me is to dance. <br>\
 		Even if I possessed the fortitude to bend these bars and free myself, I would not - what good comes from change? <br>Fortitude won't avail anyone, wouldn't you agree?\""
-	observation_choices = list("Agree", "Disagree")
-	correct_choices = list("Agree")
-	observation_success_message = "\"Hmm, you'll make for a cute decoration in mine sanctum, bear my circlet and come to your Princess' aid, won't you? <br>\
-		Protect her from witches seeking to bully this poor Lake.\" <br>\
-		She dances towards you, placing the circlet upon your head. \"Sully your hands so mine stay clean and beautiful.\" She turns away, returning to her dance."
-	observation_fail_message = "\"I don't find heroes cute at all. <br>Leave me to my dancing butcher, before you tarnish my pure-white feathers with your blood-soaked hands.\" <br>\
-		The ballerina turns away from you and continues her dance, ignoring you."
+	observation_choices = list(
+		"Agree" = list(TRUE, "\"Hmm, you'll make for a cute decoration in mine sanctum, bear my circlet and come to your Princess' aid, won't you? <br>\
+			Protect her from witches seeking to bully this poor Lake.\" <br>\
+			She dances towards you, placing the circlet upon your head. \"Sully your hands so mine stay clean and beautiful.\" She turns away, returning to her dance."),
+		"Disagree" = list(FALSE, "\"I don't find heroes cute at all. <br>Leave me to my dancing butcher, before you tarnish my pure-white feathers with your blood-soaked hands.\" <br>\
+			The ballerina turns away from you and continues her dance, ignoring you."),
+	)
 
 /mob/living/simple_animal/hostile/abnormality/whitelake/WorkChance(mob/living/carbon/human/user, chance)
 	if(get_attribute_level(user, FORTITUDE_ATTRIBUTE) >= 60)
@@ -76,7 +78,7 @@
 	set waitfor = FALSE
 	new /obj/effect/temp_visual/whitelake(get_turf(H))
 	var/userfort = (get_attribute_level(H, FORTITUDE_ATTRIBUTE))
-	var/damage_dealt = clamp((0 + (userfort / 2)), 30, 65)//deals between 30 and 60 white damage depending on your fortitude attribute when applied.
+	var/damage_dealt = clamp((0 + (userfort / 10)), 6, 13)//deals between 6 and 13 white damage depending on your fortitude attribute when applied.
 	H.deal_damage(damage_dealt, WHITE_DAMAGE)
 
 /mob/living/simple_animal/hostile/abnormality/whitelake/proc/TurnChampion(mob/living/carbon/human/H)

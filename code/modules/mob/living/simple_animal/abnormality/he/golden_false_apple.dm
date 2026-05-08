@@ -22,8 +22,8 @@
 	del_on_death = FALSE
 	death_message = "falls over."
 	death_sound = 'sound/abnormalities/goldenapple/Gold_Attack2.ogg'
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 300
+	health = 300
 	light_color = "D4FAF37"
 	light_range = 5
 	light_power = 7
@@ -32,8 +32,8 @@
 	attack_verb_simple = "tackle"
 	attack_sound = "sound/abnormalities/goldenapple/Gold_Attack.ogg"
 	stat_attack = HARD_CRIT
-	melee_damage_lower = 10
-	melee_damage_upper = 15
+	melee_damage_lower = 3
+	melee_damage_upper = 5
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.5, WHITE_DAMAGE = 1, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 2)
 	speak_emote = list("states")
@@ -49,9 +49,9 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 15, 30, 45),
 	)
-	work_damage_amount = 12//decently high due to mechanics
+	work_damage_upper = 4
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
-	max_boxes = 18
 
 	ego_list = list(
 		/datum/ego_datum/weapon/legerdemain,
@@ -77,12 +77,12 @@
 
 	observation_prompt = "A giant, glistening golden apple stands before you. <br>\
 		Radiant, shining, and pure. <br>There is a tempting crack in it, what could possibly be inside?"
-	observation_choices = list("Slice it open", "Destroy it")
-	correct_choices = list("Destroy it")
-	observation_success_message = "You put the golden apple to the torch. <br>You hear a sickening pops and sizzling as the swarm of maggots inside begins to burn and scatter. <br>\
-		The mass of maggots falls apart in a hail of silent screams."
-	observation_fail_message = "You slice open the apple, and a tidal wave of disgusting maggots bursts out. <br>\
-		You are swept in the tide. <br>Your flesh is riddled with wounds as they slowly devour you."
+	observation_choices = list(
+		"Destroy it" = list(TRUE, "You put the golden apple to the torch. <br>You hear a sickening pops and sizzling as the swarm of maggots inside begins to burn and scatter. <br>\
+			The mass of maggots falls apart in a hail of silent screams."),
+		"Slice it open" = list(FALSE, "You slice open the apple, and a tidal wave of disgusting maggots bursts out. <br>\
+			You are swept in the tide. <br>Your flesh is riddled with wounds as they slowly devour you."),
+	)
 
 	var/is_maggot = FALSE
 	var/can_act = TRUE
@@ -226,9 +226,9 @@
 /mob/living/simple_animal/hostile/abnormality/golden_apple/PostWorkEffect(mob/living/carbon/human/user, work_type, pe)
 	..()
 	var/datum/status_effect/stacking/golden_sheen/G = user.has_status_effect(/datum/status_effect/stacking/golden_sheen)
-	if (G.stacks >= 3)//Kills the employee if you already have 2 stacks of golden sheen and instantly breaches in phase 2
+	if(G && G.stacks >= 3) // Kills the employee if you already have 2 stacks of golden sheen and instantly breaches in phase 2
 		datum_reference.qliphoth_change(-2)
-		DigestPerson(user)//becomes its "berserk" form; the user is assimilated into it
+		DigestPerson(user) // becomes its "berserk" form; the user is assimilated into it
 
 //***Breach Mechanics***//
 /mob/living/simple_animal/hostile/abnormality/golden_apple/BreachEffect(mob/living/carbon/human/user, breach_type)
@@ -294,21 +294,21 @@
 	is_maggot = TRUE
 	ChangeMoveToDelayBy(-1)
 
-/mob/living/simple_animal/hostile/abnormality/golden_apple/AttackingTarget()//regular attacks or AOE. Determines the outcome for both players and the AI behavior
+/mob/living/simple_animal/hostile/abnormality/golden_apple/AttackingTarget(atom/attacked_target)//regular attacks or AOE. Determines the outcome for both players and the AI behavior
 	if(!can_act)
 		return FALSE
 	if(!is_maggot)//Is it still in the first form? Start building sheen pulses
 		if(pulse_count < pulse_maximum)
-			if(isliving(target))
-				var/mob/living/hit = target
+			if(isliving(attacked_target))
+				var/mob/living/hit = attacked_target
 				if((hit.stat == DEAD) ||!ishuman(hit))//if the target is dead or not human
 					return ..()
-				if(istype(target, /mob/living/carbon/human/species/pinocchio))
+				if(istype(hit, /mob/living/carbon/human/species/pinocchio))
 					return ..()
 				pulse_count += 1
-			if(ismecha(target))
+			if(ismecha(attacked_target))
 				var/inhabited = FALSE
-				for(var/mob/living/L in target.contents)
+				for(var/mob/living/L in attacked_target.contents)
 					if(L.stat == DEAD)
 						continue
 					inhabited = TRUE
@@ -319,12 +319,12 @@
 	if(client && smash_cooldown < world.time)//playable behavior is nested under here
 		switch(chosen_attack)
 			if(1)
-				Smash(target)
+				Smash(attacked_target)
 			if(2)
-				Smash(target, wide = FALSE)
+				Smash(attacked_target, wide = FALSE)
 		return
 	if(prob(50) && (smash_cooldown < world.time))//AI behavior goes here
-		Smash(target, wide = pick(TRUE, FALSE))
+		Smash(attacked_target, wide = pick(TRUE, FALSE))
 		return
 	return ..()
 
@@ -343,7 +343,7 @@
 					target_hit = TRUE
 					addtimer(CALLBACK(src, PROC_REF(DigestPerson), L), 5 SECONDS)
 				else
-					L.gib(TRUE, TRUE, TRUE)
+					L.gib(FALSE, TRUE, TRUE)
 		if (!target_hit)
 			addtimer(CALLBACK(src, PROC_REF(BecomeRotten)), 5 SECONDS)//if nobody got killed
 	can_act = TRUE

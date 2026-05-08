@@ -15,8 +15,8 @@
 	melee_damage_upper = 50
 	melee_damage_type = RED_DAMAGE
 	stat_attack = HARD_CRIT
-	health = 2500
-	maxHealth = 2500
+	health = 1200
+	maxHealth = 1200
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.3, WHITE_DAMAGE = 0.6, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	threat_level = WAW_LEVEL
 	can_breach = TRUE
@@ -27,8 +27,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 40, 40, 40),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 	ego_list = list(
 		/datum/ego_datum/weapon/rimeshank,
 		/datum/ego_datum/armor/rimeshank,
@@ -40,11 +42,11 @@
 		Seeing little recourse, you follow them to a palace made of ice, surrounded by a fence made out of various bones. <br>\
 		The palace stands on the precipice of life and death. <br>You know this palace and who it belongs to. <br>\
 		A terrifying witch lives here."
-	observation_choices = list("Knock on the door", "Keep wandering the blizzard")
-	correct_choices = list("Knock on the door")
-	observation_success_message = "You can't keep shivering in the cold forever. <br>You knock on the door..."
-	observation_fail_message = "You keep wandering the blizzard, the cold continuing to sap your strength. <br>\
-		Eventually you collapse in the snow, your whole body frozen. <br>Ahh... <br>There's no more pain..."
+	observation_choices = list(
+		"Knock on the door" = list(TRUE, "You can't keep shivering in the cold forever. <br>You knock on the door..."),
+		"Keep wandering the blizzard" = list(FALSE, "You keep wandering the blizzard, the cold continuing to sap your strength. <br>\
+			Eventually you collapse in the snow, your whole body frozen. <br>Ahh... <br>There's no more pain..."),
+	)
 
 	var/jump_cooldown = 0
 	var/jump_cooldown_time = 35 SECONDS
@@ -160,9 +162,9 @@
 			continue
 		var/dist = get_dist(src, L)
 		if(ishuman(L)) //Different damage formulae for humans vs mobs
-			L.deal_damage(clamp((15 * (2 ** (8 - dist))), 15, 4000), RED_DAMAGE) //15-3840 damage scaling exponentially with distance
+			L.deal_damage(clamp((5 * (2 ** (8 - dist))), 5, 100), RED_DAMAGE)
 		else
-			L.deal_damage(600 - ((dist > 2 ? dist : 0 )* 75), RED_DAMAGE) //0-600 damage scaling on distance, we don't want it oneshotting mobs
+			L.deal_damage(200 - ((dist > 2 ? dist : 0 )* 25), RED_DAMAGE) //0-600 damage scaling on distance, we don't want it oneshotting mobs
 		if(L.health < 0)
 			L.gib()
 	SLEEP_CHECK_DEATH(5)
@@ -176,24 +178,24 @@
 					A.death()
 		new /obj/effect/temp_visual/dir_setting/cult/phase
 		if(prob(30))
-			var/mob/living/simple_animal/hostile/yagaslave/Y = new(T)
+			var/mob/living/simple_animal/hostile/aminion/yagaslave/Y = new(T)
 			spawned_mobs+=Y
 	return
 
 // Misc Objects and effects
-/mob/living/simple_animal/hostile/yagaslave
+/mob/living/simple_animal/hostile/aminion/yagaslave
 	name = "frozen slave"
 	desc = "A humanoid figure encased in ice, the pickaxe they're holding looks sharp."
 	icon = 'ModularTegustation/Teguicons/tegumobs.dmi'
 	icon_state = "yagaslave"
 	icon_living = "yagaslave"
 	faction = list("hostile", "babayaga")
-	health = 300
-	maxHealth = 300
+	health = 100
+	maxHealth = 100
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.3, WHITE_DAMAGE = 0.6, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
-	melee_damage_lower = 15
-	melee_damage_upper = 27
+	melee_damage_lower = 5
+	melee_damage_upper = 9
 	robust_searching = TRUE
 	stat_attack = HARD_CRIT
 	del_on_death = TRUE
@@ -201,6 +203,8 @@
 	attack_verb_simple = "slash"
 	attack_sound = 'sound/abnormalities/babayaga/attack.ogg'
 	speak_emote = list("whispers")
+	threat_level = TETH_LEVEL
+	score_divider = 4
 
 /obj/effect/temp_visual/giantwarning
 	name = "giant warning"

@@ -5,15 +5,16 @@
 	desc = "A human with the head of a chicken and deformed arms. It appears to be carrying a sack of raw chickens."
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "papa_bongy"
-	maxHealth = 2500
-	health = 2500
+	maxHealth = 1250
+	health = 1250
 	pixel_x = -16
 	base_pixel_x = -16
 	fear_level = HE_LEVEL
+	can_spawn = TRUE
 	move_to_delay = 5
 	damage_coeff = list(RED_DAMAGE = 0.8, WHITE_DAMAGE = 2, BLACK_DAMAGE = 1.2, PALE_DAMAGE = 1.5)
-	melee_damage_lower = 15
-	melee_damage_upper = 20
+	melee_damage_lower = 8
+	melee_damage_upper = 10
 	melee_damage_type = WHITE_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/distortions/papa_bongy/PapaBongy_Coin1.ogg'
@@ -33,6 +34,8 @@
 	gender = MALE
 	egoist_attributes = 40
 	egoist_outfit = /datum/outfit/job/civilian
+	/// Prolonged exposure to a monolith will convert the distortion into an abnormality. Lifetime stew's background has bongy's head mounted on the wall, giving an obvious connection.
+	monolith_abnormality = /mob/living/simple_animal/hostile/abnormality/basilisoup
 	loot = list(/obj/item/documents/ncorporation)
 
 	var/can_act = TRUE
@@ -82,14 +85,14 @@
 			if(R.type in yucky_list)
 				say("BAWK BAWK!!!")
 				to_chat(user, "[src] didn't like that at all.")
-				adjustBruteLoss(150)
+				adjustBruteLoss(75)
 				break
 		qdel(I)
 	if(istype(I, /obj/item/food/pizzaslice))
 		if(I.type in bad_pizza_list)
 			say("BAWK BAWK!!!")
 			to_chat(user, "[src] didn't like that at all.")
-			adjustBruteLoss(150)
+			adjustBruteLoss(75)
 			return
 		qdel(I)
 		happy = TRUE
@@ -123,14 +126,14 @@
 				return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/distortion/papa_bongy/AttackingTarget()
-	if(!can_act || !target)
+/mob/living/simple_animal/hostile/distortion/papa_bongy/AttackingTarget(atom/attacked_target)
+	if(!can_act || !attacked_target)
 		return FALSE
-	if(!isliving(target))
+	if(!isliving(attacked_target))
 		return ..()
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	if(ishuman(H))
-		if(istype(target.ai_controller, /datum/ai_controller/insane/murder/bongy))
+		if(istype(H.ai_controller, /datum/ai_controller/insane/murder/bongy))
 			LoseTarget()
 			return//need to test whether this is still needed
 		H.add_movespeed_modifier(/datum/movespeed_modifier/bongy)
@@ -139,7 +142,7 @@
 			BongyPanic(H)
 	..()
 	can_act = FALSE
-	return DingAttack(target)
+	return DingAttack(attacked_target)
 
 /mob/living/simple_animal/hostile/distortion/papa_bongy/proc/DingAttack(target)
 	var/turf/target_turf = get_turf(target)
@@ -209,11 +212,11 @@
 	icon_living = "bongy"
 	icon_dead = "bongy_dead"
 	gender = NEUTER
-	health = 25
-	maxHealth = 25
+	health = 15
+	maxHealth = 15
 	melee_damage_type = WHITE_DAMAGE
-	melee_damage_lower = 5
-	melee_damage_upper = 5
+	melee_damage_lower = 3
+	melee_damage_upper = 3
 	attack_verb_continuous = "bites"
 	attack_verb_simple = "bite"
 	attack_sound = 'sound/distortions/papa_bongy/Bongy_Coin1.ogg'
@@ -239,10 +242,10 @@
 				return FALSE
 	return ..()
 
-/mob/living/simple_animal/hostile/bongy_hostile/AttackingTarget()
-	if(!target)
+/mob/living/simple_animal/hostile/bongy_hostile/AttackingTarget(atom/attacked_target)
+	if(!attacked_target)
 		return FALSE
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	..()
 	if(ishuman(H) && H.sanity_lost)
 		BongyPanic(H)
@@ -278,48 +281,40 @@
 /datum/ai_controller/insane/murder/bongy
 	lines_type = /datum/ai_behavior/say_line/insanity_lines
 
-/datum/ai_controller/insane/murder/bongy/FindEnemies()
-	. = FALSE
-	var/mob/living/living_pawn = pawn
-	var/list/potential_enemies = livinginview(9, living_pawn)
-
-	if(!LAZYLEN(potential_enemies)) // We aint see shit!
-		return
-
-	var/list/weighted_list = list()
-	for(var/mob/living/L in potential_enemies) // Oh the CHOICES!
-		if(ishuman(L))
-			var/mob/living/carbon/human/H = L
+/datum/ai_controller/insane/murder/bongy/CanTarget(atom/movable/thing)
+	. = ..()
+	var/mob/living/living_thing = thing
+	if(. && istype(living_thing))
+		if(ishuman(living_thing))
+			var/mob/living/carbon/human/H = living_thing
 			if(HAS_AI_CONTROLLER_TYPE(H, /datum/ai_controller/insane/murder/bongy))
-				continue
-		if(L == living_pawn)
-			continue
-		if(L.status_flags & GODMODE)
-			continue
-		if(L.stat == DEAD)
-			continue
-		if(living_pawn.see_invisible < L.invisibility)
-			continue
-		if(istype(L, /mob/living/simple_animal/hostile/bongy_hostile) || istype(L, /mob/living/simple_animal/hostile/distortion/papa_bongy))
-			continue
-		if(!isturf(L.loc) && !ismecha(L.loc))
-			continue
-		weighted_list += L
-	for(var/i in weighted_list)
+				return FALSE
+		if(istype(living_thing, /mob/living/simple_animal/hostile/bongy_hostile) || istype(living_thing, /mob/living/simple_animal/hostile/distortion/papa_bongy))
+			return FALSE
+
+/datum/ai_controller/insane/murder/bongy/FindEnemies(range = aggro_range)
+	var/list/weighted_list = PossibleEnemies(range)
+	for(var/atom/movable/i in weighted_list)
+		//target type weight
 		if(istype(i, /mob/living/simple_animal/hostile))
-			weighted_list[i] = 3
+			weighted_list[i] = 4
 		else if(ishuman(i))
 			var/mob/living/carbon/human/H = i
 			if(H.sanity_lost)
-				weighted_list[i] = 0
-			if(ismecha(H.loc))
-				weighted_list[i] = 3
+				weighted_list[i] = 1
+			else if(ismecha(H.loc))
+				weighted_list[i] = 4
 			else
-				weighted_list[i] = 5
+				weighted_list[i] = 7
 		else
 			weighted_list[i] = 1
+		//target distance weight
+		weighted_list[i] += 10 - min(get_dist(get_turf(pawn), get_turf(i)), 10)
+		//previous target weight
+		if(blackboard[BB_INSANE_CURRENT_ATTACK_TARGET] == i)
+			weighted_list[i] = max(weighted_list[i] - 10, 1)
 	if(weighted_list.len > 0)
-		blackboard[BB_INSANE_CURRENT_ATTACK_TARGET] = pickweight(weighted_list)
+		GiveTarget(pickweight(weighted_list))
 		return TRUE
 	return FALSE
 

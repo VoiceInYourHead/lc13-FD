@@ -1,8 +1,6 @@
 // ALEPH armor, go wild, but attempt to keep total armor at ~240 total.
 
-/* Lead Developer's note:
-Think before you code!
-Any attempt to code risk class armor will result in a 10 day Github ban.*/
+/*Developer's note - All LC13 armor has 50% of its red_damage armor as fire armor by default. */
 
 /obj/item/clothing/suit/armor/ego_gear/aleph
 	icon = 'icons/obj/clothing/ego_gear/abnormality/aleph.dmi'
@@ -51,7 +49,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "A splendid tailcoat perfect for a symphony. \
 	Superb leadership is required to create a perfect ensemble."
 	icon_state = "da_capo"
-	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 100, BLACK_DAMAGE = 60, PALE_DAMAGE = 20) // 240
+	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 80, BLACK_DAMAGE = 60, PALE_DAMAGE = 40) // 240
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 80,
 							PRUDENCE_ATTRIBUTE = 100,
@@ -69,19 +67,6 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 							PRUDENCE_ATTRIBUTE = 80,
 							TEMPERANCE_ATTRIBUTE = 80,
 							JUSTICE_ATTRIBUTE = 80
-							)
-
-/obj/item/clothing/suit/armor/ego_gear/aleph/twilight
-	name = "twilight"
-	desc = "The three birds united their efforts to defeat the beast. \
-	This could stop countless incidents, but you’ll have to be prepared to step into the Black Forest…"
-	icon_state = "twilight"
-	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 80, PALE_DAMAGE = 80) // 300
-	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 120,
-							PRUDENCE_ATTRIBUTE = 120,
-							TEMPERANCE_ATTRIBUTE = 120,
-							JUSTICE_ATTRIBUTE = 120
 							)
 
 /obj/item/clothing/suit/armor/ego_gear/aleph/adoration
@@ -136,18 +121,6 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 							JUSTICE_ATTRIBUTE = 120
 							)
 
-/obj/item/clothing/suit/armor/ego_gear/aleph/praetorian
-	name = "praetorian"
-	desc = "The queen's last line of defense."
-	icon_state = "praetorian"
-	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 40)	//Armor was made before the abnormality.
-	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 100,
-							PRUDENCE_ATTRIBUTE = 80,
-							TEMPERANCE_ATTRIBUTE = 80,
-							JUSTICE_ATTRIBUTE = 80
-							)
-
 /obj/item/clothing/suit/armor/ego_gear/aleph/mockery
 	name = "mockery"
 	desc = "It's smug aura is almost mocking you."
@@ -176,7 +149,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "Soulmate"
 	desc = "I’ll follow thee and make a heaven of hell, to die upon the hand I love so well."
 	icon_state = "soulmate"
-	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 50, BLACK_DAMAGE = 40, PALE_DAMAGE = 70)
+	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 70, BLACK_DAMAGE = 40, PALE_DAMAGE = 70)
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 100,
 							PRUDENCE_ATTRIBUTE = 80,
@@ -266,7 +239,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 			to_chat(user, span_nicegreen("[src] has gained extra resistance to PALE damage!"))
 
 		if("diamonds")
-			armor = armor.modifyRating(red = 10, pale = 5)
+			armor = armor.modifyRating(red = 10, pale = 5, fire = 5)
 			to_chat(user, span_nicegreen("[src] has gained extra resistance to RED damage!"))
 
 		if("clubs")
@@ -277,7 +250,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "Seasons Greetings"
 	desc = "This is a placeholder."
 	icon_state = "spring"
-	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 60) // 240
+	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 60, FIRE = 60) // Placeholder values, changed later.
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 80,
 							PRUDENCE_ATTRIBUTE = 100,
@@ -332,36 +305,36 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	var/warning_message
 	switch(stored_season) //Hopefully someday someone finds a more efficient way to change armor values
 		if("spring")
-			src.armor = new(red = 60, white = 80, black = 40, pale = 60)	//240
+			src.armor = getArmor(red = 60, white = 80, black = 40, pale = 60, fire = 30)	//240
 			if(stored_season != current_season) //Our drip is out of season
-				src.armor = new(red = 50, white = 80, black = 40, pale = 50)	//220
+				src.armor = getArmor(red = 50, white = 80, black = 40, pale = 50, fire = 30)	//220
 				weakened = TRUE
 				if(current_season == "fall")
-					src.armor = new(red = 50, white = 70, black = 30, pale = 50)	//200
+					src.armor = getArmor(red = 50, white = 70, black = 30, pale = 50, fire = 30)	//200
 					warning_message = "Fall has come, the leaves on your armor wither and die."
 		if("summer")
-			src.armor = new(red = 80, white = 40, black = 60, pale = 60)
+			src.armor = getArmor(red = 80, white = 40, black = 60, pale = 60, fire = 70)
 			if(stored_season != current_season) //Our drip is out of season
-				src.armor = new(red = 80, white = 40, black = 50, pale = 50)
+				src.armor = getArmor(red = 80, white = 40, black = 50, pale = 50, fire = 70)
 				weakened = TRUE
 				if(current_season == "winter")
-					src.armor = new(red = 70, white = 30, black = 50, pale = 50)
+					src.armor = getArmor(red = 70, white = 30, black = 50, pale = 50, fire = 70)
 					warning_message = "Winter is here. Your armor reacts, becoming stiff and brittle."
 		if("fall")
-			src.armor = new(red = 40, white = 60, black = 80, pale = 60)
+			src.armor = getArmor(red = 40, white = 60, black = 80, pale = 60, fire = 70)
 			if(stored_season != current_season) //Our drip is out of season
-				src.armor = new(red = 40, white = 50, black = 80, pale = 50)
+				src.armor = getArmor(red = 40, white = 50, black = 80, pale = 50, fire = 70)
 				weakened = TRUE
 				if(current_season == "spring")
-					src.armor = new(red = 30, white = 50, black = 70, pale = 50)
+					src.armor = getArmor(red = 30, white = 50, black = 70, pale = 50, fire = 70)
 					warning_message = "The arrival of spring weakens your armor further."
 		if("winter")
-			src.armor = new(red = 40, white = 60, black = 60, pale = 80)
+			src.armor = getArmor(red = 40, white = 60, black = 60, pale = 80, fire = 10)
 			if(stored_season != current_season) //Our drip is out of season
-				src.armor = new(red = 40, white = 50, black = 50, pale = 80)
+				src.armor = getArmor(red = 40, white = 50, black = 50, pale = 80, fire = 10)
 				weakened = TRUE
 				if(current_season == "summer")
-					src.armor = new(red = 30, white = 50, black = 50, pale = 70)
+					src.armor = getArmor(red = 30, white = 50, black = 50, pale = 70, fire = 0)
 					warning_message = "The summer heat is melting your armor."
 
 	if(current_holder && (weakened == TRUE))
@@ -399,7 +372,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "distortion"
 	desc = "To my eyes, I’m the only one who doesn’t appear distorted. In a world full of distorted people, could the one person who remains unchanged be the \"distorted\" one?"
 	icon_state = "distortion"
-	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 70, BLACK_DAMAGE = 80, PALE_DAMAGE = 50) // 280
+	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 70, BLACK_DAMAGE = 80, PALE_DAMAGE = 50, FIRE = 70) // 280
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 100,
 							PRUDENCE_ATTRIBUTE = 100,
@@ -424,6 +397,42 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "A pink military uniform. Its pockets allow the wearer to carry various types of ammunition. It soothes the wearer; they say pink provides psychological comfort to many people."
 	icon_state = "pink"
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 70, BLACK_DAMAGE = 70, PALE_DAMAGE = 50) // 240
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 80,
+							PRUDENCE_ATTRIBUTE = 80,
+							TEMPERANCE_ATTRIBUTE = 100,
+							JUSTICE_ATTRIBUTE = 80
+							)
+
+/obj/item/clothing/suit/armor/ego_gear/aleph/arcadia
+	name = "Et in Arcadia Ego"
+	desc = "An old, dusty brown suit."
+	icon_state = "arcadia"
+	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = 50, BLACK_DAMAGE = 60, PALE_DAMAGE = 60) // 240
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 80,
+							PRUDENCE_ATTRIBUTE = 80,
+							TEMPERANCE_ATTRIBUTE = 80,
+							JUSTICE_ATTRIBUTE = 100
+							)
+
+/obj/item/clothing/suit/armor/ego_gear/aleph/giant
+	name = "giant"
+	desc = "You are a Giant."
+	icon_state = "giant"
+	armor = list(RED_DAMAGE = 80, WHITE_DAMAGE = 30, BLACK_DAMAGE = 80, PALE_DAMAGE = 50) // 240
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 100,
+							PRUDENCE_ATTRIBUTE = 80,
+							TEMPERANCE_ATTRIBUTE = 80,
+							JUSTICE_ATTRIBUTE = 80
+							)
+
+/obj/item/clothing/suit/armor/ego_gear/aleph/throne
+	name = "false throne"
+	desc = "And here I sit upon a throne of lies."
+	icon_state = "throne"
+	armor = list(RED_DAMAGE = 60, WHITE_DAMAGE = 60, BLACK_DAMAGE = 60, PALE_DAMAGE = 60) // 240 - Maybe do something special with this one in the future.
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 80,
 							PRUDENCE_ATTRIBUTE = 80,

@@ -9,8 +9,8 @@
 	icon_living = "firebird_active"
 	portrait = "fire_bird"
 	threat_level = WAW_LEVEL
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 700
+	health = 700
 	max_boxes = 24
 	pixel_x = -32
 	base_pixel_x = -32
@@ -22,8 +22,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(45, 45, 40, 40, 50),
 		ABNORMALITY_WORK_REPRESSION = list(45, 45, 40, 40, 50),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 4
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
+	good_hater = TRUE
 	faction = list("hostile", "neutral")
 	can_breach = TRUE
 	start_qliphoth = 3
@@ -31,7 +34,7 @@
 	light_color = COLOR_LIGHT_ORANGE
 	light_range = 0
 	light_power = 0
-	loot = list(/obj/item/gun/ego_gun/feather)
+	loot = list(/obj/item/ego_weapon/feather)
 	ego_list = list(/datum/ego_datum/armor/feather)
 	gift_type = /datum/ego_gifts/feather
 	abnormality_origin = ABNORMALITY_ORIGIN_LOBOTOMY
@@ -41,21 +44,26 @@
 	observation_prompt = "You can only hunt it wearing a thick blindfold, but even through the fabric you can track it by the light that manages to seep through and by the heat it radiates. <br>\
 		In your hands you carry a bow nocked with an arrow, it's your last one. <br>\
 		You've been pursuing your prey for days, you..."
-	observation_choices = list("Fire an arrow", "Do nothing") //awaiting extra answers functionality //"Take off your blindfold" should be a third option
-	correct_choices = list("Do nothing")
-	observation_success_message = "You watch and wait as the light and heat pass until only cold and darkness reign in the forest. <br>\
-		Feeling safe, you remove your blindfold and find on the ground one of its radiant feathers. <br>\
-		Bravo brave hunter, have you found what you were seeking?"
-	observation_fail_message = "You fire an arrow at what you percieve to be the source of the light and miss entirely. <br>You return empty-handed like so many hunters before you."
+	observation_choices = list(
+		"Do nothing" = list(TRUE, "You watch and wait as the light and heat pass until only cold and darkness reign in the forest. <br>\
+			Feeling safe, you remove your blindfold and find on the ground one of its radiant feathers. <br>\
+			Bravo brave hunter, have you found what you were seeking?"),
+		"Take off your blindfold" = list(TRUE, "Your curiosity gets the better of you. <br>\
+			The sight of a mythological bird that no one has seen before is a prize no hunter has claimed. <br>\
+			Steeling yourself, you remove the blindfold and immediately your vision is seared by the intensity of the light but you will yourself through the pain to catch a glimpse of what has long evaded every hunter's sight. <br>\
+			The bird offers a tear for your efforts. <br>\
+			Though your eyes may never recover, you have done what no hunter has dared to accomplish - captured it in your sight."),
+		"Fire an arrow" = list(FALSE, "You fire an arrow at what you percieve to be the source of the light and miss entirely. <br>You return empty-handed like so many hunters before you."),
+	)
 
 	var/pulse_cooldown
 	var/pulse_cooldown_time = 1 SECONDS
-	var/pulse_damage = 10
+	var/pulse_damage = 2
 	var/can_act = TRUE
 	var/dash_cooldown
 	var/dash_cooldown_time = 5 SECONDS
 	var/dash_max = 50
-	var/dash_damage = 220
+	var/dash_damage = 50
 	var/list/been_hit = list()
 
 //Initialize
@@ -85,17 +93,20 @@
 	. = ..()
 	switch(datum_reference?.qliphoth_meter)
 		if(1)
-			work_damage_amount = 20
+			work_damage_upper = 8
+			work_damage_lower = 6
 			light_range = 10
 			light_power = 20
 			update_light()
 		if(2)
-			work_damage_amount = 15
+			work_damage_upper = 6
+			work_damage_lower = 4
 			light_range = 2
 			light_power = 10
 			update_light()
 		else
-			work_damage_amount = 10
+			work_damage_upper = 4
+			work_damage_lower = 3
 			light_range = 0
 			light_power = 0
 			update_light()
@@ -115,7 +126,7 @@
 //Breach
 /mob/living/simple_animal/hostile/abnormality/fire_bird/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
-	loot = list(/obj/item/gun/ego_gun/feather)
+	loot = list(/obj/item/ego_weapon/feather)
 	icon_state = icon_living
 	light_range = 20
 	light_power = 20
@@ -143,6 +154,7 @@
 	pulse_cooldown = world.time + pulse_cooldown_time
 	for(var/mob/living/carbon/human/L in livinginview(48, src))
 		L.deal_damage(pulse_damage, RED_DAMAGE)
+		L.deal_damage(pulse_damage * 0.5, FIRE)
 
 /mob/living/simple_animal/hostile/abnormality/fire_bird/proc/retaliatedash()
 	if(dash_cooldown > world.time)
@@ -192,9 +204,10 @@
 				continue
 			visible_message(span_boldwarning("[src] blazes through [L]!"))
 			L.deal_damage(dash_damage, WHITE_DAMAGE)
+			L.deal_damage(dash_damage * 0.1, FIRE)
 			new /obj/effect/temp_visual/cleave(get_turf(L))
 			if(L.sanity_lost) // TODO: TEMPORARY AS HELL
-				L.adjustFireLoss(999)
+				L.deal_damage(999, FIRE)
 			if(!(L in been_hit))
 				been_hit += L
 
@@ -242,7 +255,7 @@
 	name = "Blazing"
 	desc = "The Firebird's flames are healing your wounds"
 	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
-	icon_state = "bg_template"
+	icon_state = "rest"
 
 /datum/status_effect/blazing/tick()
 	..()
@@ -265,7 +278,7 @@
 	name = "Burnt Eyes"
 	desc = "The Firebird has burnt your eyes and made it harder to work!"
 	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
-	icon_state = "bg_template"
+	icon_state = "burnt_eyes"
 
 /datum/status_effect/blinded/on_apply()
 	. = ..()

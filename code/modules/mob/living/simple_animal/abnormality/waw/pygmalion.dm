@@ -15,12 +15,13 @@
 	ranged_cooldown_time = 2 SECONDS
 	minimum_distance = 2
 
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 800
+	health = 800
 	damage_coeff = list(RED_DAMAGE = 0.8, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 1.5)
 	stat_attack = HARD_CRIT
 	can_breach = TRUE
 	vision_range = 7
+	can_spawn = FALSE // Garbage abno, Friendly breaches don't belong in Waw
 
 	del_on_death = FALSE
 
@@ -33,8 +34,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 50,
 		ABNORMALITY_WORK_REPRESSION = list(40, 40, 40, 35, 30),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 
 	ego_list = list(
 		/datum/ego_datum/weapon/my_own_bride,
@@ -46,9 +49,10 @@
 	observation_prompt = "The King Pygmalion prayed earnestly to the Goddess Aphrodite, wishing for the marble statue he had made and fallen in love to come to life. <br>\
 		She answered his prayer, bringing Galatea to life and united them in matrinomy. <br>\
 		What is the real name of the abnormality before you?"
-	observation_choices = list("Galatea", "Pygmalion")
-	correct_choices = list("Galatea", "Pygmalion")
-	observation_success_message = "Perhaps they sculpted each other."
+	observation_choices = list(
+		"Galatea" = list(TRUE, "Perhaps they sculpted each other."),
+		"Pygmalion" = list(TRUE, "Perhaps they sculpted each other."),
+	)
 
 	var/missing_prudence = 0
 	var/mob/living/carbon/human/sculptor = null
@@ -71,6 +75,8 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/pygmalion/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
 /mob/living/simple_animal/hostile/abnormality/pygmalion/OpenFire()
@@ -137,6 +143,8 @@
 	. = ..()
 	if(user.stat != DEAD && !sculptor && istype(user))
 		sculptor = user
+		can_affect_emergency = FALSE
+		trigger_lights = FALSE
 		RegisterSignal(user, COMSIG_LIVING_DEATH, PROC_REF(SculptorDeathOrInsane))
 		RegisterSignal(user, COMSIG_HUMAN_INSANE, PROC_REF(SculptorDeathOrInsane))
 		user.apply_status_effect(STATUS_EFFECT_SCULPTOR)
@@ -148,24 +156,30 @@
 	UnregisterSignal(sculptor, COMSIG_HUMAN_INSANE)
 	remove_status_effect(STATUS_EFFECT_SCULPTOR)
 	threat_level = WAW_LEVEL
+	HostileMode(!IsContained())
+	if(IsContained())
+		BreachEffect()
+
 	if (sculptor)
 		sculptor.remove_status_effect(STATUS_EFFECT_SCULPTOR)
 	if (missing_prudence)
 		restorePrudence()
 	faction = list()
 	sculptor = null
+
 	if(client)
 		to_chat(src, span_userdanger("The sculptor has fallen. It is now your duty to avenge this tragedy!"))
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/pygmalion/Life()
 	. = ..()
-	if (IsContained() && sculptor && (sculptor.health/sculptor.maxHealth < 0.5 || sculptor.sanityhealth/sculptor.maxSanity < 0.5) )
+	if (IsContained() && sculptor && (sculptor.health/sculptor.maxHealth < 0.5 || sculptor.sanityhealth/sculptor.maxSanity < 0.5) || get_emergency_level() >= TRUMPET_1)
+		breach_index = MOB_ABNO_PASSIVE_INDEX // Won't disrupt regenerators
 		BreachEffect()
 		if(client)
 			to_chat(src, span_userdanger("The sculptor is in danger. It is now your duty to protect them!"))
 
-		threat_level = TETH_LEVEL
+		fear_level = TETH_LEVEL
 		var/datum/attribute/user_attribute = sculptor.attributes[PRUDENCE_ATTRIBUTE]
 		var/user_attribute_level = max(1, user_attribute.level)
 		if (user_attribute_level > PRUDENCE_CAP)

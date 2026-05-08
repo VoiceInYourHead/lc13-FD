@@ -26,17 +26,17 @@
 			return "None"
 		if(-INFINITY to 0)
 			return "Healing"
-		if(0 to 15)
+		if(0 to 8)
 			return "Very Low"
-		if(15 to 30)
+		if(8 to 15)
 			return "Low"
-		if(30 to 50)
+		if(15 to 25)
 			return "Moderate"
-		if(50 to 70)
+		if(25 to 35)
 			return "High"
-		if(100 to INFINITY)
+		if(50 to INFINITY)
 			return "Extreme"
-		if(70 to 100)
+		if(35 to 50)
 			return "Very High"
 
 	return "Unknown ([damage])"
@@ -48,17 +48,17 @@
 			return "None"
 		if(-INFINITY to 0)
 			return "Healing"
-		if(0 to 3)
+		if(0 to 2)
 			return "Very Low"
-		if(3 to 6)
+		if(2 to 4)
 			return "Low"
-		if(6 to 9)
+		if(4 to 5)
 			return "Moderate"
-		if(9 to 12)
+		if(5 to 6)
 			return "High"
-		if(15 to INFINITY)
+		if(8 to INFINITY)
 			return "Extreme"
-		if(12 to 15)
+		if(6 to 7)
 			return "Very High"
 
 	return "Unknown ([damage])"
@@ -78,3 +78,17 @@
 			return "High"
 
 	return "Unknown ([rate])"
+
+/*
+	Try to keep images 256px on at least one side to keep file sizes small - Coxswain
+*/
+GLOBAL_LIST_EMPTY(abnormality_portraits)
+#define PORTRAIT_PATH "icons/UI_Icons/abnormality_portraits/"
+/proc/create_portrait_paths()
+	. = list()
+	for(var/file in flist(PORTRAIT_PATH))
+		if(copytext("[file]", -1) == "/")
+			continue
+		. += file("[PORTRAIT_PATH][file]")
+	GLOB.abnormality_portraits = .
+#undef PORTRAIT_PATH

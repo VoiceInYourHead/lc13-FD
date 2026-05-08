@@ -11,24 +11,20 @@
 	display_order = JOB_DISPLAY_ORDER_SYNDICATEVET
 	access = list(ACCESS_SYNDICATE)
 	minimal_access = list(ACCESS_SYNDICATE)
+	departments = DEPARTMENT_CITY_ANTAGONIST
 	paycheck = 200
 	maptype = list("city")
 	job_important = "You are an enforcer in the Kurokumo clan. You are to be respectful and follow orders from the Kashira. Not doing either will result in death. \
 		Unlike the Kashira and their Wakashu, your main goal is to enforce the law among the Wakashu and your territory, and are not really made for defending it. \
 		Enforce the Kurokumo law on the civilians."
 	job_notice = "Avoid killing other players for no reason. Multilation is on the table. "
-
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 	roundstart_attributes = list(
 								FORTITUDE_ATTRIBUTE = 80,
 								PRUDENCE_ATTRIBUTE = 80,
 								TEMPERANCE_ATTRIBUTE = 80,
 								JUSTICE_ATTRIBUTE = 80
 								)
-
-/datum/job/kuroenforcer/after_spawn(mob/living/carbon/human/H, mob/M)
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
-	. = ..()
 
 
 /datum/outfit/job/kuroenforcer

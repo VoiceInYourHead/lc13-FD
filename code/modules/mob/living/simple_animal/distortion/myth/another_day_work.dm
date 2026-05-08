@@ -6,15 +6,16 @@
 	desc = "A man covered in... ties?"
 	icon = 'ModularTegustation/Teguicons/48x96.dmi'
 	icon_state = "work"
-	maxHealth = 900
-	health = 900
+	maxHealth = 300
+	health = 300
 	pixel_x = -16
 	base_pixel_x = -16
 	fear_level = TETH_LEVEL
+	can_spawn = TRUE
 	move_to_delay = 4
 	damage_coeff = list(RED_DAMAGE = 1.2, WHITE_DAMAGE = 1, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 2)
-	melee_damage_lower = 10
-	melee_damage_upper = 14
+	melee_damage_lower = 3
+	melee_damage_upper = 5
 	melee_damage_type = BLACK_DAMAGE
 	stat_attack = HARD_CRIT
 	attack_sound = 'sound/abnormalities/censored/attack.ogg'
@@ -39,7 +40,8 @@
 	egoist_outfit = /datum/outfit/job/civilian
 	//Loot on death; distortions should be valuable targets in general.
 	loot = list(/obj/item/documents/ncorporation)
-
+	/// Prolonged exposure to a monolith will convert the distortion into an abnormality. Black swan is the most strongly related to this guy, but I might make one for it later.
+	monolith_abnormality = /mob/living/simple_animal/hostile/abnormality/black_swan
 	var/can_act = TRUE
 
 //Proc that can be used for additional effects on unmanifest
@@ -88,7 +90,7 @@
 //Projectile
 /obj/projectile/tie
 	name = "stretchy tie"
-	damage = 15
+	damage = 5
 	damage_type = BLACK_DAMAGE
 
 	hitscan = TRUE
@@ -132,7 +134,7 @@
 	desc = "A whip made of ties, strikes are imbued with the pain and exhaustion of a 9-5."
 	special = "This E.G.O. functions as both a gun and a melee weapon."
 	icon_state = "waging"
-	force = 32
+	force = 16
 	reach = 2		//Has 2 Square Reach.
 	damtype = BLACK_DAMAGE
 
@@ -146,7 +148,7 @@
 
 /obj/item/ego_weapon/waging/Initialize()
 	RegisterSignal(src, COMSIG_PROJECTILE_ON_HIT, PROC_REF(projectile_hit))
-	..()
+	return ..()
 
 /obj/item/ego_weapon/waging/afterattack(atom/target, mob/living/user, proximity_flag, clickparams)
 	if(!CanUseEgo(user))

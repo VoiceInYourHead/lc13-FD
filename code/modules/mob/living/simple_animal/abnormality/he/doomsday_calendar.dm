@@ -1,8 +1,8 @@
 /mob/living/simple_animal/hostile/abnormality/doomsday_calendar
 	name = "Doomsday Calendar"
 	desc = "Likely a tool for predicting a date of some kind, judging from the many letters carved on the bricks."
-	health = 2012
-	maxHealth = 2012
+	health = 400
+	maxHealth = 400
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "doomsday_inert"
 	icon_living = "doomsday_inert"
@@ -19,15 +19,17 @@
 	threat_level = HE_LEVEL
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 0.3, WHITE_DAMAGE = 0.3, BLACK_DAMAGE = 0.1, PALE_DAMAGE = 0.3)//only when initialized
 	start_qliphoth = 5
-	max_boxes = 18//this is the normal amount
+	max_boxes = 18 // This must be defined here for later code to work.
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 60,
 		ABNORMALITY_WORK_INSIGHT = 45,
 		ABNORMALITY_WORK_ATTACHMENT = 20,
 		ABNORMALITY_WORK_REPRESSION = 50,
 	)
-	work_damage_amount = 8
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/wrath
 	can_patrol = FALSE
 	wander = FALSE
 	del_on_death = FALSE
@@ -47,11 +49,11 @@
 	observation_prompt = "I'm standing before an altar on top of an impossibly long flight of stairs, the sky is crimson red and the heat from the air licks at my skin painfully. <br>The world is ending. <br>\
 		On the altar is a tied and bound man with a clay mask on his head, he squirms and is clearly crying but I cannot hear his words. <br>\
 		In my hand is a dagger. <br>I know what I have to do."
-	observation_choices = list("Plunge the dagger into his chest", "Cut his bindings")
-	correct_choices = list("Plunge the dagger into his chest")
-	observation_success_message = "I'm laying on an altar, a heavy clay mask is on my head, my arms and legs are tied with thick rope and the air is hot enough to scald my skin. <br>\
-		I see the priest through the pinholes of the mask and plead for him to spare me, before I feel cold metal plunge into my chest."
-	observation_fail_message = "I cut the man free and he thanks me profusely before he speeds down the stairs. <br>He won't make it. <br>I close my eyes and accept the end."
+	observation_choices = list(
+		"Plunge the dagger into his chest" = list(TRUE, "I'm laying on an altar, a heavy clay mask is on my head, my arms and legs are tied with thick rope and the air is hot enough to scald my skin. <br>\
+			I see the priest through the pinholes of the mask and plead for him to spare me, before I feel cold metal plunge into my chest."),
+		"Cut his bindings" = list(FALSE, "I cut the man free and he thanks me profusely before he speeds down the stairs. <br>He won't make it. <br>I close my eyes and accept the end."),
+	)
 
 	var/player_count
 	var/other_works_maximum
@@ -59,13 +61,13 @@
 	var/flavor_dist = 40
 	var/pulse_cooldown
 	var/pulse_cooldown_time = 2 SECONDS
-	var/pulse_damage = 5
+	var/pulse_damage = 2
 	var/bonusRed = 0
 	var/next_phase_time
 	var/next_phase_time_cooldown = 45 SECONDS
 	var/current_phase_num = -1
 	var/aflame_range = 5//it goes up if ignored
-	var/aflame_damage = 20
+	var/aflame_damage = 6
 	var/gibtime = 5
 	var/is_fed = FALSE
 	var/is_firey = FALSE
@@ -92,13 +94,14 @@
 	if(!IsContained())//if it's breaching
 		CheckCountdown()
 		if((pulse_cooldown < world.time) && (is_firey == TRUE))
-			playsound(src, 'sound/abnormalities/doomsdaycalendar/Effect_Burn.ogg', 50, TRUE)
+			playsound(src, 'sound/effects/burn.ogg', 50, TRUE)
 			AoeBurn()
 
 /mob/living/simple_animal/hostile/abnormality/doomsday_calendar/death()
 	density = FALSE
 	playsound(src, 'sound/abnormalities/doomsdaycalendar/Doomsday_Dead.ogg', 100, 1)
-	for(var/mob/living/simple_animal/hostile/doomsday_doll/D in spawned_dolls) //delete the dolls when suppressed
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
+	for(var/mob/living/simple_animal/hostile/aminion/doomsday_doll/D in spawned_dolls) //delete the dolls when suppressed
 		D.death()
 		QDEL_IN(D, rand(1,5) SECONDS)
 		spawned_dolls -= D
@@ -116,7 +119,7 @@
 	if(IsContained() && datum_reference.qliphoth_meter != datum_reference.qliphoth_meter_max)
 		if(do_after(user, gibtime, target = src))
 			to_chat(user, span_warning("[src] bites you! It seems to have been appeased."))
-			user.adjustBruteLoss(75 - (datum_reference.qliphoth_meter * 15))
+			user.adjustBruteLoss(18 - (datum_reference.qliphoth_meter * 4))
 			datum_reference.qliphoth_change(1)
 			return
 		else
@@ -158,7 +161,7 @@
 	if(work_type != ABNORMALITY_WORK_INSTINCT)// Sets bonus damage on instinct work only.
 		bonusRed = 0
 		return..()
-	bonusRed = (5 - (datum_reference.qliphoth_meter))//It samples your blood if it's below the maximum counter, damage is RED instead of typeless
+	bonusRed = (2.5 - (datum_reference.qliphoth_meter))//It samples your blood if it's below the maximum counter, damage is RED instead of typeless
 	if(bonusRed)
 		to_chat(user, span_warning("A clay doll arrives with a bowl, demanding blood."))
 		playsound(src, 'sound/abnormalities/doomsdaycalendar/Lor_Slash_Generic.ogg', 40, 0, 1)
@@ -187,9 +190,10 @@
 //***Breach Mechanics***//
 /mob/living/simple_animal/hostile/abnormality/doomsday_calendar/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
-	var/turf/T = pick(GLOB.department_centers)
+	if(breach_type != BREACH_MINING)
+		var/turf/T = pick(GLOB.department_centers)
+		forceMove(T)
 	icon_state = "doomsday_active"
-	forceMove(T)
 	AnnounceBreach()
 	SpawnAdds()
 
@@ -293,9 +297,9 @@
 	if(IsContained())
 		return
 	if(!is_fed)
-		pulse_damage += 2
+		pulse_damage += 1
 		aflame_range += 5
-		aflame_damage += 20
+		aflame_damage += 3
 	doll_count_maximum += 1
 	is_fed = FALSE
 
@@ -305,22 +309,22 @@
 	if(M.stat != DEAD)
 		return FALSE
 	if(do_after(user, 20, target = M))
-		if(!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile/doomsday_doll))
+		if(!ishuman(M) && !istype(M, /mob/living/simple_animal/hostile/aminion/doomsday_doll))
 			to_chat(user, span_warning("[src] rejects your offering!"))
 			return
-		if(istype(M ,/mob/living/simple_animal/hostile/doomsday_doll))
+		if(istype(M ,/mob/living/simple_animal/hostile/aminion/doomsday_doll))
 			spawned_dolls -= M
 		to_chat(user, span_nicegreen("[src] is sated by your offering!"))
 		M.gib()
 		is_fed = TRUE
-		adjustBruteLoss(100)
+		adjustBruteLoss(50)
 		pulse_damage -= 1
-		playsound(get_turf(src),'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 50, 1)
+		playsound(get_turf(src),'sound/effects/limbus_death.ogg', 50, 1)
 		AddModifier(/datum/dc_change/sacrificed)
 
 //***Simple Mobs***//
 //clay dolls
-/mob/living/simple_animal/hostile/doomsday_doll
+/mob/living/simple_animal/hostile/aminion/doomsday_doll
 	name = "doomsday clay doll"
 	desc = "A vaguely humanoid figure bearing a heavy clay helmet."
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
@@ -332,22 +336,24 @@
 	attack_verb_simple = "claw"
 	attack_sound = 'sound/abnormalities/doomsdaycalendar/Doomsday_Slash.ogg'
 	/*Stats*/
-	health = 200
-	maxHealth = 200
+	health = 50
+	maxHealth = 50
 	obj_damage = 50
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5)
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 12
-	melee_damage_upper = 15
+	melee_damage_lower = 4
+	melee_damage_upper = 6
 	move_to_delay = 3
 	robust_searching = TRUE
 	stat_attack = HARD_CRIT
+	move_resist = MOVE_RESIST_DEFAULT
 	del_on_death = FALSE
 	density = TRUE
-	var/list/breach_affected = list()
+	threat_level = TETH_LEVEL
+	score_divider = 4//they're cannon fodder anyways
 	var/can_act = TRUE
 
-/mob/living/simple_animal/hostile/doomsday_doll/Initialize()
+/mob/living/simple_animal/hostile/aminion/doomsday_doll/Initialize()
 	. = ..()
 	base_pixel_x = rand(-6,6)
 	pixel_x = base_pixel_x
@@ -359,5 +365,5 @@
 	if (doll_count >= doll_count_maximum)
 		return
 	for(var/i = doll_count, i < doll_count_maximum, i++)//This counts up
-		var /mob/living/simple_animal/hostile/doomsday_doll/D= new(get_turf(src))
+		var /mob/living/simple_animal/hostile/aminion/doomsday_doll/D= new(get_turf(src))
 		spawned_dolls += D

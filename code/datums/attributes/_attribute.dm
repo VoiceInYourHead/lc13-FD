@@ -44,7 +44,7 @@ GLOBAL_LIST_INIT(attribute_types, list(
 // Returns current level + initial_stat_value, placed next to information such as modifiers
 // Mainly used by fortitude & prudence
 /datum/attribute/proc/get_printed_level_bonus()
-	return round(level) + initial_stat_value
+	return round(get_level()) + initial_stat_value
 
 /datum/attribute/proc/on_update(mob/living/carbon/user)
 	return
@@ -107,6 +107,15 @@ GLOBAL_LIST_INIT(attribute_types, list(
 	if(!istype(atr))
 		return 0
 	return max(0, atr.get_modified_level())
+
+// Gets the printed level bonus, useful for max HP and SP
+/proc/get_printed_level_bonus(mob/living/carbon/human/user, attribute)
+	if(!istype(user) || !attribute)
+		return 0
+	var/datum/attribute/atr = user.attributes[attribute]
+	if(!istype(atr))
+		return 0
+	return max(0, atr.get_printed_level_bonus())
 
 //Getting raw level, mostly for tools.
 /proc/get_raw_level(mob/living/carbon/human/user, attribute)
@@ -194,7 +203,7 @@ GLOBAL_LIST_INIT(attribute_types, list(
 	for(var/a in user.attributes)
 		var/datum/attribute/atr = user.attributes[a]
 		collective_levels += atr.level
-	return clamp(round(collective_levels / 70), 1, 5)
+	return (clamp(round(collective_levels / 70), 1, 5) + user.physiology.fear_mod)
 
 // Returns a level for the show_attributes proc as a roman numeral I - V, or EX if level is too high.
 /mob/living/carbon/human/proc/get_text_level()

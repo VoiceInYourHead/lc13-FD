@@ -8,6 +8,7 @@
 	maxHealth = 2000 //low health, has AOE blindness
 	health = 2000
 	fear_level = WAW_LEVEL
+	can_spawn = TRUE
 	move_to_delay = 3
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 0.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 1.5)
 	melee_damage_lower = 25
@@ -27,6 +28,8 @@
 	egoist_outfit = /datum/outfit/job/civilian
 	egoist_attributes = 80
 	loot = list(/obj/item/documents/ncorporation, /obj/item/documents/ncorporation) //Placeholder, we need more loot items
+	/// Prolonged exposure to a monolith will convert the distortion into an abnormality. Need to confirm one with the lantern office people
+	monolith_abnormality = /mob/living/simple_animal/hostile/abnormality/big_bird
 	unmanifest_effect = /obj/effect/gibspawner/human
 	light_color = COLOR_YELLOW
 	light_range = 5

@@ -1,8 +1,6 @@
-// HE Armor should be kept at ~75 total armor.
+// HE Armor should be kept at ~70 total armor.
 
-/* Lead Developer's note:
-Think before you code!
-Any attempt to code risk class armor will result in a 10 day Github ban.*/
+/*Developer's note - All LC13 armor has 50% of its red_damage armor as fire armor by default. */
 
 /obj/item/clothing/suit/armor/ego_gear/he
 	icon = 'icons/obj/clothing/ego_gear/abnormality/he.dmi'
@@ -22,26 +20,6 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "The last legacy of the man who sought wisdom. The rake tilled the human brain instead of farmland."
 	icon_state = "harvest"
 	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 20, BLACK_DAMAGE = -20, PALE_DAMAGE = 20) // 70
-	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
-							)
-
-/obj/item/clothing/suit/armor/ego_gear/he/fury
-	name = "blind fury"
-	desc = "And all she saw was red."
-	icon_state = "fury"
-	//all in on red, minor negatives on all else
-	armor = list(RED_DAMAGE = 70, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = -20) // 10
-	attribute_requirements = list(
-							FORTITUDE_ATTRIBUTE = 40
-							)
-
-/obj/item/clothing/suit/armor/ego_gear/he/lutemis
-	name = "dear lutemis"
-	desc = "Let's all dangle down."
-	icon_state = "lutemis"
-	//White armor, weak to red. Red is pretty valuable.
-	armor = list(RED_DAMAGE = -20, WHITE_DAMAGE = 60, BLACK_DAMAGE = 20, PALE_DAMAGE = 20) // 80, Special armor.
 	attribute_requirements = list(
 							PRUDENCE_ATTRIBUTE = 40
 							)
@@ -91,7 +69,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "christmas"
 	desc = "When the rusty sleigh bells are ajingle, Christmas begins."
 	icon_state = "christmas"
-	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 40, BLACK_DAMAGE = 20, PALE_DAMAGE = 20) // 70
+	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 40, BLACK_DAMAGE = 20, PALE_DAMAGE = 20, FIRE = -20) // 70
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 40
 							)
@@ -139,7 +117,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "frost splinter"
 	desc = "Surprisingly cold to the touch."
 	icon_state = "frost_splinter"
-	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 30, BLACK_DAMAGE = 0, PALE_DAMAGE = 50)
+	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 30, BLACK_DAMAGE = 0, PALE_DAMAGE = 50, FIRE = -20)
 	attribute_requirements = list(
 							PRUDENCE_ATTRIBUTE = 40
 							)
@@ -302,7 +280,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "Even still, I witnessed man and sky and earth tear into thousands of pieces."
 	icon_state = "impending_day"
 	flags_inv = NONE
-	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = -20, BLACK_DAMAGE = 50, PALE_DAMAGE = 20) // 70
+	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = -20, BLACK_DAMAGE = 50, PALE_DAMAGE = 20, FIRE = 40) // 70
 	attribute_requirements = list(
 							TEMPERANCE_ATTRIBUTE = 40
 							)
@@ -327,17 +305,17 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 
 /obj/item/clothing/suit/armor/ego_gear/he/jackrabbit
 	name = "jackrabbit"
-	desc = "A lone rabbit hops down a snowy path in a forest it's blakc antlers matching the dead tree's around it."
+	desc = "A lone rabbit hops down a snowy path in a forest it's black antlers matching the dead trees around it."
 	icon_state = "jackrabbit"
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 0, BLACK_DAMAGE = 50, PALE_DAMAGE = 0) // 70
 	attribute_requirements = list(
 							JUSTICE_ATTRIBUTE = 40
 							)
 
-/obj/item/clothing/suit/armor/ego_gear/he/replica
-	name = "replica"
+/obj/item/clothing/suit/armor/ego_gear/he/regs
+	name = "move-in reg"
 	desc = "This coat is covered in glowing sensors. It appears to be incomplete, with exposed sinews underneath the plating."
-	icon_state = "replica"
+	icon_state = "regs"
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 20, BLACK_DAMAGE = 30, PALE_DAMAGE = 0) // 70
 	attribute_requirements = list(
 							JUSTICE_ATTRIBUTE = 40
@@ -405,7 +383,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "lifetime stew"
 	desc = "A soup fit for a king - and all from a few stones. It seemed like magic!"
 	icon_state = "lifestew"
-	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = -20, BLACK_DAMAGE = 60, PALE_DAMAGE = -20) // 40
+	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = -20, BLACK_DAMAGE = 60, PALE_DAMAGE = -20, FIRE = 40) // 40
 	attribute_requirements = list(
 							TEMPERANCE_ATTRIBUTE = 40
 							)
@@ -428,14 +406,18 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 							JUSTICE_ATTRIBUTE = 40
 							)
 
-/obj/item/clothing/suit/armor/ego_gear/he/voodoo
-	name = "voodoo doll"
+/obj/item/clothing/suit/armor/ego_gear/he/scissors
+	name = "scissors"
 	desc = "You look like a little doll."
 	icon_state = "voodoo"
 	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 30, BLACK_DAMAGE = -10, PALE_DAMAGE = 20) // 70
 	attribute_requirements = list(
 							FORTITUDE_ATTRIBUTE = 40
 							)
+
+/obj/item/clothing/suit/armor/ego_gear/he/scissors/Initialize()
+	name = "I'll go fer scissors. How 'bout you?"
+	..()
 
 /obj/item/clothing/suit/armor/ego_gear/he/uturn
 	name = "u-turn"
@@ -446,10 +428,10 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 							FORTITUDE_ATTRIBUTE = 40
 							)
 
-/obj/item/clothing/suit/armor/ego_gear/he/nixie
-	name = "nixie divergence"
+/obj/item/clothing/suit/armor/ego_gear/he/crushbound
+	name = "crushbound past"
 	desc = "A purposeless machine is bound to lose the meaning of its existence, even if it is functional."
-	icon_state = "nixie"
+	icon_state = "crushbound"
 	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 20, BLACK_DAMAGE = -20, PALE_DAMAGE = 30) // 70
 	attribute_requirements = list(
 							JUSTICE_ATTRIBUTE = 40
@@ -464,13 +446,30 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 							TEMPERANCE_ATTRIBUTE = 40
 							)
 
-/obj/item/clothing/suit/armor/ego_gear/he/ardor_star
-	name = "ardor blossom star"
-	desc = "A dress with a bright orange jacket. Warm to the touch."
-	icon_state = "ardor_blossom"
-	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = 0, BLACK_DAMAGE = 10, PALE_DAMAGE = 10) // 70
+/obj/item/clothing/suit/armor/ego_gear/he/telepole
+	name = "telepole"
+	desc = "Alright, I'll sear you down to your guts!"
+	icon_state = "telepole"
+	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = -10, BLACK_DAMAGE = 40, PALE_DAMAGE = 10) // 70
 	attribute_requirements = list(
-							PRUDENCE_ATTRIBUTE = 40
+							FORTITUDE_ATTRIBUTE = 40
 							)
 
+/obj/item/clothing/suit/armor/ego_gear/he/hexnail
+	name = "hex nail"
+	desc = "A fluffy armored coat, which would probably be pretty comfortable if not for the nails poking into it..."
+	icon_state = "hex_nail"
+	armor = list(RED_DAMAGE = 0, WHITE_DAMAGE = 20, BLACK_DAMAGE = 30, PALE_DAMAGE = 20) // 70
+	attribute_requirements = list(
+							FORTITUDE_ATTRIBUTE = 40
+							)
 
+/obj/item/clothing/suit/armor/ego_gear/he/fellbullet
+	name = "fell bullet"
+	desc = "During a gory war, the devil approached a man with a deal. A shotgun that would blast anyone into fireworks, as if fired at point blank. However, the last shell would land on his beloved."
+	icon_state = "fell_bullet"
+	//no special ability here.
+	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -10, BLACK_DAMAGE = 20, PALE_DAMAGE = 20) // 70
+	attribute_requirements = list(
+							JUSTICE_ATTRIBUTE = 40
+							)

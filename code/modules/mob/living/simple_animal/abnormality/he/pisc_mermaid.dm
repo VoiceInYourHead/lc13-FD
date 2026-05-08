@@ -13,14 +13,14 @@
 	death_sound = 'sound/abnormalities/piscinemermaid/waterjump.ogg'
 	attack_sound = 'sound/abnormalities/piscinemermaid/splashattack.ogg'
 	del_on_death = FALSE
-	maxHealth = 1500
-	health = 1500
+	maxHealth = 300
+	health = 300
 	pixel_x = -12
 	base_pixel_x = -12
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 2) //not that bad without a lover
 	rapid_melee = 2
-	melee_damage_lower = 15
-	melee_damage_upper = 20 //really subpar damage and speed but most of her damage is oxyloss anyway
+	melee_damage_lower = 3
+	melee_damage_upper = 4 //really subpar damage and speed but most of her damage is oxyloss anyway
 	stat_attack = HARD_CRIT
 	can_breach = TRUE
 	threat_level = HE_LEVEL
@@ -32,8 +32,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(40, 45, 55, 55, 55),
 		ABNORMALITY_WORK_REPRESSION = list(40, 50, 60, 60, 60),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 	melee_damage_type = BLACK_DAMAGE
 
 	ego_list = list(
@@ -51,14 +53,14 @@
 		if you said I did not need to see then I'd scoop out my eyes as well.\" <br>She splashes her aquamarine tail, foam, water and something else was flicked towards you. <br>\
 		\"I made you a gift, just wear it and say that you love me too.\" <br>\
 		The water carries the comb to your feet, you pick it up as she watches you expectantly."
-	observation_choices = list("Accept the comb", "Cast it into the sea")
-	correct_choices = list("Cast it into the sea")
-	observation_success_message = "\"I don't understand, don't you love me? <br>Can't you hear, see or understand my love? <br>\
-		If I give you my eyes, my ears and my brain, could you percieve and learn to love me too? <br>Just please trade me your heart to fill this void in my chest...\" <br>\
-		You left the mermaid to her babble, love could never be something so transactional."
-	observation_fail_message = "You place the comb in your hair and the mermaid smiles, her pupils like tiny hearts, and you find yourself walking into the depths as she embraces you. <br>\
-		\"I'm so happy you gave me your heart...\" <br>She whispers as she draws you into a kiss, pulling you further and further into the waves, the water passing your chest and then your head but still she wouldn't release her embrace. <br>\
-		Salt water fills your lungs as you lose consciousness."
+	observation_choices = list(
+		"Cast it into the sea" = list(TRUE, "\"I don't understand, don't you love me? <br>Can't you hear, see or understand my love? <br>\
+			If I give you my eyes, my ears and my brain, could you percieve and learn to love me too? <br>Just please trade me your heart to fill this void in my chest...\" <br>\
+			You left the mermaid to her babble, love could never be something so transactional."),
+		"Accept the comb" = list(FALSE, "You place the comb in your hair and the mermaid smiles, her pupils like tiny hearts, and you find yourself walking into the depths as she embraces you. <br>\
+			\"I'm so happy you gave me your heart...\" <br>She whispers as she draws you into a kiss, pulling you further and further into the waves, the water passing your chest and then your head but still she wouldn't release her embrace. <br>\
+			Salt water fills your lungs as you lose consciousness."),
+	)
 
 	response_help_continuous = "pets" //You sick fuck
 	response_help_simple = "pet"
@@ -71,37 +73,6 @@
 
 	var/obj/item/clothing/head/unrequited_crown/crown
 	var/mob/living/carbon/human/love_target
-
-	attack_action_types = list(
-		/datum/action/innate/change_icon_merm,
-	)
-
-
-/datum/action/innate/change_icon_merm
-	name = "Toggle Icon"
-	desc = "Toggle your icon between breached and contained. (Works only for Limbus Company Labratories)"
-
-/datum/action/innate/change_icon_merm/Activate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/48x32.dmi'
-		owner.icon_state = "pmermaid_standing"
-		owner.pixel_x = -12
-		owner.base_pixel_x = -12
-		owner.pixel_y = 0
-		owner.base_pixel_y = 0
-		active = 1
-
-/datum/action/innate/change_icon_merm/Deactivate()
-	. = ..()
-	if(SSmaptype.maptype == "limbus_labs")
-		owner.icon = 'ModularTegustation/Teguicons/64x64.dmi'
-		owner.icon_state = "pmermaid_breach"
-		owner.pixel_x = 0
-		owner.base_pixel_x = 0
-		owner.pixel_y = -16
-		owner.base_pixel_y = -16
-		active = 0
 
 /mob/living/simple_animal/hostile/abnormality/pisc_mermaid/FailureEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
@@ -190,7 +161,7 @@
 				if(faction_check(src.faction, H.faction)) // I LOVE NESTING IF STATEMENTS
 					continue
 			//if there's no love target, they suffocate everyone they can see but you can just get out of her view to stop it
-			H.adjustOxyLoss(3, updating_health=TRUE, forced=TRUE)
+			H.adjustOxyLoss(2, updating_health=TRUE, forced=TRUE)
 			new /obj/effect/temp_visual/mermaid_drowning(get_turf(H))
 		return
 
@@ -200,7 +171,7 @@
 		love_target = null
 		return
 	//Not having a cooldown on the oxyloss sounds bad, but people's breathing is dictated by Life(), so it's actually the perfect pace of oxyloss
-	love_target.adjustOxyLoss(2.5, updating_health=TRUE, forced=TRUE)
+	love_target.adjustOxyLoss(1.5, updating_health=TRUE, forced=TRUE)
 	new /obj/effect/temp_visual/mermaid_drowning(get_turf(love_target))
 
 /mob/living/simple_animal/hostile/abnormality/pisc_mermaid/attackby(obj/item/W, mob/user, params)

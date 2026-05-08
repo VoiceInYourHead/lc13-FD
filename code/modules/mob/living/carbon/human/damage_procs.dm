@@ -2,21 +2,24 @@
 /mob/living/carbon/human/apply_damage(damage = 0,damagetype = BRUTE, def_zone = null, blocked = FALSE, forced = FALSE, spread_damage = FALSE, wound_bonus = 0, bare_wound_bonus = 0, sharpness = SHARP_NONE, white_healable = FALSE)
 	return dna.species.apply_damage(damage, damagetype, def_zone, blocked, src, forced, spread_damage, wound_bonus, bare_wound_bonus, sharpness, white_healable)
 
+
+
 //// Damage Effects
 /mob/living/carbon/human/adjustRedLoss(amount, updating_health = TRUE, forced = FALSE)
+	if(stat != DEAD)
+		DamageEffect(amount, RED_DAMAGE)
 	. = ..()
-	//Failsafe
-	if(. && !forced)
-		if(. > 0)
-			new /obj/effect/temp_visual/damage_effect/red(get_turf(src))
 
 /mob/living/carbon/human/adjustWhiteLoss(amount, updating_health = TRUE, forced = FALSE, white_healable = FALSE)
 	var/damage_amt = amount
 	if(sanity_lost && white_healable) // Heal sanity instead.
 		damage_amt *= -1
-	if(damage_amt > 0 && !forced)
-		new /obj/effect/temp_visual/damage_effect/white(get_turf(src))
-	adjustSanityLoss(damage_amt, forced)
+	if(stat != DEAD)
+		DamageEffect(damage_amt, WHITE_DAMAGE)
+	if(HAS_TRAIT(src, TRAIT_BRUTESANITY))
+		adjustBruteLoss(amount, forced = forced)
+	else
+		adjustSanityLoss(damage_amt, forced)
 	if(updating_health)
 		updatehealth()
 	return damage_amt
@@ -25,17 +28,27 @@
 	var/damage_amt = amount
 	if(sanity_lost && white_healable) // Heal sanity instead.
 		damage_amt *= -1
-	if(amount > 0 && !forced)
-		new /obj/effect/temp_visual/damage_effect/black(get_turf(src))
+	if(stat != DEAD)
+		DamageEffect(amount, BLACK_DAMAGE)
 	adjustBruteLoss(amount, forced = forced)
-	adjustSanityLoss(damage_amt, forced = forced)
+	if(!HAS_TRAIT(src, TRAIT_BRUTESANITY))
+		adjustSanityLoss(damage_amt, forced = forced)
 	return damage_amt
 
 /mob/living/carbon/human/adjustPaleLoss(amount, updating_health = TRUE, forced = FALSE)
+	if(stat != DEAD)
+		DamageEffect(amount, PALE_DAMAGE)
 	. = ..()
-	if(. && !forced)
-		if(. > 0)
-			new /obj/effect/temp_visual/damage_effect/pale(get_turf(src))
+
+/mob/living/carbon/human/adjustToxLoss(amount, updating_health = TRUE, forced = FALSE)
+	if(stat != DEAD)
+		DamageEffect(amount, TOX)
+	. = ..()
+
+/mob/living/carbon/human/adjustFireLoss(amount, updating_health = TRUE, forced = FALSE, required_status)
+	if(stat != DEAD)
+		DamageEffect(amount, FIRE)
+	. = ..()
 
 //
 
@@ -53,8 +66,7 @@
 	if(amount > 0)
 		playsound(loc, 'sound/effects/sanity_damage.ogg', min(amount, 50), TRUE, -1)
 	else if(amount < 0)
-		var/turf/T = get_turf(src)
-		new /obj/effect/temp_visual/sparkles/sanity_heal(T)
+		HealingEffect("sanity")
 	if(sanity_lost && sanityhealth >= maxSanity)
 		QDEL_NULL(ai_controller)
 		sanity_lost = FALSE
@@ -62,6 +74,7 @@
 		remove_status_effect(/datum/status_effect/panicked_type)
 		visible_message(span_boldnotice("[src] comes back to [p_their(TRUE)] senses!"), \
 						span_boldnotice("You are back to normal!"))
+		SEND_GLOBAL_SIGNAL(COMSIG_GLOB_HUMAN_RESANE, src)
 	else if(!sanity_lost && sanityhealth <= 0)
 		sanity_lost = TRUE
 		apply_status_effect(/datum/status_effect/panicked)
@@ -77,6 +90,18 @@
 	update_sanity_hud()
 	med_hud_set_sanity()
 	return amount
+
+/mob/living/carbon/human/proc/restoreSanity(message = TRUE)
+	sanityloss = 0
+	sanityhealth = maxSanity
+	QDEL_NULL(ai_controller)
+	if(sanity_lost && message)
+		visible_message(span_boldnotice("[src] comes back to [p_their(TRUE)] senses!"), \
+						span_boldnotice("You are back to normal!"))
+	sanity_lost = FALSE
+	grab_ghost(force = TRUE)
+	remove_status_effect(/datum/status_effect/panicked_type)
+
 
 /mob/living/carbon/human/proc/SanityLossEffect(attribute)
 	if((status_flags & GODMODE) || HAS_TRAIT(src, TRAIT_SANITYIMMUNE) || stat >= HARD_CRIT)

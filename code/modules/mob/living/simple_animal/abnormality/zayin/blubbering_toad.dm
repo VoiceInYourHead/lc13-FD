@@ -6,7 +6,8 @@
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "blubbering"
 	icon_living = "blubbering"
-	icon_dead = "blubbering_egg"
+	icon_dead = "blubbering_dead"
+	core_icon = "blubbering_egg"
 	portrait = "blubbering_toad"
 	var/icon_tongue = "blubbering_tongue"
 	del_on_death = FALSE
@@ -14,16 +15,16 @@
 	base_pixel_x = -16
 
 	threat_level = ZAYIN_LEVEL
-	maxHealth = 1400 //megahuge stats, almost as strong as a WAW.
-	health = 1400
+	chem_type = /datum/reagent/abnormality/sin/gloom
+	maxHealth = 400
+	health = 400
 	can_breach = TRUE
 	melee_damage_type = BLACK_DAMAGE
 	stat_attack = DEAD
 	damage_coeff = list(RED_DAMAGE = 0.7, WHITE_DAMAGE = 0.7, BLACK_DAMAGE = 0.3, PALE_DAMAGE = 2)
 	move_to_delay = 3
-	melee_damage_lower = 35
-	melee_damage_upper = 45
-	max_boxes = 10
+	melee_damage_lower = 2
+	melee_damage_upper = 4
 	ranged = TRUE
 	attack_sound = 'sound/abnormalities/blubbering_toad/attack.ogg'
 	attack_verb_continuous = "mauls"
@@ -35,7 +36,8 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(50, 40, 30, 30, 30),
 		ABNORMALITY_WORK_REPRESSION = list(70, 30, 30, 30, 30),
 	)
-	work_damage_amount = 6
+	work_damage_upper = 2
+	work_damage_lower = 1
 	work_damage_type = BLACK_DAMAGE
 
 	// Petting
@@ -58,20 +60,20 @@
 		This resin is like gloom. <br>\
 		A sap of gloom, not quite like tears or sadness. <br>\
 		The toad holds this resin."
-	observation_choices = list("Mimic the cry", "Sit and wait")
-	correct_choices = list("Sit and wait")
-	observation_success_message = "An indeterminate amount of time passes. <br>\
-		As you waited for the toad to finish its cries, <br>\
-		it gazed into you, closing and opening its eyelids slowly. <br>\
-		With a quick, slick sound,a long blue tongue popped out towards you. <br>\
-		An eyeball belonging to the toad was on its tongue. <br>\
-		When you picked it up, it blinked its other eye at us before going on its way. <br>\
-		Was that its thanks for lending an ear?"
-	observation_fail_message = "\"Croohic, croohoo.\" <br>\
-		The toad’s cry is dull and heavy. <br>\
-		It doesn’t seem to have understood what it heard. <br>\
-		After crying like that a few more times, it hopped away from its spot. <br>\
-		All that’s left is the sticky blue resin."
+	observation_choices = list(
+		"Sit and wait" = list(TRUE, "An indeterminate amount of time passes. <br>\
+			As you waited for the toad to finish its cries, <br>\
+			it gazed into you, closing and opening its eyelids slowly. <br>\
+			With a quick, slick sound, a long blue tongue popped out towards you. <br>\
+			An eyeball belonging to the toad was on its tongue. <br>\
+			When you picked it up, it blinked its other eye at us before going on its way. <br>\
+			Was that its thanks for lending an ear?"),
+		"Mimic the cry" = list(FALSE, "\"Croohic, croohoo.\" <br>\
+			The toad’s cry is dull and heavy. <br>\
+			It doesn’t seem to have understood what it heard. <br>\
+			After crying like that a few more times, it hopped away from its spot. <br>\
+			All that’s left is the sticky blue resin."),
+	)
 
 	//work
 	var/pulse_healing = 15
@@ -88,6 +90,7 @@
 	var/transformed = FALSE
 	var/broken = FALSE
 	var/persistant = FALSE
+	var/angry = FALSE
 
 //Work/Misc
 /mob/living/simple_animal/hostile/abnormality/blubbering_toad/PostSpawn()
@@ -116,8 +119,15 @@
 
 //Attack or approach it directly and it attacks you!
 /mob/living/simple_animal/hostile/abnormality/blubbering_toad/BreachEffect(mob/living/user, breach_type = BREACH_NORMAL)
-	if(breach_type == BREACH_PINK)
-		persistant = TRUE
+	if(breach_type == BREACH_PINK || breach_type == BREACH_MINING)
+		angry = TRUE
+	if(breach_type == BREACH_MINING)//nerfed to a ZAYIN statline since this is something you'll typically fight roundstart
+		name = "Weakened [name]"
+		maxHealth = 75
+		melee_damage_lower = 2
+		melee_damage_upper = 4
+		tongue_damage = 5
+		broken = TRUE
 	SetIdiot(user)
 	return ..()
 
@@ -161,14 +171,14 @@
 
 /mob/living/simple_animal/hostile/abnormality/blubbering_toad/death() //EGG! just kidding no egg....
 	density = FALSE
-	playsound(src, 'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 40, 0, FALSE)
+	playsound(src, 'sound/effects/limbus_death.ogg', 40, 0, FALSE)
 	animate(src, alpha = 0, time = 5 SECONDS)
 	QDEL_IN(src, 5 SECONDS)
 	..()
 
 //Attacks
 /mob/living/simple_animal/hostile/abnormality/blubbering_toad/OpenFire()
-	if(target != idiot)
+	if(target != idiot && !angry)
 		return
 	var/dist = get_dist(target, src)
 	if((dist > 2) && (dist < 5))
@@ -229,14 +239,16 @@
 	update_icon_state() //prevents icons from getting stuck
 	..()
 
-/mob/living/simple_animal/hostile/abnormality/blubbering_toad/AttackingTarget()
-	if(!ishuman(target))
+/mob/living/simple_animal/hostile/abnormality/blubbering_toad/AttackingTarget(atom/attacked_target)
+	if(angry)
+		return ..()
+	if(!ishuman(attacked_target))
 		return
-	if(target != idiot)
-		LoseTarget(target)
+	if(attacked_target != idiot)
+		LoseTarget(attacked_target)
 		return
 	..()
-	var/mob/living/carbon/human/H = target
+	var/mob/living/carbon/human/H = attacked_target
 	if(H.sanity_lost) //prevents hitting the same guy in an infinite loop
 		melee_damage_type = BLACK_DAMAGE
 	if(H.health < 0)
@@ -268,19 +280,19 @@
 
 //Transformation
 /mob/living/simple_animal/hostile/abnormality/blubbering_toad/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
-	..()
+	. = ..()
 	if(broken)
 		return
 	if(transformed)
 		if(health < (maxHealth / 5)) //20% health or lower
 			melee_damage_lower = 15
 			melee_damage_upper = 25
-			icon_living = "blubbering_egg"
-			icon_tongue = "blubbering_egg_tongue"
+			icon_living = "blubbering_dead"
+			icon_tongue = "blubbering_dead_tongue"
 			icon_state = icon_living
 			melee_damage_type = WHITE_DAMAGE
 			broken = TRUE
-			playsound(src, 'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 40, 0, 1)
+			playsound(src, 'sound/effects/limbus_death.ogg', 40, 0, 1)
 		return
 	if(health < (maxHealth / 2)) //50% health or lower
 		var/state = pick("red", "white")
@@ -293,7 +305,7 @@
 		icon_living = "blubbering_[state]"
 		icon_tongue = "blubbering_tongue_[state]"
 		icon_state = icon_living
-		playsound(src, 'sound/abnormalities/doomsdaycalendar/Limbus_Dead_Generic.ogg', 40, 0, 1)
+		playsound(src, 'sound/effects/limbus_death.ogg', 40, 0, 1)
 
 /datum/status_effect/blue_resin
 	id = "blue resin"

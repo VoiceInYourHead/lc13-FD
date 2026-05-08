@@ -22,6 +22,9 @@
 									JUSTICE_ATTRIBUTE = 0
 									)
 
+	/// The current baseline for jobs with varying attributes
+	var/normal_attribute_level = 0
+
 	//Determines who can demote this position
 	var/department_head = list()
 
@@ -70,7 +73,7 @@
 	var/paycheck = PAYCHECK_MINIMAL
 	var/paycheck_department = ACCOUNT_CIV
 
-	var/list/mind_traits // Traits added to the mind of the mob assigned this job
+	var/list/mind_traits // Traits added to the mob with this job
 
 	///Lazylist of traits added to the liver of the mob assigned this job (used for the classic "cops heal from donuts" reaction, among others)
 	var/list/liver_traits = null
@@ -78,6 +81,9 @@
 	var/display_order = JOB_DISPLAY_ORDER_DEFAULT
 
 	var/bounty_types = CIV_JOB_BASIC
+
+	///Bitfield of departments this job belongs wit
+	var/departments = NONE
 
 	/// Should this job be allowed to be picked for the bureaucratic error event?
 	var/allow_bureaucratic_error = TRUE
@@ -107,6 +113,9 @@
 	///Job abbreviation used when humans talk on radio. If null should not add anything to radio messages
 	var/job_abbreviation
 
+	//Make the default title unavailable. Used for Agent Captains, which consists of 10 alt jobs.
+	var/alts_only = FALSE
+
 /datum/job/New()
 	. = ..()
 	var/list/jobs_changes = GetMapChanges()
@@ -121,20 +130,25 @@
 	if(isnum(jobs_changes["total_positions"]))
 		total_positions = jobs_changes["total_positions"]
 
+/datum/job/proc/ApplyJobTraits(mob/living/H)
+	if(mind_traits)
+		for(var/t in mind_traits)
+			ADD_TRAIT(H, t, JOB_TRAIT)
+	var/obj/item/organ/liver/liver = H.getorganslot(ORGAN_SLOT_LIVER)
+	if(liver)
+		for(var/t in liver_traits)
+			ADD_TRAIT(liver, t, JOB_TRAIT)
+
+/datum/job/proc/RespawnStats() // used for jobs that have dynamic respawn stats
+	if(normal_attribute_level)
+		return normal_attribute_level
+
 //Only override this proc
 //H is usually a human unless an /equip override transformed it
 /datum/job/proc/after_spawn(mob/living/H, mob/M, latejoin = FALSE)
 	//do actions on H but send messages to M as the key may not have been transferred_yet
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_JOB_AFTER_SPAWN, src, H, M, latejoin)
-	if(mind_traits)
-		for(var/t in mind_traits)
-			ADD_TRAIT(H.mind, t, JOB_TRAIT)
-
-	var/obj/item/organ/liver/liver = H.getorganslot(ORGAN_SLOT_LIVER)
-
-	if(liver)
-		for(var/t in liver_traits)
-			ADD_TRAIT(liver, t, JOB_TRAIT)
+	ApplyJobTraits(H)
 
 	var/list/roundstart_experience
 
@@ -153,6 +167,11 @@
 		var/mob/living/carbon/human/experiencer = H
 		for(var/i in roundstart_experience)
 			experiencer.mind.adjust_experience(i, roundstart_experience[i], TRUE)
+
+	var/set_attribute = RespawnStats()
+	if(set_attribute)
+		for(var/attribute in roundstart_attributes)
+			roundstart_attributes[attribute] = round(set_attribute)
 
 	if(roundstart_attributes.len)
 		var/mob/living/carbon/human/HA = H
@@ -177,6 +196,9 @@
 			Y.registered_name = H.name
 			Y.update_label()
 
+	var/obj/item/organ/brain/B = H.getorganslot(ORGAN_SLOT_BRAIN)
+	if(LAZYLEN(B.initial_traits) == 0)
+		B.initial_traits = H.status_traits
 
 /datum/job/proc/announce(mob/living/carbon/human/H)
 	if(head_announce)
@@ -325,14 +347,8 @@
 		else
 			back = backpack //Department backpack
 
-	//converts the uniform string into the path we'll wear, whether it's the skirt or regular variant
 	var/holder
-	if(H.jumpsuit_style == PREF_SKIRT)
-		holder = "[uniform]/skirt"
-		if(!text2path(holder))
-			holder = "[uniform]"
-	else
-		holder = "[uniform]"
+	holder = "[uniform]"
 	uniform = text2path(holder)
 
 /datum/outfit/job/post_equip(mob/living/carbon/human/H, visualsOnly = FALSE, client/preference_source = null) // Tegu alt job titles
@@ -342,18 +358,30 @@
 	var/datum/job/J = SSjob.GetJobType(jobtype)
 	if(!J)
 		J = SSjob.GetJob(H.job)
+		if(!J) //  We have no job or our job is somehow not enabled in the round
+			J = SSjob.GetJob("Civilian")
+
+	// Tegu edit - Alt job titles
+	var/assigned_job //This is assigned to both the ID and PDA
+	if(preference_source && preference_source.prefs && preference_source.prefs.alt_titles_preferences[J.title])
+		assigned_job = preference_source.prefs.alt_titles_preferences[J.title]
+	else
+		if(J)
+			assigned_job = J.title
+		else
+			assigned_job = "Civilian"
+	//lc13 edit
+	if(J.alts_only && !preference_source.prefs.alt_titles_preferences[J.title])//assign the first alt job if no preferences are loaded
+		assigned_job = "[J.alt_titles[1]]"
+	//end of alt titles
 
 	var/obj/item/card/id/C = H.wear_id
 	if(istype(C))
-		C.access = J.get_access()
+		if(J) // We may still not have a job if it somehow isn't enabled in this map
+			C.access = J.get_access()
 		shuffle_inplace(C.access) // Shuffle access list to make NTNet passkeys less predictable
 		C.registered_name = H.real_name
-		// Tegu edit - Alt job titles
-		if(preference_source && preference_source.prefs && preference_source.prefs.alt_titles_preferences[J.title])
-			C.assignment = preference_source.prefs.alt_titles_preferences[J.title]
-		else
-			C.assignment = J.title
-		// Tegu end
+		C.assignment = assigned_job
 		if(H.age)
 			C.registered_age = H.age
 		C.update_label()
@@ -366,12 +394,7 @@
 	var/obj/item/pda/PDA = H.get_item_by_slot(pda_slot)
 	if(istype(PDA))
 		PDA.owner = H.real_name
-		// Tegu edit - Alt job titles
-		if(preference_source && preference_source.prefs && preference_source.prefs.alt_titles_preferences[J.title])
-			PDA.ownjob = preference_source.prefs.alt_titles_preferences[J.title]
-		else
-			PDA.ownjob = J.title
-		// Tegu end
+		PDA.ownjob = assigned_job
 		PDA.update_label()
 
 	if(H.client?.prefs.playtime_reward_cloak)

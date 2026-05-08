@@ -10,9 +10,11 @@ Backstreets Butcher
 	selection_color = "#555555"
 	access = list(ACCESS_GENETICS)
 	minimal_access = list(ACCESS_GENETICS)
+	departments = DEPARTMENT_SERVICE // They can provide you a service, before you're eaten
 	outfit = /datum/outfit/job/butcher
 	display_order = JOB_DISPLAY_ORDER_ANTAG
 	exp_requirements = 300
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 
 	allow_bureaucratic_error = FALSE
 	maptype = list("wonderlabs", "city")
@@ -26,8 +28,6 @@ Backstreets Butcher
 
 
 /datum/job/butcher/after_spawn(mob/living/carbon/human/H, mob/M, latejoin = FALSE)
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	job_important = "If there is an L-Corp facility nearby, do not enter it. Fixers are not inherently hostile to you, but they can and will find a reason to put you down. \
 			Your primary goal is to kill and cook people and make more money than HHPP. You own The Bistro in the northeast of town."
 	..()

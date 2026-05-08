@@ -286,7 +286,7 @@
 	icon_state = "cone"
 	inhand_icon_state = "cone"
 	force = 1
-	throwforce = 3
+	throwforce = 1
 	throw_speed = 2
 	throw_range = 5
 	w_class = WEIGHT_CLASS_SMALL
@@ -401,7 +401,7 @@
 	UnregisterSignal(M, COMSIG_MOB_SAY)
 	REMOVE_TRAIT(M, TRAIT_GARLIC_BREATH, type)
 
-/obj/item/clothing/head/frenchberet/proc/handle_speech(datum/source, mob/speech_args)
+/obj/item/clothing/head/frenchberet/proc/handle_speech(datum/source, list/speech_args)
 	var/message = speech_args[SPEECH_MESSAGE]
 	if(message[1] != "*")
 		message = " [message]"

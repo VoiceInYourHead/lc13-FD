@@ -60,6 +60,9 @@
 	if(istype(user) && (user?.mind?.assigned_role in banned_roles))
 		to_chat(user, "<span class='notice'>You don't know how to use this.</span>")
 		return
+	if(istype(user) && (user?.mind?.has_antag_datum(/datum/antagonist/wizard/arbiter/rcorp)))
+		to_chat(user, "<span class='notice'>You wouldn't stoop so low as to use the weapons of those below you.</span>") //You are an arbiter not a medic
+		return FALSE
 
 	if(isliving(user))
 		add_fingerprint(user)
@@ -117,13 +120,19 @@
 				return FALSE
 		for(var/obj/effect/ebeam/medical/B in turf)// Don't cross the str-beams!
 			if(B.owner.origin != current_beam.origin)
-				explosion(B.loc,0,0,5,8)
+				if(isliving(user))
+					var/mob/living/living_user = user
+					to_chat(living_user, span_userdanger("You feel the power of two beams tearing you apart!"))
+					living_user.gib()
 				qdel(dummy)
 				return FALSE
 
 		for(var/obj/effect/ebeam/mindwhip/B in turf)// Don't cross the str-beams!
 			if(B.owner.origin != current_beam.origin)
-				explosion(B.loc,0,0,5,8)
+				if(isliving(user))
+					var/mob/living/living_user = user
+					to_chat(living_user, span_userdanger("You feel the power of two beams tearing you apart!"))
+					living_user.gib()
 				qdel(dummy)
 				return FALSE
 	qdel(dummy)

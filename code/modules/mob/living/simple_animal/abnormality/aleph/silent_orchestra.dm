@@ -1,8 +1,8 @@
 /mob/living/simple_animal/hostile/abnormality/silentorchestra
 	name = "The Silent Orchestra"
 	desc = "From break and ruin, the most beautiful performance begins."
-	health = 4000
-	maxHealth = 4000
+	health = 2000
+	maxHealth = 2000
 	icon = 'ModularTegustation/Teguicons/32x48.dmi'
 	icon_state = "silent"
 	icon_living = "silent"
@@ -17,8 +17,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 0, 40, 40, 50),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 10, 20, 30),
 	)
-	work_damage_amount = 16
+	work_damage_upper = 9
+	work_damage_lower = 7
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
+	good_hater = TRUE
 	can_patrol = FALSE
 
 	wander = FALSE
@@ -37,15 +40,15 @@
 	observation_prompt = "I was the conductor of Lobotomy Corporation, I put my everything into it. <br>\
 		Now, I conduct the song of apocalypse to make everything right. <br>As if he is about to start the performance, he stretches his arm. <br>\
 		The conductor, who thought he is the freest soul, was not free at all. <br>The performance ended. <br>I......."
-	observation_choices = list("Gave an applause.", "Did not give applause.")
-	correct_choices = list("Did not give applause.")
-	observation_success_message = "I am not worthy to give an applause yet. <br>The music replays. <br>Angelos, my movement."
-	observation_fail_message = "The performance never ends. <br>And Da Capo."
+	observation_choices = list(
+		"Did not give applause" = list(TRUE, "I am not worthy to give an applause yet. <br>The music replays. <br>Angelos, my movement."),
+		"Gave an applause" = list(FALSE, "The performance never ends. <br>And Da Capo."),
+	)
 
 	/// Range of the damage
 	var/symphony_range = 20
 	/// Amount of white damage every tick
-	var/symphony_damage = 10
+	var/symphony_damage = 4
 	/// When to perform next movement
 	var/next_movement_time
 	/// Current movement
@@ -153,8 +156,9 @@
 
 /mob/living/simple_animal/hostile/abnormality/silentorchestra/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
-	var/turf/T = pick(GLOB.department_centers)
-	forceMove(T)
+	if(breach_type != BREACH_MINING)
+		var/turf/T = pick(GLOB.department_centers)
+		forceMove(T)
 	DamagePulse()
 	return
 

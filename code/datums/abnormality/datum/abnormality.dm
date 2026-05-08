@@ -9,6 +9,10 @@
 	var/qliphoth_meter_max = 0
 	/// Path of the mob it contains
 	var/mob/living/simple_animal/hostile/abnormality/abno_path
+	/// Reference to the door we own, only used for records swapping
+	var/obj/machinery/door/airlock/door
+	/// Reference to the camera we own, only used for records swapping
+	var/obj/machinery/camera/camera
 	/// Reference to current mob, if alive
 	var/mob/living/simple_animal/hostile/abnormality/current
 	/// Reference to respawn landmark
@@ -69,6 +73,12 @@
 	// final obervation details
 	var/observation_ready = FALSE
 
+	//Check for Neutral abnormalities
+	var/good_hater = FALSE
+
+	//Exists to make sure some Abnormalities won't breach again after a trumpet level has been reached and a meltdown hasn't happened
+	var/emergency_breach = TRUE
+
 /datum/abnormality/New(obj/effect/landmark/abnormality_spawn/new_landmark, mob/living/simple_animal/hostile/abnormality/new_type = null)
 	if(!istype(new_landmark))
 		CRASH("Abnormality datum was created without reference to landmark.")
@@ -88,11 +98,12 @@
 		qdel(ED)
 	for(var/atom/A in connected_structures)
 		qdel(A)
-	QDEL_NULL(landmark)
+	door = null
+	camera = null
 	QDEL_NULL(current)
+	QDEL_NULL(landmark)
+	console = null
 	ego_datums = null
-	landmark = null
-	current = null
 	connected_structures = null
 	return ..()
 
@@ -109,12 +120,16 @@
 	current.toggle_ai(AI_OFF)
 	current.status_flags |= GODMODE
 	current.setDir(EAST)
+	current.swap_area_index(MOB_ABNO_PASSIVE_INDEX)//We only want it to be switched while contained
 	threat_level = current.threat_level
 	qliphoth_meter_max = current.start_qliphoth
 	qliphoth_meter = qliphoth_meter_max
 	maximum_attribute_level = THREAT_TO_ATTRIBUTE_LIMIT[threat_level]
+	// Zayin - 10, TETH - 14, HE - 18, WAW - 22, ALEPH - 30 as baselines.
 	if(!current.max_boxes)
-		max_boxes = threat_level * 6
+		max_boxes = (threat_level * 4) + 6
+		if(threat_level >= 5)
+			max_boxes += 4
 	else
 		max_boxes = current.max_boxes
 	if(!current.success_boxes)
@@ -125,6 +140,7 @@
 		neutral_boxes = round(max_boxes * 0.4)
 	else
 		neutral_boxes = current.neutral_boxes
+	good_hater = current.good_hater
 	available_work = current.work_chances
 	switch(threat_level)
 		if(ZAYIN_LEVEL)
@@ -158,6 +174,7 @@
 /datum/abnormality/proc/ModifyOdds()
 	var/turf/spawn_turf = locate(1, 1, 1)
 	var/mob/living/simple_animal/hostile/abnormality/abno = new abno_path(spawn_turf)
+	abno.core_enabled = FALSE
 	for(var/path in abno.grouped_abnos)
 		var/mob/living/simple_animal/hostile/abnormality/abno_friend = path
 		if(abno_friend in SSabnormality_queue.possible_abnormalities[initial(abno_friend.threat_level)])
@@ -178,12 +195,18 @@
 			attribute_given = clamp(((maximum_attribute_level / (user_attribute_level * 0.25)) * (0.25 + (pe / max_boxes))), 0, 16)
 			if((user_attribute_level + attribute_given + 1) >= maximum_attribute_level) // Already/Will/Should be at maximum.
 				attribute_given = max(0, maximum_attribute_level - user_attribute_level)
+				//This player trait gives you a +1 to each work
+				if(HAS_TRAIT(user, TRAIT_BONUS_EXP))
+					attribute_given ++
 			if(attribute_given == 0)
 				if(was_melting)
 					attribute_given = threat_level * SSlobotomy_corp.melt_work_multiplier
 				else
 					to_chat(user, span_warning("You don't feel like you've learned anything from this!"))
+			if(HAS_TRAIT(user, TRAIT_BONUS_EXP))
+				attribute_given ++
 			user.adjust_attribute_level(attribute_type, attribute_given)
+
 	if(console?.tutorial) //don't run logging-related code if tutorial console
 		return
 	var/user_job_title = "Unidentified Employee"
@@ -196,22 +219,31 @@
 	if (pe >= success_boxes) // If they got a good result, adds 10% understanding, up to 100%
 		UpdateUnderstanding(10, pe)
 	else if (pe >= neutral_boxes) // Otherwise if they got a Neutral result, adds 5% understanding up to 100%
-		UpdateUnderstanding(5, pe)
+		if(good_hater == TRUE) //Exception for abnormalities that hate goods or are even impossible.
+			UpdateUnderstanding(10, pe)
+		else
+			UpdateUnderstanding(5, pe)
 	stored_boxes += round(pe * SSlobotomy_corp.box_work_multiplier)
 	overload_chance[user.ckey] = max(overload_chance[user.ckey] + overload_chance_amount, overload_chance_limit)
 
 /datum/abnormality/proc/UpdateUnderstanding(percent, pe)
 	// Lower agent pop gets a bonus
 	var/agent_count = max(AvailableAgentCount(), 1)
-	if(agent_count <= 5 && percent)
-		percent *= 1 + (3 / agent_count)
+	if(percent)
+		percent *= 1 + max(0.5, (3 / agent_count))
 
 	if(understanding != max_understanding) // This should render "full_understood" not required.
 		understanding = clamp((understanding + (max_understanding*percent/100)), 0, max_understanding)
 		if (understanding == max_understanding) // Checks for max understanding after the fact
 			current.gift_chance *= 1.5
 			SSlobotomy_corp.understood_abnos++
-			SSlobotomy_corp.AddLobPoints(MAX_ABNO_LOB_POINTS / SSabnormality_queue.rooms_start, "Abnormality Understanding")
+			var/mult = 1
+			if (GetFacilityUpgradeValue(UPGRADE_RECORDS_2))
+				mult = 1.5
+			if(SSabnormality_queue.rooms_start)//Fixes an Enkephalin Rush runtime
+				SSlobotomy_corp.AddLobPoints(MAX_ABNO_LOB_POINTS / SSabnormality_queue.rooms_start * mult, "Abnormality Understanding")
+			else
+				SSlobotomy_corp.AddLobPoints(mult)
 			observation_ready = TRUE
 	else if(understanding == max_understanding && percent < 0) // If we're max and we reduce, undo the count.
 		understanding = clamp((understanding + (max_understanding*percent/100)), 0, max_understanding)
@@ -256,20 +288,10 @@
 		acquired_chance = acquired_chance[work_level]
 	if(current)
 		acquired_chance = current.WorkChance(user, acquired_chance, workType)
-	switch(workType)
-		if(ABNORMALITY_WORK_INSTINCT)
-			acquired_chance += user.physiology.instinct_success_mod
-		if(ABNORMALITY_WORK_INSIGHT)
-			acquired_chance += user.physiology.insight_success_mod
-		if(ABNORMALITY_WORK_ATTACHMENT)
-			acquired_chance += user.physiology.attachment_success_mod
-		if(ABNORMALITY_WORK_REPRESSION)
-			acquired_chance += user.physiology.repression_success_mod
-	acquired_chance *= user.physiology.work_success_mod
-
 	//Calculating workchance. This is meant to be somewhat log
 	var/player_temperance = get_modified_attribute_level(user, TEMPERANCE_ATTRIBUTE)
 	acquired_chance += TEMPERANCE_SUCCESS_MOD *((0.07*player_temperance-1.4)/(0.07*player_temperance+4))
+	acquired_chance *= user.physiology.work_success_mod
 	acquired_chance += understanding // Adds up to 6-10% [Threat Based] work chance based off works done on it. This simulates Observation Rating which we lack ENTIRELY and as such has inflated the overall failure rate of abnormalities.
 	switch(console.work_bonus)
 		if(EXTRACTION_KEY)
@@ -284,8 +306,15 @@
 					acquired_chance += 3
 				if(ALEPH_LEVEL)
 					acquired_chance += 3
-		if(EXTRACTION_LOCK)
-			acquired_chance -= 15
+	switch(workType)
+		if(ABNORMALITY_WORK_INSTINCT)
+			acquired_chance += user.physiology.instinct_success_mod
+		if(ABNORMALITY_WORK_INSIGHT)
+			acquired_chance += user.physiology.insight_success_mod
+		if(ABNORMALITY_WORK_ATTACHMENT)
+			acquired_chance += user.physiology.attachment_success_mod
+		if(ABNORMALITY_WORK_REPRESSION)
+			acquired_chance += user.physiology.repression_success_mod
 	if(overload_chance[user.ckey])
 		acquired_chance += overload_chance[user.ckey]
 	return clamp(acquired_chance, 0, 100)
@@ -345,63 +374,40 @@
 		return FALSE
 	if(working || target.working)
 		return FALSE
-	// A very silly method to get the objects in the cell
-	var/list/objs_src = view(7, landmark)
-	var/list/objs_target = view(7, target.landmark)
-	// Cursed code!
-	var/obj/machinery/containment_panel/P1 = locate() in objs_src
-	var/obj/machinery/containment_panel/P2 = locate() in objs_target
-	var/obj/machinery/door/airlock/vault/D1 = locate() in objs_src
-	var/obj/machinery/door/airlock/vault/D2 = locate() in objs_target
-	var/obj/machinery/camera/C1 = locate() in objs_src
-	var/obj/machinery/camera/C2 = locate() in objs_target
-	/* Swap everything and update panels & doors! */
-	// Landmark swap
-	var/obj/effect/landmark/abnormality_spawn/our_landmark = landmark
-	landmark = target.landmark
-	target.landmark = our_landmark
-	// Console swap
-	var/obj/machinery/computer/abnormality/our_computer = console
-	console = target.console
-	console.datum_reference = src
-	target.console = our_computer
-	target.console.datum_reference = target
-	// Door name swap
-	if(D1)
-		D1.name = "[target.name] containment zone"
-		D1.desc = "Containment zone of [target.name]. Threat level: [THREAT_TO_NAME[target.threat_level]]."
-	if(D2)
-		D2.name = "[name] containment zone"
-		D2.desc = "Containment zone of [name]. Threat level: [THREAT_TO_NAME[threat_level]]."
-	// Panel swap
-	if(P1)
-		P1.linked_console = target.console
-		target.console.LinkPanel(P1)
-		P1.console_status(target.console)
-		P1.name = "\proper [target.name]'s containment panel"
-	if(P2)
-		P2.linked_console = console
-		console.LinkPanel(P2)
-		P2.console_status(console)
-		P2.name = "\proper [name]'s containment panel"
-	// Camera tag swap
-	if(C1)
-		C1.c_tag = "Containment zone: [target.name]"
-	if(C2)
-		C2.c_tag = "Containment zone: [name]"
+
+	// Get every object thats relevant, and swap their places around
+	var/turf/swap_turf = door.drop_location()
+	door.forceMove(target.door.drop_location())
+	target.door.forceMove(swap_turf)
+
+	swap_turf = camera.drop_location()
+	camera.forceMove(target.camera.drop_location())
+	target.camera.forceMove(swap_turf)
+
+	swap_turf = console.drop_location()
+	console.forceMove(target.console.drop_location())
+	target.console.forceMove(swap_turf)
+
+	swap_turf = console.linked_panel.drop_location()
+	console.linked_panel.forceMove(target.console.linked_panel.drop_location())
+	target.console.linked_panel.forceMove(swap_turf)
+
+	var/turf/enemy_landmark_turf = target.landmark.drop_location()
+	swap_turf = landmark.drop_location()
+	landmark.forceMove(enemy_landmark_turf)
+	current.forceMove(enemy_landmark_turf)
+	target.landmark.forceMove(swap_turf)
+	target.current.forceMove(swap_turf)
+
 	// Move structures
 	for(var/atom/movable/A in connected_structures)
-		A.forceMove(get_turf(landmark))
+		A.forceMove(enemy_landmark_turf)
 		A.x += connected_structures[A][1]
 		A.y += connected_structures[A][2]
 	for(var/atom/movable/A in target.connected_structures)
-		A.forceMove(get_turf(target.landmark))
+		A.forceMove(swap_turf)
 		A.x += connected_structures[A][1]
 		A.y += connected_structures[A][2]
-	// And finally, move abnormalities around
-	if(current)
-		current.forceMove(get_turf(landmark))
-	if(target.current)
-		target.current.forceMove(get_turf(target.landmark))
+
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_ABNORMALITY_SWAP, src, target)
 	return TRUE

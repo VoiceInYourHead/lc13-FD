@@ -244,7 +244,7 @@ Turf and target are separate in case you want to teleport some distance from a t
 	var/list/pois = list()
 	for(var/mob/M in mobs)
 		if(skip_mindless && (!M.mind && !M.ckey))
-			if(!isbot(M) && !iscameramob(M) && !ismegafauna(M) && !isabnormalitymob(M))
+			if(!isbot(M) && !iscameramob(M) && !ismegafauna(M) && !isabnormalitymob(M) && !isabnormalityminion(M))
 				continue
 		if(M.client && M.client.holder && M.client.holder.fakekey) //stealthmins
 			continue
@@ -1148,6 +1148,25 @@ GLOBAL_REAL_VAR(list/stack_trace_storage)
 	C.color = flash_color
 	animate(C, color = animate_color, time = flash_time)
 
+/proc/extended_flash_color(mob_or_client, flash_color="#960000", flash_time=20, maintain_time=0)//this calls sleep()
+	var/client/C
+	if(ismob(mob_or_client))
+		var/mob/M = mob_or_client
+		if(M.client)
+			C = M.client
+		else
+			return
+	else if(istype(mob_or_client, /client))
+		C = mob_or_client
+
+	if(!istype(C))
+		return
+
+	var/animate_color = C.color
+	C.color = flash_color
+	sleep(maintain_time)//thank redacted for this addition
+	animate(C, color = animate_color, time = flash_time)
+
 #define RANDOM_COLOUR (rgb(rand(0,255),rand(0,255),rand(0,255)))
 
 /proc/random_nukecode()
@@ -1473,11 +1492,11 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 	set waitfor = FALSE
 	return call(source, proctype)(arglist(arguments))
 
-/proc/show_blurb(client/C, duration, blurb_text, fade_time = 5, text_color = "white", outline_color = "black", text_align = "left", screen_location = "LEFT+1,BOTTOM+2")
+/proc/show_blurb(client/C, duration, blurb_text, fade_time = 5, text_color = "white", outline_color = "black", text_align = "center", screen_location = "LEFT+1,BOTTOM+2")
 	if(!C)
 		return
 
-	var/style = "font-family: 'Fixedsys'; text-align: [text_align]; color: [text_color]; -dm-text-outline: 1 [outline_color]; font-size: 11px;"
+	var/style = "font-family: 'Better VCR'; text-align: [text_align]; color: [text_color]; -dm-text-outline: 1 [outline_color]; font-size: 11px;"
 	var/text = blurb_text
 	text = uppertext(text)
 

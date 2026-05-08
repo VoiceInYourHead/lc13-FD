@@ -12,8 +12,8 @@
 	custom_price = PAYCHECK_EASY * 1.1
 	amount_per_transfer_from_this = 10
 	volume = 100
-	force = 15 //Smashing bottles over someone's head hurts.
-	throwforce = 15
+	force = 4 //Smashing bottles over someone's head hurts.
+	throwforce = 4
 	inhand_icon_state = "broken_beer" //Generic held-item sprite until unique ones are made.
 	lefthand_file = 'icons/mob/inhands/misc/food_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/misc/food_righthand.dmi'
@@ -78,29 +78,29 @@
 	var/obj/item/bodypart/affecting = user.zone_selected //Find what the player is aiming at
 
 	var/armor_block = 0 //Get the target's armor values for normal attack damage.
-	var/armor_duration = 0 //The more force the bottle has, the longer the duration.
+	// var/armor_duration = 0 //The more force the bottle has, the longer the duration.
 
 	//Calculating duration and calculating damage.
 	if(ishuman(target))
 
 		var/mob/living/carbon/human/H = target
-		var/headarmor = 0 // Target's head armor
+		// var/headarmor = 0 // Target's head armor
 		armor_block = H.run_armor_check(affecting, MELEE,"","",armour_penetration) // For normal attack damage
 
 		//If they have a hat/helmet and the user is targeting their head.
 		if(istype(H.head, /obj/item/clothing/head) && affecting == BODY_ZONE_HEAD)
-			headarmor = H.head.armor.melee
+			// headarmor = H.head.armor.melee
 		else
-			headarmor = 0
+			// headarmor = 0
 
 		//Calculate the knockdown duration for the target.
-		armor_duration = (bottle_knockdown_duration - headarmor) + force
+		// armor_duration = (bottle_knockdown_duration - headarmor) + force
 
 	else
 		//Only humans can have armor, right?
 		armor_block = target.run_armor_check(affecting, MELEE)
-		if(affecting == BODY_ZONE_HEAD)
-			armor_duration = bottle_knockdown_duration + force
+		// if(affecting == BODY_ZONE_HEAD)
+		// 	armor_duration = bottle_knockdown_duration + force
 
 	//Apply the damage!
 	armor_block = min(90,armor_block)
@@ -110,8 +110,8 @@
 	var/head_attack_message = ""
 	if(affecting == BODY_ZONE_HEAD && istype(target, /mob/living/carbon/))
 		head_attack_message = " on the head"
-		if(armor_duration)
-			target.apply_effect(min(armor_duration, 200) , EFFECT_KNOCKDOWN)
+		// if(armor_duration)
+		// 	target.apply_effect(min(armor_duration, 200) , EFFECT_KNOCKDOWN)
 
 	//Display an attack message.
 	if(target != user)
@@ -138,8 +138,8 @@
 	desc = "A bottle with a sharp broken bottom."
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "broken_bottle"
-	force = 9
-	throwforce = 5
+	force = 3
+	throwforce = 2
 	throw_speed = 3
 	throw_range = 5
 	w_class = WEIGHT_CLASS_TINY

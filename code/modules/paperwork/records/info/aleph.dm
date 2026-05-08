@@ -73,11 +73,17 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/staining_rose
 	abno_code = "F-04-116"
 	abno_info = list(
-		"The first employee who works on Staining Rose will resonate with it and become the Chosen.",
-		"If anyone other than the Chosen worked on Staining Rose, they became more vulnerable to damage until Staining Rose wilted.",
-		"When an employee with Justice 4 or lower finished their work, Staining Rose seemed to reset its satisfaction. The employee became more vulnerable to damage until Staining Rose wilted.",
-		"Every 15 minutes, the Qliphoth Counter lowered unless Staining Rose was worked on within the time period.",
-		"When the Qliphoth Counter reached 0, Staining Rose shed its petals, and everyone in the facility became more vulnerable to damage.")
+		"F-04-116 will choose an employee that meets the \"Condition\" as its \"Chosen\". A level 4 employee or an employee with level 5 in any attribute fulfills this condition.",
+		"If anyone other than the \"Chosen\" worked on F-04-116, or the Qliphoth Counter reached 0 with no living \"Chosen\", the abnormality afflicted employees outside of  its containment with a disease that makes them cough up red rose petals.",
+		"The disease will spread from person to person, floor to floor, without end. Employees may be quarantined near a regenerator for safety.",
+		"F-04-116 was \"Stained\" red as work progressed with the \"Chosen\", progressively turning redder until the abnormality was ready to \"Bloom\". As the abnormality stained red, the employee progressively took more unavoidable PALE damage during work.",
+		"When F-04-116 was fully \"Stained\", or the Qliphoth Counter reached 0 with a \"Chosen\" employee alive, a \"Bloom\" event occured.",
+		"During a \"Bloom\" event, the chosen employee took massive, unavoidable PALE damage. If F-04-116 was not yet fully \"Stained\", the damage was fatal and afflicted the employee with a disease.",
+		"When a \"Bloom\" event was the result of a fully \"Stained\" Rose, the work was automatically completed with great success.",
+		"If the \"Chosen\" employee worked on an abnormality other than F-04-116 4 consecutive times, the Qliphoth Counter lowered.",
+		"If the \"Chosen\" employee perished for any reason, F-04-116 turned the entire facility into a rose garden.")
+	abno_breach_damage_type = "Pale"
+	abno_breach_damage_count = "Extreme"
 
 // Melting Love
 /obj/item/paper/fluff/info/aleph/melty
@@ -109,12 +115,13 @@
 	abno_code = "F-01-130"
 	abno_info = list(
 		"When the work result was Bad, the Qliphoth Counter lowered.",
-		"When the employee completed worked on Titania for the first time since her last breach, the Qliphoth Counter lowered.",
-		"When breaching, Titania designated a Level 5 employee as her \"Nemesis\". Titania then continually summoned hostile fairy scouts until her demise.",
-		"When the Nemesis was attacked by Titania, Titania’s attacks had different properties.",
-		"After the Nemesis was killed by Titania, Titania’s strength dramatically increased.",
-		"When employees of Level 3 and lower were attacked by Titania, they were immediately obliterated.")
-	abno_breach_damage_type = "Red/Pale"
+		"When a not fully sane employee began work on Titania, the Qliphoth Counter decreased.",
+		"After 2 employees panicked within the facility, the Qliphoth Counter decreased.",
+		"When breaching, Titania will continually summon hostile fairies that will scout out for her.",
+		"For a period of time after a fairy attacks the employee they took increased WHITE damage and Titania seemed to hunt them down.",
+		"When breaching, Titania will set up laws that if broken, caused the employee to take PALE damage.",
+		"When an employees that was attacked by Titania while panicking or critically injured, they were immediately obliterated.")
+	abno_breach_damage_type = "White/Pale"
 
 // Lady out of Space
 /obj/item/paper/fluff/info/aleph/space_lady
@@ -228,10 +235,23 @@
 		"When an employee whose Justice was lower than Level 4 completed the work, the Qliphoth Counter decreased.",
 		"When the work result was Bad, the Qliphoth Counter lowered.",
 		"An employee in the facility will be reflected upon the mirror on the face of Nobody Is.",
-		"When the selected employee completed work, they were assimilated into the abnormality.")
+		"When only one employee with the clearance to work on abnormalities was present in the facility, work damage increased.",
+		"Otherwise, when the selected employee completed work, they were assimilated into the abnormality.",)
 	abno_breach_damage_count = "Extreme" // Once it transforms its over
 	abno_resistances = list(
 		RED_DAMAGE = "Endured/Endured/Resistant",
 		WHITE_DAMAGE = "Endured/Endured/Resistant",
 		BLACK_DAMAGE = "Resistant/Immune/Immune",
 		PALE_DAMAGE = "Weak/Normal/Endured")
+
+/*// Black Sun
+/obj/item/paper/fluff/info/aleph/blacksun
+	abno_type = /mob/living/simple_animal/hostile/abnormality/black_sun
+	abno_code = "M-03-192"
+	abno_info = list(
+		"This abnormality will rise over the course of 12 minutes",
+		"The closer the sun is to the peak, the more PE was generated from M-03-192.",
+		"As time goes on, this abnormality boosts your stats significantly.",
+		"Working on the abnormality will cause it to set once more, and cause all of it's boosts to subside.",
+		)
+*/

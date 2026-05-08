@@ -5,17 +5,18 @@
 	icon_state = "cleaner"
 	icon_living = "cleaner"
 	portrait = "cleaner"
-	maxHealth = 800
-	health = 800
+	maxHealth = 150
+	health = 150
 	ranged = TRUE
 	attack_verb_continuous = "cleans"
 	attack_verb_simple = "cleans"
 	attack_sound = 'sound/abnormalities/helper/attack.ogg'
 	stat_attack = HARD_CRIT
-	melee_damage_lower = 11
-	melee_damage_upper = 12
+	melee_damage_lower = 4
+	melee_damage_upper = 6
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 0.7, WHITE_DAMAGE = 1, BLACK_DAMAGE = 2, PALE_DAMAGE = 2)
 	speak_emote = list("states")
+	speech_span = SPAN_ROBOT
 	vision_range = 14
 	aggro_vision_range = 20
 
@@ -29,9 +30,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(35, 40, 40, 35, 35),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, -30, -60, -90),
 	)
-	work_damage_amount = 7
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
-	chem_type = /datum/reagent/abnormality/abno_oil
+	chem_type = /datum/reagent/abnormality/sin/wrath
 
 	ego_list = list(
 		/datum/ego_datum/weapon/sanitizer,
@@ -46,6 +48,7 @@
 		/mob/living/simple_animal/hostile/abnormality/we_can_change_anything = 1.5,
 	)
 
+	can_spawn = FALSE // Normally doesn't appear
 	observation_prompt = "I wipe everything. <br>\
 		Cleaning is enjoyable. <br>\
 		I like to be the same as others. <br>\
@@ -54,18 +57,18 @@
 		The model next to mine boasted that it has multiple parts that others don't. <br>\
 		Is that what makes one special? <br>\
 		Am I special the way I am?"
-	observation_choices = list("You are special", "You are not special")
-	correct_choices = list("You are not special")
-	observation_success_message = "\"Am I not special, not special, not special?\" <br>\
-		After giving a lagged reply, it suddenly began tearing off all the cleaning gadgets from its body and crashing into walls. <br>\
-		It rubbed its body on other objects while sparks flew off as if it was trying to attach things to it. <br>\
-		It only stopped after a while. <br>\
-		\"Maybe I wanted to be special.\""
-	observation_fail_message = "\"No. I am not special.\" <br>\
-		Disregarding the answer, it gives a stern reply. <br>\
-		\"I will keep living an ordinary life, the same as now, just as assigned to me.\""
+	observation_choices = list(
+		"You are not special" = list(TRUE, "\"Am I not special, not special, not special?\" <br>\
+			After giving a lagged reply, it suddenly began tearing off all the cleaning gadgets from its body and crashing into walls. <br>\
+			It rubbed its body on other objects while sparks flew off as if it was trying to attach things to it. <br>\
+			It only stopped after a while. <br>\
+			\"Maybe I wanted to be special.\""),
+		"You are special" = list(FALSE, "\"No. I am not special.\" <br>\
+			Disregarding the answer, it gives a stern reply. <br>\
+			\"I will keep living an ordinary life, the same as now, just as assigned to me.\""),
+	)
 
-	var/bumpdamage = 10
+	var/bumpdamage = 4
 
 /mob/living/simple_animal/hostile/abnormality/cleaner/Move()
 	..()
@@ -82,11 +85,25 @@
 			H.throw_at(throw_target, rand(6, 10), 18, H)
 
 		if(H.stat == DEAD)
-			H.gib(FALSE, FALSE, FALSE)
+			H.gib(TRUE)
 
-	//destroy blood
-	for(var/obj/effect/decal/cleanable/blood/B in view(src, 2))
-		qdel(B)
+	//destroy the unclean
+	for(var/turf/tile in view(src, 2))
+		tile.wash(CLEAN_SCRUB)
+		for(var/A in tile)
+			// Clean small items that are lying on the ground
+			if(isitem(A))
+				var/obj/item/I = A
+				if(I.w_class <= WEIGHT_CLASS_SMALL && !ismob(I.loc))
+					I.wash(CLEAN_SCRUB)
+			// Clean humans that are lying down
+			else if(ishuman(A))
+				var/mob/living/carbon/human/cleaned_human = A
+				if(cleaned_human.body_position == LYING_DOWN)
+					cleaned_human.wash(CLEAN_SCRUB)
+					cleaned_human.regenerate_icons()
+					to_chat(cleaned_human, span_danger("[src] flawlessly cleans you of your features!"))
+					ADD_TRAIT(cleaned_human, TRAIT_DISFIGURED, TRAIT_GENERIC) //cleans your face of uneeded features
 
 /mob/living/simple_animal/hostile/abnormality/cleaner/update_icon_state()
 	if(status_flags & GODMODE)
@@ -119,4 +136,3 @@
 	. = ..()
 	update_icon()
 	GiveTarget(user)
-

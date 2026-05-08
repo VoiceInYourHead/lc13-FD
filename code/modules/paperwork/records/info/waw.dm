@@ -39,6 +39,7 @@
 		"After an employee died within the facility, the Qliphoth Counter decreased.",
 		"When the work result was Bad, the Qliphoth Counter decreased.",
 		"When the work result was Good, the Qliphoth Counter increased.",
+		"Big Bird breached its Containment Unit regardless of its Qliphoth Counter when the emergency situation in the facility reached the 2nd Trumpet.",
 		"Employees who are near Big Bird may become enchanted whenever Big Bird swings its lamp.")
 	abno_breach_damage_type = "Instant Death"
 	abno_breach_damage_count = "N/A"
@@ -65,7 +66,7 @@
 	abno_info = list(
 		"When the work result was Bad, the Qliphoth Counter lowered.",
 		"When 3 Qliphoth Meltdowns occurred in the facility without the death of an employee, the Qliphoth Counter lowered.",
-		"After 4 employees died within the facility while the Qliphoth Counter was at its maximum, The Queen of Hatred voluntarily helped with Abnormality suppression. However, if 50% of our employees die while help is provided, the state of the Abnormality will change and will need to be suppressed immediately.",
+		"When the facility reached Trumpet Level 2, The Queen of Hatred voluntarily helped with Abnormality suppression. However, if 50% of our employees die while help is provided, the state of the Abnormality will change and will need to be suppressed immediately.",
 		"The Queen of Hatred’s status changed when her Qliphoth Counter became 1. The work success rate was low when in said status. This status has been designated as \"Hysteric\" due to her anxiety and compulsive disorders.",
 		"When she was Hysteric, generating 16+ PE-Boxes raised her Qliphoth Counter.",
 		"When she was Hysteric, generating 15 or fewer PE-Boxes lowered her Qliphoth Counter.")
@@ -95,9 +96,9 @@
 		"After an employee completed their work, Shrimp Association Executive requested an idea or service.",
 		"The abnormality repeated its request when approached by an employee.",
 		"Observations have concluded that each request corresponded to a specific work type. Performing this work type will result in significantly increased work success rate.",
-		"When the work result was Good, Shrimp Association Executive ordered shrimp-themed merchandise for the employee. Possible items included:<br>\
+		"When 3 requests have been completed in a row, Shrimp Association Executive ordered a crate containing shrimp-themed merchandise for the employee. Possible items included:<br>\
 		<ol type=1>\
-			<li>\"Shrimp Corporation\" brand firearms</li>\
+			<li>\"Shrimp Corporation\" brand equipment</li>\
 			<li>Shrimp in a grenade</li>\
 			<li>A can of Wellcheers-brand soda</li>\
 		</ol>")
@@ -295,8 +296,8 @@
 		"An employee who constantly worked with The Little Prince, showed signs of acute pain in the Containment Unit. After that, tissues similar to The Little Prince emerged in their body, and NAME began to transform into The Little Prince-1.",
 		"The Little Prince attracted an employee to its containment unit when its Qliphoth Counter hit 0. When the lured employee entered the Containment Unit, the same phenomenon as described previously occurred.",
 		"When suppressing The Little Prince-1, please pay attention to the spores that are released from its body upon death. Those spores will cause sustained mental damage, and employees who panic from the spores may attempt to enter The Little Prince’s Containment Unit, which should be immediately stopped.")
-	abno_can_breach = TRUE // Info for the minion
-	abno_breach_damage_type = "Black"
+	abno_can_breach = TRUE // Info for the minion + fungi
+	abno_breach_damage_type = "Black/White"
 	abno_breach_damage_count = "High"
 
 //Flesh Idol
@@ -306,7 +307,8 @@
 	abno_info = list(
 		"When work was complete, everyone in the facility was healed.",
 		"During work, the employee took random damage continuously.",
-		"When work was completed 4 times, The Qliphoth counter lowered.",
+		"When work was completed, The Qliphoth counter lowered.",
+		"After 5 minutes have passed, The Qliphoth counter increased.",
 		"When the Qliphoth counter reached 0, one abnormality breached containment.")
 	abno_work_damage_type = "Random"
 
@@ -336,11 +338,12 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/nosferatu
 	abno_code = "O-01-65"
 	abno_info = list(
-		"When repression work was performed, the Qliphoth counter lowered.",
-		"When the work result was Bad, the Qliphoth Counter lowered.",
-		"When instinct work was performed, the Qliphoth counter increased.",
-		"Agent Bong Bong took constant BLACK damage during instinct work.",
-		"When the Qliphoth counter increased while at max, Nosferatu immediately breached containment.",
+		"O-01-65 accumulates thirst over time. The Qliphoth Counter changed to reflect this level of thirst.",
+		"When the work was completed, a small amount of blood was drained from the employee unless the Qliphoth Counter was at maximum.",
+		"When the work result was Bad, the employee was forcibly drained of a moderate amount of blood.",
+		"When repression work was succesfully performed, the level of thirst increased but blood was not drawn.",
+		"If the same employee was drained of blood 3 times in a row, they were forcibly drained of a lethal amount of blood.",
+		"When given far too much blood, the abnormality breached containment in a frenzy.",
 		"While Nosferatu is escaping, it will show sensitive reactions to blood. Suppression becomes difficult if blood is readily accessible to this abnormality.")
 	abno_breach_damage_type = "Red/Black"
 	abno_breach_damage_count = "High"
@@ -368,13 +371,10 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/sphinx
 	abno_code = "T-03-33"
 	abno_info = list(
-		"When the work was complete, the Qliphoth Counter lowered depending on the abnormality's mood. The abnormality's mood improved after an offering was successfully made.",
-		"When an employee performed riddle work, the abnormality posed a question in a strange language. Agents are then provided with a cipher.",
-		"When the employee performed offering work, an item placed on the nearby offering table was inspected by the abnormality. If the table was empty, the abnormality checked the employee's hands.",
-		"When the abnormality was disappointed with an offering, the offender had one of their senses taken away.",
-		"When the riddle was successfully solved with an offering, the Qliphoth counter raised to its maximum. In addition, the abnormality willingly parted with an anomalous object referred to henceforth as a gift.",
-		"When agent bong bong used the canopic jar gift, she was cured of permanent blindness. Effects may differ but are usually beneficial.",
-		"Agent Joshua, who was turned to stone by the abnormality was able to be saved using gift of golden needles.")
+		"Employees with a high Prudence Level had their work chance increased dramatically.",
+		"When the work result was Good, the abnormality provided a treasure with a low probability.",
+		"When the work result was Bad, the Qliphoth counter reduced. Additionally, employees with Prudence Level 4 or lower had one of their senses taken away.",
+		"Agent Joshua, who was turned to stone by the abnormality was able to be saved using the treasure of golden needles.")
 
 //Clouded Monk
 /obj/item/paper/fluff/info/waw/clouded_monk
@@ -405,7 +405,7 @@
 	abno_info = list(
 		"The first Employee that gets a Good work result will gain a mark from now on will be called the “Sculptor”" ,
 		"The “Sculptor” will have a higher work success chance with Pygmalion and will have a higher chance of getting the E.G.O gift" ,
-		"Pygmalion breaches when the “Sculptor” has 50% or less sanity or health." ,
+		"Pygmalion breaches when the “Sculptor” has 50% or less sanity or health or when the facility reached the 1st Trumpet." ,
 		"When Pygmalion breaches, They will teleport to the “Sculptor” and attack any abnormality in their way and any abnormality near the “Sculptor.”" ,
 		"The “Sculptor” will have their maximum sanity reduced while Pygmalion is breaching." ,
 		"If the “Sculptor” goes insane or dies, Pygmalion will become enraged and start attacking everyone near them.")
@@ -532,9 +532,58 @@
 	abno_code = "F-01-57"
 	abno_info = list(
 		"Requesting F-01-57 to suppress escaping Abnormalities or manifested Ordeals is a very useful resource. However, making such a request is not free.",
-		"When F-01-57 was denied the killing blow to a requested suppression, it did not show an extreme emotional response, but begin attacking indiscriminately.",
+		"Requesting to suppress an abnormality will cost more PE depending on the abnormality's risk level. For other targets, F-01-57 will charge more as the day progresses.",
+		"F-01-57 did not attack employees during a quest, and returned to containment after the suppression was completed.",
 		"The Qliphoth Counter decreased every time an Abnormality escaped. However, it did not respond similarly to the escape of O-02-56.",
 		"The abnormality had particularly strong reactions when encountering F-01-117 (Blue-Smocked Shepherd), F-02-127 (Reddened Buddy), and especially F-02-58 (Big and will be Bad Wolf).",
-		"When the above occurred, F-01-57 entered a state of apparent heightened emotion, attacking more rapidly, dealing and taking more damage, and ignoring other targets.",
+		"When the above occurred, F-01-57 entered a state of apparent heightened emotion, attacking more rapidly, dealing and taking more damage, and tracking the encountered abnormality.",
 		"When F-01-57 was denied a killing blow to F-02-58, the abnormality went on a rampage."
 	)
+
+//My Form Empties
+/obj/item/paper/fluff/info/waw/my_form_empties
+	abno_type =  /mob/living/simple_animal/hostile/abnormality/my_form_empties
+	abno_code = "M-04-199"//M-04-04-04 in limbus company
+	abno_info = list(
+		"When Qliphoth Counter was 2, My Form Empties chanted sutras in its cell, restoring the SP of nearby employees.",
+		"When Qliphoth Counter lowered to 1, My Form Empties entered a state of Anatman (Non-Self), raising work success rate.",
+		"When the employee had a good result during a state of Anatman, Qliphoth Counter lowered.",
+		"When the employee had a neutral result during a state of Anatman, Qliphoth Counter rose. Otherwise, it lowered at a low probability.",
+		"When the work result was bad, Qliphoth Counter decreased.",
+		"When My Form Empties escaped, a few hostile entities dubbed M-04-199-1 followed it.",
+		"When My Form Empties escaped, all agents were affected by Karma, increasing damage taken.",
+		"Karma was transferred when the agent with karma attacked other entities, excluding M-04-199."
+	)
+	abno_breach_damage_type = "White"
+	abno_breach_damage_count = "Extreme"
+
+//Hookah Caterpillar
+/obj/item/paper/fluff/info/waw/caterpillar
+	abno_type = /mob/living/simple_animal/hostile/abnormality/caterpillar
+	abno_code = "F-02-190"
+	abno_info = list(
+		"F-02-190 has its own Eclosion Counter and as such, the cell is provided with a detector to monitor the counter's current level.",
+		"Working on F-02-190 on a work type other than repression will increase it's Eclosion Counter.",
+		"When the work was proggressing smoothly, James endured WHITE damage until SP fell below 20%",
+		"When an employee with level 5 Justice finished repression work on F-02-190, the Eclosion Counter was set back to 0.",
+		"The higher F-02-190's Eclosion Counter was, the more energy and PE boxes it could generate, so did the danger to the employee.",
+		"When the Eclosion Counter became too high, works other than repression on F-02-190 would cause it breach.",
+		"Upon breaching, F-02-190 released smoke throughout the facility. This smoke dealt PALE damage to anyone breathing it in."
+	)
+	abno_breach_damage_type = "Pale"
+	abno_breach_damage_count = "Very High"
+
+// Ardor Blossom Moth
+/obj/item/paper/fluff/info/waw/ardor_blossom_moth
+	abno_type = /mob/living/simple_animal/hostile/abnormality/ardor_moth
+	abno_code = "T-02-182"
+	abno_info = list(
+		"When the work result was Bad, the Qliphoth Counter decreased by 2.",
+		"At regular intervals, the area in front of and inside of T-02-182's containment cell will be littered with embers.",
+		"When the embers landed an employee, the Qliphoth Counter lowered.",
+		"When an employee walked slowly through the embers, the chances of one landing on them would be significantly lowered.",
+		"When the work result was Normal, the Qliphoth Counter increased with a low probability.",
+		"When the work result was Good, the Qliphoth Counter increased with a high probability. Additionally, if embers were present, they would dissipate for some time.",
+	)
+	abno_breach_damage_type = "Fire/Red"
+	abno_breach_damage_count = "Very High"

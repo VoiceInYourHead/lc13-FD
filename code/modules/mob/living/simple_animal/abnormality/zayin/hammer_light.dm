@@ -1,5 +1,7 @@
-//Coded by Coxswain, sprites by Mel, Coxwswain and glowinthedarkmannhandler.
+// Coded by Coxswain, sprites by Mel, Coxwswain and glowinthedarkmannhandler.
 #define STATUS_EFFECT_EVENING_TWILIGHT /datum/status_effect/evening_twilight
+#define STATUS_EFFECT_DAYBREAK /datum/status_effect/daybreak
+
 /mob/living/simple_animal/hostile/abnormality/hammer_light
 	name = "Hammer of Light"
 	desc = "A white hammer engraved with yellow runic writing."
@@ -19,38 +21,38 @@
 		ABNORMALITY_WORK_ATTACHMENT = 70,
 		ABNORMALITY_WORK_REPRESSION = 70,
 	)
-	work_damage_amount = 6
+	work_damage_upper = 2
+	work_damage_lower = 1
 	work_damage_type = RED_DAMAGE
 	max_boxes = 8
+	chem_type = /datum/reagent/abnormality/sin/lust
 
 	ego_list = list(
 		/datum/ego_datum/weapon/evening,
 		/datum/ego_datum/armor/evening,
 	)
 	gift_type = /datum/ego_gifts/evening
-	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK //Technically it was in the beta but I dont want it showing it up in LC-only modes
-	//add an abnochem at some point. Looking at you, nutter
+	abnormality_origin = ABNORMALITY_ORIGIN_ARTBOOK // Technically it was in the beta but I dont want it showing it up in LC-only modes
 
-	observation_prompt = "I was the unluckiest man in the world. <br>\
-		Everything around me did nothing but ruining my life.But I had no power to change this fate. <br>\
-		Someday, someone made an offer to me.\"If you accept it, your whole world will change.\" <br>\
+	observation_prompt = "I was the unluckiest man in the world.<br>\
+		Everything around me did nothing but ruining my life. But I had no power to change this fate.<br>\
+		Someday, someone made an offer to me. \"If you accept it, your whole world will change.\"<br>\
 		Such a tempting offer. I would become something that I could only hope to be."
-	observation_choices = list("Accept the offer")
-	correct_choices = list("Accept the offer")
-	observation_success_message = "I accepted the offer and paid the price. <br>\
-		The $0 Hammer of Light shined."
+	observation_choices = list(
+		"Accept the offer" = list(TRUE, "I accepted the offer and paid the price. <br>The $0 Hammer of Light shined.")
+	)
 
-	pet_bonus = "hums" //saves a few lines of code by allowing funpet() to be called by attack_hand()
+	pet_bonus = "hums" // saves a few lines of code by allowing funpet() to be called by attack_hand()
 	var/sealed = TRUE
 	var/hammer_present = TRUE
 	var/list/spawned_mobs = list()
 	var/list/banned = list()
 	var/mob/living/carbon/human/current_user = null
 	var/obj/item/ego_weapon/chosen_arms = null
-	var/points
-	var/points_threshold = 150
 	var/usable_cooldown
 	var/usable_cooldown_time = 5 MINUTES
+	var/healing_cooldown
+	var/healing_cooldown_time = 3 MINUTES
 
 	var/list/lock_sounds = list(
 		'sound/abnormalities/lighthammer/hammer_filterOut1.ogg',
@@ -61,58 +63,46 @@
 		'sound/abnormalities/lighthammer/hammer_usable2.ogg',
 	)
 
-//Lock/Unlocking system
+// Work Mechanic
+/mob/living/simple_animal/hostile/abnormality/hammer_light/SuccessEffect(mob/living/carbon/human/user, work_type, pe)
+	. = ..()
+	if(healing_cooldown >= world.time)
+		return
+	healing_cooldown = world.time + usable_cooldown_time
+	var/available_heals = 5
+	for(var/mob/living/carbon/human/H in GLOB.player_list)
+		if(!available_heals)
+			return
+		if(H.z != z)
+			continue
+		if(H.sanity_lost)
+			continue
+		if((H.health > (H.maxHealth * 0.5)) && H.sanityhealth > (H.maxSanity * 0.5))
+			continue
+		available_heals -= 1
+		new /obj/effect/temp_visual/heal(get_turf(H))
+		H.apply_status_effect(/datum/status_effect/heroism)
+		playsound(get_turf(H), 'sound/abnormalities/crying_children/sorrow_shot.ogg', 25, FALSE, 3)
+		new /obj/effect/temp_visual/beam_in(get_turf(H))
+
+// Lock/Unlocking system
 /mob/living/simple_animal/hostile/abnormality/hammer_light/Initialize()
 	. = ..()
-	RegisterSignal(SSdcs, COMSIG_GLOB_MOB_DEATH, PROC_REF(Check))
-	RegisterSignal(SSdcs, COMSIG_GLOB_ABNORMALITY_BREACH, PROC_REF(Check))
+	RegisterSignal(SSdcs, COMSIG_TRUMPET_CHANGED, PROC_REF(on_trumpet_change))
 
-/mob/living/simple_animal/hostile/abnormality/hammer_light/proc/Check() //A lot going on here, but basically we assess how bad the situation in the facility is
-	if((!hammer_present) || usable_cooldown > world.time)
-		return
-	points = 0
-	for(var/mob/living/simple_animal/hostile/abnormality/A in GLOB.abnormality_mob_list) //How many breaching abnormalities? How dangerous are they?
-		if(A.IsContained())
-			continue
-		if(A.z != z)
-			continue
-		switch(A.threat_level)
-			if(ZAYIN_LEVEL)
-				points += 5 //practically nothing
-			if(TETH_LEVEL)
-				points += 20
-			if(HE_LEVEL)
-				points += 40
-			if(WAW_LEVEL)
-				points += 60
-			if(ALEPH_LEVEL)
-				points += 80
-			else
-				continue
-
-	if(LAZYLEN(SSlobotomy_corp.current_ordeals)) //Is there an ordeal? How dangerous is it?
-		for(var/datum/ordeal/O in SSlobotomy_corp.current_ordeals)
-			points += (O.level * 20)
-
-	var/playercount = get_active_player_count()
-	for(var/mob/dead/observer/G in GLOB.player_list) //How many dead players are there?
-		if(G.started_as_observer) // Exclude people who started as observers
-			continue
-		if(!G.mind)
-			continue
-		points += (100 / playercount) //A dead guy has more impact if there's less people, so we run a quick calculation
-
-	if(points >= points_threshold) //If we have enough points, we unseal
+/mob/living/simple_animal/hostile/abnormality/hammer_light/proc/on_trumpet_change(datum/source, level)
+	SIGNAL_HANDLER
+	if(level >= TRUMPET_2)
 		if(sealed)
 			playsound(get_turf(src), 'sound/abnormalities/lighthammer/chain.ogg', 75, 0, -9)
 		sealed = FALSE
-	else
-		if(!sealed) //If we don't have enough points, we seal
+	else if(level == TRUMPET_0) // If a trumpet isn't happening we seal
+		if(!sealed)
 			playsound(get_turf(src), "[pick(lock_sounds)]", 75, 0, -9)
 		sealed = TRUE
 	update_icon()
 
-//Overlays
+// Overlays
 /mob/living/simple_animal/hostile/abnormality/hammer_light/PostSpawn()
 	..()
 	update_icon()
@@ -137,30 +127,25 @@
 		return
 	if(get_user_level(H) <= 1)
 		to_chat(H, span_warning("Your body is reduced to atoms by the power of [src]!"))
-		H.dust()
+		H.dust(TRUE, TRUE)
 		return
 	PickUpHammer(H)
 	return
 
-//User-related Code
+// User-related Code
 /mob/living/simple_animal/hostile/abnormality/hammer_light/proc/PickUpHammer(mob/living/carbon/human/user)
 	if(user.ckey in banned)
 		to_chat(user, span_warning("[src] rejects you, not even reacting to your presence at all. You feel empty inside."))
 		return
-	points_threshold += 150
 	usable_cooldown = world.time + usable_cooldown_time
 	banned += user.ckey
 	current_user = user
 	RegisterSignal(current_user, COMSIG_LIVING_DEATH, PROC_REF(UserDeath))
-	user.apply_status_effect(STATUS_EFFECT_EVENING_TWILIGHT)
+	user.apply_status_effect(STATUS_EFFECT_EVENING_TWILIGHT, src)
 	chosen_arms = new /obj/item/ego_weapon/hammer_light(get_turf(user))
 	user.put_in_hands(chosen_arms, forced = TRUE)
 	hammer_present = FALSE
 	playsound(get_turf(src), "[pick(pickup_sounds)]", 75, 0, -9)
-	ADD_TRAIT(user, TRAIT_COMBATFEAR_IMMUNE, "Abnormality")
-	ADD_TRAIT(user, TRAIT_WORK_FORBIDDEN, "Abnormality")
-	ADD_TRAIT(user, TRAIT_IGNOREDAMAGESLOWDOWN, "Abnormality")
-	ADD_TRAIT(user, TRAIT_NODROP, "Abnormality")
 	user.hairstyle = "Bald"
 	user.update_hair()
 	update_icon()
@@ -172,6 +157,7 @@
 		RecoverHammer()
 
 /mob/living/simple_animal/hostile/abnormality/hammer_light/proc/RecoverHammer()
+	UnregisterSignal(current_user, COMSIG_LIVING_DEATH)
 	qdel(chosen_arms)
 	chosen_arms = null
 	current_user = null
@@ -181,12 +167,11 @@
 	update_icon()
 
 /mob/living/simple_animal/hostile/abnormality/hammer_light/proc/UserDeath(mob/living/carbon/human/user)
-	UnregisterSignal(current_user, COMSIG_LIVING_DEATH)
-	if(!QDELETED(current_user)) //in case they died without being dusted
-		current_user.dust()
+	if(!QDELETED(current_user)) // in case they died without being dusted
+		current_user.dust(TRUE, TRUE)
 	RecoverHammer()
 
-//Pink Midnight
+// Pink Midnight
 /mob/living/simple_animal/hostile/abnormality/hammer_light/BreachEffect(mob/living/carbon/human/user, breach_type = BREACH_NORMAL)
 	if(!hammer_present)
 		return FALSE
@@ -199,7 +184,7 @@
 	if(!P)
 		return FALSE
 	var/turf/destination = get_turf(P)
-	var/turf/W = pick(GLOB.department_centers) //spawn hammers at a random department
+	var/turf/W = pick(GLOB.department_centers) // spawn hammers at a random department
 	for(var/turf/T in orange(1, W))
 		new /obj/effect/temp_visual/dir_setting/cult/phase
 		if(prob(50))
@@ -208,12 +193,12 @@
 			V.faction = P.faction.Copy()
 			if(!destination)
 				continue
-			if(!V.patrol_to(destination)) //Move them to pink midnight
+			if(!V.patrol_to(destination)) // Move them to pink midnight
 				V.forceMove(destination)
 	addtimer(CALLBACK(src, PROC_REF(UserDeath)), usable_cooldown_time)
 	return TRUE
 
-//Item version
+// Item version
 /obj/item/ego_weapon/hammer_light
 	name = "hammer of light"
 	desc = "The $0 \[Hammer of Light\] is such a simple abnormality. It takes as much it gave to you. What price will you pay to it?"
@@ -228,11 +213,12 @@
 	attack_verb_continuous = list("slams", "strikes", "smashes")
 	attack_verb_simple = list("slam", "strike", "smash")
 	hitsound = 'sound/abnormalities/lighthammer/hammer_filter.ogg'
+	slot_flags = null
 	var/list/spawned_mobs = list()
 	var/spawned_mob_max = 4
 	var/spawn_cooldown = 0
 	var/spawn_cooldown_time = 20 SECONDS
-	var/banned_list = list(/mob/living/simple_animal/hostile/megafauna/apocalypse_bird)
+	var/banned_list = list(/mob/living/simple_animal/hostile/aminion/apocalypse_bird)
 	var/obj/effect/proc_holder/ability/hammer_ability = /obj/effect/proc_holder/ability/evening_twilight
 
 /obj/item/ego_weapon/hammer_light/Initialize()
@@ -270,7 +256,7 @@
 			qdel(L)
 	listclearnulls(spawned_mobs)
 	var/directions = GLOB.cardinals.Copy()
-	for(var/i=spawned_mob_max, i>=1, i--)	//This counts down.
+	for(var/i=spawned_mob_max, i>=1, i--)	// This counts down.
 		var/turf/T = (get_step(user,pick_n_take(directions)))
 		var/mob/living/simple_animal/hostile/lighthammer/V = new(T)
 		new /obj/effect/temp_visual/beam_in(T)
@@ -289,10 +275,10 @@
 		var/attribute_level = get_raw_level(user, attribute)
 		statbonus += attribute_level
 	var/damage_multiplier = (clamp(statbonus * 0.25,0, 130) * 0.01)
-	var/damage_mod = (40 * damage_multiplier) //A damage bonus of up to 130% at max stats, multiplied again by justice
+	var/damage_mod = (40 * damage_multiplier) // A damage bonus of up to 130% at max stats, multiplied again by justice
 	var/damage_bonus = clamp(target.maxHealth * 0.025,0, 250)
 	force += (damage_mod + damage_bonus)
-	if(faction_check(target))	 //Brute damage causes runtimes, and this thing does INSANE, unblockable damage. I dont want people getting unfairly killed
+	if(faction_check(target))	 // Brute damage causes runtimes, and this thing does INSANE, unblockable damage. I dont want people getting unfairly killed
 		force = 5
 		to_chat(user, span_warning("The [src] rejects the attempted killing of [target] this way!"))
 	..()
@@ -302,7 +288,7 @@
 /obj/item/ego_weapon/hammer_light/get_clamped_volume()
 	return 40
 
-//Item's teleport ability
+// Item's teleport ability
 /obj/effect/proc_holder/ability/evening_twilight
 	name = "Evening Twilight"
 	desc = "An ability that teleports you to the nearest non-visible threat."
@@ -346,35 +332,108 @@
 			held.attack(target, user)
 	return ..()
 
-//Status Effects
+// Status Effects
+// Evening Twilight - An armor buff applied to whomever picks up the hammer
 /datum/status_effect/evening_twilight
 	id = "evening_twilight"
 	status_type = STATUS_EFFECT_UNIQUE
 	duration = 5 MINUTES // max duration
 	alert_type = null
 	var/attribute_bonus = 0
+	var/mob/living/simple_animal/hostile/abnormality/hammer_light/parent
+
+/datum/status_effect/evening_twilight/on_creation(mob/living/new_owner, hammer)
+	. = ..()
+	parent = hammer
 
 /datum/status_effect/evening_twilight/on_apply()
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
 	to_chat(status_holder, span_nicegreen("You feel powerful."))
+	ADD_TRAIT(status_holder, TRAIT_COMBATFEAR_IMMUNE, "Abnormality")
+	ADD_TRAIT(status_holder, TRAIT_WORK_FORBIDDEN, "Abnormality")
+	ADD_TRAIT(status_holder, TRAIT_IGNOREDAMAGESLOWDOWN, "Abnormality")
+	ADD_TRAIT(status_holder, TRAIT_NODROP, "Abnormality")
 	status_holder.add_overlay(mutable_appearance('ModularTegustation/Teguicons/32x32.dmi', "hammer_overlay", -ABOVE_MOB_LAYER))
 	status_holder.physiology.red_mod *= 0.3
 	status_holder.physiology.white_mod *= 0.3
 	status_holder.physiology.black_mod *= 0.3
 	status_holder.physiology.pale_mod *= 0.3
-	duration = min(get_user_level(status_holder) * 300, initial(duration)) //30 seconds per level, so a max of about 3.5 minutes at 130/all.
+	duration = min(get_user_level(status_holder) * 300, initial(duration)) // 30 seconds per level, so a max of about 3.5 minutes at 130/all.
 	return ..()
 
 /datum/status_effect/evening_twilight/on_remove()
 	if(!ishuman(owner))
 		return
-	var/mob/living/status_holder = owner
-	status_holder.dust()
+	parent.RecoverHammer()
+	var/mob/living/carbon/human/status_holder = owner
+	REMOVE_TRAIT(status_holder, TRAIT_COMBATFEAR_IMMUNE, "Abnormality")
+	REMOVE_TRAIT(status_holder, TRAIT_WORK_FORBIDDEN, "Abnormality")
+	REMOVE_TRAIT(status_holder, TRAIT_IGNOREDAMAGESLOWDOWN, "Abnormality")
+	REMOVE_TRAIT(status_holder, TRAIT_NODROP, "Abnormality")
+	status_holder.apply_status_effect(/datum/status_effect/daybreak)
 	return ..()
 
-//Simple mob
+// Daybreak - Massive debuff applied after you run out of time with the Hammer.
+/datum/status_effect/daybreak
+	id = "daybreak"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 5 MINUTES
+	alert_type = null
+
+/datum/status_effect/daybreak/on_apply()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/status_holder = owner
+	playsound(get_turf(owner), 'sound/effects/burn.ogg', 75, FALSE)
+	to_chat(status_holder, span_userdanger("The light leaves your body, taking far more than what it gave. You feel extremely weak."))
+	status_holder.cut_overlay(mutable_appearance('ModularTegustation/Teguicons/32x32.dmi', "hammer_overlay", -ABOVE_MOB_LAYER))
+	status_holder.physiology.red_mod /= 0.3
+	status_holder.physiology.white_mod /= 0.3
+	status_holder.physiology.black_mod /= 0.3
+	status_holder.physiology.pale_mod /= 0.3
+	status_holder.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, -60)
+	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -60)
+	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -60)
+	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, -60)
+	return ..()
+
+/datum/status_effect/daybreak/on_remove()
+	if(!ishuman(owner))
+		return
+	var/mob/living/carbon/human/status_holder = owner
+	to_chat(status_holder, span_danger("Your feel whole again, yet also diminished. The searing light has irreparably burnt a part of your soul."))
+	status_holder.adjust_attribute_limit(-10) // It burns some of your potential, permanently.
+	status_holder.adjust_attribute_buff(FORTITUDE_ATTRIBUTE, 60)
+	status_holder.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 60)
+	status_holder.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 60)
+	status_holder.adjust_attribute_buff(JUSTICE_ATTRIBUTE, 60)
+	return ..()
+
+// Heroism - A powerful healing effect applied to people at low hp by the work mechanic. Heals 30% of HP/HP over 3 seconds
+/datum/status_effect/heroism
+	id = "heroism"
+	status_type = STATUS_EFFECT_UNIQUE
+	duration = 6 SECONDS
+	alert_type = /atom/movable/screen/alert/status_effect/heroism
+
+/atom/movable/screen/alert/status_effect/heroism
+	name = "Heroism"
+	desc = "You are quickly recovering HP and SP due to the effects of hammer of light."
+	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
+	icon_state = "rest"
+
+/datum/status_effect/heroism/tick()
+	. = ..()
+	var/mob/living/carbon/human/status_holder = owner
+	var/heal_factor = 0.05
+	if(status_holder.sanity_lost)
+		heal_factor = 0.025
+	status_holder.adjustSanityLoss(-status_holder.maxSanity * heal_factor)
+	status_holder.adjustBruteLoss(-status_holder.maxHealth * heal_factor)
+
+// Simple mob
 /mob/living/simple_animal/hostile/lighthammer
 	name = "Light Being"
 	desc = "What appears to be human, only made entirely out of light."
@@ -389,7 +448,7 @@
 	attack_sound = 'sound/abnormalities/lighthammer/hammer_filter.ogg'
 	health = 1000
 	maxHealth = 1000
-	faction = list("neutral") //Should always be overridden
+	faction = list("neutral") // Should always be overridden
 	obj_damage = 300
 	damage_coeff = list(RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	melee_damage_type = PALE_DAMAGE
@@ -410,9 +469,9 @@
 		if(life_tick > 0)
 			life_tick -= 1
 			return
-		qdel(src) //They're on a timer
+		qdel(src) // They're on a timer
 
-//Visual effect
+// Visual effect
 /obj/effect/temp_visual/beam_in
 	name = "light beam"
 	desc = "A beam of light"

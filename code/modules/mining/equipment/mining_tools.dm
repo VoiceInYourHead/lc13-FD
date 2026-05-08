@@ -5,8 +5,9 @@
 	icon_state = "pickaxe"
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
-	force = 15
-	throwforce = 10
+	force = 4
+	throwforce = 5
+	attack_speed = 1.2
 	inhand_icon_state = "pickaxe"
 	worn_icon_state = "pickaxe"
 	lefthand_file = 'icons/mob/inhands/equipment/mining_lefthand.dmi'
@@ -18,6 +19,7 @@
 	usesound = list('sound/effects/picaxe1.ogg', 'sound/effects/picaxe2.ogg', 'sound/effects/picaxe3.ogg')
 	attack_verb_continuous = list("hits", "pierces", "slices", "attacks")
 	attack_verb_simple = list("hit", "pierce", "slice", "attack")
+	custom_price = 25
 
 /obj/item/pickaxe/suicide_act(mob/living/user)
 	user.visible_message(span_suicide("[user] begins digging into [user.p_their()] chest! It looks like [user.p_theyre()] trying to commit suicide!"))
@@ -33,17 +35,18 @@
 	attack_verb_simple = list("ineffectively hit")
 	force = 1
 	throwforce = 1
+	custom_price = 1
 
 /obj/item/pickaxe/mini
 	name = "compact pickaxe"
 	desc = "A smaller, compact version of the standard pickaxe."
 	icon_state = "minipick"
 	worn_icon_state = "pickaxe"
-	force = 10
-	throwforce = 7
+	throwforce = 4
 	slot_flags = ITEM_SLOT_BELT
 	w_class = WEIGHT_CLASS_NORMAL
 	custom_materials = list(/datum/material/iron=1000)
+	custom_price = 100
 
 /obj/item/pickaxe/silver
 	name = "silver-plated pickaxe"
@@ -52,7 +55,7 @@
 	worn_icon_state = "spickaxe"
 	toolspeed = 0.5 //mines faster than a normal pickaxe, bought from mining vendor
 	desc = "A silver-plated pickaxe that mines slightly faster than standard-issue."
-	force = 17
+	custom_price = 650
 
 /obj/item/pickaxe/diamond
 	name = "diamond-tipped pickaxe"
@@ -61,7 +64,8 @@
 	worn_icon_state = "dpickaxe"
 	toolspeed = 0.3
 	desc = "A pickaxe with a diamond pick head. Extremely robust at cracking rock walls and digging up dirt."
-	force = 19
+	force = 9
+	custom_price = 1000
 
 /obj/item/pickaxe/drill
 	name = "mining drill"
@@ -73,6 +77,7 @@
 	usesound = 'sound/weapons/drill.ogg'
 	hitsound = 'sound/weapons/drill.ogg'
 	desc = "An electric mining drill for the especially scrawny."
+	custom_price = 500
 
 /obj/item/pickaxe/drill/cyborg
 	name = "cyborg mining drill"
@@ -88,6 +93,7 @@
 	icon_state = "diamonddrill"
 	toolspeed = 0.2
 	desc = "Yours is the drill that will pierce the heavens!"
+	custom_price = 2500
 
 /obj/item/pickaxe/drill/cyborg/diamond //This is the BORG version!
 	name = "diamond-tipped cyborg mining drill" //To inherit the NODROP_1 flag, and easier to change borg specific drill mechanics.
@@ -103,6 +109,7 @@
 	usesound = 'sound/weapons/sonic_jackhammer.ogg'
 	hitsound = 'sound/weapons/sonic_jackhammer.ogg'
 	desc = "Cracks rocks with sonic blasts."
+	custom_price = 5000
 
 /obj/item/pickaxe/improvised
 	name = "improvised pickaxe"
@@ -110,7 +117,6 @@
 	icon_state = "ipickaxe"
 	inhand_icon_state = "ipickaxe"
 	worn_icon_state = "pickaxe"
-	force = 10
 	throwforce = 7
 	toolspeed = 3 //3 times slower than a normal pickaxe
 	slot_flags = ITEM_SLOT_BELT
@@ -127,7 +133,8 @@
 	righthand_file = 'icons/mob/inhands/equipment/mining_righthand.dmi'
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
-	force = 8
+	force = 4
+	attack_speed = 1.2
 	tool_behaviour = TOOL_SHOVEL
 	toolspeed = 1
 	usesound = 'sound/effects/shovel_dig.ogg'
@@ -158,8 +165,6 @@
 	worn_icon_state = "spade"
 	lefthand_file = 'icons/mob/inhands/equipment/hydroponics_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/hydroponics_righthand.dmi'
-	force = 5
-	throwforce = 7
 	w_class = WEIGHT_CLASS_SMALL
 
 /obj/item/shovel/serrated
@@ -170,7 +175,7 @@
 	worn_icon_state = "shovel_serr"
 	lefthand_file = 'icons/mob/inhands/equipment/mining_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/mining_righthand.dmi'
-	force = 15
+	force = 10
 	throwforce = 12
 	w_class = WEIGHT_CLASS_NORMAL
 	toolspeed = 0.7

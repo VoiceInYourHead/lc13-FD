@@ -22,8 +22,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 30,
 		ABNORMALITY_WORK_REPRESSION = 30,
 	)
-	work_damage_amount = 6
+	work_damage_upper = 3
+	work_damage_lower = 2
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
 
 	ego_list = list(
 		/datum/ego_datum/weapon/zauberhorn,
@@ -33,13 +35,13 @@
 
 	observation_prompt = "A severed horse-like creature's head hangs high on the wall, sobbing. <br>\
 		You can't help but feel some pity for the thing."
-	observation_choices = list("Why the long face?", "What happened to you?")
-	correct_choices = list("What happened to you?")
-	observation_success_message = "The horse head begins speaking. <br>\
-		\"Oh, woe is me. If only it could be - the powers at be, would see fit to have me die in her stead.\" <br>\
-		It speaks in rhymes, but it clearly lost someone important to it. <br>\
-		Even if there is nothing you can do, at least you are there to listen."
-	observation_fail_message = "The horse head continues sobbing, despite your cheesy joke. <br>Maybe that wasn't the best approach."
+	observation_choices = list(
+		"What happened to you?" = list(TRUE, "The horse head begins speaking. <br>\
+			\"Oh, woe is me. If only it could be - the powers that be, would see fit to have me die in her stead.\" <br>\
+			It speaks in rhymes, but it clearly lost someone important to it. <br>\
+			Even if there is nothing you can do, at least you are there to listen."),
+		"Why the long face?" = list(FALSE, "The horse head continues sobbing, despite your cheesy joke. <br>Maybe that wasn't the best approach."),
+	)
 
 	var/liked
 	var/happy = TRUE
@@ -68,6 +70,11 @@
 		say("O, Anidori, if only your mother knew the fate to befall you, how her heart would break in two.")
 	datum_reference.qliphoth_change(1)
 	return
+
+/mob/living/simple_animal/hostile/abnormality/falada/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)
+		pissed()
+		qdel(src)
 
 /mob/living/simple_animal/hostile/abnormality/falada/WorkChance(mob/living/carbon/human/user, chance)
 	if(happy)
@@ -126,11 +133,13 @@
 
 // Spawned Mob
 /mob/living/simple_animal/hostile/retaliate/goose/falada
-	maxHealth = 55
-	health = 55
+	maxHealth = 35
+	health = 35
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 2)
 	faction = list("goose") //geese are demons
 	attack_same = FALSE
+	melee_damage_lower = 1
+	melee_damage_upper = 3
 	can_patrol = TRUE
 
 /mob/living/simple_animal/hostile/retaliate/goose/falada/handle_automated_action()

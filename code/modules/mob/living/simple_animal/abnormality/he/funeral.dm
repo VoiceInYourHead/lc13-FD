@@ -7,8 +7,9 @@
 	icon_dead = "funeral_dead"
 	portrait = "funeral"
 	del_on_death = FALSE
-	maxHealth = 1350 //I am a menace to society.
-	health = 1350
+	maxHealth = 350
+	health = 350
+	blood_volume = 0
 
 	ranged = TRUE
 	minimum_distance = 2
@@ -29,8 +30,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 0,
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 60, 60, 60),
 	)
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 	max_boxes = 16
 	death_message = "gently descends into its own coffin."
 	base_pixel_x = -16
@@ -47,16 +50,25 @@
 
 	observation_prompt = "A tall butterfly-faced man stands before, clad in an undertakers's garment. <br>\
 		Between the two of you is a coffin and he gestures you towards it with all 3 of his hands."
-	observation_choices = list("Enter the coffin", "Don't enter the coffin")
-	correct_choices = list("Enter the coffin", "Don't enter the coffin") //waiting for multiple correct answers functionality
-	observation_success_message = "The coffin is waiting for its rightful owner but you feel mourned all the same. <br>Butterflies surround you as you make to leave." //temporary
+	observation_choices = list(
+		"Enter the coffin" = list(TRUE, "You lie down in the coffin as the butterfly-faced man stands by, his head angled and all 3 hands crossed together over his waist in a solemn gesture. <br>\
+			It's a perfect fit for you. <br>\
+			You feel the weight of innumerable lifetimes and the weariness that came with them. <br>\
+			The butterflies lift you and the coffin as pallbearers, they lament for you in place of the people who cannot."),
+		"Don't enter the coffin" = list(TRUE, "You don't enter because it's not your coffin. <br>\
+			The undertaker reaches out his middle hand to his waiting, insectile audience and one of the butterflies lands upon his fingers. <br>\
+			He offers you the butterfly and you place it into the coffin, gently. <br>\
+			The butterflies are the souls of the dead, waiting to be put to rest, but are still mourning for the living. <br>\
+			You and the butterfly-faced man stand in silent vigil. You both now share a vow; to grieve for the living and dead. <br>\
+			A kaledioscope of butterflies follows you as you leave the containment unit."),
+	)
 
 	var/gun_cooldown
 	var/gun_cooldown_time = 4 SECONDS
-	var/gun_damage = 60
+	var/gun_damage = 20
 	var/swarm_cooldown
 	var/swarm_cooldown_time = 20 SECONDS
-	var/swarm_damage = 13 // 10 seconds, 13 damage 40 times = 520 total
+	var/swarm_damage = 5 // 10 seconds, 5 damage 40 times = 200 total
 	var/swarm_length = 24
 	var/swarm_width = 3
 	var/list/swarm_killed = list()
@@ -75,8 +87,9 @@
 	toggle_message = span_colossus("You will now fire butterflies from your hands.")
 	button_icon_toggle_deactivated = "funeral_toggle0"
 
-
 /mob/living/simple_animal/hostile/abnormality/funeral/AttackingTarget(atom/attacked_target)
+	if(!target)
+		GiveTarget(attacked_target)
 	return OpenFire()
 
 /mob/living/simple_animal/hostile/abnormality/funeral/OpenFire()

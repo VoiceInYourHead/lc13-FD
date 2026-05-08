@@ -6,7 +6,7 @@
 	base_icon_state = "helper_dash"
 	cooldown_time = 10 SECONDS
 
-	var/dash_damage = 300
+	var/dash_damage = 150
 	var/dash_range = 6
 	var/dash_ignore_walls = FALSE
 
@@ -70,7 +70,7 @@
 	base_icon_state = "cross_spawn"
 	cooldown_time = 20 SECONDS
 
-	var/damage_amount = 200 // Amount of white damage dealt to enemies in the epicenter. Allies heal that amount of sanity instead.
+	var/damage_amount = 100 // Amount of white damage dealt to enemies in the epicenter. Allies heal that amount of sanity instead.
 	var/damage_range = 6
 
 /obj/effect/proc_holder/ability/aimed/cross_spawn/Perform(target, mob/user)
@@ -103,7 +103,7 @@
 /obj/effect/proc_holder/ability/aimed/despair_swords
 	name = "Blades Whetted with Tears"
 	desc = "An ability that summons 2 swords to attack and slow nearby enemies. \
-		Each sword deals damage equal to 5% of the target's max HP as Pale, to a minimum of 120."
+		Each sword deals 50 Pale damage plus an addition 5% of the target's max HP as Pale"
 	action_icon_state = "despair0"
 	base_icon_state = "despair"
 	cooldown_time = 20 SECONDS
@@ -145,7 +145,7 @@
 	if(ishostile(target))
 		var/mob/living/simple_animal/hostile/H = target
 		H.TemporarySpeedChange(1, 10 SECONDS)
-		H.apply_damage(max(0.05 * H.maxHealth, 120), PALE_DAMAGE)
+		H.apply_damage(50 + (0.05 * H.maxHealth), PALE_DAMAGE)
 	..()
 	qdel(src)
 
@@ -156,7 +156,7 @@
 		Alt-Click to toggle speech. Crtl-Click to set your own speech."
 	action_icon_state = "arcana0"
 	base_icon_state = "arcana"
-	cooldown_time = 3 MINUTES
+	cooldown_time = 1 MINUTES
 	base_action = /datum/action/spell_action/ability/item/ego_arcana_slave
 
 	var/list/spawned_effects = list()
@@ -226,16 +226,14 @@
 	beamloop.start(user)
 	beamloop.max_loops = 0
 	var/beam_stage = 1
-	var/beam_damage = 10
-	var/justice = get_attribute_level(H, JUSTICE_ATTRIBUTE)
-	justice /= 100
-	justice++
+	var/beam_damage = 8
+	var/justice = get_attack_multiplier(H)
 	beam_damage *= justice
 	if(speak)
 		addtimer(CALLBACK(H, TYPE_PROC_REF(/atom/movable, say), "ARCANA SLAVE!"))
 	for(var/o = 1 to 50) // Half duration but gets Justice Mod
 		var/list/already_hit = list()
-		if(accumulated_beam_damage >= 150 && beam_stage < 2)
+		if(accumulated_beam_damage >= 225 && beam_stage < 2)
 			beam_stage = 2
 			beam_damage *= 1.5
 			var/matrix/M = matrix()
@@ -246,7 +244,7 @@
 			for(var/mob/living/L in range(beam_stage-1, TF))
 				if(L.status_flags & GODMODE)
 					continue
-				if(L == src) //stop hitting yourself
+				if(L == user) //stop hitting yourself
 					continue
 				if(L in already_hit)
 					continue
@@ -254,12 +252,14 @@
 					continue
 				already_hit += L
 				if(H.faction_check_mob(L))
-					if(L.stat < DEAD && L.stat > CONSCIOUS) // unhealthy but not dead
-						L.adjustBruteLoss(-3*justice)
+					if(L.stat < DEAD) // Small bit of healing to all our living allies.
+						L.adjustBruteLoss(-1*justice)
+						if(L.stat > CONSCIOUS) // But more effective on softcrit/hardcrit allies.
+							L.adjustBruteLoss(-1*justice)
 					if(ishuman(L))
 						var/mob/living/carbon/human/LH = L
 						if(LH.sanity_lost)
-							LH.adjustSanityLoss(-3*justice)
+							LH.adjustSanityLoss(-6*justice) // Pretty fast resaning, but this only applies to insanes
 					continue
 				L.apply_damage(beam_damage, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE))
 				accumulated_beam_damage += beam_damage
@@ -337,7 +337,7 @@
 	action_icon_state = "cocoon0"
 	base_icon_state = "cocoon"
 	cooldown_time = 20 SECONDS
-	var/damage_amount = 120 // Amount of red damage dealt to enemies in the epicenter.
+	var/damage_amount = 80 // Amount of red damage dealt to enemies in the epicenter.
 	var/damage_range = 2
 	var/damage_slowdown = 0.5
 
@@ -428,7 +428,7 @@
 	if(get_dist(user, target) > 10 || !(target in view(9, user)))
 		return
 	var/turf/target_turf = get_turf(target)
-	new /obj/projectile/black_hole_realized(target_turf, user)
+	new /obj/projectile/black_hole_realized(target_turf)
 	return ..()
 
 /obj/projectile/black_hole_realized
@@ -444,7 +444,7 @@
 
 	projectile_piercing = PASSMOB
 	hit_nondense_targets = TRUE
-	var/damage_amount = 200 // Amount of black damage dealt to enemies in the epicenter.
+	var/damage_amount = 100 // Amount of black damage dealt to enemies in the epicenter.
 	var/damage_range = 3
 
 /obj/projectile/black_hole_realized/Initialize()
@@ -453,14 +453,14 @@
 	for(var/i = 1 to 10)
 		addtimer(CALLBACK(src, PROC_REF(SplashEffect)), i * 2 SECONDS)
 
-/obj/projectile/black_hole_realized/proc/SplashEffect(mob/user)
+/obj/projectile/black_hole_realized/proc/SplashEffect()
 	playsound(src, 'sound/effects/footstep/slime1.ogg', 100, FALSE, 12)
 
 	for(var/turf/T in view(damage_range, src))
 		new /obj/effect/temp_visual/revenant(T)
 	for(var/mob/living/L in view(damage_range, src))
-		if(!user.faction_check_mob(L))
-			var/distance_decrease = get_dist(src, L) * 40
+		if(ishostile(L))
+			var/distance_decrease = get_dist(src, L) * 20
 			L.apply_damage(ishuman(L) ? (damage_amount - distance_decrease)*0.5 : (damage_amount - distance_decrease), BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
 			var/atom/throw_target = get_edge_target_turf(L, get_dir(L, get_step_towards(L, get_turf(src))))
 			L.throw_at(throw_target, 1, 2)
@@ -499,7 +499,7 @@
 /obj/effect/temp_visual/revenant/cracks/yinfriend
 	icon_state = "yincracks"
 	duration = 9
-	var/damage = 175  // Amount of black damage dealt to enemies from the laser.
+	var/damage = 100  // Amount of black damage dealt to enemies from the laser.
 	var/list/faction = list("neutral")
 
 /obj/effect/temp_visual/revenant/cracks/yinfriend/Destroy()

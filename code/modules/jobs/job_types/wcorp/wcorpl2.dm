@@ -15,10 +15,10 @@ GLOBAL_LIST_INIT(l2csquads, list("Axe", "Buckler", "Cleaver", "Axe", "Buckler", 
 
 	outfit = /datum/outfit/job/wcorpl2
 	display_order = 4.5
-
-
+	mind_traits = list(TRAIT_COMBATFEAR_IMMUNE)
 	access = list() //add accesses as necessary
 	minimal_access = list()
+	departments = DEPARTMENT_W_CORP
 
 	roundstart_attributes = list(
 		FORTITUDE_ATTRIBUTE = 80,
@@ -31,7 +31,6 @@ GLOBAL_LIST_INIT(l2csquads, list("Axe", "Buckler", "Cleaver", "Axe", "Buckler", 
 	job_notice = "You are a agent armed with a specialized w-corp weapon, as well as heavier armor. Support your squadron with your equipment."
 
 /datum/job/wcorpl2/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
-	ADD_TRAIT(outfit_owner, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 	var/squad = pick_n_take(GLOB.l2csquads)
 	.=..()
 	var/ears = null
@@ -62,7 +61,7 @@ GLOBAL_LIST_INIT(l2csquads, list("Axe", "Buckler", "Cleaver", "Axe", "Buckler", 
 	gloves = /obj/item/clothing/gloves/color/black
 	implants = list(/obj/item/organ/cyberimp/eyes/hud/security)
 	head = /obj/item/clothing/head/ego_hat/wcorp
-	suit = /obj/item/clothing/suit/armor/ego_gear/wcorp/noreq
+	suit = /obj/item/clothing/suit/armor/ego_gear/city/wcorp/noreq
 	l_pocket = /obj/item/flashlight/seclite
 
 	backpack_contents = list(/obj/item/storage/box/pcorp)

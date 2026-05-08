@@ -10,7 +10,16 @@
 		/datum/ego_datum/weapon/bucket,
 		/datum/ego_datum/armor/bucket,
 	)
-
+//We dont want officers to put their gear in here,
+	var/list/blacklist = list(
+		/obj/item/clothing/suit/armor/ego_gear/officer,
+		/obj/item/ego_weapon/shield/officer,
+		/obj/item/ego_weapon/officer,
+		/obj/item/clothing/suit/armor/ego_gear/city/lcorp_vest,
+		/obj/item/ego_weapon/city/lcorp,
+		/obj/item/ego_weapon/shield/lcorp_shield,
+		/obj/item/ego_weapon/ranged/city/lcorp
+	)
 //loot lists
 	var/list/superEGO = list( //do NOT put this in the loot lists ever. SuperEGO is for inputs only so people can throw away twilight for no good reason.
 		/obj/item/ego_weapon/paradise,
@@ -52,9 +61,6 @@
 	)
 
 	var/list/heitem = list(
-		/obj/item/gun/ego_gun/sodashotty,
-		/obj/item/gun/ego_gun/sodarifle,
-		/obj/item/gun/ego_gun/sodasmg,
 		/obj/item/clothing/suit/armor/ego_gear/he/lutemis,
 		/obj/item/grenade/spawnergrenade/shrimp,
 		/obj/item/clothing/neck/beads,
@@ -87,8 +93,8 @@
 	)
 
 	var/list/normalitem = list(
-		/obj/item/reagent_containers/hypospray/medipen/salacid,
-		/obj/item/reagent_containers/hypospray/medipen/mental,
+		/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+		/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
 		/obj/item/ego_weapon/tutorial,
 		/obj/item/ego_weapon/tutorial/white,
 		/obj/item/ego_weapon/tutorial/black,
@@ -170,18 +176,20 @@
 	var/list/dusk = list(
 		/mob/living/simple_animal/hostile/ordeal/sin_pride,
 		/mob/living/simple_animal/hostile/ordeal/KHz_corrosion,
-		/mob/living/simple_animal/hostile/mini_censored,
-		/mob/living/simple_animal/hostile/slime,
+		/mob/living/simple_animal/hostile/aminion/mini_censored,
+		/mob/living/simple_animal/hostile/aminion/slime,
 	)
 
 	var/list/midnight = list(//TODO: Add more somewhat reasonable threats
-		/mob/living/simple_animal/hostile/slime/big,
+		/mob/living/simple_animal/hostile/aminion/slime/big,
 		/mob/living/simple_animal/hostile/ordeal/sin_wrath,
 	)
 
 //This proc removes the need to copypaste every single armor and weapon into a list.
 /obj/structure/toolabnormality/wishwell/Initialize()
 	. = ..()
+	if(!GLOB.wishwell)
+		GLOB.wishwell = src
 
 	//Sorts them into their lists
 	for(var/path in subtypesof(/datum/ego_datum))
@@ -207,7 +215,24 @@
 		return ..()
 	if(!do_after(user, 0.5 SECONDS))
 		return
+	if(QDELETED(I)) // Should prevent weird runtimes and other weirdness
+		to_chat(user, span_notice("ERROR - Item marked for deletion. Please make a bug report if item does not disappear."))
+		return
 	RunGacha(I, user)
+
+/obj/structure/toolabnormality/wishwell/proc/isBlackList(obj/item/I)
+	if(istype(I, /obj/item/clothing/suit/armor/ego_gear))
+		var/obj/item/clothing/suit/armor/ego_gear/G = I
+		if(G.is_city_gear)
+			return FALSE
+	if(is_ego_weapon(I))
+		var/obj/item/ego_weapon/W = I
+		if(W.is_city_gear)
+			return FALSE
+	for(var/path in blacklist)
+		if(istype(I, path))
+			return TRUE
+	return FALSE
 
 /obj/structure/toolabnormality/wishwell/proc/RunGacha(obj/item/I, mob/living/carbon/human/user)
 	var/output = null
@@ -215,7 +240,10 @@
 		output = "MONEY"
 		to_chat(user, span_notice("You hear a plop as the holochip comes in contact with the water..."))
 		user.playsound_local(user, 'sound/items/coinflip.ogg', 80, TRUE)
-	else if(istype(I, /obj/item/clothing/suit/armor/ego_gear) || istype(I, /obj/item/gun/ego_gun/pistol) || istype(I, /obj/item/ego_weapon) || istype(I, /obj/item/gun/ego_gun) && !istype(I, /obj/item/gun/ego_gun/clerk))
+	else if(istype(I, /obj/item/clothing/suit/armor/ego_gear) || is_ego_weapon(I))
+		if(isBlackList(I))//Prevents city and officer gear
+			to_chat(user, span_userdanger("The well rejects your item!"))
+			return
 		to_chat(user, span_notice("You hear the ego dissolve as it comes in contact with the water..."))
 		user.playsound_local(user, 'sound/effects/wounds/sizzle1.ogg', 40, TRUE)
 		if(locate(I) in tethitem)
@@ -228,6 +256,19 @@
 			output = "ALEPH"
 		else
 			output = "ZAYIN" //If an EGO is not in the lists for whatever reason it will default to zayin
+	else if(istype(I, /obj/item/coin/casino_token))
+		if(istype(I, /obj/item/coin/casino_token/diamond))
+			output = "ALEPH"
+		else if(istype(I, /obj/item/coin/casino_token/gold))
+			output = "WAW"
+		else if(istype(I, /obj/item/coin/casino_token/silver))
+			output = "HE"
+		else if(istype(I, /obj/item/coin/casino_token/iron))
+			output = "TETH"
+		else
+			output = "ZAYIN"
+		to_chat(user, span_notice("You hear a plop as the token comes in contact with the water..."))
+		user.playsound_local(user, 'sound/items/coinflip.ogg', 80, TRUE)
 	else
 		to_chat(user, span_userdanger("The well rejects your item!"))
 
@@ -241,6 +282,9 @@
 	var/gift = null
 	qdel(I)
 	var/gacha = rand(1,100)
+	for(var/upgradecheck in GLOB.jcorp_upgrades)
+		if(upgradecheck == "Tool Gacha")
+			gacha = min(gacha+5,100)
 	switch(output)
 		if("MONEY")
 			switch(gacha)
@@ -370,6 +414,8 @@
 		if(480 to INFINITY)
 			deathgift = pick(alephitem)
 
+	if(M.stat != DEAD) // Suicide by well properly calls death
+		M.death(TRUE)
 	qdel(M)
 	playsound(src, 'sound/voice/human/wilhelm_scream.ogg', 50, TRUE, -3)
 	if((M.ckey in bastards)) //prevents respawn abuse

@@ -10,8 +10,8 @@
 	pixel_x = -8
 	base_pixel_x = -8
 
-	maxHealth = 2000
-	health = 2000
+	maxHealth = 800
+	health = 800
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 1.2, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5)
 
 	threat_level = WAW_LEVEL
@@ -24,8 +24,11 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 0, 40, 35, 30),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 35, 30, 25),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
+	good_hater = TRUE
 
 	light_color = COLOR_PINK
 	light_range = 9
@@ -34,9 +37,11 @@
 	observation_prompt = "You told me, shedding petals instead of tears. <br>\
 		\"We were all nothing but soil once, so do not speak of an end here.\" <br>\
 		You told me, blossoming flowers from body as if they are your last words. <br>\"Soon...\""
-	observation_choices = list("Spring will come.", "Winter will come.")
-	correct_choices = list("Spring will come.", "Winter will come.")
-	observation_success_message = "Change is coming. <br>Slowly, rapturously, my end began." //TODO : multiple answers
+	observation_choices = list(
+		"Spring will come" = list(TRUE, "Spring is coming. <br>Slowly, rapturously, my end began."),
+		"Winter will come" = list(TRUE, "Winter is coming. <br>\
+			Gradually, my exipation was drawing to an end hectically."),
+	)
 
 	/// Currently displayed petals. When value is at 3 - reset to 0 and perform attack
 	var/petals_current = 0
@@ -45,7 +50,7 @@
 	/// Delay used for petals_next
 	var/petals_next_time = 5 SECONDS
 	/// Amount of white damage done to everyone in view by the attack
-	var/pulse_damage = 180
+	var/pulse_damage = 60
 
 	ego_list = list(
 		/datum/ego_datum/weapon/aroma,
@@ -149,7 +154,8 @@
 /mob/living/simple_animal/hostile/abnormality/alriune/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
 	petals_next = world.time + petals_next_time + 30
-	TeleportAway()
+	if(breach_type != BREACH_MINING)//in ER you get a few seconds to smack it down
+		TeleportAway()
 	icon_state = "alriune_active"
 	return
 

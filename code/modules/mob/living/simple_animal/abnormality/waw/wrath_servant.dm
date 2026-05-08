@@ -12,11 +12,13 @@
 	faction = list("wrath")
 	speak_emote = list()
 	gender = FEMALE
+	can_affect_emergency = FALSE
+	trigger_lights = FALSE
 
 	ranged = TRUE
-	maxHealth = 1800
-	health = 1800
-	damage_coeff = list(RED_DAMAGE = 0.3, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5)
+	maxHealth = 600
+	health = 600
+	damage_coeff = list(RED_DAMAGE = 0.3, WHITE_DAMAGE = 1.2, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1.5)
 
 	move_to_delay = 6
 	is_flying_animal = TRUE
@@ -31,12 +33,14 @@
 		ABNORMALITY_WORK_REPRESSION = list(30, 30, 40, 40, 50),
 		"Request" = 100,
 	)
-	work_damage_amount = 12
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/wrath
 
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 30
-	melee_damage_upper = 45
+	melee_damage_lower = 8
+	melee_damage_upper = 9
 	rapid_melee = 2
 	attack_sound = 'sound/abnormalities/wrath_servant/small_smash1.ogg'
 	stat_attack = HARD_CRIT
@@ -60,13 +64,13 @@
 
 	observation_prompt = "I made a mistake, I put my trust in someone I shouldn't have and my world paid the price for my indiscretion. <br>\
 		Was I wrong to call them friend? <br>Were they really my friend, all along?"
-	observation_choices = list("You were wrong", "It wasn't wrong")
-	correct_choices = list("It wasn't wrong")
-	observation_success_message = "If that's the case, then why did balance, why did justice, fail me? <br>\
-		Why did my world burn if I truly did not make a mistake? <br>It still hurts, but, if you're right then maybe I can put my trust in you..."
-	observation_fail_message = "It was the most precious relationship to me... <br>\
-		That's why I lost; I fell to my beloved companion... <br>\
-		I should have killed them when I had the chance! <br>Sinners!! <br>Embodiments of evil..!"
+	observation_choices = list(
+		"It wasn't wrong" = list(TRUE, "If that's the case, then why did balance, why did justice, fail me? <br>\
+			Why did my world burn if I truly did not make a mistake? <br>It still hurts, but, if you're right then maybe I can put my trust in you..."),
+		"You were wrong" = list(FALSE, "It was the most precious relationship to me... <br>\
+			That's why I lost; I fell to my beloved companion... <br>\
+			I should have killed them when I had the chance! <br>Sinners!! <br>Embodiments of evil..!"),
+	)
 
 	var/friendly = TRUE
 	var/list/friend_ship = list()
@@ -76,7 +80,7 @@
 	var/dash_cooldown = 15 SECONDS
 	COOLDOWN_DECLARE(smash)
 	var/smash_cooldown = 30 SECONDS
-	var/smash_damage = 40
+	var/smash_damage = 10
 	var/smash_damage_type = RED_DAMAGE
 	COOLDOWN_DECLARE(stun)
 	var/stunned_cooldown = 20 SECONDS
@@ -161,10 +165,10 @@
 	if(IsContained() || !can_act)
 		return
 	if(stunned && COOLDOWN_FINISHED(src, stun))
-		for(var/mob/living/L in range(10, src))
+		for(var/mob/living/L in urange(10, src))
 			if(L.z != z)
 				continue
-			if(istype(L, /mob/living/simple_animal/hostile/azure_hermit) || istype(L, /mob/living/simple_animal/hostile/azure_stave))
+			if(istype(L, /mob/living/simple_animal/hostile/aminion/azure_hermit) || istype(L, /mob/living/simple_animal/hostile/aminion/azure_stave))
 				continue
 			L.deal_damage(30, WHITE_DAMAGE)
 			var/obj/effect/temp_visual/eldritch_smoke/ES = new(get_turf(L))
@@ -173,7 +177,7 @@
 		COOLDOWN_START(src, stun, stunned_cooldown)
 	if(stunned)
 		return
-	var/mob/living/simple_animal/hostile/azure_hermit/AH = locate() in view(5, src)
+	var/mob/living/simple_animal/hostile/aminion/azure_hermit/AH = locate() in view(5, src)
 	if(AH?.status_flags & GODMODE)
 		manual_emote("smashes the Azure Hermit with its hammer.")
 		PerformEnding(AH)
@@ -238,9 +242,9 @@
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/Found(atom/A)
 	if(istype(A, /mob/living/simple_animal/hostile/abnormality/nihil)) // 1st Priority
 		return TRUE
-	if(istype(A, /mob/living/simple_animal/hostile/azure_stave)) // 2nd Priority
+	if(istype(A, /mob/living/simple_animal/hostile/aminion/azure_stave)) // 2nd Priority
 		return TRUE
-	if(istype(A, /mob/living/simple_animal/hostile/azure_hermit)) // 3rd Priority
+	if(istype(A, /mob/living/simple_animal/hostile/aminion/azure_hermit)) // 3rd Priority
 		return TRUE
 	return FALSE // Everything Else
 
@@ -257,19 +261,19 @@
 		return
 	if(prob(5))
 		if(friendly)
-			new /obj/effect/gibspawner/generic/silent/wrath_acid(get_turf(target))
+			new /obj/effect/gibspawner/generic/silent/wrath_acid(get_turf(attacked_target))
 		else
-			new /obj/effect/gibspawner/generic/silent/wrath_acid/bad(get_turf(target))
+			new /obj/effect/gibspawner/generic/silent/wrath_acid/bad(get_turf(attacked_target))
 	. = ..()
 	attack_sound = pick('sound/abnormalities/wrath_servant/small_smash1.ogg','sound/abnormalities/wrath_servant/small_smash2.ogg')
-	if(!isliving(target) || (get_dist(target, src) > 1))
+	if(!isliving(attacked_target) || (get_dist(attacked_target, src) > 1))
 		return
-	var/mob/living/L = target
-	L.deal_damage(rand(10, 15), BLACK_DAMAGE)
-	if(!istype(target, /mob/living/simple_animal/hostile/azure_hermit))
+	var/mob/living/L = attacked_target
+	L.deal_damage(rand(3, 5), BLACK_DAMAGE)
+	if(!istype(attacked_target, /mob/living/simple_animal/hostile/aminion/azure_hermit))
 		return
-	var/mob/living/simple_animal/hostile/azure_hermit/AZ = target
-	if(AZ.health > 120)
+	var/mob/living/simple_animal/hostile/aminion/azure_hermit/AZ = attacked_target
+	if(AZ.health > 40)
 		return
 	PerformEnding(AZ)
 
@@ -325,8 +329,8 @@
 		SLEEP_CHECK_DEATH(1 SECONDS)
 		say("I've made a mistake once again!!!")
 		SLEEP_CHECK_DEATH(1 SECONDS)
-		BreachEffect(user)
 		say("I-I... What a foolish deed I've done...")
+		BreachEffect(user)
 		return FALSE
 	friendly = TRUE
 	BreachEffect(user)
@@ -339,6 +343,8 @@
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = TRUE
+	if(!(status_flags & GODMODE))
+		return FALSE
 	if(!datum_reference)
 		friendly = FALSE
 	if(nihil_present) //nihil is here and we must fight them!
@@ -395,6 +401,7 @@
 	fear_level = WAW_LEVEL
 	speak_emote = list("growls")
 	friendly = FALSE
+	HostileMode(TRUE)
 	adjustBruteLoss(-src.getMaxHealth())
 	playsound(src, 'sound/abnormalities/wrath_servant/enrage.ogg', 100, FALSE, 40, falloff_distance = 20)
 	toggle_ai(AI_ON)
@@ -404,16 +411,20 @@
 	say("EMBODIMENTS OF EVIL!!!")
 	desc = "A large red monster with white bandages hanging from it. Its flesh oozes a bubble acid."
 	can_act = TRUE
-	GiveTarget(user)
 	if(!datum_reference)
 		can_patrol = TRUE
 		return
+	var/turf/target_turf
 	for(var/turf/dep in GLOB.department_centers)
-		if(get_dist(src, dep) < 30)
+		if(!target_turf)
+			target_turf = dep
 			continue
-		new /mob/living/simple_animal/hostile/azure_hermit(dep)
-		playsound(dep, 'sound/abnormalities/wrath_servant/hermit_magic.ogg', 60, FALSE, 10)
-		break
+		if(get_dist(src, dep) < get_dist(src, target_turf))
+			continue
+		target_turf = dep
+	new /mob/living/simple_animal/hostile/aminion/azure_hermit(target_turf)
+	playsound(target_turf, 'sound/abnormalities/wrath_servant/hermit_magic.ogg', 60, FALSE, 10)
+	patrol_to(get_closest_atom(/turf, GLOB.xeno_spawn, src))
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/Dash()
 	visible_message(span_warning("[src] sprints toward [target]!"), span_notice("You quickly dash!"), span_notice("You hear heavy footsteps speed up."))
@@ -499,7 +510,7 @@
 	friendly = FALSE
 	AdjustInstability()
 
-/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/PerformEnding(mob/living/simple_animal/hostile/azure_hermit/target = null)
+/mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/PerformEnding(mob/living/simple_animal/hostile/aminion/azure_hermit/target = null)
 	ending = TRUE
 	can_act = FALSE
 	target.gib(TRUE)
@@ -562,6 +573,7 @@
 	can_act = TRUE
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/death(gibbed)
+	swap_area_index(MOB_ABNORMALITY_INDEX)
 	if(!datum_reference)
 		return ..()
 	if(nihil_present)
@@ -601,7 +613,7 @@
 	friendly = TRUE
 	fear_level = ZAYIN_LEVEL
 	faction = list("neutral")
-	for(var/mob/living/simple_animal/hostile/azure_hermit/badguy in world)
+	for(var/mob/living/simple_animal/hostile/aminion/azure_hermit/badguy in world)
 		badguy.gib(TRUE)
 
 /mob/living/simple_animal/hostile/abnormality/wrath_servant/proc/NihilIconUpdate()
@@ -651,7 +663,7 @@
 	forceMove(teleport_target)
 
 //Rival's code
-/mob/living/simple_animal/hostile/azure_hermit
+/mob/living/simple_animal/hostile/aminion/azure_hermit
 	name = "Hermit of the Azure Forest"
 	desc = "Please make way, I am here to meet a dear friend."
 	icon = 'ModularTegustation/Teguicons/32x48.dmi'
@@ -663,9 +675,11 @@
 	faction = list("hostile", "azure")
 	can_patrol = TRUE
 
-	maxHealth = 1500
-	health = 1500
+	maxHealth = 500
+	health = 500
 	damage_coeff = list(RED_DAMAGE = 0.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.8, PALE_DAMAGE = 1.2)
+
+	alpha = 0
 
 	a_intent = INTENT_HARM
 	move_resist = MOVE_FORCE_STRONG
@@ -675,12 +689,14 @@
 	ranged = TRUE
 	ranged_cooldown = 15 SECONDS
 
-	melee_damage_lower = 20
-	melee_damage_upper = 30
+	melee_damage_lower = 7
+	melee_damage_upper = 8
 	rapid_melee = 2
 	melee_damage_type = WHITE_DAMAGE
 	attack_sound = 'sound/abnormalities/wrath_servant/hermit_attack.ogg'
 
+	threat_level = WAW_LEVEL
+	can_affect_emergency = FALSE///The 2 together would equalan aleph breach
 	COOLDOWN_DECLARE(conjure)
 	var/conjure_cooldown = 90 SECONDS
 	var/max_conjured = 12
@@ -688,11 +704,12 @@
 
 	var/can_act = TRUE
 
-/mob/living/simple_animal/hostile/azure_hermit/Initialize()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/Initialize()
 	. = ..()
 	COOLDOWN_START(src, conjure, conjure_cooldown)
+	animate(src, 10, alpha = 255)
 
-/mob/living/simple_animal/hostile/azure_hermit/Found(atom/A)
+/mob/living/simple_animal/hostile/aminion/azure_hermit/Found(atom/A)
 	if(!istype(A, /mob/living/simple_animal/hostile/abnormality/wrath_servant))
 		return FALSE
 	var/mob/living/simple_animal/hostile/abnormality/wrath_servant/SW = A
@@ -700,14 +717,14 @@
 		return FALSE
 	return TRUE
 
-/mob/living/simple_animal/hostile/azure_hermit/Life()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/Life()
 	. = ..()
 	if(!can_act || (status_flags & GODMODE))
 		return
 	if(COOLDOWN_FINISHED(src, conjure))
 		Conjure()
 
-/mob/living/simple_animal/hostile/azure_hermit/OpenFire(atom/A)
+/mob/living/simple_animal/hostile/aminion/azure_hermit/OpenFire(atom/A)
 	if(!can_act)
 		return
 	if(get_dist(src, target) > 4)
@@ -715,16 +732,16 @@
 	Befuddle()
 	ranged_cooldown = world.time + ranged_cooldown_time
 
-/mob/living/simple_animal/hostile/azure_hermit/AttackingTarget(atom/attacked_target)
+/mob/living/simple_animal/hostile/aminion/azure_hermit/AttackingTarget(atom/attacked_target)
 	if(!can_act || (status_flags & GODMODE))
 		return
-	if(istype(target, /mob/living/simple_animal/hostile/abnormality/wrath_servant))
-		var/mob/living/simple_animal/hostile/abnormality/wrath_servant/SW = target
+	if(istype(attacked_target, /mob/living/simple_animal/hostile/abnormality/wrath_servant))
+		var/mob/living/simple_animal/hostile/abnormality/wrath_servant/SW = attacked_target
 		if(SW.stunned)
 			return
-		if(SW.health > 400)
+		if(SW.health > 100)
 			playsound(SW, 'sound/abnormalities/wrath_servant/hermit_attack_hard.ogg', 75, FALSE, 15, falloff_distance = 5)
-			SW.deal_damage(100, WHITE_DAMAGE) // We win these
+			SW.deal_damage(30, WHITE_DAMAGE) // We win these
 			var/list/show_area = list()
 			show_area |= view(3, src)
 			for(var/turf/sT in show_area)
@@ -748,20 +765,20 @@
 			SW.icon_state = "wrath_staff_stun"
 			SW.desc = "A large red monster with white bandages hanging from it. Its flesh oozes a bubble acid. A wooden staff is impaled in its chest, it can't seem to move!"
 		return
-	if(ishuman(target))
-		var/mob/living/carbon/human/H = target
+	if(ishuman(attacked_target))
+		var/mob/living/carbon/human/H = attacked_target
 		if(get_user_level(H) < 3)
 			say("Pardon me.")
 			var/turf/TT = get_turf(H)
-			H.gib(TRUE, TRUE, TRUE)
-			var/mob/living/simple_animal/hostile/azure_stave/AS = new(TT)
+			H.gib(FALSE, TRUE, TRUE)
+			var/mob/living/simple_animal/hostile/aminion/azure_stave/AS = new(TT)
 			staves += AS
 			AS = new(TT)
 			staves += AS
 			return
 	return ..()
 
-/mob/living/simple_animal/hostile/azure_hermit/Move(atom/newloc, dir, step_x, step_y)
+/mob/living/simple_animal/hostile/aminion/azure_hermit/Move(atom/newloc, dir, step_x, step_y)
 	if(!can_act)
 		return
 	if(status_flags & GODMODE)
@@ -769,7 +786,7 @@
 	..()
 	return
 
-/mob/living/simple_animal/hostile/azure_hermit/proc/Conjure()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/proc/Conjure()
 	for(var/mob/living/simple_animal/hostile/staff in staves)
 		if(QDELETED(staff) || isnull(staff))
 			staves -= staff
@@ -782,30 +799,29 @@
 			valid_turfs -= T
 	playsound(src, 'sound/abnormalities/wrath_servant/hermit_magic.ogg', 60, FALSE, 10)
 	for(var/i = 0 to min(rand(1, 3), valid_turfs.len))
-		var/mob/living/simple_animal/hostile/azure_stave/AS = new(pick(valid_turfs))
+		var/mob/living/simple_animal/hostile/aminion/azure_stave/AS = new(pick(valid_turfs))
 		staves += AS
 	COOLDOWN_START(src, conjure, conjure_cooldown)
 	return
 
-/mob/living/simple_animal/hostile/azure_hermit/proc/Befuddle()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/proc/Befuddle()
 	if(!can_act || (status_flags & GODMODE))
 		return
 	can_act = FALSE
-	var/list/show_area = list()
-	show_area |= view(4, src)
-	for(var/turf/sT in show_area)
+	for(var/turf/open/sT in view(4, src))
 		new /obj/effect/temp_visual/cult/sparks(sT)
-	SLEEP_CHECK_DEATH(1.5 SECONDS)
+	SLEEP_CHECK_DEATH(1.25 SECONDS)
 	playsound(src, 'sound/abnormalities/wrath_servant/hermit_magic.ogg', 75, FALSE, 10)
-	for(var/mob/living/L in view(4, src))
+	for(var/turf/open/sT in view(4, src))
+		new /obj/effect/temp_visual/small_smoke/halfsecond(sT)
+	for(var/mob/living/L in livinginview(4, src))
 		if(faction_check_mob(L))
 			continue
-		new /obj/effect/temp_visual/small_smoke/halfsecond(get_turf(L))
-		L.deal_damage(40, WHITE_DAMAGE)
+		L.deal_damage(15, WHITE_DAMAGE)
 	can_act = TRUE
 	return
 
-/mob/living/simple_animal/hostile/azure_hermit/proc/Downed()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/proc/Downed()
 	say("Fufu~ If you're so insistent, I'll have a bit of a rest.")
 	manual_emote("sits down.")
 	icon_state = "hermit_stun"
@@ -817,10 +833,10 @@
 	adjustBruteLoss(-maxHealth, forced = TRUE)
 	density = TRUE
 
-/mob/living/simple_animal/hostile/azure_hermit/death()
+/mob/living/simple_animal/hostile/aminion/azure_hermit/death()
 	INVOKE_ASYNC(src, PROC_REF(Downed))
 
-/mob/living/simple_animal/hostile/azure_hermit/gib(real = FALSE)
+/mob/living/simple_animal/hostile/aminion/azure_hermit/gib(real = FALSE)
 	if(!real)
 		death()
 		return
@@ -836,14 +852,14 @@
 	QDEL_IN(src, 15 SECONDS)
 	return
 
-/mob/living/simple_animal/hostile/azure_stave
+/mob/living/simple_animal/hostile/aminion/azure_stave
 	name = "Hermit's Staff"
 	desc = "This wood's blueish hue almost resembles a person..."
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "stave"
 	icon_living = "stave"
-	maxHealth = 250
-	health = 250
+	maxHealth = 50
+	health = 50
 	death_message = "crumples to dust."
 
 	a_intent = INTENT_HARM
@@ -855,11 +871,14 @@
 
 	move_to_delay = 4
 
-	melee_damage_lower = 10
-	melee_damage_upper = 20
+	melee_damage_lower = 3
+	melee_damage_upper = 4
 	melee_damage_type = RED_DAMAGE
 	rapid_melee = 2
 	stat_attack = HARD_CRIT
+
+	threat_level = TETH_LEVEL
+	score_divider = 4
 
 	del_on_death = TRUE
 
@@ -959,13 +978,13 @@
 	if(!isliving(owner))
 		return
 	var/mob/living/status_holder = owner
-	status_holder.deal_damage(5, BLACK_DAMAGE)
+	status_holder.deal_damage(1, BLACK_DAMAGE)
 	if(!ishuman(status_holder))
 		return
 	if((status_holder.sanityhealth <= 0) || (status_holder.health <= 0))
 		var/turf/spawner_turf = get_turf(status_holder)
-		status_holder.gib(TRUE, TRUE, TRUE)
-		new /mob/living/simple_animal/hostile/azure_stave(spawner_turf)
+		status_holder.gib(FALSE, TRUE, TRUE)
+		new /mob/living/simple_animal/hostile/aminion/azure_stave(spawner_turf)
 
 #undef STATUS_EFFECT_ACIDIC_GOO
 #undef SERVANT_SMASH_COOLDOWN

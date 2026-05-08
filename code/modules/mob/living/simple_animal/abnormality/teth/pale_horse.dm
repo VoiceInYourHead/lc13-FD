@@ -10,8 +10,8 @@
 	portrait = "pale_horse"
 	speak_emote = list("neighs")
 	threat_level = TETH_LEVEL
-	maxHealth = 800
-	health = 800
+	maxHealth = 150
+	health = 150
 	pixel_x = -16
 	base_pixel_x = -16
 	stat_attack = DEAD
@@ -25,8 +25,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 55,
 		ABNORMALITY_WORK_REPRESSION = list(70, 65, 60, 50, 50),
 	)
-	work_damage_amount = 3
+	work_damage_upper = 5
+	work_damage_lower = 3
 	work_damage_type = PALE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 
 	ego_list = list(
 		/datum/ego_datum/weapon/revelation,
@@ -41,12 +43,12 @@
 	observation_prompt = "Joseph came to you once, his face flush with excitement after the horse wept before him. He's \"Nothing There\"'s shell now. <br>\
 		Did the horse merely prognosticate his death or did it doom him? You're outside the containment unit now and your legs tremble, you've been ordered to work it today. <br>\
 		You..."
-	observation_choices = list("Enter the containment unit", "Pretend you didn't get the order")
-	correct_choices = list("Enter the containment unit")
-	observation_success_message = "You enter the containment unit and kneel before the horse. <br>\
-		It kneels next to you and a single tear drips from its eye onto your shoulder. You hold onto its head as you both weep. <br>\
-		Death is terrifying but at least you know something weeps for you."
-	observation_fail_message = "You pretend you didn't get the order and make to leave, your PDA flashes again, you've been assigned to \"Nothing There\" and this time, you're being escorted."
+	observation_choices = list(
+		"Enter the containment unit" = list(TRUE, "You enter the containment unit and kneel before the horse. <br>\
+			It kneels next to you and a single tear drips from its eye onto your shoulder. You hold onto its head as you both weep. <br>\
+			Death is terrifying but at least you know something weeps for you."),
+		"Pretend you didn't get the order" = list(FALSE, "You pretend you didn't get the order and make to leave, your PDA flashes again, you've been assigned to \"Nothing There\" and this time, you're being escorted."),
+	)
 
 	//teleport
 	var/can_act = TRUE
@@ -55,7 +57,7 @@
 	//attack
 	var/mob/living/set_target
 	var/pulse_range = 11 //fairly large area - enough to breach several abnormalities
-	var/fog_damage = 3
+	var/fog_damage = 4
 	var/ash_damage = 20
 
 //work stuff
@@ -68,7 +70,7 @@
 	if(user.health < (user.maxHealth * 0.5))
 		return
 	else
-		user.deal_damage(4, PALE_DAMAGE)
+		user.deal_damage(rand(work_damage_lower, work_damage_upper), PALE_DAMAGE)
 
 /mob/living/simple_animal/hostile/abnormality/pale_horse/Initialize()
 	. = ..()
@@ -136,11 +138,11 @@
 	for(var/turf/T in view(1, target_turf))
 		new /obj/effect/temp_visual/palefog(T)
 
-/mob/living/simple_animal/hostile/abnormality/pale_horse/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/pale_horse/AttackingTarget(atom/attacked_target)
 	. = ..()
-	if(!ishuman(target))
+	if(!ishuman(attacked_target))
 		return FALSE
-	var/mob/living/carbon/human/T = target
+	var/mob/living/carbon/human/T = attacked_target
 	if(T.health > 0)
 		var/datum/status_effect/mortis/M = T.has_status_effect(/datum/status_effect/mortis)
 		if(!M)
@@ -161,7 +163,7 @@
 	var/datum/effect_system/smoke_spread/S = new
 	S.set_up(7, get_turf(src))
 	S.start()
-	for(var/mob/living/simple_animal/hostile/abnormality/P in range(pulse_range, src))
+	for(var/mob/living/simple_animal/hostile/abnormality/P in urange(pulse_range, src))
 		if(!(P.IsContained()))
 			continue
 		P.datum_reference.qliphoth_change(-1)
@@ -172,8 +174,8 @@
 				continue
 			H.deal_damage(ash_damage, PALE_DAMAGE)
 			if(H.health < 0 && ishuman(H))
-				H.dust()
-	T.dust()
+				H.dust(TRUE, TRUE)
+	T.dust(TRUE, TRUE)
 
 //Combat
 /mob/living/simple_animal/hostile/abnormality/pale_horse/CanAttack(atom/the_target)
@@ -293,7 +295,7 @@
 /datum/status_effect/mortis/tick()
 	owner.deal_damage(damage, PALE_DAMAGE)
 	if(owner.health < 0 && ishuman(owner))
-		owner.dust()
+		owner.dust(TRUE, TRUE)
 
 /datum/status_effect/mortis/on_apply()
 	. = ..()

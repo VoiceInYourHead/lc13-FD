@@ -27,7 +27,7 @@
 	var/crit_threshold = HEALTH_THRESHOLD_CRIT /// when the mob goes from "normal" to crit
 	var/sanityhealth = 100 // Sanity health. Humans go insane when it reaches 0
 	var/sanityloss = 0
-	var/maxSanity = 100
+	var/maxSanity = MAX_LIVING_HEALTH
 	///When the mob enters hard critical state and is fully incapacitated.
 	var/hardcrit_threshold = HEALTH_THRESHOLD_FULLCRIT
 	var/death_threshold = HEALTH_THRESHOLD_DEAD
@@ -177,3 +177,12 @@
 	var/body_position_pixel_x_offset = 0
 	///The x amount a mob's sprite should be offset due to the current position they're in
 	var/body_position_pixel_y_offset = 0
+
+	/// How much devotion to the fish gods do you have?
+	var/devotion = 0
+
+	/// Which god are you aligned with?
+	var/god_aligned = FISHGOD_NONE
+
+	/// Index used to interact with the moblist of the area they are currently in.
+	var/area_index = MOB_LIVING_INDEX

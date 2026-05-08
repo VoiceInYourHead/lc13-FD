@@ -97,7 +97,7 @@
 
 /obj/structure/statue/plasma/bullet_act(obj/projectile/Proj)
 	var/burn = FALSE
-	if(!(Proj.nodamage) && Proj.damage_type == BURN && !QDELETED(src))
+	if(!(Proj.nodamage) && Proj.damage_type == FIRE && !QDELETED(src))
 		burn = TRUE
 	if(burn)
 		var/turf/T = get_turf(src)
@@ -299,9 +299,9 @@
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
-	force = 5
+	force = 2
 	w_class = WEIGHT_CLASS_TINY
-	throwforce = 5
+	throwforce = 2
 	throw_speed = 3
 	throw_range = 5
 	custom_materials = list(/datum/material/iron=75)

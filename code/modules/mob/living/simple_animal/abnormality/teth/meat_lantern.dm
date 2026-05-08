@@ -5,8 +5,8 @@
 	icon_state = "lantern"
 	icon_living = "lantern"
 	portrait = "meat_lantern"
-	maxHealth = 900
-	health = 900
+	maxHealth = 250
+	health = 250
 	base_pixel_x = -16
 	pixel_x = -16
 	threat_level = TETH_LEVEL
@@ -22,11 +22,13 @@
 	can_breach = TRUE
 	del_on_death = FALSE
 	death_message = "explodes in a shower of gore."
+	trigger_lights = FALSE
 
-	work_damage_amount = 5
+	work_damage_upper = 3
+	work_damage_lower = 1
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
 	start_qliphoth = 1
-	max_boxes = 14
 	ego_list = list(
 		/datum/ego_datum/weapon/lantern,
 		/datum/ego_datum/armor/lantern,
@@ -39,16 +41,16 @@
 
 	observation_prompt = "It's always the same, dull colours in the facility. Grey walls, grey floors, grey ceilings, even the people were grey. <br>\
 		Every day was grey until, one day, you saw the a small, beautifully green flower growing and glowing from the ground."
-	observation_choices = list("Approach the flower", "Call for security")
-	correct_choices = list("Approach the flower")
-	observation_success_message = "It's the most beautiful thing you've ever seen, you brush your hand against it and the petals tickle your hand. You feel a tremor beneath and..."
-	observation_fail_message = "Something so beautiful had no right to exist in the City. You called for security and left in a hurry back to your grey workplace."
+	observation_choices = list(
+		"Approach the flower" = list(TRUE, "It's the most beautiful thing you've ever seen, you brush your hand against it and the petals tickle your hand. You feel a tremor beneath and..."),
+		"Call for security" = list(FALSE, "Something so beautiful had no right to exist in the City. You called for security and left in a hurry back to your grey workplace."),
+	)
 
 	var/can_act = TRUE
 	var/detect_range = 1
 	var/chop_cooldown
 	var/chop_cooldown_time = 4 SECONDS
-	var/chop_damage = 400
+	var/chop_damage = 80
 
 /mob/living/simple_animal/hostile/abnormality/meat_lantern/PostSpawn()
 	. = ..()
@@ -104,7 +106,7 @@
 			continue
 		L.deal_damage(chop_damage, RED_DAMAGE)
 		if(L.health < 0)
-			L.gib(FALSE,FALSE,TRUE)
+			L.gib(FALSE,TRUE,TRUE)
 	SLEEP_CHECK_DEATH(2.5)
 	icon = initial(icon)
 	pixel_x = base_pixel_x
@@ -136,9 +138,8 @@
 	..()
 
 /mob/living/simple_animal/hostile/abnormality/meat_lantern/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time, canceled)
-	if(work_time < 18 SECONDS)
-		if(prob(80))
-			datum_reference.qliphoth_change(-1)
+	if (get_attribute_level(user, TEMPERANCE_ATTRIBUTE) >= 60)
+		datum_reference.qliphoth_change(-1)
 	return
 
 /mob/living/simple_animal/hostile/abnormality/meat_lantern/FailureEffect(mob/living/carbon/human/user, work_type, pe)
@@ -147,12 +148,15 @@
 	return
 
 /mob/living/simple_animal/hostile/abnormality/meat_lantern/BreachEffect(mob/living/carbon/human/user, breach_type)
+	if(breach_type == BREACH_MINING)//as funny as it sounds, this abnormality would be unreachable
+		sleep(10 SECONDS)
 	. = ..()
 	update_icon()
 	density = FALSE
 	med_hud_set_health() //hides medhud
 	med_hud_set_status()
-	forceMove(pick(GLOB.xeno_spawn))
+	if(breach_type != BREACH_MINING)
+		forceMove(pick(GLOB.xeno_spawn))
 	chop_cooldown = world.time + chop_cooldown_time
 	proximity_monitor = new(src, detect_range)
 	return

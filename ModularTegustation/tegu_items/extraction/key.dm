@@ -11,6 +11,11 @@
 	var/itemname = "Key"
 	var/howtouse = "This tool can only be used on a containment cell that has not reached 50% understanding, and will expire when understanding reaches 50%. This does NOT affect Qliphoth Counter."
 
+/obj/item/extraction/key/examine(mob/user)
+	. = ..()
+	if (GetFacilityUpgradeValue(UPGRADE_EXTRACTION_1))
+		. += span_notice("This tool seems to be upgraded, increases work speed even more.")
+
 /obj/item/extraction/key/proc/UserDeath()
 	if(archived_console)
 		archived_console.ApplyEOTool(passed_variable, TRUE, src)
@@ -27,14 +32,11 @@
 	. = ..()
 	if(!tool_checks(user))
 		return FALSE //You can't do any special interactions
-	if(archived_console)
-		to_chat(user, span_warning("You must remove the currently active [itemname] before placing a new one!"))
-		return FALSE
 	if(istype(A, /obj/machinery/computer/abnormality))
 		if(archived_console)
 			user.playsound_local(user, 'sound/machines/terminal_error.ogg', 50, FALSE)
-			to_chat(user, span_warning("Remove the currently linked [itemname] first!"))
-			return FALSE
+			to_chat(user, span_warning("Remove the current link first!"))
+			return TRUE
 		var/obj/machinery/computer/abnormality/target = A
 		if(target.ApplyEOTool(passed_variable, FALSE, src))
 			archived_console = A

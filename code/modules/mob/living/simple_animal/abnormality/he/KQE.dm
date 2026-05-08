@@ -1,8 +1,8 @@
 /mob/living/simple_animal/hostile/abnormality/kqe
 	name = "KQE-1J-23"
 	desc = "A mechanical puppet composed of metal plates, lights, and integrated circuits. Bare wires protrude with its every movement."
-	health = 1500
-	maxHealth = 1500
+	health = 350
+	maxHealth = 350
 	attack_verb_continuous = "whips"
 	attack_verb_simple = "whip"
 	attack_sound = 'sound/abnormalities/kqe/hitsound1.ogg'
@@ -15,8 +15,10 @@
 	del_on_death = FALSE
 	melee_damage_type = BLACK_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 1, PALE_DAMAGE = 1.2)
-	melee_damage_lower = 20
-	melee_damage_upper = 25
+	speak_emote = list("states")
+	speech_span = SPAN_ROBOT
+	melee_damage_lower = 4
+	melee_damage_upper = 5
 	move_to_delay = 3
 	ranged = TRUE
 	pixel_x = -24
@@ -34,12 +36,14 @@
 		"Write GOODBYE" = 0,
 		"Write DUMBASS" = 0,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 7
+	work_damage_lower = 4
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/envy
 
 	ego_list = list(
-		/datum/ego_datum/weapon/replica,
-		/datum/ego_datum/armor/replica,
+		/datum/ego_datum/weapon/regs,
+		/datum/ego_datum/armor/regs,
 	)
 	gift_type =  /datum/ego_gifts/replica
 	gift_message = "The abnormality hands you a pendant made from circuits and sinews."
@@ -58,27 +62,27 @@
 		Is that leakage antifreeze, or blood? <br>\
 		While you were wondering, the terminal on its chest flashed to life. <br>\
 		Looks like you can write something."
-	observation_choices = list("Hello", "Goodbye")
-	correct_choices = list("Hello")
-	observation_success_message = "The robot lifts both arms with some struggle. <br>\
-		The terminal prints out its words: <br>\
-		<Welcome, Dear Guest. Have you enjoyed the town tour? \
-		We’d like you to have a souvenir. :-)> <br>\
-		A smile is displayed on the terminal, <br>\
-		but in the robot’s gestures, you feel a plea for help."
-	observation_fail_message = "The terminal’s light goes red, and warnings start to blare. <br>\
-		The robot shakes intensely as if in pain. <br>\
-		<Farewell. <br>Farewell, <br>FarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewell>"
+	observation_choices = list(
+		"Hello" = list(TRUE, "The robot lifts both arms with some struggle. <br>\
+			The terminal prints out its words: <br>\
+			<Welcome, Dear Guest. Have you enjoyed the town tour? \
+			We’d like you to have a souvenir. :-)> <br>\
+			A smile is displayed on the terminal, <br>\
+			but in the robot’s gestures, you feel a plea for help."),
+		"Goodbye" = list(FALSE, "The terminal’s light goes red, and warnings start to blare. <br>\
+			The robot shakes intensely as if in pain. <br>\
+			<Farewell. <br>Farewell, <br>FarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewellFarewell>"),
+	)
 
 	var/can_act = TRUE
 	var/grab_cooldown
 	var/grab_cooldown_time = 15 SECONDS
-	var/grab_damage = 120
+	var/grab_damage = 30
 	var/work_penalty = FALSE
 	var/question = FALSE
 	var/work_count = 0
 	var/heart = FALSE
-	var/heart_threshold = 700
+	var/heart_threshold = 0.5
 
 	//PLAYABLE ATTACKS
 	attack_action_types = list(/datum/action/innate/abnormality_attack/toggle/kqe_grab_toggle)
@@ -108,7 +112,7 @@
 	. = ..()
 	if(!.) // Dead
 		return FALSE
-	if(health >= heart_threshold)
+	if(health >= maxHealth * heart_threshold)
 		return
 	if(!heart)
 		revive(full_heal = TRUE, admin_revive = FALSE)//fully heal and spawn a heart
@@ -118,7 +122,7 @@
 		else
 			ChangeResistances(list(RED_DAMAGE = 0.3, WHITE_DAMAGE = 0.2, BLACK_DAMAGE = 0.2, PALE_DAMAGE = 0.2)) //In regular gamemodes you are now esentially forced to suppress the heart
 			var/X = pick(GLOB.department_centers)
-			var/mob/living/simple_animal/hostile/kqe_heart/H = new(get_turf(X))
+			var/mob/living/simple_animal/hostile/aminion/kqe_heart/H = new(get_turf(X))
 			heart = H
 			H.abno_host = src
 		Stagger()
@@ -128,10 +132,13 @@
 	if(!heart)
 		return Life()//PRANKED!
 	can_act = FALSE
+	icon = 'ModularTegustation/Teguicons/abno_cores/he.dmi'
 	icon_state = icon_dead
+	pixel_x = -16
+	base_pixel_x = -16
 	animate(src, alpha = 0, time = 10 SECONDS)
 	QDEL_IN(src, 10 SECONDS)
-	if(istype(heart, /mob/living/simple_animal/hostile/kqe_heart))
+	if(istype(heart, /mob/living/simple_animal/hostile/aminion/kqe_heart))
 		qdel(heart)
 	..()
 
@@ -215,8 +222,10 @@
 	if(!can_act)
 		return FALSE
 	if ((grab_cooldown <= world.time) && prob(35) && (!client))//checks for client since you can still use the claw if you click nearby
-		var/turf/target_turf = get_turf(target)
+		var/turf/target_turf = get_turf(attacked_target)
 		return ClawGrab(target_turf)
+	if(!target)
+		GiveTarget(attacked_target)
 	return Whip_Attack()
 
 /mob/living/simple_animal/hostile/abnormality/kqe/proc/Whip_Attack()
@@ -227,7 +236,7 @@
 	SLEEP_CHECK_DEATH(10)
 	for(var/turf/T in view(2, src))
 		new /obj/effect/temp_visual/smash_effect(T)
-		HurtInTurf(T, list(), melee_damage_upper, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE)
+		HurtInTurf(T, list(), melee_damage_upper, RED_DAMAGE, check_faction = TRUE, hurt_mechs = TRUE, hurt_structure = TRUE)
 	icon_state = "kqe_prepare2"
 	SLEEP_CHECK_DEATH(3)
 	icon_state = icon_living
@@ -275,7 +284,7 @@
 	pull_force = INFINITY
 	generic_canpass = FALSE
 	movement_type = PHASING | FLYING
-	var/boom_damage = 90
+	var/boom_damage = 20
 	var/grabbed
 	layer = POINT_LAYER//Sprite should always be visible
 
@@ -317,7 +326,7 @@
 	randomdir = 0
 	pixel_y = 0
 
-/mob/living/simple_animal/hostile/kqe_heart
+/mob/living/simple_animal/hostile/aminion/kqe_heart
 	name = "Heart of The Townsfolk"
 	desc = "A massive protrusion of wires shaped like a human heart. Arcs of electricity pulse on its surface.."
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
@@ -327,21 +336,24 @@
 	icon_living = "kqe_heart"
 	icon_dead = "kqe_egg"
 	/*Stats*/
-	health = 1000
-	maxHealth = 1000
+	health = 200
+	maxHealth = 200
 	obj_damage = 50
 	damage_coeff = list(RED_DAMAGE = 2, WHITE_DAMAGE = 2, BLACK_DAMAGE = 2, PALE_DAMAGE = 2)
 	speed = 5
 	density = TRUE
+	faction = list("hostile", "KQE")
+	threat_level = HE_LEVEL
+	can_affect_emergency = FALSE//Its an extention of kqe rather than a minion
 	var/mob/living/simple_animal/hostile/abnormality/kqe/abno_host//This is KQE!
 
-/mob/living/simple_animal/hostile/kqe_heart/Move()
+/mob/living/simple_animal/hostile/aminion/kqe_heart/Move()
 	return FALSE
 
-/mob/living/simple_animal/hostile/kqe_heart/CanAttack(atom/the_target)//should only attack when it has fists
+/mob/living/simple_animal/hostile/aminion/kqe_heart/CanAttack(atom/the_target)//should only attack when it has fists
 	return FALSE
 
-/mob/living/simple_animal/hostile/kqe_heart/death()
+/mob/living/simple_animal/hostile/aminion/kqe_heart/death()
 	if(abno_host)
 		abno_host.death()
 	animate(src, alpha = 0, time = 10 SECONDS)

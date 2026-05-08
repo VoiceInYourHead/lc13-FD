@@ -206,7 +206,8 @@
  */
 /obj/item/lc_debug/sephirah_action_granter
 	name = "debug sephirah action granter"
-	desc = "A strange wooden sign with the words\"THE ROBITS GRIFF ME!!!\" inscribed upon it"
+	desc = "A strange wooden sign with the words \"THE ROBITS GRIFF ME!!!\" inscribed upon it"
+	icon = 'icons/obj/items_and_weapons.dmi'
 	icon_state = "picket"
 
 /obj/item/lc_debug/sephirah_action_granter/examine(mob/user)
@@ -250,9 +251,11 @@
 	toggle_ai(AI_OFF)
 
 /mob/living/simple_animal/hostile/debugdummy/adjustHealth(amount, updating_health = TRUE, forced = FALSE)
-	return FALSE
+	. = ..()
+	health = maxHealth
 
 /mob/living/simple_animal/hostile/debugdummy/adjustBruteLoss(amount, updating_health = TRUE, forced = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -263,6 +266,7 @@
 	accumulated_damage += damage_dealt
 
 /mob/living/simple_animal/hostile/debugdummy/adjustFireLoss(amount, updating_health = TRUE, forced = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -273,6 +277,7 @@
 	accumulated_damage += damage_dealt
 
 /mob/living/simple_animal/hostile/debugdummy/adjustRedLoss(amount, updating_health = TRUE, forced = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -283,6 +288,7 @@
 	accumulated_damage += damage_dealt
 
 /mob/living/simple_animal/hostile/debugdummy/adjustWhiteLoss(amount, updating_health = TRUE, forced = FALSE, white_healable = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -293,6 +299,7 @@
 	accumulated_damage += damage_dealt
 
 /mob/living/simple_animal/hostile/debugdummy/adjustBlackLoss(amount, updating_health = TRUE, forced = FALSE, white_healable = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -303,6 +310,7 @@
 	accumulated_damage += damage_dealt
 
 /mob/living/simple_animal/hostile/debugdummy/adjustPaleLoss(amount, updating_health = TRUE, forced = FALSE)
+	. = ..()
 	var/damage_dealt
 	if(forced)
 		damage_dealt = amount * CONFIG_GET(number/damage_multiplier)
@@ -345,7 +353,7 @@
 	if(dps_timer)
 		return
 	say("DPS check will start in three seconds!")
-	SLEEP_CHECK_DEATH(5)
+	SLEEP_CHECK_DEATH(10)
 	say("3!")
 	SLEEP_CHECK_DEATH(10)
 	say("2!")
@@ -373,3 +381,26 @@
 	say("Restarting...")
 	SLEEP_CHECK_DEATH(10)
 	DeepsCheckStart()
+
+//breach tester
+/obj/item/lc_debug/breachtester//for testing many abnormalities very quickly
+	name = "Breach tester"
+	desc = "For testing use only, DO NOT DISTRIBUTE! Breach types can be checked under _DEFINES/abnormalities.dm"
+	icon = 'icons/obj/items_and_weapons.dmi'
+	icon_state = "nanoimplant"
+	var/breach_type = BREACH_NORMAL
+	var/list/breach_list = list(
+			BREACH_NORMAL, BREACH_PINK, BREACH_MINING,
+	)
+
+/obj/item/lc_debug/breachtester/attack_self(mob/user)
+	breach_type = input(user, "Which breach will you test?") as null|anything in breach_list
+
+/obj/item/lc_debug/breachtester/attack(mob/living/simple_animal/hostile/abnormality/target, mob/living/carbon/human/user)
+	if(!isabnormalitymob(target))
+		to_chat(user, span_warning("\"[target]\" isn't an Abnormality."))
+		return
+	target.BreachEffect(user, breach_type)
+	to_chat(user, span_nicegreen("You triggered a [breach_type] breach!"))
+
+

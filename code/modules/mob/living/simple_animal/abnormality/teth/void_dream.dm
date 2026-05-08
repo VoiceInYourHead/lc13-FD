@@ -7,8 +7,8 @@
 	portrait = "void_dream"
 	del_on_death = TRUE
 	is_flying_animal = TRUE
-	maxHealth = 600
-	health = 600
+	maxHealth = 120
+	health = 120
 	rapid_melee = 2
 	move_to_delay = 6
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 1.2, PALE_DAMAGE = 2)
@@ -26,8 +26,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 60,
 		ABNORMALITY_WORK_REPRESSION = 20,
 	)
-	work_damage_amount = 6
+	work_damage_upper = 3
+	work_damage_lower = 1
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
 
 	ego_list = list(
 		/datum/ego_datum/weapon/dream,
@@ -40,13 +42,13 @@
 		I go out and bring such sweet dreams to those who've only learned to stop dreaming, <br>\
 		I'm not to blame if their dreams are so entrancing they become hollow people in their waking lives, am I not? <br>\
 		Don't you want such sweet dreams too?\""
-	observation_choices = list("You're a demon", "Please, eat my dreams")
-	correct_choices = list("You're a demon")
-	observation_success_message = "\"Don't say such scary, complicated things. <br>I just gave them the enrapturing dreams they wanted. <br>They're destined to come back to me.\""
-	observation_fail_message = "It's alright, dreams are harmless but unnecessary things. <br>So, just close your eyes and show me your most delectable dream..."
+	observation_choices = list(
+		"You're a demon" = list(TRUE, "\"Don't say such scary, complicated things. <br>I just gave them the enrapturing dreams they wanted. <br>They're destined to come back to me.\""),
+		"Please, eat my dreams" = list(FALSE, "It's alright, dreams are harmless but unnecessary things. <br>So, just close your eyes and show me your most delectable dream..."),
+	)
 
 	var/punched = FALSE
-	var/pulse_damage = 50
+	var/pulse_damage = 15
 	var/ability_cooldown
 	var/ability_cooldown_time = 12 SECONDS
 
@@ -129,7 +131,7 @@
 
 /mob/living/simple_animal/hostile/abnormality/voiddream/proc/Shout()
 	playsound(get_turf(src), 'sound/abnormalities/voiddream/shout.ogg', 75, FALSE, 5)
-	for(var/mob/living/carbon/human/L in range(10, src))
+	for(var/mob/living/carbon/human/L in urange(10, src))
 		if(faction_check(src.faction, L.faction)) // I LOVE NESTING IF STATEMENTS
 			continue
 		if(L.has_status_effect(STATUS_EFFECT_SLEEPING))
@@ -191,7 +193,7 @@
 	var/mob/living/carbon/human/H = target
 	if(H.IsSleeping())
 		return
-	H.SetSleeping(30 SECONDS) // Used to be a full minute
+	H.SetSleeping(20 SECONDS) // Used to be a full minute
 	var/datum/status_effect/incapacitating/sleeping/S = H.IsSleeping()
 	S.remove_on_damage = TRUE
 	playsound(get_turf(H), 'sound/abnormalities/voiddream/skill.ogg', 50, TRUE)

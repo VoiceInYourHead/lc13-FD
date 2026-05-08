@@ -4,18 +4,19 @@
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "apex"
 	icon_living = "apex"
+	core_icon = "apex_egg"
 	portrait = "apex"
 	pixel_x = -16
 	base_pixel_x = -16
 
 
-	maxHealth = 1600
-	health = 1600
+	maxHealth = 600
+	health = 600
 	density = FALSE
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 0.2, WHITE_DAMAGE = 1, BLACK_DAMAGE = 1, PALE_DAMAGE = 1)
 	ranged = TRUE
-	melee_damage_lower = 30
-	melee_damage_upper = 40
+	melee_damage_lower = 12
+	melee_damage_upper = 15
 	move_to_delay = 3
 
 	melee_damage_type = RED_DAMAGE
@@ -36,8 +37,12 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(25, 20, 15, 10, 0),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 50, 55, 55),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/apex_predator
+	harvest_phrase = span_notice("A cloudy liquid leaks from %ABNO, stinking of burnt plastic. You collect it using %VESSEL.")
+	harvest_phrase_third = "%PERSON fills %VESSEL with a cloudy, foul smelling liquid that's leaking out of %ABNO."
 
 	ego_list = list(
 		/datum/ego_datum/weapon/animalism,
@@ -49,18 +54,18 @@
 		You're not sure if it's even able to understand you. <br>Despite being shaped like a human, there's no face to relate to. <br>No eyes to look at. <br>\
 		Just the rough outline of a human. <br>\
 		Is there even anything you can say to it?"
-	observation_choices = list("Beat it up.", "Why?")
-	correct_choices = list("Why?")
-	observation_success_message = "The abnormality suddenly stops moving. <br>It doesn't quite know how to respond either. <br>\
-		It stares down at the floor as if to contemplate the question. <br>\
-		All it can offer is a shrug. <br>Perhaps there isn't an answer."
-	observation_fail_message = "There's nothing to say. <br>A crash test dummy's only purpose is to enable violence. <br>\
-		Violence for the sake of violence. <br>\
-		You smile as you pull out your baton."
+	observation_choices = list(
+		"Why?" = list(TRUE, "The abnormality suddenly stops moving. <br>It doesn't quite know how to respond either. <br>\
+			It stares down at the floor as if to contemplate the question. <br>\
+			All it can offer is a shrug. <br>Perhaps there isn't an answer."),
+		"Beat it up" = list(FALSE, "There's nothing to say. <br>A crash test dummy's only purpose is to enable violence. <br>\
+			Violence for the sake of violence. <br>\
+			You smile as you pull out your baton."),
+	)
 
 	var/revealed = TRUE
 	var/can_act = TRUE
-	var/backstab_damage = 200
+	var/backstab_damage = 60
 	var/agent_status //Used for insanity
 
 	var/jumping	//Used so it can only start one jump at once
@@ -68,7 +73,7 @@
 
 	var/jump_cooldown
 	var/jump_cooldown_time = 5 SECONDS
-	var/jump_damage = 60
+	var/jump_damage = 15
 
 	var/recloak_time = 0
 	var/recloak_time_cooldown = 30 SECONDS
@@ -99,14 +104,16 @@
 
 /mob/living/simple_animal/hostile/abnormality/apex_predator/AttemptWork(mob/living/carbon/human/user, work_type)
 	if(user.health != user.maxHealth)
-		work_damage_amount = 20
+		work_damage_upper = 8
+		work_damage_lower = 6
 	return TRUE
 
 /mob/living/simple_animal/hostile/abnormality/apex_predator/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	if(user.health < 0)
 		datum_reference.qliphoth_change(-1)
 
-	work_damage_amount = initial(work_damage_amount)
+	work_damage_upper = initial(work_damage_upper)
+	work_damage_lower = initial(work_damage_lower)
 	return
 
 /mob/living/simple_animal/hostile/abnormality/apex_predator/BreachEffect(mob/living/carbon/human/user, breach_type)
@@ -114,7 +121,7 @@
 	Cloak()
 	GiveTarget(user)
 
-/mob/living/simple_animal/hostile/abnormality/apex_predator/AttackingTarget()
+/mob/living/simple_animal/hostile/abnormality/apex_predator/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return
 	if(!revealed)
@@ -125,23 +132,23 @@
 		Decloak()
 		SLEEP_CHECK_DEATH(3)
 		//Backstab
-		if(target in range(1, src))
-			if(isliving(target))
-				var/mob/living/V = target
-				visible_message(span_danger("The [src] rips out [target]'s guts!"))
+		if(attacked_target in range(1, src))
+			if(isliving(attacked_target))
+				var/mob/living/V = attacked_target
+				visible_message(span_danger("The [src] rips out [attacked_target]'s guts!"))
 				new /obj/effect/gibspawner/generic(get_turf(V))
 				V.deal_damage(backstab_damage, RED_DAMAGE)
 			//Backstab succeeds from any one of 3 tiles behind a mecha, backstab from directly behind gets boosted by mecha directional armor weakness
-			else if(ismecha(target))
-				var/relative_angle = abs(dir2angle(target.dir) - dir2angle(get_dir(target, src)))
+			else if(ismecha(attacked_target))
+				var/relative_angle = abs(dir2angle(attacked_target.dir) - dir2angle(get_dir(attacked_target, src)))
 				relative_angle = relative_angle > 180 ? 360 - relative_angle : relative_angle
 				if(relative_angle >= 135)
-					visible_message(span_danger("The [src] shreds [target]'s armor!"))
-					var/obj/vehicle/sealed/mecha/M = target
+					visible_message(span_danger("The [src] shreds [attacked_target]'s armor!"))
+					var/obj/vehicle/sealed/mecha/M = attacked_target
 					M.take_damage(backstab_damage, RED_DAMAGE, attack_dir = get_dir(M, src))
 					new /obj/effect/temp_visual/kinetic_blast(get_turf(M))
 				else
-					visible_message(span_danger("The [src]'s attack misses [target]'s weakspots!"))
+					visible_message(span_danger("The [src]'s attack misses [attacked_target]'s weakspots!"))
 					..()
 			else
 				..()
@@ -151,6 +158,8 @@
 			FindTarget()
 		else
 			if(!jumping)
+				if(!target)
+					GiveTarget(attacked_target)
 				Jump()
 		return
 	..()
@@ -169,12 +178,14 @@
 	alpha = 10
 	revealed = FALSE
 	density = FALSE
+	QuickChangeLights(FALSE)
 
 /mob/living/simple_animal/hostile/abnormality/apex_predator/proc/Decloak()
 	recloak_time = world.time + recloak_time_cooldown
 	alpha = 255
 	revealed = TRUE
 	density = TRUE
+	QuickChangeLights(TRUE)
 
 /mob/living/simple_animal/hostile/abnormality/apex_predator/OpenFire()
 	if(!revealed)
@@ -215,3 +226,12 @@
 	jumping = FALSE
 	icon_state = "apex"
 	jump_cooldown = world.time + jump_cooldown_time
+
+/datum/reagent/abnormality/apex_predator
+	name = "Plasticine Anesthesia"
+	description = "A cloudy liquid that reeks of plastic. It weakens the mind while surturing physical wounds."
+	color = "#e4ebf5"
+	health_restore = 4
+	stat_changes = list(0, -15, 0, 0)
+	damage_mods = list(1, 1.5, 1, 1) //heals a lot but it severely weakens your purdence and white resistance
+

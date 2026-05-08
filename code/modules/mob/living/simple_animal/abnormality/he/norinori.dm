@@ -9,12 +9,12 @@
 	portrait = "norinori"
 	speak_emote = list("meows")
 	ranged = TRUE
-	maxHealth = 1200
-	health = 1200
+	maxHealth = 200
+	health = 200
 	attack_sound = 'sound/weapons/slashmiss.ogg'
 	melee_damage_type = RED_DAMAGE
-	melee_damage_lower = 20
-	melee_damage_upper = 25
+	melee_damage_lower = 4
+	melee_damage_upper = 5
 	rapid_melee = 1 //we change this later
 	melee_reach = 1
 	ranged = TRUE
@@ -31,8 +31,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = -80,
 		ABNORMALITY_WORK_REPRESSION = 35,
 	)
-	work_damage_amount = 10
+	work_damage_upper = 5
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 
 	ego_list = list(
 		/datum/ego_datum/weapon/split,
@@ -46,22 +48,22 @@
 		You have been tasked to work on this creature. <br>\
 		What type of work will you attempt? <br>\
 		Choose carefully."
-	observation_choices = list("Try to make friends with it", "Inject Cogito")
-	correct_choices = list("Inject Cogito")
-	observation_success_message = "You prepare to start instinct work .<br>\
-		... <br>\
-		Checking Vitals <br>\
-		... <br>\
-		Adjusting Fluid Intake <br>\
-		... <br>\
-		Allocating 37% Cogito <br>\
-		... <br>\
-		The work is complete, <br>you report the good result to the work log."
-	observation_fail_message = "Surely such a cute thing must be friendly, right? <br>\
-		It seems you have not learned your lesson <br>\
-		The split fox senses your intent. <br>\
-		It opens up, revealing a core connected to several sharp cutting tools <br>\
-		You are too close to get away."
+	observation_choices = list(
+		"Inject Cogito" = list(TRUE, "You prepare to start instinct work .<br>\
+			... <br>\
+			Checking Vitals <br>\
+			... <br>\
+			Adjusting Fluid Intake <br>\
+			... <br>\
+			Allocating 37% Cogito <br>\
+			... <br>\
+			The work is complete, <br>you report the good result to the work log."),
+		"Try to make friends with it" = list(FALSE, "Surely such a cute thing must be friendly, right? <br>\
+			It seems you have not learned your lesson <br>\
+			The split fox senses your intent. <br>\
+			It opens up, revealing a core connected to several sharp cutting tools <br>\
+			You are too close to get away."),
+	)
 
 //breach related
 	var/can_act = TRUE
@@ -168,7 +170,7 @@
 		icon_state = IsContained() ? initial(icon_state) : icon_aggro
 		return
 	user.visible_message(span_warning("[src] mutilates [user]!"), span_userdanger("[src] mutilates you!"))
-	user.deal_damage(3000, RED_DAMAGE)
+	user.deal_damage(1000, RED_DAMAGE)
 	playsound(user, 'sound/abnormalities/helper/attack.ogg', 100, FALSE, 4)
 	attack_sound = initial(attack_sound)
 	if(user.stat == DEAD)
@@ -207,7 +209,7 @@
 	attack_sound = 'sound/abnormalities/helper/attack.ogg'
 	ChangeResistances(list(RED_DAMAGE = 0.1, WHITE_DAMAGE = 1.1, BLACK_DAMAGE = 0.6, PALE_DAMAGE = 1.6))
 	can_act = TRUE
-	rapid_melee = 3
+	rapid_melee = 4
 	melee_reach = 3
 	icon_state = "norinori_transformed"
 

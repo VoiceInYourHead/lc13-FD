@@ -4,6 +4,12 @@
 /obj/effect/turf_decal{
 	dir = 3
 	},
+/obj/item/stack/spacecash/c200,
+/obj/item/stack/spacecash/c200,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "bC" = (
@@ -11,18 +17,20 @@
 /obj/effect/turf_decal{
 	dir = 4
 	},
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "co" = (
-/obj/structure/closet/crate/large,
 /obj/effect/turf_decal{
 	dir = 3
 	},
+/obj/structure/tutorialbox,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "cL" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ego_gun/city/fullstop/assault,
+/obj/item/ego_weapon/ranged/city/fullstop/assault,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "dN" = (
@@ -80,6 +88,14 @@
 /obj/effect/spawner/lootdrop/space/fancytech,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
+"hA" = (
+/obj/item/gps/mining{
+	anchored = 1;
+	gpstag = "Factory Signal";
+	alpha = 10
+	},
+/turf/open/floor/engine,
+/area/city/backstreets_room)
 "iv" = (
 /mob/living/simple_animal/hostile/ordeal/green_bot{
 	name = "clerk bot"
@@ -132,7 +148,7 @@
 /area/city/backstreets_room)
 "kW" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ego_gun/city/fullstop/deagle,
+/obj/item/ego_weapon/ranged/city/fullstop/deagle,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "lB" = (
@@ -145,6 +161,16 @@
 	},
 /obj/item/clipboard,
 /turf/open/floor/engine,
+/area/city/backstreets_room)
+"mr" = (
+/obj/machinery/door/airlock/centcom{
+	desc = "A bit too sturdy...";
+	max_integrity = 10000;
+	name = "Strange Airlock";
+	normal_integrity = 100000;
+	req_access_txt = "19"
+	},
+/turf/open/floor/plasteel/dark,
 /area/city/backstreets_room)
 "mA" = (
 /obj/structure/fence{
@@ -166,10 +192,27 @@
 	},
 /turf/open/floor/engine,
 /area/city/backstreets_room)
+"nT" = (
+/obj/structure/table/reinforced,
+/obj/item/stack/sheet/silk/green_elegant,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/turf/open/floor/engine,
+/area/city/backstreets_room)
 "nU" = (
 /obj/structure/lootcrate/r_corp,
 /obj/structure/lootcrate/r_corp{
 	pixel_y = 15
+	},
+/turf/open/floor/engine,
+/area/city/backstreets_room)
+"ou" = (
+/obj/machinery/porta_turret/syndicate/energy{
+	dir = 10
 	},
 /turf/open/floor/engine,
 /area/city/backstreets_room)
@@ -198,7 +241,7 @@
 /area/city/backstreets_room)
 "pC" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ego_gun/city/fullstop/sniper,
+/obj/item/ego_weapon/ranged/city/fullstop/sniper,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "pP" = (
@@ -226,6 +269,17 @@
 	dir = 1
 	},
 /turf/open/floor/carpet/green,
+/area/city/backstreets_room)
+"rL" = (
+/obj/structure/table/reinforced,
+/obj/item/stack/sheet/silk/green_elegant,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/sheet/silk/green_advanced,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c200,
+/turf/open/floor/engine,
 /area/city/backstreets_room)
 "sP" = (
 /obj/structure/fence/corner{
@@ -388,7 +442,10 @@
 /turf/open/floor/plasteel/dark,
 /area/city/backstreets_room)
 "Be" = (
-/obj/machinery/porta_turret/syndicate/energy,
+/obj/machinery/porta_turret/syndicate/energy{
+	dir = 1;
+	on = 0
+	},
 /turf/open/floor/plasteel/dark,
 /area/city/backstreets_room)
 "BJ" = (
@@ -451,6 +508,11 @@
 /area/city/backstreets_room)
 "GH" = (
 /obj/structure/closet/crate/large,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/spacecash/c100,
+/obj/item/stack/sheet/silk/green_elegant,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "GO" = (
@@ -557,7 +619,15 @@
 /turf/open/floor/plasteel/checker,
 /area/city/backstreets_room)
 "NX" = (
-/obj/structure/tutorialbox,
+/obj/structure/closet/crate/large,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
+/obj/item/stack/sheet/silk/green_simple,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "Or" = (
@@ -579,6 +649,8 @@
 	name = "dead potted plant";
 	pixel_y = 10
 	},
+/obj/item/stack/sheet/silk/green_masterpiece,
+/obj/item/stack/spacecash/c200,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "Pm" = (
@@ -598,7 +670,9 @@
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "PC" = (
-/obj/machinery/porta_turret/syndicate/energy,
+/obj/machinery/porta_turret/syndicate/energy{
+	dir = 9
+	},
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "Qg" = (
@@ -639,16 +713,21 @@
 	},
 /turf/open/floor/plasteel/dark,
 /area/city/backstreets_room)
+"RI" = (
+/obj/machinery/door/airlock/centcom{
+	desc = "A bit too sturdy...";
+	max_integrity = 10000;
+	name = "Strange Airlock";
+	normal_integrity = 100000;
+	req_access_txt = "19"
+	},
+/turf/open/floor/engine,
+/area/city/backstreets_room)
 "SJ" = (
 /obj/structure/chair/sofa/left{
 	dir = 4
 	},
 /turf/open/floor/plasteel/checker,
-/area/city/backstreets_room)
-"SS" = (
-/obj/structure/table/reinforced,
-/obj/item/gun/ego_gun/city/thumb/weak,
-/turf/open/floor/engine,
 /area/city/backstreets_room)
 "TM" = (
 /obj/effect/turf_decal/siding/yellow{
@@ -733,7 +812,7 @@
 /area/city/backstreets_room)
 "Ya" = (
 /obj/structure/table/reinforced,
-/obj/item/gun/ego_gun/city/fullstop/pistol,
+/obj/item/ego_weapon/ranged/city/fullstop/pistol,
 /turf/open/floor/engine,
 /area/city/backstreets_room)
 "YL" = (
@@ -906,9 +985,9 @@ wu
 hi
 hi
 zZ
-YL
+rL
 Pf
-YL
+nT
 zZ
 QC
 wF
@@ -970,9 +1049,9 @@ wu
 hi
 Ih
 zZ
-Zw
-Zw
-Zw
+zZ
+RI
+zZ
 zZ
 HA
 HA
@@ -1274,7 +1353,7 @@ Hw
 zZ
 GH
 ba
-lB
+zZ
 lB
 lB
 lB
@@ -1306,7 +1385,7 @@ Xo
 zZ
 NX
 co
-lB
+zZ
 lB
 lB
 lB
@@ -1338,7 +1417,7 @@ Hw
 zZ
 bC
 xt
-lB
+zZ
 lB
 lB
 lB
@@ -1358,7 +1437,7 @@ Ej
 Zw
 Zw
 zZ
-PC
+ou
 Zw
 Zw
 PC
@@ -1368,9 +1447,9 @@ lB
 lB
 Hw
 zZ
-lB
-lB
-lB
+mr
+zZ
+zZ
 lB
 lB
 lB
@@ -1390,7 +1469,7 @@ Zw
 Zw
 Zw
 zZ
-PC
+ou
 Zw
 Zw
 PC
@@ -1454,10 +1533,10 @@ WP
 Zw
 Zw
 Ya
-SS
+YL
 Zw
 Zw
-SS
+YL
 zZ
 FH
 lB
@@ -1487,7 +1566,7 @@ Zw
 Zw
 Zw
 Zw
-Zw
+hA
 Zw
 Zw
 zZ

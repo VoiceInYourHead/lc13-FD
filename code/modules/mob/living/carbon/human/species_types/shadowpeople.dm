@@ -26,9 +26,7 @@
 			H.heal_overall_damage(1,1, 0, BODYPART_ORGANIC)
 
 /datum/species/shadow/check_roundstart_eligible()
-	if(SSevents.holidays && SSevents.holidays[HALLOWEEN])
-		return TRUE
-	return ..()
+	return FALSE // Noob trap during h'ween, disabled until someone fixes that.
 
 /datum/species/shadow/nightmare
 	name = "Nightmare"
@@ -167,7 +165,7 @@
 	icon = 'icons/obj/changeling_items.dmi'
 	icon_state = "arm_blade"
 	inhand_icon_state = "arm_blade"
-	force = 25
+	force = 7
 	armour_penetration = 35
 	lefthand_file = 'icons/mob/inhands/antag/changeling_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/antag/changeling_righthand.dmi'

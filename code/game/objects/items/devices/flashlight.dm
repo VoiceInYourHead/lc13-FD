@@ -219,7 +219,7 @@
 	inhand_icon_state = "seclite"
 	lefthand_file = 'icons/mob/inhands/equipment/security_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/security_righthand.dmi'
-	force = 9 // Not as good as a stun baton.
+	force = 3 // Not as good as a stun baton.
 	light_range = 5 // A little better than the standard flashlight.
 	hitsound = 'sound/weapons/genhit1.ogg'
 
@@ -231,7 +231,7 @@
 	inhand_icon_state = "lamp"
 	lefthand_file = 'icons/mob/inhands/items_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
-	force = 10
+	force = 3
 	light_range = 5
 	light_system = STATIC_LIGHT
 	w_class = WEIGHT_CLASS_BULKY
@@ -331,7 +331,7 @@
 	if(.)
 		user.visible_message("<span class='notice'>[user] lights \the [src].</span>", "<span class='notice'>You light \the [src]!</span>")
 		force = on_damage
-		damtype = BURN
+		damtype = FIRE
 		START_PROCESSING(SSobj, src)
 
 /obj/item/flashlight/flare/get_temperature()
@@ -359,6 +359,7 @@
 	desc = "A mining lantern."
 	light_range = 6			// luminosity when on
 	light_system = MOVABLE_LIGHT
+	custom_price = 300
 
 /obj/item/flashlight/lantern/heirloom_moth
 	name = "old lantern"

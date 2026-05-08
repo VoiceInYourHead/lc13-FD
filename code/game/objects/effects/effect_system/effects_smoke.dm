@@ -16,6 +16,7 @@
 	var/amount = 4
 	var/lifetime = 5
 	var/opaque = 1 //whether the smoke can block the view when in enough amount
+	var/ignore_protection = FALSE
 
 
 /obj/effect/particle_effect/smoke/proc/fade_out(frames = 16)
@@ -64,12 +65,8 @@
 	if(C.smoke_delay)
 		return FALSE
 	C.smoke_delay++
-	addtimer(CALLBACK(src, PROC_REF(remove_smoke_delay), C), 10)
+	addtimer(CALLBACK(C, TYPE_PROC_REF(/mob/living, remove_smoke_delay)), 10)
 	return TRUE
-
-/obj/effect/particle_effect/smoke/proc/remove_smoke_delay(mob/living/carbon/C)
-	if(C)
-		C.smoke_delay = 0
 
 /obj/effect/particle_effect/smoke/proc/spread_smoke()
 	var/turf/t_loc = get_turf(src)
@@ -247,7 +244,7 @@
 	if(!istype(M))
 		return FALSE
 	var/mob/living/carbon/C = M
-	if(C.internal != null || C.has_smoke_protection())
+	if(C.internal != null || C.has_smoke_protection()  && !ignore_protection)
 		return FALSE
 	var/fraction = 1/initial(lifetime)
 	reagents.copy_to(C, fraction*reagents.total_volume)
@@ -258,6 +255,7 @@
 
 /datum/effect_system/smoke_spread/chem
 	var/obj/chemholder
+	var/ignore_protection = FALSE
 	effect_type = /obj/effect/particle_effect/smoke/chem
 
 /datum/effect_system/smoke_spread/chem/New()
@@ -307,6 +305,9 @@
 	if(holder)
 		location = get_turf(holder)
 	var/obj/effect/particle_effect/smoke/chem/S = new effect_type(location)
+
+	if(ignore_protection)//gas mask bypass
+		S.ignore_protection = TRUE
 
 	if(chemholder.reagents.total_volume > 1) // can't split 1 very well
 		chemholder.reagents.copy_to(S, chemholder.reagents.total_volume)

@@ -2,8 +2,8 @@
 /mob/living/simple_animal/hostile/abnormality/nobody_is
 	name = "Nobody Is"
 	desc = "A mirror embedded in gross pink flesh."
-	health = 3000
-	maxHealth = 3000
+	health = 1500
+	maxHealth = 1500
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 	attack_sound = 'sound/weapons/slash.ogg'
@@ -14,8 +14,8 @@
 	portrait = "nobody_is"
 	melee_damage_type = BLACK_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 0.8, WHITE_DAMAGE = 0.8, BLACK_DAMAGE = 0.3, PALE_DAMAGE = 1.2)
-	melee_damage_lower = 30
-	melee_damage_upper = 50
+	melee_damage_lower = 12
+	melee_damage_upper = 18
 	move_to_delay = 3
 	melee_reach = 2
 	ranged = TRUE
@@ -29,8 +29,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 50,
 		ABNORMALITY_WORK_REPRESSION = 0,
 	)
-	work_damage_amount = 16
+	work_damage_upper = 9
+	work_damage_lower = 6
 	work_damage_type = BLACK_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gloom
 
 	ego_list = list(
 		/datum/ego_datum/weapon/mockery,
@@ -47,15 +49,14 @@
 	observation_prompt = "No matter where you walk to in the cell, the mirror is always facing you. <br>You trace a path around it but all you ever see is your own reflection. <br>\
 		\"It's not fair, why do you get to be you and not me?\" <br>Your reflection mutters, parroting your voice. <br>\"Why are you, you and not I? I could be you so much better than you can, just let me try.\" <br>\
 		Your reflection is holding out its hand, waiting for a handshake."
-	observation_choices = list("Shake their hand", "Turn away and leave")
-	correct_choices = list("Turn away and leave")
-	observation_success_message = "You make to exit the cell. \"Don't just leave me! I'm somebody, I'm real! I'm..! What's my name?! Just give me your name!\" <br>\
-		You don't give your name to the imitation, the closer it starts to mirrors another, the more its mimicry becomes mockery."
-	observation_fail_message = "The you in the mirror smiles. <br>\"Just you wait, I'll show you what we can do.\""
+	observation_choices = list(
+		"Turn away and leave" = list(TRUE, "You make to exit the cell. \"Don't just leave me! I'm somebody, I'm real! I'm..! What's my name?! Just give me your name!\" <br>\
+			You don't give your name to the imitation, the closer it starts to mirrors another, the more its mimicry becomes mockery."),
+		"Shake their hand" = list(FALSE, "The you in the mirror smiles. <br>\"Just you wait, I'll show you what we can do.\""),
+	)
 
 	//Contained Variables
 	var/reflect_timer
-	var/mob/living/disguise = null
 	var/shelled = FALSE
 	var/mob/living/carbon/human/chosen = null
 	var/can_act = TRUE
@@ -70,19 +71,20 @@
 		"Silky",
 	)
 	var/list/longbeard = list("Beard (Very Long)")
+	var/solo_punish = FALSE
 
 	//Breach Variables
 	var/whip_attack_cooldown
 	var/whip_attack_cooldown_time = 6 SECONDS
-	var/whip_damage = 25
+	var/whip_damage = 15
 	var/whip_count = 4
 	var/grab_cooldown
 	var/grab_cooldown_time = 20 SECONDS
 	var/grab_windup_time = 16
-	var/grab_damage = 200 //The amount dealt when grabbing someone, twice if they aren't grabbed for whatever reason
-	var/strangle_damage = 50 //dealt over time to whoever is grabbed
+	var/grab_damage = 75 //The amount dealt when grabbing someone, twice if they aren't grabbed for whatever reason
+	var/strangle_damage = 20 //dealt over time to whoever is grabbed
 	var/mob/living/carbon/human/grab_victim = null
-	var/release_threshold = 500 //Total raw damage needed to break a player out of a grab (from any source)
+	var/release_threshold = 250 //Total raw damage needed to break a player out of a grab (from any source)
 	var/release_damage = 0
 	var/last_heal_time = 0
 	var/heal_percent_per_second = 0.0045
@@ -92,8 +94,8 @@
 
 	//Oberon shit
 	var/oberon_mode = FALSE
-	var/grab_damage_oberon = 140
-	var/strangle_damage_oberon = 35
+	var/grab_damage_oberon = 50
+	var/strangle_damage_oberon = 10
 	var/melee_damage_oberon = 15
 	var/mob/living/simple_animal/hostile/abnormality/titania/abno_host
 	var/obj/effect/titania_aura/fairy_aura
@@ -162,9 +164,12 @@
 			continue
 		potentialmarked += L
 	if(LAZYLEN(potentialmarked)) //It's fine if no one got picked. Probably.
+		solo_punish = FALSE
+		if(LAZYLEN(potentialmarked) < 2)
+			solo_punish = TRUE
 		ReflectChosen(pick(potentialmarked))
 		if(!IsContained())
-			to_chat(chosen, span_warning("You feel uneasy..."))
+			to_chat(chosen, span_warning("You feel the mirror's gaze upon you..."))
 	else
 		ReflectChosen(null)
 
@@ -184,12 +189,12 @@
 		HD.update_limb()
 		chosen.hairstyle = oldhair
 		chosen.facial_hairstyle = oldbeard
-	HD.update_limb()
 	headicon = new(get_turf(src))
 	headicon.add_overlay(HD.get_limb_icon(TRUE,TRUE))
 	headicon.pixel_y -= 5
 	headicon.alpha = 150
 	headicon.desc = "It looks like [chosen] is reflected in the mirror."
+	HD.update_limb()
 	//Handles connected structure part
 	datum_reference.connected_structures = list(headicon = list(0,-5))
 
@@ -206,12 +211,21 @@
 		adjusted_chance -= (100 - brainpower) * 0.5
 	return adjusted_chance
 
+/mob/living/simple_animal/hostile/abnormality/nobody_is/AttemptWork(mob/living/carbon/human/user, work_type)
+	if(solo_punish)
+		work_damage_lower = 9
+		work_damage_upper = 12
+		return ..()
+	work_damage_lower = initial(work_damage_lower)
+	work_damage_upper = initial(work_damage_upper)
+	return ..()
+
 /mob/living/simple_animal/hostile/abnormality/nobody_is/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(Finisher(user)) //Checks if they are the chosen, and disguises as them if they are.
-		return
+	if(!solo_punish)
+		if(Finisher(user)) //Checks if they are the chosen, and disguises as them if they are.
+			return
 	else if(get_attribute_level(user, JUSTICE_ATTRIBUTE) < 80)
 		datum_reference.qliphoth_change(-1)
-	return
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/FailureEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
@@ -220,7 +234,7 @@
 	datum_reference.qliphoth_change(-1)
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/BreachEffect(mob/living/carbon/human/user, breach_type)
-	if(!(status_flags & GODMODE)) // Already breaching
+	if(!(status_flags & GODMODE) && breach_type != BREACH_MINING) // Already breaching
 		return
 	if(reflect_timer)
 		deltimer(reflect_timer)
@@ -229,6 +243,8 @@
 		return
 	CheckMirrorIcon() //Clear overlays
 	next_stage()
+	if(breach_type == BREACH_MINING) // Keeps it from teleporting off when uncovered
+		return
 	// Teleport us somewhere where nobody will see us at first
 	var/list/priority_list = list()
 	for(var/turf/T in GLOB.xeno_spawn)
@@ -331,6 +347,7 @@
 		can_act = FALSE
 		oberon_mode = TRUE
 		T.fused = TRUE
+		T.docile_confinement = TRUE
 		say("It's you,")
 		SLEEP_CHECK_DEATH(2 SECONDS)
 		T.say("My nemesis, my beloved devil,")
@@ -359,29 +376,27 @@
 		Oberon_Fusion(T)
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/proc/Oberon_Fusion(mob/living/simple_animal/hostile/abnormality/titania/T)
-		abno_host = T
-		T.pass_flags = PASSTABLE | PASSMOB
-		T.is_flying_animal = FALSE
-		T.density = FALSE
-		T.forceMove(src)
-		T.fairy_spawn_time = 10 SECONDS
-		T.melee_damage_lower = 0
-		T.melee_damage_upper = 0
-		can_act = TRUE
-		fairy_aura = new/obj/effect/titania_aura(get_turf(src))
-		cut_overlay(icon('icons/effects/effects.dmi', "nobody_overlay_face", GLASSES_LAYER))
-		add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay_face_oberon", GLASSES_LAYER))
-		ChangeResistances(list(BRUIT = 1, RED_DAMAGE = 0.6, WHITE_DAMAGE = 0.3, BLACK_DAMAGE = 0, PALE_DAMAGE = 0.5))
-		heal_percent_per_second = 0.00425//half of what it was when it had just 5k hp
-		maxHealth = 10000
-		adjustBruteLoss(-maxHealth, forced = TRUE) // It's not over yet!.
-		melee_damage_lower = 45
-		melee_damage_upper = 65
-		grab_damage = 140
-		strangle_damage = 35
-		whip_damage = 15
-		whip_count = 6
-		loot = list(
+	abno_host = T
+	T.FairyOberon()
+	T.pass_flags = PASSTABLE | PASSMOB
+	T.is_flying_animal = FALSE
+	T.density = FALSE
+	T.forceMove(src)
+	T.fairy_spawn_time = 10 SECONDS
+	T.melee_damage_lower = 0
+	T.melee_damage_upper = 0
+	can_act = TRUE
+	patrol_cooldown_time = 5 SECONDS
+	fairy_aura = new/obj/effect/titania_aura(get_turf(src))
+	cut_overlay(icon('icons/effects/effects.dmi', "nobody_overlay_face", GLASSES_LAYER))
+	add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay_face_oberon", GLASSES_LAYER))
+	ChangeResistances(list(BRUIT = 1, RED_DAMAGE = 0.6, WHITE_DAMAGE = 0.3, BLACK_DAMAGE = 0, PALE_DAMAGE = 0.5))
+	heal_percent_per_second = 0.00425//half of what it was when it had just 2k hp
+	maxHealth = 4000
+	adjustBruteLoss(-maxHealth, forced = TRUE) // It's not over yet!.
+	name = "Oberon"
+	desc = "Two horrifying and dangerous abnormalities fused into one. This can only end well."
+	loot = list(
 		/obj/item/ego_weapon/oberon
 		)
 
@@ -409,6 +424,7 @@
 		headicon = null
 		datum_reference.connected_structures = list()
 	if(oberon_mode)
+		SSticker.superbosses |= initial(name)
 		for(var/mob/living/carbon/human/M in GLOB.player_list)
 			if(M.stat != DEAD && M.client)
 				M.Apply_Gift(new /datum/ego_gifts/oberon)
@@ -443,9 +459,9 @@
 	var/whip_delay = (get_dist(src, target) <= 2) ? (0.75 SECONDS) : (0.5 SECONDS)
 	SLEEP_CHECK_DEATH(whip_delay)
 	for(var/i = 1 to whip_count)
-		var/obj/projectile/P = new /obj/projectile/beam/nobody(start_loc)
+		var/obj/projectile/beam/nobody/P = new(start_loc)
 		if(oberon_mode)
-			P = new /obj/projectile/beam/oberon(start_loc)
+			P.fairy = abno_host
 		P.starting = start_loc
 		P.firer = src
 		P.fired_from = src
@@ -488,7 +504,11 @@
 		new /obj/effect/temp_visual/nobody_grab(T)
 		for(var/mob/living/L in HurtInTurf(T, list(), grab_damage, BLACK_DAMAGE, null, null, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE))
 			if(oberon_mode)
-				HurtInTurf(T, list(), grab_damage_oberon, RED_DAMAGE, null, null, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE)
+				HurtInTurf(T, list(), grab_damage_oberon, WHITE_DAMAGE, null, null, TRUE, FALSE, TRUE, TRUE, TRUE, TRUE)
+				if(ishuman(L))
+					var/mob/living/carbon/human/H = L
+					if(H.sanity_lost)
+						abno_host.Convert(H)
 			if(L.health < 0)
 				if(ishuman(L))
 					var/mob/living/carbon/H = L
@@ -545,7 +565,7 @@
 		return
 	grab_victim.deal_damage(strangle_damage, BLACK_DAMAGE)
 	if(oberon_mode)
-		grab_victim.deal_damage(strangle_damage_oberon, RED_DAMAGE)
+		grab_victim.deal_damage(strangle_damage_oberon, WHITE_DAMAGE)
 	grab_victim.Immobilize(10)
 	playsound(get_turf(src), 'sound/abnormalities/nothingthere/hello_bam.ogg', 50, 0, 7)
 	playsound(get_turf(src), 'sound/abnormalities/nobodyis/strangle.ogg', 100, 0, 7)
@@ -556,16 +576,20 @@
 		if(3)
 			playsound(get_turf(src), 'sound/effects/wounds/crack2.ogg', 200, 0, 7)
 			to_chat(grab_victim, span_userdanger("[src]'s grip on you is tightening!"))
-		if(4)	//Apply double damage
+		if(4) //Apply double damage
 			playsound(get_turf(src), 'sound/effects/wounds/crackandbleed.ogg', 200, 0, 7)
 			to_chat(grab_victim, span_userdanger("It hurts so much!"))
 			grab_victim.deal_damage(strangle_damage, BLACK_DAMAGE)
-		else	//Apply ramping damage
+		else //Apply ramping damage
 			playsound(get_turf(src), 'sound/effects/wounds/crackandbleed.ogg', 200, 0, 7)
-			grab_victim.deal_damage((strangle_damage * count), BLACK_DAMAGE)
+			grab_victim.deal_damage((strangle_damage * (count - 3)), BLACK_DAMAGE)
 	count += 1
 	if(grab_victim.sanity_lost) //This should prevent weird things like panics running away halfway through
 		grab_victim.Stun(10) //Immobilize does not stop AI controllers from moving, for some reason.
+		if(oberon_mode)
+			abno_host.Convert(grab_victim)
+			ReleaseGrab()
+			return
 	SLEEP_CHECK_DEATH(10)
 	StrangleHit(count)
 
@@ -605,17 +629,21 @@
 	if(oberon_mode)
 		if(isliving(attacked_target))
 			var/mob/living/L = attacked_target
-			L.deal_damage(melee_damage_oberon, RED_DAMAGE)
+			L.deal_damage(melee_damage_oberon, WHITE_DAMAGE)
+			if(ishuman(L))
+				var/mob/living/carbon/human/H = L
+				if(H.sanity_lost)
+					abno_host.Convert(H)
 	if(!client)
 		if((current_stage == 3) && (grab_cooldown <= world.time) && prob(35))
 			return GrabAttack()
 		if((current_stage == 3) && (whip_attack_cooldown <= world.time) && prob(35))
-			var/turf/target_turf = get_turf(target)
+			var/turf/target_turf = get_turf(attacked_target)
 			for(var/i = 1 to 3)
 				target_turf = get_step(target_turf, get_dir(get_turf(src), target_turf))
 			return WhipAttack(target_turf)
-	if(isliving(target))
-		var/mob/living/L = target
+	if(isliving(attacked_target))
+		var/mob/living/L = attacked_target
 		if(L.health <= 0)
 			if(ishuman(L))
 				var/mob/living/carbon/human/H = L
@@ -629,8 +657,27 @@
 	return ..()
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/patrol_select() //Hunt down the chosen one
+	if(shelled) // We don't need a chosen anymore, or any special pathfinding behavior
+		if(oberon_mode)//Or use how Titania works
+			var/list/target_turfs = list() // Stolen from Punishing Bird
+			for(var/mob/living/carbon/human/H in GLOB.human_list)
+				if(H.z != z) // Not on our level
+					continue
+				if(get_dist(src, H) < 4) // Unnecessary for this distance
+					continue
+				if(!H.has_status_effect(/datum/status_effect/fairy_lights))
+					continue
+				target_turfs += get_turf(H)
+
+			var/turf/target_turf = get_closest_atom(/turf/open, target_turfs, src)
+			if(istype(target_turf))
+				patrol_path = get_path_to(src, target_turf, TYPE_PROC_REF(/turf, Distance_cardinal), 0, 200)
+				return
+		return ..()
 	if(chosen) //YOU'RE MINE
-		patrol_to(get_turf(chosen))
+		SEND_SIGNAL(src, COMSIG_PATROL_START, src, get_turf(chosen)) //Overrides the usual proc to target a specific tile
+		SEND_GLOBAL_SIGNAL(src, COMSIG_GLOB_PATROL_START, src, get_turf(chosen))
+		patrol_path = get_path_to(src, get_turf(chosen), TYPE_PROC_REF(/turf, Distance_cardinal), 0, 200)
 		return
 	else
 		ChangeReflection()
@@ -655,9 +702,10 @@
 /mob/living/simple_animal/hostile/abnormality/nobody_is/proc/disguise_as(mob/living/carbon/human/M)
 	if(!istype(M))
 		return
+	if(!M || QDELETED(M))
+		return //We screwed up or the player successfully committed self-delete. Try again next time!
 	SetOccupiedTiles()
 	offsets_pixel_x = list("south" = 0, "north" = 0, "west" = 0, "east" = 0)
-	//UnregisterSignal(src, COMSIG_ATOM_DIR_CHANGE)
 	for(var/turf/open/T in view(2, src))
 		var/obj/effect/temp_visual/flesh/pinkflesh =  new(T)
 		pinkflesh.color = COLOR_PINK
@@ -680,8 +728,6 @@
 	if(M.back)
 		M.dropItemToGround(M.back)
 		M.update_inv_back()
-	M.set_lying_angle(0)
-	M.set_body_position(STANDING_UP)
 	M.forceMove(src) // Hide them for examine message to work
 	adjustBruteLoss(-maxHealth, forced = TRUE)
 	Transform(M)
@@ -689,13 +735,13 @@
 /mob/living/simple_animal/hostile/abnormality/nobody_is/proc/Transform(mob/living/carbon/human/M)
 	set waitfor = FALSE
 	SLEEP_CHECK_DEATH(5)
-	if(!M)
+	if(!M || QDELETED(M))
 		return //We screwed up or the player successfully committed self-delete. Try again next time!
-	disguise = M
 	shelled = TRUE
+	CopyHumanAppearance(M)
 	add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay", SUIT_LAYER))
 	add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay_face", GLASSES_LAYER))
-	appearance = M.appearance
+	SLEEP_CHECK_DEATH(2)
 	if(target)
 		LoseTarget(target)
 	M.gib()
@@ -703,14 +749,14 @@
 	attack_verb_simple = "strike"
 	attack_sound = 'sound/abnormalities/nothingthere/attack.ogg'
 	ChangeResistances(list(RED_DAMAGE = 0.4, WHITE_DAMAGE = 0.4, BLACK_DAMAGE = 0, PALE_DAMAGE = 0.8)) //Damage, resistances, and cooldowns all go to the roof
-	maxHealth = 4000
-	melee_damage_lower = 65
-	melee_damage_upper = 75
+	maxHealth = 2000
+	melee_damage_lower = 20
+	melee_damage_upper = 25
 	current_stage = 3
 	melee_reach = 1
-	whip_count = 8
-	grab_damage = 250
-	strangle_damage = 70
+	whip_count = 6
+	grab_damage = 100
+	strangle_damage = 30
 	grab_cooldown_time = 12 SECONDS
 	grab_windup_time = 12
 	whip_attack_cooldown_time = 5 SECONDS
@@ -719,8 +765,6 @@
 		addtimer(CALLBACK(src, PROC_REF(ZeroQliphoth)), rand(5 SECONDS, 10 SECONDS))
 
 /mob/living/simple_animal/hostile/abnormality/nobody_is/examine(mob/user)
-	if(disguise)
-		return disguise.examine(user)
 	. = ..()
 	if(current_stage >= 1)
 		. += (span_notice("It looks angry!"))
@@ -741,8 +785,8 @@
 		forceMove(get_turf(talker))
 		GiveTarget(talker)
 		return
-	var/new_message = Gibberish(raw_message, TRUE, 40)
-	say(new_message)
+	var/new_message = reverse_text(Gibberish(raw_message, TRUE, 40))
+	say(html_decode(new_message))  // Prevents html characters such as < > from being used, as they don't display properly
 
 //Objects
 /obj/effect/reflection // Hopefully temporary or at least removed someday
@@ -761,41 +805,38 @@
 
 //A simple test function to force oberon to happen without killing the reflected
 
-/mob/living/simple_animal/hostile/abnormality/nobody_is/proc/Transform_No_Kill(mob/living/carbon/human/M)
-	set waitfor = FALSE
-	SLEEP_CHECK_DEATH(5)
-	if(!M)
-		return //We screwed up or the player successfully committed self-delete. Try again next time!
-	disguise = M
+/mob/living/simple_animal/hostile/abnormality/nobody_is/proc/TransformNoKill(mob/living/carbon/human/M)
 	shelled = TRUE
+	CopyHumanAppearance(M)
 	add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay", SUIT_LAYER))
 	add_overlay(mutable_appearance('icons/effects/effects.dmi', "nobody_overlay_face", GLASSES_LAYER))
-	appearance = M.appearance
+	SLEEP_CHECK_DEATH(2)
 	if(target)
 		LoseTarget(target)
 	attack_verb_continuous = "strikes"
 	attack_verb_simple = "strike"
 	attack_sound = 'sound/abnormalities/nothingthere/attack.ogg'
 	ChangeResistances(list(RED_DAMAGE = 0.4, WHITE_DAMAGE = 0.4, BLACK_DAMAGE = 0, PALE_DAMAGE = 0.8)) //Damage, resistances, and cooldowns all go to the roof
-	maxHealth = 4000
-	melee_damage_lower = 65
-	melee_damage_upper = 75
+	maxHealth = 2000
+	melee_damage_lower = 20
+	melee_damage_upper = 25
 	current_stage = 3
 	melee_reach = 1
-	whip_count = 8
-	grab_damage = 250
-	strangle_damage = 70
+	whip_count = 6
+	grab_damage = 100
+	strangle_damage = 30
 	grab_cooldown_time = 12 SECONDS
 	grab_windup_time = 12
 	whip_attack_cooldown_time = 5 SECONDS
 	heal_percent_per_second = 0.0085
 	if(status_flags & GODMODE) // Still contained
+		BreachEffect()
 		ZeroQliphoth()
 
-/mob/living/simple_animal/hostile/abnormality/nobody_is/proc/Quick_Oberon_Spawn()
+/mob/living/simple_animal/hostile/abnormality/nobody_is/proc/QuickOberonSpawn()
 	if(!chosen || oberon_mode)//makes sure it doesn't continue if its already oberon or if there's no chosen.)
 		return
-	Transform_No_Kill(chosen)
+	TransformNoKill(chosen)
 	oberon_mode = TRUE
 	name = "Oberon"
 	var/mob/living/simple_animal/hostile/abnormality/titania/T = new(get_turf(src))
@@ -804,3 +845,58 @@
 	T.fused = TRUE
 	T.ChangeResistances(list(BRUIT = 0, RED_DAMAGE = 0, WHITE_DAMAGE = 0, BLACK_DAMAGE = 0, PALE_DAMAGE = 0))//fuck you no damaging while they erp
 	Oberon_Fusion(T)
+
+/*
+ * Make a copy of a human and copy their appearance without copying any special overlays. Notice that this currently doesn't include held items!
+ */
+/mob/living/simple_animal/hostile/abnormality/proc/CopyHumanAppearance(mob/the_target)
+	if(!istype(the_target))
+		return
+	var/mob/living/carbon/human/copycat = new(get_turf(src))
+	copycat.status_flags = GODMODE
+	copycat.stat = DEAD // prevents the copycat from getting fear effects, attacks, etc that could add overlays.
+
+	if(iscarbon(the_target))
+		var/mob/living/carbon/carbon_target = the_target
+		carbon_target.dna.transfer_identity(copycat, transfer_SE = TRUE)
+
+		if(ishuman(the_target))
+			var/mob/living/carbon/human/human_target = the_target
+			human_target.copy_clothing_prefs(copycat)
+			copycat.gender = human_target.gender
+			copycat.body_type = human_target.body_type
+			copycat.real_name = human_target.real_name
+			copycat.name = human_target.name
+			copycat.skin_tone = human_target.skin_tone
+			copycat.hairstyle = human_target.hairstyle
+			copycat.facial_hairstyle = human_target.facial_hairstyle
+			copycat.hair_color = human_target.hair_color
+			copycat.facial_hair_color = human_target.facial_hair_color
+			copycat.eye_color = human_target.eye_color
+			copycat.regenerate_icons()
+
+			//We're just stealing their clothes
+			for(var/obj/item/slotitem in human_target.get_all_slots())
+				if(istype(slotitem, /obj/item/clothing/suit/armor/ego_gear))
+					var/obj/item/clothing/suit/armor/ego_gear/equippable_gear = new slotitem.type(get_turf(copycat))
+					equippable_gear.equip_slowdown = 0
+					equippable_gear.attribute_requirements = list()
+					copycat.equip_to_appropriate_slot(equippable_gear, TRUE)
+				else
+					var/obj/item/itemcopy = new slotitem.type(get_turf(copycat))
+					copycat.equip_to_appropriate_slot(itemcopy, TRUE)
+
+	else
+		//even if target isn't a carbon, if they have a client we can make the
+		//dummy look like what their human would look like based on their prefs
+		the_target?.client?.prefs?.copy_to(copycat, icon_updates=TRUE, roundstart_checks=FALSE)
+	SLEEP_CHECK_DEATH(1)
+	var/icon/out_icon = icon('icons/effects/effects.dmi', "nothing")
+	COMPILE_OVERLAYS(copycat)
+	for(var/D in GLOB.cardinals)
+		var/icon/partial = getFlatIcon(copycat, defdir=D)
+		out_icon.Insert(partial,dir=D)
+	icon = out_icon
+	name = "[copycat.name]?"
+	desc = "Is it [copycat.name]? You can't be sure..."
+	qdel(copycat)

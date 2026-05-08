@@ -35,23 +35,29 @@
 
 /area/department_main/Entered(atom/movable/M)
 	. = ..()
-	if(!isabnormalitymob(M)) // only do updates on Abnormality entering/leaving
+	if(!ishostile(M)) // only do updates on Abnormality entering/leaving
 		return
-	if(istype(M, /mob/living/simple_animal/hostile/abnormality/big_bird))
+	var/mob/living/simple_animal/hostile/H = M
+	if(istype(H, /mob/living/simple_animal/hostile/abnormality/big_bird))
 		big_bird = TRUE
+		RefreshLights()
 		for(var/area/facility_hallway/F in adjacent_areas)
 			F.big_bird = TRUE
 			F.RefreshLights()
 		for(var/area/department_main/D in adjacent_areas)
 			D.big_bird = TRUE
 			D.RefreshLights()
+		return
+	if(!H.trigger_lights)
+		return
 	RefreshLights()
 
 /area/department_main/Exited(atom/movable/M)
 	. = ..()
-	if(!isabnormalitymob(M))
+	if(!ishostile(M)) // only do updates on Abnormality entering/leaving
 		return
-	if(istype(M, /mob/living/simple_animal/hostile/abnormality/big_bird))
+	var/mob/living/simple_animal/hostile/H = M
+	if(istype(H, /mob/living/simple_animal/hostile/abnormality/big_bird))
 		for(var/area/facility_hallway/F in adjacent_areas)
 			if(M in F.contents)
 				continue
@@ -64,6 +70,10 @@
 			D.RefreshLights()
 		if(isdead(M) || QDELETED(M))
 			big_bird = FALSE
+			RefreshLights()
+		return
+	if(!H.trigger_lights)
+		return
 	RefreshLights()
 
 /area/department_main/RefreshLights()
@@ -74,11 +84,11 @@
 		if(TR)
 			search_through -= TR
 		fire = FALSE
-		if((GLOB.security_level >= SEC_LEVEL_BLUE))
-			for(var/mob/living/simple_animal/hostile/abnormality/A in search_through)
+		if((GLOB.emergency_level >= TRUMPET_1))
+			for(var/mob/living/simple_animal/hostile/A in search_through)
 				if(QDELETED(A) || (A.stat == DEAD))
 					continue
-				if(A)
+				if(A && A.trigger_lights)
 					fire = TRUE
 					break
 	for(var/obj/machinery/light/L in src)
@@ -134,7 +144,6 @@
 	name = "Architecture Main Room"
 	icon_state = "mainroom_extraction"
 
-
 /area/facility_hallway
 	name = "Hallway"
 	icon_state = "hallA"
@@ -146,23 +155,31 @@
 
 /area/facility_hallway/Entered(atom/movable/M)
 	. = ..()
-	if(!isabnormalitymob(M)) // only do updates on Abnormality entering/leaving
+	if(!ishostile(M)) // only do updates on Abnormality entering/leaving
 		return
-	if(istype(M, /mob/living/simple_animal/hostile/abnormality/big_bird))
+	var/mob/living/simple_animal/hostile/H = M
+	if(!H.trigger_lights)
+		return
+	if(istype(H, /mob/living/simple_animal/hostile/abnormality/big_bird))
 		big_bird = TRUE
+		RefreshLights()
 		for(var/area/facility_hallway/F in adjacent_areas)
 			F.big_bird = TRUE
 			F.RefreshLights()
 		for(var/area/department_main/D in adjacent_areas)
 			D.big_bird = TRUE
 			D.RefreshLights()
+		return
+	if(!H.trigger_lights)
+		return
 	RefreshLights()
 
 /area/facility_hallway/Exited(atom/movable/M)
 	. = ..()
-	if(!isabnormalitymob(M)) // only do updates on Abnormality entering/leaving
+	if(!ishostile(M)) // only do updates on Abnormality entering/leaving
 		return
-	if(istype(M, /mob/living/simple_animal/hostile/abnormality/big_bird))
+	var/mob/living/simple_animal/hostile/H = M
+	if(istype(H, /mob/living/simple_animal/hostile/abnormality/big_bird))
 		for(var/area/facility_hallway/F in adjacent_areas)
 			if(M in F.contents)
 				continue
@@ -175,6 +192,10 @@
 			D.RefreshLights()
 		if(isdead(M) || QDELETED(M))
 			big_bird = FALSE
+			RefreshLights()
+		return
+	if(!H.trigger_lights)
+		return
 	RefreshLights()
 
 /area/facility_hallway/RefreshLights()
@@ -185,11 +206,11 @@
 		if(TR)
 			search_through -= TR
 		fire = FALSE
-		if((GLOB.security_level >= SEC_LEVEL_BLUE))
-			for(var/mob/living/simple_animal/hostile/abnormality/A in search_through)
+		if((GLOB.emergency_level >= TRUMPET_1))
+			for(var/mob/living/simple_animal/hostile/A in search_through)
 				if(QDELETED(A) || (A.stat == DEAD))
 					continue
-				if(A)
+				if(A && A.trigger_lights)
 					fire = TRUE
 					break
 	for(var/obj/machinery/light/L in src)
@@ -268,6 +289,7 @@
 	has_gravity = STANDARD_GRAVITY
 	sound_environment = SOUND_AREA_STANDARD_STATION
 	dynamic_lighting = DYNAMIC_LIGHTING_FORCED
+	var/in_city = TRUE
 
 /area/city/house
 	name = "Employee Housing"
@@ -277,23 +299,64 @@
 
 /area/city/outskirts
 	name = "Outskirts"
+	in_city = FALSE
+
+/area/city/outskirts/rcorp_base
+	name = "R-Corp Base"
+	in_city = FALSE
 
 /area/city/fixers
 	name = "Fixer Office"
 
 
-//Areas for backstreets
+//Areas for ruins
 
 /area/city/backstreets_checkpoint
-	name = "Backstreets Checkpoint"
+	name = "Ruins Checkpoint"
 
 /area/city/backstreets_alley
-	name = "Backstreets Alley"
+	name = "Ruins Alley"
 	icon_state = "hallA"
+	in_city = FALSE
 
 /area/city/backstreets_room
-	name = "Backstreets Room"
+	name = "Ruins Room"
 	icon_state = "hallA"
+	in_city = FALSE
+
+/area/city/backstreets_room/resurgence_village
+	name = "Resurgence Clan Village"
+	ambientsounds = list('sound/ambience/resurgence_village1.ogg')
+	in_city = FALSE
+
+/area/city/backstreets_room/resurgence_village/Entered(atom/movable/M)
+	set waitfor = FALSE
+	SEND_SIGNAL(src, COMSIG_AREA_ENTERED, M)
+	SEND_SIGNAL(M, COMSIG_ENTER_AREA, src) //The atom that enters the area
+	if(!isliving(M))
+		return
+
+	var/mob/living/L = M
+	if(!L.ckey)
+		return
+
+	// Award achievement for discovering the village
+	if(ishuman(L) && L.client)
+		L.client.give_award(/datum/award/achievement/lc13/city/resurgence_village, L)
+
+	// Ambience goes down here -- make sure to list each area separately for ease of adding things in later, thanks! Note: areas adjacent to each other should have the same sounds to prevent cutoff when possible.- LastyScratch
+	if(L.client && !L.client.ambience_playing && L.client.prefs.toggles & SOUND_SHIP_AMBIENCE)
+		L.client.ambience_playing = 1
+
+	if(!(L.client && (L.client.prefs.toggles & SOUND_AMBIENCE)))
+		return //General ambience check is below the ship ambience so one can play without the other
+
+	var/sound = pick(ambientsounds)
+	if(!L.client.played)
+		SEND_SOUND(L, sound(sound, repeat = 0, wait = 0, volume = 25, channel = CHANNEL_AMBIENCE))
+		L.client.played = TRUE
+		addtimer(CALLBACK(L.client, TYPE_PROC_REF(/client, ResetAmbiencePlayed)), 600)
+
 
 /area/library_floors
 	name = "Library"

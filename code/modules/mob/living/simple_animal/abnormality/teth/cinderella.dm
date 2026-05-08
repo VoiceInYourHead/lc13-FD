@@ -6,8 +6,8 @@
 	icon_state = "cinderella_1"
 	icon_living = "cinderella_1"
 	portrait = "cinderella"
-	maxHealth = 800
-	health = 800
+	maxHealth = 200
+	health = 200
 	start_qliphoth = 1
 	threat_level = TETH_LEVEL
 	work_chances = list(
@@ -18,8 +18,10 @@
 	)
 	pixel_x = -16
 	base_pixel_x = -16
-	work_damage_amount = 5
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 	ego_list = list(
 			/datum/ego_datum/weapon/curfew,
 			/datum/ego_datum/armor/curfew
@@ -38,14 +40,13 @@
 		(You sit and wait.) <br>\
 		Do you not need me anymore? Did I not take you to the happiest night of your life? <br>\
 		(You sit and...)"
-	observation_choices = list("Remember that night", "Wait")
-	correct_choices = list("Remember that night")
-	observation_success_message = "Yes, it was the happiest night of both our lives... <br>\
-		(The colour returns to your flesh and your wheels begin to mend.) <br>\
-		Let's go back to that wonderous, magical night..."
-	observation_fail_message = "She still may have need of me, I'll wait until I'm called. <br>\
-		(Your flesh turns grey, no one will need such a horrid looking carriage.)"
-
+	observation_choices = list(
+		"Remember that night" = list(TRUE, "Yes, it was the happiest night of both our lives... <br>\
+			(The colour returns to your flesh and your wheels begin to mend.) <br>\
+			Let's go back to that wonderous, magical night..."),
+		"Wait" = list(FALSE, "She still may have need of me, I'll wait until I'm called. <br>\
+			(Your flesh turns grey, no one will need such a horrid looking carriage.)"),
+	)
 
 	var/freshness = 0
 	//Breach stuff
@@ -155,7 +156,7 @@
 					else
 						playsound(get_turf(seg), 'sound/abnormalities/cinderella/horse2.ogg', 100, 0, 40)
 					seg.noise = 1
-				M.deal_damage(80, WHITE_DAMAGE)
+				M.deal_damage(20, WHITE_DAMAGE)
 				if(ishuman(M))
 					var/mob/living/carbon/human/C = M
 					if(C.sanity_lost)

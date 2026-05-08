@@ -35,6 +35,7 @@
 	if(!damage_amount)
 		return 0
 	var/booster_deflection_modifier = 1
+	var/booster_dodge_modifier = 1
 	var/booster_damage_modifier = 1
 	if(damage_type in list(BULLET, LASER, ENERGY))
 		for(var/obj/item/mecha_parts/mecha_equipment/antiproj_armor_booster/B in equipment)
@@ -46,6 +47,7 @@
 		for(var/obj/item/mecha_parts/mecha_equipment/anticcw_armor_booster/B in equipment)
 			if(B.attack_react())
 				booster_deflection_modifier *= B.deflect_coeff
+				booster_dodge_modifier *= B.dodge_coeff
 				booster_damage_modifier *= B.damage_coeff
 				break
 
@@ -53,8 +55,13 @@
 		var/facing_modifier = get_armour_facing(abs(dir2angle(dir) - dir2angle(attack_dir)))
 		booster_damage_modifier *= facing_modifier
 		booster_deflection_modifier /= facing_modifier
+		booster_dodge_modifier /= facing_modifier
 	if(prob(deflect_chance * booster_deflection_modifier))
 		visible_message("<span class='danger'>[src]'s armour deflects the attack!</span>")
+		log_message("Armor saved.", LOG_MECHA)
+	if(prob(dodge_chance * booster_dodge_modifier))
+		SpinAnimation(7, 1)
+		visible_message("<span class='danger'>[src] narrowly dodges the attack!</span>")
 		log_message("Armor saved.", LOG_MECHA)
 		return 0
 	if(.)
@@ -187,7 +194,7 @@
 
 /obj/vehicle/sealed/mecha/atmos_expose(datum/gas_mixture/air, exposed_temperature)
 	log_message("Exposed to dangerous temperature.", LOG_MECHA, color="red")
-	take_damage(5, BURN, 1)
+	take_damage(5, FIRE, 1)
 
 /obj/vehicle/sealed/mecha/attackby(obj/item/W, mob/user, params)
 
@@ -341,7 +348,7 @@
 	if(!has_charge(melee_energy_drain))
 		return NONE
 	use_power(melee_energy_drain)
-	if(M.damtype == BRUTE || M.damtype == BURN)
+	if(M.damtype == BRUTE || M.damtype == FIRE)
 		log_combat(user, src, "attacked", M, "(INTENT: [uppertext(user.a_intent)]) (DAMTYPE: [uppertext(M.damtype)])")
 		. = ..()
 
@@ -369,7 +376,7 @@
 			used_item = selected
 		else if(!visual_effect_icon)
 			visual_effect_icon = ATTACK_EFFECT_SMASH
-			if(damtype == BURN)
+			if(damtype == FIRE)
 				visual_effect_icon = ATTACK_EFFECT_MECHFIRE
 			else if(damtype == TOX)
 				visual_effect_icon = ATTACK_EFFECT_MECHTOXIN

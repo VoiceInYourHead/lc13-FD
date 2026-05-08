@@ -1,19 +1,21 @@
-#define HAT "Hat Slot"
-#define HELMET "Helmet Slot"
-#define EYE "Eye Slot"
-#define FACE "Face Slot"
-#define MOUTH_1 "Mouth Slot 1"
-#define MOUTH_2 "Mouth Slot 2"
-#define CHEEK "Cheek Slot"
-#define BROOCH "Brooch Slot"
-#define NECKWEAR "Neckwear Slot"
+/// Ego gifts should visually match the slot if possible. Some slots will render underneath others.
+
+#define HAT "Hat Slot" // Hats, above the head sprite.
+#define HELMET "Helmet Slot" // On or above the head. Possibly covering the head.
+#define EYE "Eye Slot" // Eye level, glasses or bandanas
+#define FACE "Face Slot" // Scars or face paint
+#define MOUTH_1 "Mouth Slot 1" // Typically a face mask of some sort
+#define MOUTH_2 "Mouth Slot 2" // Any other mouth accessory
+#define CHEEK "Cheek Slot" // Similar to face, but smaller.
+#define BROOCH "Brooch Slot" // badges, accessories on the torso
+#define NECKWEAR "Neckwear Slot" // Necklaces or similar
 #define LEFTBACK "Left Back Slot"
 #define RIGHTBACK "Right Back Slot"
-#define HAND_1 "Hand Slot 1"
-#define HAND_2 "Hand Slot 2"
+#define HAND_1 "Hand Slot 1" // Hand accessories
+#define HAND_2 "Hand Slot 2" // Usually, but not always gloves
 #define SPECIAL "Special/Other Slot"
 
-// Helper lists
+/// Helper lists
 #define EGO_GIFT_BONUSES list("fortitude_bonus", "prudence_bonus", "temperance_bonus", "justice_bonus", \
 						"instinct_mod", "insight_mod", "attachment_mod", "repression_mod")
 
@@ -186,7 +188,7 @@
 			qdel(gift_overlay)
 			visible = FALSE
 
-//Overridable overlay proc for coloring gifts based on attribute, skin tone, or other aspects.
+/// Overridable overlay proc for coloring gifts based on attribute, skin tone, or other aspects.
 /datum/ego_gifts/proc/FormatOverlay(mob/living/carbon/human/user)
 	return mutable_appearance(src.icon, src.icon_state, src.layer)
 
@@ -291,6 +293,13 @@
 	icon_state = "cord"
 	temperance_bonus = 2
 	slot = NECKWEAR
+
+/datum/ego_gifts/oracle
+	name = "Dead Dream"
+	icon_state = "dead_dream"
+	fortitude_bonus = -1
+	prudence_bonus = 3
+	slot = HAND_1
 
 /**
  * TETH EGO Gifts
@@ -525,6 +534,58 @@
 	justice_bonus = 1
 	slot = HAND_1
 
+/datum/ego_gifts/denial
+	name = "Denial"
+	icon_state = "denial"
+	justice_bonus = 3
+	slot = HELMET
+
+/datum/ego_gifts/desert
+	name = "Desert Wind"
+	icon_state = "desert"
+	temperance_bonus = 2
+	slot = EYE
+
+/datum/ego_gifts/white_gossypium //intentionally made to suck. Ties later into the abno's mechanics + it's a riff on how hated the Limbus gift is
+	name = "White Gossypium"
+	icon_state = "white_gossypium"
+	fortitude_bonus = 2
+	prudence_bonus = 2
+	temperance_bonus = -5
+	justice_bonus = 2
+
+/datum/ego_gifts/clayman
+	name = "Creative Expression"
+	icon_state = "creative_freedom"
+	fortitude_bonus = 1
+	prudence_bonus = 1
+	justice_bonus = 1
+	temperance_bonus = 1
+	slot = HAND_2
+
+/datum/ego_gifts/kikimora //SHOULD make you immune to the disease (Code for this is in kikimora)
+	name = "Kikimora"
+	icon_state = "kikimora"
+	desc = "Grants the wearer immunity to a certain cognitohazard."
+	justice_bonus = -3
+	fortitude_bonus = 4
+	slot = MOUTH_1
+
+/datum/ego_gifts/rapunzel
+	name = "Rapunzel"
+	icon_state = "rapunzel"
+	fortitude_bonus = 2
+	temperance_bonus = 2
+	prudence_bonus = -2
+	slot = HELMET
+
+/datum/ego_gifts/hex_nail
+	name = "Hex nail"
+	icon_state = "hex_nail"
+	justice_bonus = -2
+	temperance_bonus = 5
+	slot = BROOCH
+
 /**
  * HE EGO Gifts
  */
@@ -551,6 +612,12 @@
 	fortitude_bonus = -4
 	prudence_bonus = 8
 	slot = HAT
+
+/datum/ego_gifts/coiling
+	name = "Coiling"
+	icon_state = "coiling"
+	fortitude_bonus = 5
+	slot = MOUTH_2
 
 /datum/ego_gifts/courage_cat //crumbling armor also has an ego gift called courage so the name has to be slightly different
 	name = "Courage"
@@ -580,12 +647,19 @@
 	temperance_bonus = 2
 	slot = MOUTH_2
 
-/datum/ego_gifts/frost
+/datum/ego_gifts/frostsplinter
 	name = "Those who know the Cruelty of Winter and the Aroma of Roses"
-	icon_state = "frost"
+	icon_state = "frostsplinter"
 	fortitude_bonus = 6
 	prudence_bonus = 6
 	slot = CHEEK
+
+/datum/ego_gifts/frostcrown
+	name = "The Winters Kiss"
+	icon_state = "frostcrown"
+	fortitude_bonus = 2
+	prudence_bonus = 2
+	slot = HAT
 
 /datum/ego_gifts/fury
 	name = "Blind Fury"
@@ -633,6 +707,22 @@
 	insight_mod = 3
 	slot = EYE
 
+/datum/ego_gifts/reddit
+	name = "Reddit"
+	desc = "Thanks for the gold, kind stranger!"
+	prudence_bonus = 12
+	temperance_bonus = -4
+	justice_bonus = -4
+	insight_mod = 4
+	slot = HAT
+
+/datum/ego_gifts/aedd
+	name = "AEDD"
+	icon_state = "grinder"
+	temperance_bonus = -2
+	justice_bonus = 5
+	slot = CHEEK
+
 /datum/ego_gifts/morii
 	name = "Morii"
 	icon_state = "morii"
@@ -645,13 +735,6 @@
 	icon_state = "harmony"
 	fortitude_bonus = 8
 	prudence_bonus = -4
-	slot = CHEEK
-
-/datum/ego_gifts/frost_splinter
-	name = "Cruelty of Winter and Aroma of Roses"
-	icon_state = "frost_splinter"
-	fortitude_bonus = 6
-	prudence_bonus = 6
 	slot = CHEEK
 
 /datum/ego_gifts/harvest
@@ -824,8 +907,9 @@
 	icon_state = "syrinx"
 	desc = "Provides the user with 5% resistance to white damage."
 	slot = HELMET
-	fortitude_bonus = 1
-	prudence_bonus = 1
+	fortitude_bonus = -2
+	prudence_bonus = -2
+	justice_bonus = 6
 
 /datum/ego_gifts/syrinx/Initialize(mob/living/carbon/human/user) // grants resistance
 	. = ..()
@@ -891,10 +975,32 @@
 /datum/ego_gifts/sunshower
 	name = "Sunshower"
 	icon_state = "sunshower"
-	temperance_bonus = 5
-	justice_bonus = -2
-	prudence_bonus = -2
+	fortitude_bonus = -1
+	prudence_bonus = 3
+	temperance_bonus = 3
+	justice_bonus = -1
 	slot = LEFTBACK
+
+/datum/ego_gifts/squeak
+	name = "Squeaky Toy"
+	icon_state = "squeak"
+	prudence_bonus = 4
+	slot = HAT
+
+/datum/ego_gifts/fellbullet
+	name = "Pendant of Nostalgia"
+	icon_state = "fell_bullet"
+	fortitude_bonus = 2
+	temperance_bonus = 2
+	justice_bonus = 2
+	slot = NECKWEAR
+
+/datum/ego_gifts/gleaming
+	name = "Incandescent Gleaming"
+	icon_state = "gleaming"
+	fortitude_bonus = 3
+	temperance_bonus = 1
+	slot = FACE
 
 /**
  * WAW EGO Gifts
@@ -930,6 +1036,8 @@
 	if(!owner && damagetype != WHITE_DAMAGE)
 		return
 	if(!damage)
+		return
+	if(damage < 0)
 		return
 	owner.adjustBruteLoss(-damage*0.1)
 
@@ -977,11 +1085,6 @@
 	justice_bonus = 2
 	slot = FACE
 
-/datum/ego_gifts/coiling
-	name = "Coiling"
-	icon_state = "coiling"
-	fortitude_bonus = 5
-	slot = MOUTH_2
 
 /datum/ego_gifts/correctional
 	name = "Correctional"
@@ -1181,7 +1284,7 @@
 
 /datum/ego_gifts/rosa
 	name = "Crown of Roses"
-	icon_state = "penitence"//TODO: make an actual sprite
+	icon_state = "rosa"
 	prudence_bonus = 3
 	temperance_bonus = 3
 	slot = HAT
@@ -1204,16 +1307,14 @@
 /datum/ego_gifts/stem
 	name = "Green Stem"
 	icon_state = "green_stem"
-	prudence_bonus = 6 //originally a SP bonus
+	prudence_bonus = 6 // originally a SP bonus
 	slot = BROOCH
 
-//reduces sanity and fortitude for a 10% buff to work success. Unfortunately this translates to 200 temp
-//so right now its 10 temp
 /datum/ego_gifts/swan
 	name = "Black Swan"
 	icon_state = "swan"
-	fortitude_bonus = -4
-	prudence_bonus = -4
+	fortitude_bonus = -2
+	prudence_bonus = -2
 	temperance_bonus = 10
 	slot = HAT
 
@@ -1246,6 +1347,49 @@
 	temperance_bonus = -2
 	justice_bonus = 6
 	slot = EYE
+
+/datum/ego_gifts/sunyata
+	name = "Bloody Gadget"
+	icon_state = "sunyata"
+	fortitude_bonus = 1
+	prudence_bonus = 2
+	temperance_bonus = 1
+	justice_bonus = 2
+	slot = HAND_1
+
+/datum/ego_gifts/good_intentions
+	name = "Good Intentions" // no stat bonuses but a minor boost to all works
+	icon_state = "good_intentions"
+	instinct_mod = 3
+	insight_mod = 3
+	attachment_mod = 3
+	repression_mod = 3
+	slot = HAT
+
+/datum/ego_gifts/caterpillar
+	name = "Havana"
+	icon_state = "havana"
+	justice_bonus = 10
+	temperance_bonus = -2 // smoking kills
+	slot = LEFTBACK
+
+/datum/ego_gifts/ardor_moth
+	name = "Ardor Star"
+	icon_state = "ardor_star"
+	desc = "Provides the user with 10% resistance to FIRE damage."
+	fortitude_bonus = 5
+	temperance_bonus = -2
+	justice_bonus = 3
+	slot = RIGHTBACK
+
+/datum/ego_gifts/ardor_moth/Initialize(mob/living/carbon/human/user)
+	. = ..()
+	user.physiology.burn_mod *= 0.9
+
+
+/datum/ego_gifts/ardor_moth/Remove(mob/living/carbon/human/user)
+	user.physiology.burn_mod /= 0.9
+	return ..()
 
 /**
  * ALEPH EGO Gifts
@@ -1297,16 +1441,25 @@
 /datum/ego_gifts/dacapo
 	name = "Da Capo"
 	icon_state = "dacapo"
+	desc = "Provides the user with 20% resistance to WHITE damage."// man it really needed something
 	temperance_bonus = 4
 	slot = EYE
+
+/datum/ego_gifts/dacapo/Initialize(mob/living/carbon/human/user) // grants resistance
+	. = ..()
+	user.physiology.white_mod *= 0.8
+
+/datum/ego_gifts/dacapo/Remove(mob/living/carbon/human/user)
+	user.physiology.white_mod /= 0.8
+	return ..()
 
 /datum/ego_gifts/distortion
 	name = "Distortion"
 	icon_state = "distortion"
-	fortitude_bonus = 3
-	prudence_bonus = 3
-	temperance_bonus = 2
-	justice_bonus = 2
+	fortitude_bonus = 8
+	prudence_bonus = 8
+	temperance_bonus = 7
+	justice_bonus = 7
 	slot = BROOCH
 
 /datum/ego_gifts/inconsolable
@@ -1330,7 +1483,7 @@
 	prudence_bonus = 5
 	slot = HAND_1
 
-/datum/ego_gifts/nihil //May be subject to change when the event is added proper
+/datum/ego_gifts/nihil // May be subject to change when the event is added proper
 	name = "Nihil"
 	icon_state = "nihil"
 	fortitude_bonus = 10
@@ -1352,11 +1505,41 @@
 	justice_bonus = 10
 	slot = HELMET
 
-/datum/ego_gifts/seasons
-	name = "Season's Greetings"
-	icon_state = "seasons"
-	prudence_bonus = 10
+/datum/ego_gifts/spring
+	name = "Vernal Equinox"
+	icon_state = "spring"
+	fortitude_bonus = 4
+	prudence_bonus = 6
+	temperance_bonus = -2
+	justice_bonus = 0
 	slot = HAND_2
+
+/datum/ego_gifts/summer
+	name = "Summer Solstice"
+	icon_state = "summer"
+	fortitude_bonus = 6
+	prudence_bonus = 0
+	temperance_bonus = 4
+	justice_bonus = -2
+	slot = HAND_1
+
+/datum/ego_gifts/fall
+	name = "Autumnal Equinox"
+	icon_state = "fall"
+	fortitude_bonus = 0
+	prudence_bonus = -2
+	temperance_bonus = 6
+	justice_bonus = 4
+	slot = HAND_2
+
+/datum/ego_gifts/winter
+	name = "Winter Solstice"
+	icon_state = "winter"
+	fortitude_bonus = -2
+	prudence_bonus = 4
+	temperance_bonus = 0
+	justice_bonus = 6
+	slot = HAND_1
 
 /datum/ego_gifts/smile
 	name = "Smile"
@@ -1400,6 +1583,13 @@
 /**
  * Event EGO Gifts
  */
+
+/datum/ego_gifts/sheep
+	name = "Sheeps Clothing"
+	icon_state = "sheep"
+	fortitude_bonus = 9
+	justice_bonus = -3
+	slot = HAT
 
 /datum/ego_gifts/blessing
 	name = "Blessing"
@@ -1501,3 +1691,10 @@
 	if(!damage)
 		return
 	owner.adjustBruteLoss(-damage*0.75)
+
+/datum/ego_gifts/luckdraw
+	name = "Luck of the Draw"
+	icon_state = "luckdraw"
+	temperance_bonus = -1
+	justice_bonus = 3
+	slot = HAT

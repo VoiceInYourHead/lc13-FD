@@ -8,8 +8,8 @@
 	portrait = "greed_king"
 	pixel_x = -16
 	base_pixel_x = -16
-	maxHealth = 3200
-	health = 3200
+	maxHealth = 1000
+	health = 1000
 	ranged = TRUE
 	attack_verb_continuous = "chomps"
 	attack_verb_simple = "chomps"
@@ -18,8 +18,8 @@
 	vision_range = 14
 	aggro_vision_range = 20
 	stat_attack = HARD_CRIT
-	melee_damage_lower = 60	//Shouldn't really attack unless a player in controlling it, I guess.
-	melee_damage_upper = 80
+	melee_damage_lower = 20	//Shouldn't really attack unless a player in controlling it, I guess.
+	melee_damage_upper = 30
 	attack_sound = 'sound/abnormalities/kog/GreedHit1.ogg'
 	can_breach = TRUE
 	threat_level = WAW_LEVEL
@@ -30,30 +30,34 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(0, 0, 50, 50, 55),
 		ABNORMALITY_WORK_REPRESSION = list(0, 0, 40, 40, 40),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 7
+	work_damage_lower = 5
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/gluttony
 
 	observation_prompt = "Come on, don't be like that. <br>I might look hideous but that's not important to you, right? <br>\
 		I am happy that you can hear me. <br>I once fought for happiness of the world. <br>But soon after, I noticed. <br>\
 		Happiness of the world means happiness for me. <br>I'm trying to stay happy. <br>\
 		I don't care even if it got me to the point where I look like this. <br>Have you met my sisters? <br>We were always one. <br>\
 		We fought together, and shared a common goal. <br>By the way, are you happy now?"
-	observation_choices = list("Yes, I'm happy", "No, I'm not happy")
-	correct_choices = list("Yes, I'm happy")
-	observation_success_message = "(The egg shook violently) <br>\
-		Don't lie. <br>Why have we been ruined like this if that's true? <br>\
-		And why have you ended up like that? <br>My greed will not be sated with such flimsy conviction. <br>\
-		But if your answer is a resolve for the future, and not just a statement of fact... <br>Things might change, slowly."
-	observation_fail_message = "I knew you were not happy. <br>\
-		You are like me. <br>You trapped yourself inside of an egg, just like me. <br>\
-		The amber-colored sky is beautiful. <br>Oh, I'm getting hungry again."
+	observation_choices = list(
+		"Yes, I'm happy" = list(TRUE, "(The egg shook violently) <br>\
+			Don't lie. <br>Why have we been ruined like this if that's true? <br>\
+			And why have you ended up like that? <br>My greed will not be sated with such flimsy conviction. <br>\
+			But if your answer is a resolve for the future, and not just a statement of fact... <br>Things might change, slowly."),
+		"No, I'm not happy" = list(FALSE, "I knew you were not happy. <br>\
+			You are like me. <br>You trapped yourself inside of an egg, just like me. <br>\
+			The amber-colored sky is beautiful. <br>Oh, I'm getting hungry again."),
+	)
 
 	//Some Variables cannibalized from helper
 	var/charge_check_time = 1 SECONDS
 	var/teleport_cooldown
-	var/dash_num = 50	//Mostly a safeguard
+	var/dash_num = 100000	//Mostly a safeguard
 	var/list/been_hit = list()
 	var/can_act = TRUE
+	var/initial_charge_damage = 200
+	var/growing_charge_damage = 0
 
 	var/nihil_present = FALSE
 
@@ -76,6 +80,16 @@
 		/datum/action/innate/abnormality_attack/kog_dash,
 		/datum/action/innate/abnormality_attack/kog_teleport,
 	)
+
+/mob/living/simple_animal/hostile/abnormality/greed_king/Login()
+	. = ..()
+	to_chat(src, "<h1>You are King of Greed, A Tank Role Abnormality.</h1><br>\
+		<b>|Gilded Cage|: Your size is 3 by 3 tiles wide, however you can still fit in 1 by 1 areas.<br>\
+		<br>\
+		|Endless Hunger|: When you click on a tile outside your melee range, you will start charging into the direction you clicked.<br>\
+		Once you start charging into a direction you will constantly move in one direction.<br>\
+		Initialy, your charge deal 200 RED damage, but for every tile you move you deal an extra 40 RED damage.<br>\
+		Your charge ends after you move into a wall, or any dense object. (RHINOS/OTHER ABNORMALITIES WILL STOP YOUR CHARGE)</b>")
 
 /datum/action/innate/abnormality_attack/kog_dash
 	name = "Ravenous Charge"
@@ -123,6 +137,7 @@
 	offsets_pixel_y = list("south" = -8, "north" = -8, "west" = -8, "east" = -8)
 	transform = matrix(1.5, MATRIX_SCALE)
 	SetOccupiedTiles(1, 1, 1, 1)
+	damage_effect_scale = 1.2
 	startTeleport()	//Let's Spaghettioodle out of here
 
 /mob/living/simple_animal/hostile/abnormality/greed_king/proc/startTeleport()
@@ -160,7 +175,7 @@
 		var/dir_to_target = get_cardinal_dir(get_turf(src), get_turf(target))
 		if(dir_to_target)
 			can_act = FALSE
-			addtimer(CALLBACK(src, PROC_REF(charge), dir_to_target, 0, target), 2 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(charge), dir_to_target, 0, initial_charge_damage), 2 SECONDS)
 			return
 	return
 
@@ -172,10 +187,11 @@
 		if(1)
 			var/dir_to_target = get_cardinal_dir(get_turf(src), get_turf(target))
 			can_act = FALSE
-			charge(dir_to_target, 0, target)
+			// do particle effect
+			charge(dir_to_target, 0, initial_charge_damage)
 	return
 
-/mob/living/simple_animal/hostile/abnormality/greed_king/proc/charge(move_dir, times_ran, target)
+/mob/living/simple_animal/hostile/abnormality/greed_king/proc/charge(move_dir, times_ran, charge_damage)
 	setDir(move_dir)
 	var/stop_charge = FALSE
 	if(times_ran >= dash_num)
@@ -215,15 +231,15 @@
 				playsound(L, attack_sound, 75, 1)
 				new /obj/effect/temp_visual/kinetic_blast(get_turf(L))
 				if(ishuman(L))
-					L.deal_damage(800, RED_DAMAGE)
+					L.deal_damage(charge_damage, RED_DAMAGE)
 				else
-					L.adjustRedLoss(80)
+					L.adjustRedLoss(100)
 				if(L.stat >= HARD_CRIT)
 					L.gib()
 				playsound(L, 'sound/abnormalities/kog/GreedHit1.ogg', 20, 1)
 				playsound(L, 'sound/abnormalities/kog/GreedHit2.ogg', 50, 1)
 				for(var/obj/vehicle/V in new_hits)
-					V.take_damage(80, RED_DAMAGE, attack_sound)
+					V.take_damage(100, RED_DAMAGE, attack_sound)
 					V.visible_message(span_boldwarning("[src] crunches [V]!"))
 					playsound(V, 'sound/abnormalities/kog/GreedHit1.ogg', 40, 1)
 					playsound(V, 'sound/abnormalities/kog/GreedHit2.ogg', 30, 1)
@@ -233,7 +249,7 @@
 				L.visible_message(span_boldwarning("[src] smashes [L]!"), span_userdanger("[src] smashes you with her massive fist!"))
 				playsound(L, attack_sound, 75, 1)
 				new /obj/effect/temp_visual/kinetic_blast(get_turf(L))
-				L.adjustRedLoss(80)
+				L.adjustRedLoss(100)
 				if(L.stat >= HARD_CRIT)
 					L.gib()
 				playsound(L, 'sound/abnormalities/kog/GreedHit1.ogg', 20, 1)
@@ -242,7 +258,9 @@
 	playsound(src,'sound/effects/bamf.ogg', 70, TRUE, 20)
 	for(var/turf/open/R in range(1, src))
 		new /obj/effect/temp_visual/small_smoke/halfsecond(R)
-	addtimer(CALLBACK(src, PROC_REF(charge), move_dir, (times_ran + 1)), 2)
+	if (IsCombatMap())
+		charge_damage = charge_damage + growing_charge_damage
+	addtimer(CALLBACK(src, PROC_REF(charge), move_dir, (times_ran + 1), charge_damage), 2)
 
 /mob/living/simple_animal/hostile/abnormality/greed_king/proc/endCharge()
 	can_act = TRUE

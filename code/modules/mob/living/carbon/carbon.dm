@@ -92,20 +92,21 @@
 	if(hurt && hit_atom.density)
 		if(isturf(hit_atom))
 			Paralyze(2 SECONDS)
-			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-		else if(isstructure(hit_atom) && extra_speed)
-			Paralyze(1 SECONDS)
-			take_bodypart_damage(5 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-		else if(!iscarbon(hit_atom) && extra_speed)
 			take_bodypart_damage(5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+		else if(isstructure(hit_atom) && extra_speed)
+			if(!(SSmaptype.maptype in SSmaptype.citymaps))
+				Paralyze(1 SECONDS)
+			take_bodypart_damage(3 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+		else if(!iscarbon(hit_atom) && extra_speed)
+			take_bodypart_damage(2 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
 	if(iscarbon(hit_atom) && hit_atom != src)
 		var/mob/living/carbon/victim = hit_atom
 		if(victim.movement_type & FLYING)
 			return
 		if(hurt)
-			victim.take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
-			victim.Paralyze(2 SECONDS)
+			victim.take_bodypart_damage(2 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+			take_bodypart_damage(2 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
+			// victim.Paralyze(2 SECONDS)
 			Paralyze(2 SECONDS)
 			visible_message(span_danger("[src] crashes into [victim][extra_speed ? " really hard" : ""], knocking them both over!"),\
 				span_userdanger("You violently crash into [victim][extra_speed ? " extra hard" : ""]!"))
@@ -146,42 +147,63 @@
 		return
 
 	var/atom/movable/thrown_thing
-	var/obj/item/I = get_active_held_item()
-
-	if(!I)
+	var/obj/item/held_item = get_active_held_item()
+	var/verb_text = pick("throw", "toss", "hurl", "chuck", "fling")
+	if(prob(0.5))
+		verb_text = "yeet"
+	var/neckgrab_throw = FALSE // we can't check for if it's a neckgrab throw when totaling up power_throw since we've already stopped pulling them by then, so get it early
+	var/frequency_number = 1 //We assign a default frequency number for the sound of the throw.
+	if(!held_item)
 		if(pulling && isliving(pulling) && grab_state >= GRAB_AGGRESSIVE)
 			var/mob/living/throwable_mob = pulling
 			if(!throwable_mob.buckled)
 				thrown_thing = throwable_mob
+				if(grab_state >= GRAB_NECK)
+					neckgrab_throw = TRUE
 				stop_pulling()
 				if(HAS_TRAIT(src, TRAIT_PACIFISM))
 					to_chat(src, span_notice("You gently let go of [throwable_mob]."))
 					return
 	else
-		thrown_thing = I.on_thrown(src, target)
-
-	if(thrown_thing)
-
-		if(isliving(thrown_thing))
-			var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
-			var/turf/end_T = get_turf(target)
-			if(start_T && end_T)
-				log_combat(src, thrown_thing, "thrown", addition="grab from tile in [AREACOORD(start_T)] towards tile at [AREACOORD(end_T)]")
-		var/power_throw = 0
-		if(HAS_TRAIT(src, TRAIT_HULK))
-			power_throw++
-		if(HAS_TRAIT(src, TRAIT_DWARF))
-			power_throw--
-		if(HAS_TRAIT(thrown_thing, TRAIT_DWARF))
-			power_throw++
-		if(pulling && grab_state >= GRAB_NECK)
-			power_throw++
-		visible_message(span_danger("[src] throws [thrown_thing][power_throw ? " really hard!" : "."]"), \
-						span_danger("You throw [thrown_thing][power_throw ? " really hard!" : "."]"))
-		log_message("has thrown [thrown_thing] [power_throw ? "really hard" : ""]", LOG_ATTACK)
-		newtonian_move(get_dir(target, src))
-		thrown_thing.safe_throw_at(target, thrown_thing.throw_range, thrown_thing.throw_speed + power_throw, src, null, null, null, move_force)
-
+		thrown_thing = held_item.on_thrown(src, target)
+	if(!thrown_thing)
+		return FALSE
+	if(isliving(thrown_thing))
+		var/turf/start_T = get_turf(loc) //Get the start and target tile for the descriptors
+		var/turf/end_T = get_turf(target)
+		if(start_T && end_T)
+			log_combat(src, thrown_thing, "thrown", addition="grab from tile in [AREACOORD(start_T)] towards tile at [AREACOORD(end_T)]")
+	var/power_throw = 0
+	if(HAS_TRAIT(src, TRAIT_HULK))
+		power_throw++
+	if(HAS_TRAIT(src, TRAIT_DWARF))
+		power_throw--
+	if(HAS_TRAIT(thrown_thing, TRAIT_DWARF))
+		power_throw++
+	if(neckgrab_throw)
+		power_throw++
+	if(isitem(thrown_thing))
+		var/obj/item/thrown_item = thrown_thing
+		frequency_number = 1-(thrown_item.w_class-3)/8 //At normal weight, the frequency is at 1. For tiny, it is 1.25. For huge, it is 0.75.
+		if(thrown_item.throw_verb)
+			verb_text = thrown_item.throw_verb
+	do_attack_animation(target, no_effect = 1)
+	var/sound/throwsound = 'sound/weapons/throw.ogg'
+	var/power_throw_text = "."
+	if(power_throw > 0) //If we have anything that boosts our throw power like hulk, we use the rougher heavier variant.
+		throwsound = 'sound/weapons/throwhard.ogg'
+		power_throw_text = " really hard!"
+	if(power_throw < 0) //if we have anything that weakens our throw power like dward, we use a slower variant.
+		throwsound = 'sound/weapons/throwsoft.ogg'
+		power_throw_text = " flimsily."
+	frequency_number = frequency_number + (rand(-5,5)/100); //Adds a bit of randomness in the frequency to not sound exactly the same.
+	//The volume of the sound takes the minimum between the distance thrown or the max range an item, but no more than 50. Short throws are quieter. A fast throwing speed also makes the noise sharper.
+	playsound(src, throwsound, min(8*min(get_dist(loc,target),thrown_thing.throw_range), 30), vary = TRUE, extrarange = -1, frequency = frequency_number)
+	visible_message(span_danger("[src] [verb_text][plural_s(verb_text)] [thrown_thing][power_throw_text]"), \
+					span_danger("You [verb_text] [thrown_thing][power_throw_text]"))
+	log_message("has thrown [thrown_thing] [power_throw_text]", LOG_ATTACK)
+	newtonian_move(get_dir(target, src))
+	thrown_thing.safe_throw_at(target, thrown_thing.throw_range, max(1,thrown_thing.throw_speed + power_throw), src, null, null, null, move_force)
 
 /mob/living/carbon/proc/canBeHandcuffed()
 	return FALSE
@@ -196,31 +218,31 @@
 	dat += "<table>"
 	for(var/i in 1 to held_items.len)
 		var/obj/item/I = get_item_for_held_index(i)
-		dat += "<tr><td><B>[get_held_index_name(i)]:</B></td><td><A href='?src=[REF(src)];item=[ITEM_SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>Empty</font>"]</a></td></tr>"
+		dat += "<tr><td><B>[get_held_index_name(i)]:</B></td><td><A href='byond://?src=[REF(src)];item=[ITEM_SLOT_HANDS];hand_index=[i]'>[(I && !(I.item_flags & ABSTRACT)) ? I : "<font color=grey>Empty</font>"]</a></td></tr>"
 	dat += "<tr><td>&nbsp;</td></tr>"
 
-	dat += "<tr><td><B>Back:</B></td><td><A href='?src=[REF(src)];item=[ITEM_SLOT_BACK]'>[(back && !(back.item_flags & ABSTRACT)) ? back : "<font color=grey>Empty</font>"]</A>"
+	dat += "<tr><td><B>Back:</B></td><td><A href='byond://?src=[REF(src)];item=[ITEM_SLOT_BACK]'>[(back && !(back.item_flags & ABSTRACT)) ? back : "<font color=grey>Empty</font>"]</A>"
 	if(has_breathable_mask && istype(back, /obj/item/tank))
-		dat += "&nbsp;<A href='?src=[REF(src)];internal=[ITEM_SLOT_BACK]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
+		dat += "&nbsp;<A href='byond://?src=[REF(src)];internal=[ITEM_SLOT_BACK]'>[internal ? "Disable Internals" : "Set Internals"]</A>"
 
 	dat += "</td></tr><tr><td>&nbsp;</td></tr>"
 
-	dat += "<tr><td><B>Head:</B></td><td><A href='?src=[REF(src)];item=[ITEM_SLOT_HEAD]'>[(head && !(head.item_flags & ABSTRACT)) ? head : "<font color=grey>Empty</font>"]</A></td></tr>"
+	dat += "<tr><td><B>Head:</B></td><td><A href='byond://?src=[REF(src)];item=[ITEM_SLOT_HEAD]'>[(head && !(head.item_flags & ABSTRACT)) ? head : "<font color=grey>Empty</font>"]</A></td></tr>"
 
 	if(obscured & ITEM_SLOT_MASK)
 		dat += "<tr><td><font color=grey><B>Mask:</B></font></td><td><font color=grey>Obscured</font></td></tr>"
 	else
-		dat += "<tr><td><B>Mask:</B></td><td><A href='?src=[REF(src)];item=[ITEM_SLOT_MASK]'>[(wear_mask && !(wear_mask.item_flags & ABSTRACT)) ? wear_mask : "<font color=grey>Empty</font>"]</A></td></tr>"
+		dat += "<tr><td><B>Mask:</B></td><td><A href='byond://?src=[REF(src)];item=[ITEM_SLOT_MASK]'>[(wear_mask && !(wear_mask.item_flags & ABSTRACT)) ? wear_mask : "<font color=grey>Empty</font>"]</A></td></tr>"
 
-	dat += "<tr><td><B>Neck:</B></td><td><A href='?src=[REF(src)];item=[ITEM_SLOT_NECK]'>[(wear_neck && !(wear_neck.item_flags & ABSTRACT)) ? wear_neck : "<font color=grey>Empty</font>"]</A></td></tr>"
+	dat += "<tr><td><B>Neck:</B></td><td><A href='byond://?src=[REF(src)];item=[ITEM_SLOT_NECK]'>[(wear_neck && !(wear_neck.item_flags & ABSTRACT)) ? wear_neck : "<font color=grey>Empty</font>"]</A></td></tr>"
 
 	if(handcuffed)
-		dat += "<tr><td><B>Handcuffed:</B> <A href='?src=[REF(src)];item=[ITEM_SLOT_HANDCUFFED]'>Remove</A></td></tr>"
+		dat += "<tr><td><B>Handcuffed:</B> <A href='byond://?src=[REF(src)];item=[ITEM_SLOT_HANDCUFFED]'>Remove</A></td></tr>"
 	if(legcuffed)
-		dat += "<tr><td><B>Legcuffed:</B> <A href='?src=[REF(src)];item=[ITEM_SLOT_LEGCUFFED]'>Remove</A></td></tr>"
+		dat += "<tr><td><B>Legcuffed:</B> <A href='byond://?src=[REF(src)];item=[ITEM_SLOT_LEGCUFFED]'>Remove</A></td></tr>"
 
 	dat += {"</table>
-	<A href='?src=[REF(user)];mach_close=mob[REF(src)]'>Close</A>
+	<A href='byond://?src=[REF(user)];mach_close=mob[REF(src)]'>Close</A>
 	"}
 
 	var/datum/browser/popup = new(user, "mob[REF(src)]", "[src]", 440, 510)
@@ -563,7 +585,7 @@
 	staminaloss = round(total_stamina, DAMAGE_PRECISION)
 	update_stat()
 	if(((maxHealth - total_burn) < death_threshold*2) && stat == DEAD )
-		become_husk(BURN)
+		become_husk(FIRE)
 
 	med_hud_set_health()
 
@@ -628,6 +650,10 @@
 	if(HAS_TRAIT(src, TRAIT_XRAY_VISION))
 		sight |= (SEE_TURFS|SEE_MOBS|SEE_OBJS)
 		see_in_dark = max(see_in_dark, 8)
+
+	if(HAS_TRAIT(src, TRAIT_TRUE_NIGHT_VISION))
+		see_in_dark = max(see_in_dark, 8)
+		lighting_alpha = LIGHTING_PLANE_ALPHA_MOSTLY_INVISIBLE
 
 	if(see_override)
 		see_invisible = see_override
@@ -890,9 +916,6 @@
 	if (HAS_TRAIT(src, TRAIT_HUSK))
 		return DEFIB_FAIL_HUSK
 
-	if ((getBruteLoss() >= MAX_REVIVE_BRUTE_DAMAGE) || (getFireLoss() >= MAX_REVIVE_FIRE_DAMAGE))
-		return DEFIB_FAIL_TISSUE_DAMAGE
-
 	// Only check for a heart if they actually need a heart. Who would've thunk
 	if (needs_heart())
 		var/obj/item/organ/heart = getorgan(/obj/item/organ/heart)
@@ -900,18 +923,12 @@
 		if (!heart)
 			return DEFIB_FAIL_NO_HEART
 
-		if (heart.organ_flags & ORGAN_FAILING)
-			return DEFIB_FAIL_FAILING_HEART
-
 	// Carbons with HARS do not need a brain
 	if (!dna?.check_mutation(HARS))
 		var/obj/item/organ/brain/BR = getorgan(/obj/item/organ/brain)
 
 		if (QDELETED(BR))
 			return DEFIB_FAIL_NO_BRAIN
-
-		if (BR.organ_flags & ORGAN_FAILING)
-			return DEFIB_FAIL_FAILING_BRAIN
 
 		if (BR.suicided || BR.brainmob?.suiciding)
 			return DEFIB_FAIL_NO_INTELLIGENCE

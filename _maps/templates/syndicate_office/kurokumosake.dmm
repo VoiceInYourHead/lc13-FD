@@ -736,16 +736,6 @@
 	},
 /turf/open/floor/wood,
 /area/city/backstreets_room)
-"GO" = (
-/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
-/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
-/obj/structure/closet/cabinet{
-	anchored = 1
-	},
-/obj/item/ego_weapon/city/kurokumo,
-/obj/item/ego_weapon/city/kurokumo,
-/turf/open/floor/carpet/black,
-/area/city/backstreets_room)
 "Hf" = (
 /obj/structure/table/wood/poker,
 /obj/item/reagent_containers/food/drinks/bottle/sake{
@@ -779,10 +769,8 @@
 /obj/structure/closet/cabinet{
 	anchored = 1
 	},
-/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
-/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
-/obj/item/ego_weapon/city/kurokumo,
-/obj/item/ego_weapon/city/kurokumo,
+/obj/item/ego_weapon/city/kurokumo/weak,
+/obj/item/clothing/suit/armor/ego_gear/city/kurokumo/jacket,
 /turf/open/floor/carpet/black,
 /area/city/backstreets_room)
 "Jz" = (
@@ -842,6 +830,16 @@
 	},
 /turf/open/floor/wood,
 /area/city/backstreets_room)
+"Le" = (
+/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
+/obj/item/clothing/suit/armor/ego_gear/city/kurokumo,
+/obj/structure/closet/cabinet{
+	anchored = 1
+	},
+/obj/item/ego_weapon/city/kurokumo/weak,
+/obj/item/ego_weapon/city/kurokumo/weak,
+/turf/open/floor/carpet/black,
+/area/city/backstreets_room)
 "Lf" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
@@ -895,9 +893,7 @@
 	anchored = 1
 	},
 /obj/item/clothing/suit/armor/ego_gear/city/kurokumo/jacket,
-/obj/item/clothing/suit/armor/ego_gear/city/kurokumo/jacket,
-/obj/item/ego_weapon/city/kurokumo,
-/obj/item/ego_weapon/city/kurokumo,
+/obj/item/ego_weapon/city/kurokumo/weak,
 /turf/open/floor/carpet/black,
 /area/city/backstreets_room)
 "Qo" = (
@@ -918,9 +914,11 @@
 	desc = "A blade that is used by those willing to go out with honour.";
 	pixel_x = -19
 	},
-/obj/item/stack/spacecash/c10000,
-/obj/item/stack/spacecash/c10000,
-/obj/item/stack/spacecash/c10000,
+/obj/item/stack/spacecash/c1000,
+/obj/item/stack/spacecash/c1000,
+/obj/item/stack/spacecash/c1000,
+/obj/item/stack/spacecash/c1000,
+/obj/item/stack/spacecash/c1000,
 /turf/open/floor/wood{
 	color = "#ccc8c0"
 	},
@@ -1093,7 +1091,7 @@ xz
 Ku
 "}
 (2,1,1) = {"
-GO
+Le
 ma
 bi
 Xc
@@ -1103,7 +1101,7 @@ Rj
 bi
 bi
 ma
-GO
+Le
 "}
 (3,1,1) = {"
 uq

@@ -11,7 +11,7 @@
 	flags_1 = HEAR_1
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = list(/datum/material/iron=60, /datum/material/glass=30)
-	force = 2
+	force = 1
 	throwforce = 0
 	var/recording = FALSE
 	var/playing = FALSE
@@ -195,6 +195,9 @@
 	update_icon()
 	to_chat(usr, "<span class='notice'>Playing started.</span>")
 	playsound(src, 'sound/items/taperecorder/taperecorder_play.ogg', 50, FALSE)
+	// Award achievement for resurgence tapes
+	if(istype(mytape, /obj/item/tape/resurgence) && usr.client)
+		usr.client.give_award(/datum/award/achievement/lc13/city/resurgence_tape, usr)
 	var/used = mytape.used_capacity	//to stop runtimes when you eject the tape
 	var/max = mytape.max_capacity
 	for(var/i = 1, used <= max, sleep(10 * playsleepseconds))

@@ -138,7 +138,7 @@
 	name = "bolt of change"
 	icon_state = "ice_1"
 	damage = 0
-	damage_type = BURN
+	damage_type = FIRE
 	nodamage = TRUE
 
 /obj/projectile/magic/change/on_hit(atom/change)
@@ -307,7 +307,7 @@
 	name = "bolt of animation"
 	icon_state = "red_1"
 	damage = 0
-	damage_type = BURN
+	damage_type = FIRE
 	nodamage = TRUE
 
 /obj/projectile/magic/animate/on_hit(atom/target, blocked = FALSE)
@@ -352,7 +352,7 @@
 	name = "blade energy"
 	icon_state = "lavastaff"
 	damage = 15
-	damage_type = BURN
+	damage_type = FIRE
 	dismemberment = 50
 	nodamage = FALSE
 
@@ -369,7 +369,7 @@
 	name = "arcane bolt"
 	icon_state = "arcane_barrage"
 	damage = 20
-	damage_type = BURN
+	damage_type = FIRE
 	nodamage = FALSE
 	armour_penetration = 0
 	hitsound = 'sound/weapons/barragespellhit.ogg'
@@ -612,7 +612,7 @@
 	name = "lightning bolt"
 	icon_state = "tesla_projectile"	//Better sprites are REALLY needed and appreciated!~
 	damage = 15
-	damage_type = BURN
+	damage_type = FIRE
 	nodamage = FALSE
 	speed = 0.3
 
@@ -677,27 +677,41 @@
 	icon_state = "pillar"
 	alpha = 0
 
-	damage = 350
+	damage = 170
 	damage_type = BLACK_DAMAGE
 	armour_penetration = 0
 	speed = 1.5 // Slow
-	damage_falloff_tile = -5 // Loses a bit of damage so you don't get jumpscared out of nowhere
+	damage_falloff_tile = -3 // Loses a bit of damage so you don't get jumpscared out of nowhere
 	white_healing = FALSE
 	nodamage = FALSE
 	projectile_piercing = PASSMOB
 	projectile_phasing = (ALL & (~PASSMOB))
 	hitsound = 'sound/magic/arbiter/pillar_hit.ogg'
 	var/obj/effect/trail_type = /obj/effect/temp_visual/revenant
+	var/stored_damage_falloff = 0
 	var/list/been_hit = list()
 
 /obj/projectile/magic/aoe/pillar/Initialize()
 	. = ..()
 	animate(src, alpha = 255, time = 5)
 
+/obj/projectile/magic/aoe/pillar/Impact()
+	if(!fired)//work around to prevent the pillar storm pillars from deleting themselves if you touch them
+		return FALSE
+	return ..()
+
 /obj/projectile/magic/aoe/pillar/Moved(atom/OldLoc, Dir)
 	..()
 	for(var/turf/T in range(1, get_turf(src)))
 		new trail_type(T)
+
+/obj/projectile/magic/aoe/pillar/on_hit(atom/target, blocked = FALSE)
+	damage = initial(damage) + stored_damage_falloff
+	if(ishuman(target))
+		var/mob/living/carbon/human/H = target
+		if(H.is_working)//Ehh they can tank a low damage pillar instead of eating shit
+			damage *= 0.25
+	. = ..()
 
 /obj/projectile/magic/aoe/pillar/Range()
 	if(proxdet)
@@ -707,6 +721,7 @@
 			CA.start_meltdown(MELTDOWN_NORMAL, 40, 60)
 			playsound(CA, hitsound, 50, TRUE, 4)
 	..()
+	stored_damage_falloff += damage_falloff_tile
 
 /obj/projectile/magic/aoe/pillar/red
 	icon_state = "pillar_red"
@@ -716,11 +731,13 @@
 /obj/projectile/magic/aoe/pillar/white
 	icon_state = "pillar_white"
 	damage_type = WHITE_DAMAGE
+	trail_type = /obj/effect/temp_visual/sparkles
 
 /obj/projectile/magic/aoe/pillar/pale
 	icon_state = "pillar_pale"
-	damage = 250
+	damage = 140
 	damage_type = PALE_DAMAGE
+	trail_type = /obj/effect/temp_visual/pale_sparks
 
 //still magic related, but a different path
 
@@ -728,7 +745,7 @@
 	name = "bolt of chills"
 	icon_state = "ice_2"
 	damage = 0
-	damage_type = BURN
+	damage_type = FIRE
 	nodamage = FALSE
 	armour_penetration = 100
 	temperature = -200 // Cools you down greatly per hit

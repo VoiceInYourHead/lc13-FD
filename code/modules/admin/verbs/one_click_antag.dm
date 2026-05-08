@@ -14,16 +14,16 @@
 /datum/admins/proc/one_click_antag()
 
 	var/dat = {"
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=traitors'>Make Traitors</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=changelings'>Make Changelings</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=revs'>Make Revs</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=cult'>Make Cult</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=blob'>Make Blob</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=wizard'>Make Wizard (Requires Ghosts)</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=nukeops'>Make Nuke Team (Requires Ghosts)</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=centcom'>Make CentCom Response Team (Requires Ghosts)</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=abductors'>Make Abductor Team (Requires Ghosts)</a><br>
-		<a href='?src=[REF(src)];[HrefToken()];makeAntag=revenant'>Make Revenant (Requires Ghost)</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=traitors'>Make Traitors</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=changelings'>Make Changelings</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=revs'>Make Revs</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=cult'>Make Cult</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=blob'>Make Blob</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=wizard'>Make Wizard (Requires Ghosts)</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=nukeops'>Make Nuke Team (Requires Ghosts)</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=centcom'>Make CentCom Response Team (Requires Ghosts)</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=abductors'>Make Abductor Team (Requires Ghosts)</a><br>
+		<a href='byond://?src=[REF(src)];[HrefToken()];makeAntag=revenant'>Make Revenant (Requires Ghost)</a><br>
 		"}
 
 	var/datum/browser/popup = new(usr, "oneclickantag", "Quick-Create Antagonist", 400, 400)
@@ -354,16 +354,6 @@
 
 		var/list/spawnpoints = GLOB.emergencyresponseteamspawn
 		var/index = 0
-
-		if(ertemplate.spawn_admin)
-			if(isobserver(usr))
-				var/mob/living/carbon/human/admin_officer = new (spawnpoints[1])
-				var/chosen_outfit = usr.client?.prefs?.brief_outfit
-				usr.client.prefs.copy_to(admin_officer)
-				admin_officer.equipOutfit(chosen_outfit)
-				admin_officer.key = usr.key
-			else
-				to_chat(usr, "<span class='warning'>Could not spawn you in as briefing officer as you are not a ghost!</spawn>")
 
 		var/list/mob/dead/observer/candidates = pollGhostCandidates("Do you wish to be considered for [ertemplate.polldesc]?", "deathsquad")
 		var/teamSpawned = FALSE

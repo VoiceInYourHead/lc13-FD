@@ -25,12 +25,15 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(20, 20, 40, 50, 50),
 		ABNORMALITY_WORK_REPRESSION = list(60, 65, 40, 20, 20)
 		)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/sloth
+	can_spawn = FALSE // Does Nothing.
 
 	ego_list = list(
+		/datum/ego_datum/weapon/morii,
 		/datum/ego_datum/armor/morii,
-		/datum/ego_datum/weapon/morii
 	)
 	gift_type = /datum/ego_gifts/morii
 	//Abnormality Jam Submission
@@ -38,11 +41,11 @@
 
 	observation_prompt = "In the pile around the abnormality, you find a old card. <br>You almost forgot about them. <br>\
 		A pink light grows and you feel a tug on your memory."
-	observation_choices = list("Let go", "Hold on")
-	correct_choices = list("Let go")
-	observation_success_message = "You let go of the memory forever. <br>You look forward to the day you can make a memory like that again."
-	observation_fail_message = "You pull the letter back from the pink light inside the abnormality's gate. <br>\
-		The memory becomes more and more vivid as if its happening now... <br>when you finally break free you cannot recall what you fought so hard for."
+	observation_choices = list(
+		"Let go" = list(TRUE, "You let go of the memory forever. <br>You look forward to the day you can make a memory like that again."),
+		"Hold on" = list(FALSE, "You pull the letter back from the pink light inside the abnormality's gate. <br>\
+			The memory becomes more and more vivid as if its happening now... <br>when you finally break free you cannot recall what you fought so hard for."),
+	)
 
 	var/minions = 0
 
@@ -59,10 +62,9 @@
 
 // Those with low temperance will find a memory in the pile.
 /mob/living/simple_animal/hostile/abnormality/better_memories/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
-	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) <= 60)
+	if(get_attribute_level(user, TEMPERANCE_ATTRIBUTE) < 60)
 		datum_reference.qliphoth_change(-1)
 		user.apply_status_effect(MEMORY_DEBUFF)
-	return
 
 // Better memories can have 3 seperate minions who will terroize the facility. Code modified from luna.dm
 /mob/living/simple_animal/hostile/abnormality/better_memories/ZeroQliphoth(mob/living/carbon/human/user)
@@ -94,7 +96,7 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/abnormality/better_memories/proc/SpawnMinion(turf/spawn_turf)
-	var/mob/living/simple_animal/hostile/better_memories_minion/spawningmonster = new(spawn_turf)
+	var/mob/living/simple_animal/hostile/aminion/better_memories_minion/spawningmonster = new(spawn_turf)
 	RegisterSignal(spawningmonster, COMSIG_PARENT_QDELETING, PROC_REF(MinionSlain))
 	minions++
 	return spawningmonster
@@ -105,19 +107,19 @@
 
 
 //Minion Spawn
-/mob/living/simple_animal/hostile/better_memories_minion
+/mob/living/simple_animal/hostile/aminion/better_memories_minion
 	name = "Memories from a Better Time"
 	desc = "A human with a old styled camera for a head and 8 slender spider legs."
 	icon = 'ModularTegustation/Teguicons/64x64.dmi'
 	icon_state = "better_memories_a"
 	base_pixel_x = -16
 	pixel_x = -16
-	health = 1000
-	maxHealth = 1000
+	health = 150
+	maxHealth = 150
 	melee_damage_type = RED_DAMAGE
 	damage_coeff = list(RED_DAMAGE = 1.5, WHITE_DAMAGE = 1.5, BLACK_DAMAGE = 0.5, PALE_DAMAGE = 0.5)
-	melee_damage_lower = 4
-	melee_damage_upper = 8
+	melee_damage_lower = 2
+	melee_damage_upper = 4
 	rapid_melee = 2
 	move_to_delay = 2
 	robust_searching = TRUE
@@ -129,6 +131,8 @@
 	attack_verb_simple = "jab"
 	can_patrol = TRUE
 	patrol_cooldown_time = 10 SECONDS
+	score_divider = 4//Really shouldn't be triggering a trumpet
+	threat_level = HE_LEVEL
 	var/can_act = TRUE
 	//For when the creature is fleeing
 	var/fleeing_now = FALSE
@@ -148,13 +152,13 @@
 		would seek out those who were working on abnormalities and \
 		snap a picture of them.</b>")
 
-/mob/living/simple_animal/hostile/better_memories_minion/Move()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/Move()
 	if(!can_act)
 		return FALSE
 	return ..()
 
 //The creature can walk over entities that are human sized or smaller.
-/mob/living/simple_animal/hostile/better_memories_minion/CanPassThrough(atom/blocker, turf/target, blocker_opinion)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/CanPassThrough(atom/blocker, turf/target, blocker_opinion)
 	if(isliving(blocker))
 		var/mob/living/M = blocker
 		if(M.mob_size <= MOB_SIZE_HUMAN || (patrol_path.len && M.type == type))
@@ -162,7 +166,7 @@
 	return ..()
 
 //Directional Cone Flash Attack that applies a work success and stat debuff.
-/mob/living/simple_animal/hostile/better_memories_minion/OpenFire()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/OpenFire()
 	if(!can_act)
 		return FALSE
 	if(ranged_cooldown > world.time)
@@ -189,7 +193,7 @@
 * debuff ignore them unless they have done more than 50 damage
 * to you.
 */
-/mob/living/simple_animal/hostile/better_memories_minion/CanAttack(atom/the_target)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/CanAttack(atom/the_target)
 	. = ..()
 	if(!ishuman(the_target))
 		return
@@ -204,12 +208,14 @@
 		if(target_memory[the_target] <= 100)
 			return FALSE
 
-/mob/living/simple_animal/hostile/better_memories_minion/AttackingTarget()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/AttackingTarget(atom/attacked_target)
 	if(!can_act)
 		return FALSE
 	if(!client)
-		if(ishuman(target))
-			var/mob/living/carbon/human/H = target
+		if(!target)
+			GiveTarget(attacked_target)
+		if(ishuman(attacked_target))
+			var/mob/living/carbon/human/H = attacked_target
 			/* Dont jab those standing
 			still for their picture.
 			Death is not our goal */
@@ -221,8 +227,8 @@
 	return ..()
 
 //Experiment with construct.dm code where the artificers have a melee range condition.
-/mob/living/simple_animal/hostile/better_memories_minion/MoveToTarget(list/possible_targets)
-	..()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/MoveToTarget(list/possible_targets)
+	. = ..()
 	//If not human then attack with jabs
 	if(!ishuman(target))
 		retreat_distance = null
@@ -238,7 +244,7 @@
 	retreat_distance = 4
 	minimum_distance = 4
 
-/mob/living/simple_animal/hostile/better_memories_minion/patrol_select()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/patrol_select()
 	//Due to some weird thing the values in hunt_target become null so this empty's the list out before it gets too long.
 	if(hunt_targets.len > 5)
 		hunt_targets.Cut()
@@ -253,7 +259,7 @@
 		return
 	return ..()
 
-/mob/living/simple_animal/hostile/better_memories_minion/patrol_reset()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/patrol_reset()
 	. = ..()
 	FindTarget()
 	if(current_target)
@@ -266,7 +272,7 @@
 * goto that i had put there or create this monster of a code.
 * -IP
 */
-/mob/living/simple_animal/hostile/better_memories_minion/bullet_act(obj/projectile/P)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/bullet_act(obj/projectile/P)
 	if(fleeing_now == TRUE)
 		if(prob(50))
 			visible_message(span_userdanger("[src] dodges the [P]!"))
@@ -291,7 +297,7 @@
 		return second_on_hit_state
 	return ..()
 
-/mob/living/simple_animal/hostile/better_memories_minion/attacked_by(obj/item/I, mob/living/L)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/attacked_by(obj/item/I, mob/living/L)
 	//Stolen MOSB code.
 	if(!client && LAZYLEN(patrol_path) && CanAttack(L))
 		L.attack_animal(src)
@@ -299,13 +305,13 @@
 		StopFleeing()
 	return ..()
 
-/mob/living/simple_animal/hostile/better_memories_minion/CanStartPatrol()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/CanStartPatrol()
 	if(!fleeing_now)
 		return !(status_flags & GODMODE)
 	return ..()
 
 //Prevents accumulation of hate when actively fleeing.
-/mob/living/simple_animal/hostile/better_memories_minion/RegisterAggroValue(atom/remembered_target, value, damage_type)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/RegisterAggroValue(atom/remembered_target, value, damage_type)
 	if(fleeing_now || !can_act)
 		return
 	..()
@@ -317,7 +323,7 @@
 * -IP
 */
 
-/mob/living/simple_animal/hostile/better_memories_minion/proc/FleeDest()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/FleeDest()
 	//Mobs should stay unpatroled on maps where they're intended to be possessed.
 	if(SSmaptype.maptype in SSmaptype.autopossess)
 		return
@@ -349,7 +355,7 @@
 * Modified big_wolf flee code. This creature focuses only on
 * escaping, ignoring all hostiles and attacks for 1.5 seconds.
 */
-/mob/living/simple_animal/hostile/better_memories_minion/proc/FleeNow(turf/target_dest)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/FleeNow(turf/target_dest)
 	if(health < maxHealth * 0.2)
 		return
 	toggle_ai(AI_OFF)
@@ -361,16 +367,16 @@
 	//Eh whatever make them not instantly patrol again upon reaching their destination.
 	patrol_cooldown = world.time + patrol_cooldown_time
 	if(patrol_to(FleeDest()))
-		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/better_memories_minion, StopFleeing)), 1.5 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/mob/living/simple_animal/hostile/aminion/better_memories_minion, StopFleeing)), 1.5 SECONDS)
 		return
 	StopFleeing()
 
-/mob/living/simple_animal/hostile/better_memories_minion/proc/StopFleeing()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/StopFleeing()
 	fleeing_now = FALSE
 	toggle_ai(AI_ON)
 
 //This proc is for preventing the camera from firing at a target that is in its blind spot.
-/mob/living/simple_animal/hostile/better_memories_minion/proc/AngleCamera(atom/cam_focus)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/AngleCamera(atom/cam_focus)
 	switch(Get_Angle(src, cam_focus))
 		//North 0 angle
 		if(340 to 360)
@@ -389,7 +395,7 @@
 
 	/*Attack code stolen from cone_spells.dm
 	This proc creates a list of turfs that are hit by the cone */
-/mob/living/simple_animal/hostile/better_memories_minion/proc/CameraFlash(mob/living/user)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/CameraFlash(mob/living/user)
 	var/blind_direction
 	if(client)
 		blind_direction = user.dir
@@ -405,7 +411,7 @@
 			DoConeEffects(turf_list, user, FALSE)
 		playsound(loc, 'sound/effects/pop_expl.ogg', 75, TRUE, -3)
 
-/mob/living/simple_animal/hostile/better_memories_minion/proc/ConeHelper(turf/starter_turf, dir_to_use, cone_levels = CAMERAFLASH_RANGE)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/ConeHelper(turf/starter_turf, dir_to_use, cone_levels = CAMERAFLASH_RANGE)
 	var/list/turfs_to_return = list()
 	var/turf/turf_to_use = starter_turf
 	var/turf/left_turf
@@ -455,7 +461,7 @@
 	return turfs_to_return
 
 	///This proc does obj, mob and turf cone effects on all targets in a list
-/mob/living/simple_animal/hostile/better_memories_minion/proc/DoConeEffects(list/target_turf_list, mob/user, telegraph)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/DoConeEffects(list/target_turf_list, mob/user, telegraph)
 	for(var/target_turf in target_turf_list)
 		//if turf is no longer there
 		if(!target_turf)
@@ -471,20 +477,20 @@
 						DoConeMobEffect(movable_content)
 
 	///This proc deterimines how the spell will affect turfs.
-/mob/living/simple_animal/hostile/better_memories_minion/proc/DoConeTurfEffects(turf/target_turf, type)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/DoConeTurfEffects(turf/target_turf, type)
 	if(type == 1)
 		new /obj/effect/temp_visual/sparkles/purple(target_turf)
 	if(type == 2)
 		new /obj/effect/temp_visual/dir_setting/ninja/phase(target_turf)
 
 	///This proc deterimines how the spell will affect mobs.
-/mob/living/simple_animal/hostile/better_memories_minion/proc/DoConeMobEffect(mob/living/target_mob)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/DoConeMobEffect(mob/living/target_mob)
 	if(ishuman(target_mob))
 		target_mob.flash_act()
 		target_mob.apply_status_effect(MEMORY_DEBUFF)
 
 	///This proc adjusts the cones width depending on the level.
-/mob/living/simple_animal/hostile/better_memories_minion/proc/CalculateConeShape(current_level)
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/CalculateConeShape(current_level)
 	var/end_taper_start = round(CAMERAFLASH_RANGE * 0.8)
 	if(current_level > end_taper_start)
 		//someone more talented and probably come up with a better formula.
@@ -493,7 +499,7 @@
 		return 2
 
 //Returns the location of a employee who is currently working.
-/mob/living/simple_animal/hostile/better_memories_minion/proc/FindWorking()
+/mob/living/simple_animal/hostile/aminion/better_memories_minion/proc/FindWorking()
 	var/list/low_priority_turfs = list()
 	var/list/medium_priority_turfs = list()
 	for(var/mob/living/carbon/human/H in GLOB.human_list)
@@ -537,9 +543,9 @@
 /datum/status_effect/display/better_memories_curse/on_apply()
 	. = ..()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -30)
+	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, -20)
 	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, -30)
-	L.physiology.work_success_mod -= 0.25
+	L.physiology.work_success_mod *= 0.8
 	to_chat(owner, span_warning("You're distracted by memories of your past."))
 
 /datum/status_effect/display/better_memories_curse/tick()
@@ -549,7 +555,7 @@
 	var/mob/living/carbon/human/L = owner
 	if(L.sanity_lost || L.stat == DEAD)
 		qdel(src)
-	L.deal_damage(10, WHITE_DAMAGE)
+	L.deal_damage(2, WHITE_DAMAGE)
 	//Unsure if these statements explain what is happening to your character but its enough. -IP
 	to_chat(owner, pick(
 		span_warning("You have trouble recalling your life before this job."),
@@ -561,9 +567,9 @@
 
 /datum/status_effect/display/better_memories_curse/on_remove()
 	var/mob/living/carbon/human/L = owner
-	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 30)
+	L.adjust_attribute_buff(PRUDENCE_ATTRIBUTE, 20)
 	L.adjust_attribute_buff(TEMPERANCE_ATTRIBUTE, 30)
-	L.physiology.work_success_mod += 0.25
+	L.physiology.work_success_mod /= 0.8
 	return ..()
 
 #undef MEMORY_DEBUFF

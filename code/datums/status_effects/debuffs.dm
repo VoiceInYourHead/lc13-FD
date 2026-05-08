@@ -504,7 +504,7 @@
 	underlay_file = 'icons/effects/bleed.dmi'
 	overlay_state = "bleed"
 	underlay_state = "bleed"
-	var/bleed_damage = 200
+	var/bleed_damage = 40
 
 /datum/status_effect/stacking/saw_bleed/fadeout_effect()
 	new /obj/effect/temp_visual/bleed(get_turf(owner))
@@ -521,7 +521,7 @@
 	id = "bloodletting"
 	stack_threshold = 7
 	max_stacks = 7
-	bleed_damage = 20
+	bleed_damage = 5
 
 /datum/status_effect/neck_slice
 	id = "neck_slice"
@@ -1005,78 +1005,100 @@
 	owner.cut_overlay(statuseffectvisual)
 	return ..()
 
+
+#define MOB_HALFSPEEDDEFENSE /datum/movespeed_modifier/qliphothshred
+/datum/status_effect/qliphothshred
+	id = "qliphoth intervention field +"
+	duration = 15 SECONDS
+	alert_type = null
+	status_type = STATUS_EFFECT_REFRESH
+	var/statuseffectvisual
+
+/datum/status_effect/qliphothshred/on_apply()
+	. = ..()
+	var/mob/living/simple_animal/M = owner
+	M.AddModifier(/datum/dc_change/qliphothshred)
+
+/datum/status_effect/qliphothshred/on_remove()
+	if(isanimal(owner))
+		var/mob/living/simple_animal/M = owner
+		M.RemoveModifier(/datum/dc_change/qliphothshred)
+	return ..()
+
+#define MOB_QUARTERSPEED /datum/movespeed_modifier/bloodhold
+/datum/status_effect/bloodhold
+	id = "bloodhold"
+	duration = 8 SECONDS
+	alert_type = null
+	status_type = STATUS_EFFECT_REFRESH
+	var/statuseffectvisual
+
+/datum/status_effect/bloodhold/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier(MOB_QUARTERSPEED)
+	to_chat(owner, "<span class='warning'>You are slowed down as your own blood resists your movement!</span>")
+	var/mutable_appearance/effectvisual = mutable_appearance('icons/obj/clockwork_objects.dmi', "hateful_manacles")
+	effectvisual.pixel_x = -owner.pixel_x
+	effectvisual.pixel_y = -owner.pixel_y
+	statuseffectvisual = effectvisual
+	owner.add_overlay(statuseffectvisual)
+
+/datum/status_effect/bloodhold/on_remove()
+	owner.remove_movespeed_modifier(MOB_QUARTERSPEED)
+
+	owner.cut_overlay(statuseffectvisual)
+	return ..()
+
 //update_stamina() is move_to_delay = (initial(move_to_delay) + (staminaloss * 0.06))
 // 100 stamina damage equals 6 additional move_to_delay. So 167*0.06 = 10.02
 
-/datum/status_effect/rend_red
-	id = "rend red armor"
+/datum/status_effect/display/rend//find a better file to put these in
+	id = "rend_red"
 	status_type = STATUS_EFFECT_UNIQUE
+	display_name = "red"
 	duration = 60 //6 seconds
 	alert_type = null
+	var/modifier_path = /datum/dc_change/rend/red
 
-/datum/status_effect/rend_red/on_apply()
+/datum/status_effect/display/rend/on_apply()
 	. = ..()
-	if(!isanimal(owner))
+	if(!istype(owner, /mob/living/simple_animal))
 		qdel(src)
 		return
 	var/mob/living/simple_animal/M = owner
-	M.AddModifier(/datum/dc_change/rend/red)
+	M.AddModifier(modifier_path)
 //20% damage increase. Hitting any abnormality that has a negative value will cause this
 //to be a buff to their healing.
 
-/datum/status_effect/rend_red/on_remove()
-	. = ..()
-	if(isanimal(owner))
-		var/mob/living/simple_animal/M = owner
-		M.RemoveModifier(/datum/dc_change/rend/red)
-
-
-//White Damage Debuff
-/datum/status_effect/rend_white
-	id = "rend white armor"
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = 50 //5 seconds since it's melee-ish
-	alert_type = null
-
-/datum/status_effect/rend_white/on_apply()
-	. = ..()
-	if(!isanimal(owner))
-		qdel(src)
-		return
+/datum/status_effect/display/rend/on_remove()
+	if(!istype(owner, /mob/living/simple_animal))
+		return ..()
 	var/mob/living/simple_animal/M = owner
-	M.AddModifier(/datum/dc_change/rend/white)
+	M.RemoveModifier(modifier_path)
+	..()
 
-/datum/status_effect/rend_white/on_remove()
-	. = ..()
-	if(isanimal(owner))
-		var/mob/living/simple_animal/M = owner
-		M.RemoveModifier(/datum/dc_change/rend/white)
+/datum/status_effect/display/rend/white
+	id = "rend_white"
+	display_name = "white"
+	modifier_path = /datum/dc_change/rend/white
 
-//Black Damage Debuff
+/datum/status_effect/display/rend/black
+	id = "rend_black"
+	display_name = "black"
+	modifier_path = /datum/dc_change/rend/black
 
-/datum/status_effect/rend_black
-	id = "rend black armor"
-	status_type = STATUS_EFFECT_UNIQUE
-	duration = 50 //5 seconds since it's melee-ish
-	alert_type = null
 
-/datum/status_effect/rend_black/on_apply()
-	. = ..()
-	if(!isanimal(owner))
-		qdel(src)
-		return
-	var/mob/living/simple_animal/M = owner
-	M.AddModifier(/datum/dc_change/rend/black)
-
-/datum/status_effect/rend_black/on_remove()
-	. = ..()
-	if(isanimal(owner))
-		var/mob/living/simple_animal/M = owner
-		M.RemoveModifier(/datum/dc_change/rend/black)
+/datum/status_effect/display/rend/black/weak//10% damage
+	id = "rend_black_weak"
+	display_name = "black"
+	modifier_path = /datum/dc_change/rend/black/weak
 
 #undef MOB_HALFSPEED
 
-#define STATUS_EFFECT_LCBURN /datum/status_effect/stacking/lc_burn // Deals true damage every 5 sec, can't be applied to godmode (contained abos)
+/* Deals resistable burn damage every 5 sec, can't be applied to godmode (contained abos)
+	1 stack = 0.25 burn damage. Without resistance to fire, burn damage is reduced by red armor, but ignores 50% of that armor.
+	Remember that refreshing the stack also refreshes the duration! Very large amounts of damage can be dealt this way! */
+#define STATUS_EFFECT_LCBURN /datum/status_effect/stacking/lc_burn
 /datum/status_effect/stacking/lc_burn
 	id = "lc_burn"
 	alert_type = /atom/movable/screen/alert/status_effect/lc_burn
@@ -1084,14 +1106,24 @@
 	tick_interval = 5 SECONDS
 	consumed_on_threshold = FALSE
 	var/new_stack = FALSE
-	var/burn_res = 0
 	var/safety = TRUE
+	var/extinguishable = TRUE
 
 /atom/movable/screen/alert/status_effect/lc_burn
 	name = "Burning"
-	desc = "You're on fire!!"
+	desc = "You're on fire!"
 	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
 	icon_state = "lc_burn"
+
+/datum/status_effect/stacking/lc_burn/on_apply()
+	. = ..()
+	if(extinguishable)
+		RegisterSignal(owner, COMSIG_LIVING_EXTINGUISHED, PROC_REF(Extinguished))
+
+/datum/status_effect/stacking/lc_burn/on_remove()
+	. = ..()
+	if(extinguishable)
+		UnregisterSignal(owner, COMSIG_LIVING_EXTINGUISHED, PROC_REF(Extinguished))
 
 /datum/status_effect/stacking/lc_burn/can_have_status()
 	return (owner.stat != DEAD || !(owner.status_flags & GODMODE))
@@ -1101,17 +1133,12 @@
 	Update_Burn_Overlay(owner)
 	new_stack = TRUE
 
-//Deals true damage
 /datum/status_effect/stacking/lc_burn/tick()
 	if(!can_have_status())
 		qdel(src)
-	to_chat(owner, "<span class='warning'>The flame consumes you!!</span>")
-	owner.playsound_local(owner, 'sound/effects/book_burn.ogg', 50, TRUE)
-	Check_Resist(owner)
-	if(ishuman(owner))
-		owner.adjustBruteLoss(max(0, stacks - burn_res))
-	else
-		owner.adjustBruteLoss(stacks*4) // x4 on non humans (Average burn stack is 20. 80/5 sec, extra 16 pure dps)
+	to_chat(owner, "<span class='warning'>The flame consumes you!</span>")
+	owner.playsound_local(owner, 'sound/effects/burn.ogg', 50, TRUE)
+	DealDamage()
 
 	//Deletes itself after 2 tick if no new burn stack was given
 	if(safety)
@@ -1122,24 +1149,22 @@
 		else
 			qdel(src)
 
-//Check armor
-/datum/status_effect/stacking/lc_burn/proc/Check_Resist(mob/living/owner)
-	//I was hesistant to put a new var for this check in suit.dm, so I just check for each armor instead
-	var/mob/living/carbon/human/H = owner
-	var/obj/item/clothing/suit/armor/ego_gear/aleph/waxen/C = H.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-	var/obj/item/clothing/suit/armor/ego_gear/realization/desperation/D = H.get_item_by_slot(ITEM_SLOT_OCLOTHING)
-	if(istype(C))
-		burn_res = 15
-	else if(istype(D))
-		burn_res = 25
-	else
-		burn_res = 0
+//Being extinguished with a fire extinguisher removes 3 stacks.
+/datum/status_effect/stacking/lc_burn/proc/Extinguished()
+	SIGNAL_HANDLER
+
+	stacks -= 3
+
+/datum/status_effect/stacking/lc_burn/proc/DealDamage()
+	var/mult = 0.25
+	if(!ishuman(owner))
+		mult = 1//Non human mobs take 1 damage per stack
+	owner.apply_damage(max(1, stacks * mult), FIRE, null, owner.run_armor_check(null, FIRE))
 
 //Update burn appearance
 /datum/status_effect/stacking/lc_burn/proc/Update_Burn_Overlay(mob/living/owner)
-	Check_Resist(owner)
-	if(stacks > burn_res && !(owner.on_fire) && ishuman(owner))
-		if(stacks >= 50)
+	if(stacks && !(owner.on_fire) && ishuman(owner))
+		if(stacks >= 15)
 			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "Generic_mob_burning", -FIRE_LAYER))
 			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "Standing", -FIRE_LAYER))
 			owner.add_overlay(mutable_appearance('icons/mob/OnFire.dmi', "Standing", -FIRE_LAYER))
@@ -1159,6 +1184,82 @@
 	var/datum/status_effect/stacking/lc_burn/B = src.has_status_effect(/datum/status_effect/stacking/lc_burn)
 	if(!B)
 		src.apply_status_effect(/datum/status_effect/stacking/lc_burn, stacks)
+	else
+		B.add_stacks(stacks)
+
+#define STATUS_EFFECT_LCBLEED /datum/status_effect/stacking/lc_bleed // Deals true damage every 5 sec, can't be applied to godmode (contained abos)
+/datum/status_effect/stacking/lc_bleed
+	id = "lc_bleed"
+	alert_type = /atom/movable/screen/alert/status_effect/lc_bleed
+	max_stacks = 50
+	tick_interval = 5 SECONDS
+	consumed_on_threshold = FALSE
+	var/new_stack = FALSE
+	var/safety = TRUE
+	var/bleed_cooldown = 20
+	var/bleed_time
+
+/atom/movable/screen/alert/status_effect/lc_bleed
+	name = "Bleeding"
+	desc = "You're currently bleeding!!"
+	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
+	icon_state = "lc_bleed"
+
+//Bleed Damage Stuff
+/datum/status_effect/stacking/lc_bleed/on_apply()
+	. = ..()
+	RegisterSignal(owner, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(Moved))
+	owner.playsound_local(owner, 'sound/effects/bleed_apply.ogg', 25, TRUE)
+
+//Deals true damage
+/datum/status_effect/stacking/lc_bleed/proc/Moved(mob/user, atom/new_location)
+	SIGNAL_HANDLER
+	if (world.time - bleed_time < bleed_cooldown)
+		return
+	bleed_time = world.time
+	if(!can_have_status())
+		qdel(src)
+	to_chat(owner, "<span class='warning'>Your organs bleed due to your movement!!</span>")
+	owner.playsound_local(owner, 'sound/effects/bleed.ogg', 25, TRUE)
+	if(stacks >= 5)
+		var/obj/effect/decal/cleanable/blood/B = locate() in get_turf(owner)
+		if(!B)
+			B = new /obj/effect/decal/cleanable/blood(get_turf(owner))
+			B.bloodiness = 100
+	var/damage_done = stacks*2
+	if(ishuman(owner))
+		damage_done = max(stacks * 0.125, 1)
+	owner.adjustBruteLoss(damage_done) // x2 on non humans
+	owner.OtherDamageEffect(damage_done, "bleed")
+	stacks = round(stacks/2)
+	if(stacks == 0)
+		qdel(src)
+
+
+/datum/status_effect/stacking/lc_bleed/on_remove()
+	UnregisterSignal(owner, COMSIG_MOVABLE_PRE_MOVE)
+	return ..()
+
+/datum/status_effect/stacking/lc_bleed/can_have_status()
+	return (owner.stat != DEAD || !(owner.status_flags & GODMODE))
+
+/datum/status_effect/stacking/lc_bleed/add_stacks(stacks_added)
+	..()
+	new_stack = TRUE
+
+// The Stack Decaying
+/datum/status_effect/stacking/lc_bleed/tick()
+	if(safety)
+		if(new_stack)
+			new_stack = FALSE
+		else
+			qdel(src)
+
+//Mob Proc
+/mob/living/proc/apply_lc_bleed(stacks)
+	var/datum/status_effect/stacking/lc_bleed/B = src.has_status_effect(/datum/status_effect/stacking/lc_bleed)
+	if(!B)
+		src.apply_status_effect(/datum/status_effect/stacking/lc_bleed, stacks)
 	else
 		B.add_stacks(stacks)
 
@@ -1202,9 +1303,9 @@
 	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
 	icon_state = "pallid_noise"
 
-/datum/status_effect/stacking/pallid_noise/tick()//TODO:change this to golden apple's life tick for less lag
+/datum/status_effect/stacking/pallid_noise/tick()
 	if(!ishuman(owner))
-		owner.apply_damage(stacks * 5, WHITE_DAMAGE, null, owner.run_armor_check(null, WHITE_DAMAGE))
+		owner.apply_damage(stacks, WHITE_DAMAGE, null, owner.run_armor_check(null, WHITE_DAMAGE))
 		return
 	var/mob/living/carbon/human/status_holder = owner
 	status_holder.adjustSanityLoss(stacks * stacks)//sanity damage is the # of stacks squared
@@ -1227,3 +1328,114 @@
 	REMOVE_TRAIT(owner, TRAIT_PHYSICAL_HEALING_BLOCKED, STATUS_EFFECT_TRAIT)
 	if(ishuman(owner))
 		REMOVE_TRAIT(owner, TRAIT_SANITY_HEALING_BLOCKED, STATUS_EFFECT_TRAIT)
+
+// Tremor
+/datum/status_effect/stacking/lc_tremor
+	id = "lc_tremor"
+	alert_type = /atom/movable/screen/alert/status_effect/lc_tremor
+	max_stacks = 50
+	tick_interval = 10 SECONDS
+	consumed_on_threshold = FALSE
+	var/new_stack = TRUE
+
+/atom/movable/screen/alert/status_effect/lc_tremor
+	name = "Tremor"
+	desc = "You're unsteady on your feet, and move a bit slower."
+	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
+	icon_state = "tremor"
+
+//Slowdown on stack, prepares tremor burst
+/datum/status_effect/stacking/lc_tremor/on_apply()
+	. = ..()
+	owner.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/tremor, multiplicative_slowdown = stacks * 0.4)
+
+/datum/status_effect/stacking/lc_tremor/on_remove()
+	owner.remove_movespeed_modifier(/datum/movespeed_modifier/tremor)
+	return ..()
+
+/datum/status_effect/stacking/lc_tremor/add_stacks(stacks)
+	. = ..()
+	owner.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/tremor, multiplicative_slowdown = stacks * 0.4)
+
+/datum/status_effect/stacking/lc_tremor/can_have_status()
+	return (owner.stat != DEAD || !(owner.status_flags & GODMODE))
+
+// The Stack Decaying
+/datum/status_effect/stacking/lc_tremor/tick()
+	if(new_stack)
+		new_stack = FALSE
+	else
+		qdel(src)
+
+/datum/status_effect/stacking/lc_tremor/proc/TremorBurst()
+	owner.HealingEffect("tremorburst")
+	playsound(owner, 'sound/effects/tremorburst.ogg', 50, FALSE)
+	if(ishuman(owner))
+		owner.Knockdown(stacks)
+		qdel(src)
+		return
+	owner.adjustBruteLoss(5 * stacks)
+	qdel(src)
+
+//Mob Proc
+/mob/living/proc/apply_lc_tremor(stacks, tremorburst)
+	var/datum/status_effect/stacking/lc_tremor/T = src.has_status_effect(/datum/status_effect/stacking/lc_tremor)
+	if(!T)
+		src.apply_status_effect(/datum/status_effect/stacking/lc_tremor, stacks)
+		src.OtherDamageEffect(stacks, "tremor")
+		return
+
+	if(T.stacks < tremorburst)
+		T.add_stacks(stacks)
+		src.OtherDamageEffect(stacks, "tremor")
+		T.new_stack = TRUE
+		return
+	T.TremorBurst()
+
+
+/datum/movespeed_modifier/tremor
+	multiplicative_slowdown = 0
+	variable = TRUE
+
+/* TL;DR its LC_BURN but looks at black armor */
+#define STATUS_EFFECT_DARKFLAME /datum/status_effect/stacking/dark_flame
+/datum/status_effect/stacking/lc_burn/dark_flame
+	id = "dark_flame"
+	alert_type = /atom/movable/screen/alert/status_effect/dark_flame
+	extinguishable = FALSE
+
+/atom/movable/screen/alert/status_effect/dark_flame
+	name = "Dark Flame"
+	desc = "Dark flames are scorching your body and mind."
+	icon = 'ModularTegustation/Teguicons/status_sprites.dmi'
+	icon_state = "dark_flame"
+
+/datum/status_effect/stacking/lc_burn/dark_flame/DealDamage()
+	owner.apply_damage(stacks * 0.5, FIRE, null, owner.run_armor_check(null, BLACK_DAMAGE))
+	owner.apply_damage(stacks * 0.5, WHITE_DAMAGE, null, owner.run_armor_check(null, BLACK_DAMAGE))
+
+//Update burn appearance
+/datum/status_effect/stacking/lc_burn/dark_flame/Update_Burn_Overlay(mob/living/owner)
+	if(stacks && !(owner.on_fire) && ishuman(owner))
+		if(stacks >= 15)
+			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_generic", -FIRE_LAYER))
+			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_standing", -FIRE_LAYER))
+			owner.add_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_standing", -FIRE_LAYER))
+		else
+			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_standing", -FIRE_LAYER))
+			owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_generic", -FIRE_LAYER))
+			owner.add_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_generic", -FIRE_LAYER))
+
+/datum/status_effect/stacking/lc_burn/dark_flame/on_remove()
+	if(!(owner.on_fire) && ishuman(owner))
+		owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_generic", -FIRE_LAYER))
+		owner.cut_overlay(mutable_appearance('icons/mob/OnFire.dmi', "darkfire_standing", -FIRE_LAYER))
+	..()
+
+//Mob Proc
+/mob/living/proc/apply_dark_flame(stacks)
+	var/datum/status_effect/stacking/lc_burn/B = src.has_status_effect(/datum/status_effect/stacking/lc_burn/dark_flame)
+	if(!B)
+		src.apply_status_effect(/datum/status_effect/stacking/lc_burn/dark_flame, stacks)
+	else
+		B.add_stacks(stacks)

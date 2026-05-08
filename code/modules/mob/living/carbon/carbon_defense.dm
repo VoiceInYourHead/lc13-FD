@@ -80,7 +80,7 @@
 	SEND_SIGNAL(I, COMSIG_ITEM_ATTACK_ZONE, src, user, affecting)
 	send_item_attack_message(I, user, affecting.name, affecting)
 	if(I.force)
-		var/justice_mod = 1 + (get_modified_attribute_level(user, JUSTICE_ATTRIBUTE)/100)
+		var/justice_mod = get_attack_multiplier(user)
 		var/damage = I.force * justice_mod
 		if(istype(I, /obj/item/ego_weapon))
 			var/obj/item/ego_weapon/theweapon = I
@@ -452,9 +452,6 @@
 		to_chat(M, span_notice("You give [src] a pat on the head to make [p_them()] feel better!"))
 		to_chat(src, span_notice("[M] gives you a pat on the head to make you feel better! "))
 
-		if(HAS_TRAIT(src, TRAIT_BADTOUCH))
-			to_chat(M, span_warning("[src] looks visibly upset as you pat [p_them()] on the head."))
-
 	else
 		SEND_SIGNAL(src, COMSIG_CARBON_HUGGED, M)
 		SEND_SIGNAL(M, COMSIG_CARBON_HUG, M, src)
@@ -513,9 +510,9 @@
 				visible_message(span_notice("[src] examines [p_them()]self."), \
 					span_notice("You check yourself for shrapnel."))
 			if(I.isEmbedHarmless())
-				to_chat(src, "\t <a href='?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] stuck to your [LB.name]!</a>")
+				to_chat(src, "\t <a href='byond://?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] stuck to your [LB.name]!</a>")
 			else
-				to_chat(src, "\t <a href='?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] embedded in your [LB.name]!</a>")
+				to_chat(src, "\t <a href='byond://?src=[REF(src)];embedded_object=[REF(I)];embedded_limb=[REF(LB)]' class='warning'>There is \a [I] embedded in your [LB.name]!</a>")
 
 	return embeds
 
@@ -598,7 +595,7 @@
 
 
 /mob/living/carbon/damage_clothes(damage_amount, damage_type = BRUTE, def_zone)
-	if(damage_type != BRUTE && damage_type != BURN)
+	if(damage_type != BRUTE && damage_type != FIRE)
 		return
 	damage_amount *= 0.5 //0.5 multiplier for balance reason, we don't want clothes to be too easily destroyed
 	if(!def_zone || def_zone == BODY_ZONE_HEAD)

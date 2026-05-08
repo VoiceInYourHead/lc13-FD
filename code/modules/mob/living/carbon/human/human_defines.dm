@@ -14,6 +14,7 @@
 	mob_biotypes = MOB_ORGANIC|MOB_HUMANOID
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	can_be_shoved_into = TRUE
+	area_index = MOB_HUMAN_INDEX
 
 	///Hair colour
 	var/hair_color = "000"
@@ -46,7 +47,6 @@
 	var/undershirt = "Nude" //Which undershirt the player wants
 	var/socks = "Nude" //Which socks the player wants
 	var/backpack = DBACKPACK		//Which backpack type the player has chosen.
-	var/jumpsuit_style = PREF_SUIT		//suit/skirt
 
 	//Equipment slots
 	var/obj/item/clothing/wear_suit = null
@@ -95,3 +95,6 @@
 
 	/// Boolean for working status
 	var/is_working = FALSE
+
+	/// Are you a part of an office?
+	var/assigned_office = null

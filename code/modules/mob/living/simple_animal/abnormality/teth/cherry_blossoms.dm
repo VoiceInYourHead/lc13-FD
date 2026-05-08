@@ -9,8 +9,8 @@
 	base_pixel_x = -48
 	pixel_y = -16
 	base_pixel_y = -16
-	maxHealth = 600
-	health = 600
+	maxHealth = 150
+	health = 150
 	threat_level = TETH_LEVEL
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 40,
@@ -19,8 +19,12 @@
 		ABNORMALITY_WORK_REPRESSION = 20,
 	)
 	start_qliphoth = 3
-	work_damage_amount = 5
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
+	max_boxes = 12
+	good_hater = TRUE
 
 	ego_list = list(
 		/datum/ego_datum/weapon/blossom,
@@ -32,32 +36,36 @@
 	observation_prompt = "The tree is adorned with beautiful leaves growing here and there. <br>\
 		The kind of sight you could never even hope to see in this dark and dreary place. <br>\
 		You can take a moment to take in the beauty before you begin to work."
-	observation_choices = list("Take in the beauty")
-	correct_choices = list("Take in the beauty")
-	observation_success_message = "You feel refreshed after just taking a moment to watch such a beautiful thing. <br>\
-		This doesn't mean that you don't know that this is a dangerous abnormality. <br>\
-		There is beauty even in great and terrible things. <br>\
-		Even the bodies underneath this tree would agree with you."
+	observation_choices = list(
+		"Take in the beauty" = list(TRUE, "You feel refreshed after just taking a moment to watch such a beautiful thing. <br>\
+			This doesn't mean that you don't know that this is a dangerous abnormality. <br>\
+			There is beauty even in great and terrible things. <br>\
+			Even the bodies underneath this tree would agree with you."),
+	)
 
-	var/numbermarked = 5
+	var/number_of_marks = 5
 
+/mob/living/simple_animal/hostile/abnormality/cherry_blossoms/Move()
+	return FALSE
+
+/mob/living/simple_animal/hostile/abnormality/cherry_blossoms/CanAttack(atom/the_target)
+	return FALSE
 
 /mob/living/simple_animal/hostile/abnormality/cherry_blossoms/PostWorkEffect(mob/living/carbon/human/user, work_type, pe, work_time)
 	if(user.sanity_lost)
 		datum_reference.qliphoth_change(-1)
-	return
 
 /mob/living/simple_animal/hostile/abnormality/cherry_blossoms/SuccessEffect(mob/living/carbon/human/user, work_type, pe)
 	. = ..()
-	datum_reference.qliphoth_change(-1)
+	if(prob(70))
+		datum_reference.qliphoth_change(-1)
 	if(datum_reference.qliphoth_meter !=3)
 		icon_state = "graveofcherryblossoms_[datum_reference.qliphoth_meter]"
 
 /mob/living/simple_animal/hostile/abnormality/cherry_blossoms/ZeroQliphoth(mob/living/carbon/human/user)
-	mark_for_death()
+	INVOKE_ASYNC(src, PROC_REF(mark_for_death))
 	icon_state = "graveofcherryblossoms_0"
 	datum_reference.qliphoth_change(3)
-	return
 
 /mob/living/simple_animal/hostile/abnormality/cherry_blossoms/proc/mark_for_death()
 	var/list/potentialmarked = list()
@@ -70,18 +78,16 @@
 		to_chat(L, span_danger("It's cherry blossom season."))
 
 	SLEEP_CHECK_DEATH(10 SECONDS)
-	for(var/i=numbermarked, i>=1, i--)
+	for(var/blossoming in 1 to number_of_marks)
 		var/mob/living/Y = pick(potentialmarked)
 		if(faction_check_mob(Y, FALSE) || Y.z != z || Y.stat == DEAD)
 			continue
 		if(Y in marked)
 			continue
-		marked+=Y
+		marked += Y
 		new /obj/effect/temp_visual/markedfordeath(get_turf(Y))
 		to_chat(Y, span_userdanger("You feel like you're going to die!"))
 		Y.apply_status_effect(STATUS_EFFECT_MARKEDFORDEATH)
-
-
 
 //Mark for Death
 //A very quick, frantic 10 seconds of instadeath.
@@ -102,10 +108,10 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.physiology.red_mod *= 4
-	status_holder.physiology.white_mod *= 4
-	status_holder.physiology.black_mod *= 4
-	status_holder.physiology.pale_mod *= 4
+	status_holder.physiology.red_mod *= 3
+	status_holder.physiology.white_mod *= 3
+	status_holder.physiology.black_mod *= 3
+	status_holder.physiology.pale_mod *= 3
 
 /datum/status_effect/markedfordeath/tick()
 	var/mob/living/carbon/human/status_holder = owner
@@ -117,7 +123,7 @@
 		if(affected_human.stat == DEAD)
 			continue
 		affected_human.adjustBruteLoss(-500) // It heals everyone to full
-		affected_human.adjustSanityLoss(-500) // It heals everyone to full
+		affected_human.restoreSanity() // It heals everyone to full
 		affected_human.remove_status_effect(STATUS_EFFECT_MARKEDFORDEATH)
 
 /datum/status_effect/markedfordeath/on_remove()
@@ -125,9 +131,9 @@
 	if(!ishuman(owner))
 		return
 	var/mob/living/carbon/human/status_holder = owner
-	status_holder.physiology.red_mod /= 4
-	status_holder.physiology.white_mod /= 4
-	status_holder.physiology.black_mod /= 4
-	status_holder.physiology.pale_mod /= 4
+	status_holder.physiology.red_mod /= 3
+	status_holder.physiology.white_mod /= 3
+	status_holder.physiology.black_mod /= 3
+	status_holder.physiology.pale_mod /= 3
 
 #undef STATUS_EFFECT_MARKEDFORDEATH

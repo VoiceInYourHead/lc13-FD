@@ -2272,16 +2272,10 @@
 /turf/open/floor/plasteel/sepia,
 /area/department_main/control)
 "mk" = (
-/obj/structure/filingcabinet/zayininfo{
-	pixel_x = -10
-	},
-/obj/structure/filingcabinet/tethinfo,
-/obj/structure/filingcabinet/heinfo{
-	pixel_x = 10
-	},
 /obj/machinery/light/cold/no_nightlight{
 	dir = 1
 	},
+/obj/effect/mapping_helpers/records_spawner,
 /turf/open/floor/facility/dark,
 /area/department_main/extraction)
 "ml" = (
@@ -2986,7 +2980,8 @@
 /area/facility_hallway/discipline)
 "pZ" = (
 /obj/machinery/door/airlock/highsecurity{
-	name = "Lower Level Department"
+	name = "Lower Level Department";
+	hackProof = 1
 	},
 /turf/open/floor/facility/halls,
 /area/department_main/extraction)
@@ -3978,6 +3973,24 @@
 	},
 /turf/open/floor/plasteel/sepia,
 /area/facility_hallway/command)
+"vT" = (
+/obj/effect/turf_decal/tile/yellow{
+	dir = 4
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 1
+	},
+/obj/effect/turf_decal/tile/yellow{
+	dir = 8
+	},
+/obj/effect/turf_decal/tile/yellow,
+/obj/machinery/light/cold/no_nightlight{
+	dir = 1
+	},
+/obj/machinery/camera/autoname,
+/obj/structure/extraction_belt,
+/turf/open/floor/plasteel/dark,
+/area/department_main/extraction)
 "vX" = (
 /obj/effect/turf_decal/siding/yellow,
 /turf/open/floor/carpet/stellar,
@@ -4434,15 +4447,7 @@
 /turf/open/floor/plasteel/dark,
 /area/department_main/control)
 "yy" = (
-/obj/structure/filingcabinet/wawinfo{
-	pixel_x = -9
-	},
-/obj/structure/filingcabinet/alephinfo{
-	pixel_x = 1
-	},
-/obj/structure/filingcabinet/toolinfo{
-	pixel_x = 11
-	},
+/obj/effect/mapping_helpers/records_spawner/second,
 /turf/open/floor/facility/dark,
 /area/department_main/extraction)
 "yz" = (
@@ -5395,12 +5400,12 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 4
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
-/obj/item/reagent_containers/hypospray/medipen/mental,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
 /obj/structure/table/wood,
 /turf/open/floor/carpet/green,
 /area/department_main/control)
@@ -6013,28 +6018,28 @@
 	},
 /obj/structure/table/glass,
 /obj/machinery/door/window/southleft,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
-/obj/item/reagent_containers/hypospray/medipen/mental{
+/obj/item/reagent_containers/hypospray/medipen/safety/lcorp{
 	pixel_y = 6
 	},
 /obj/structure/window/reinforced/spawner/east{
@@ -8970,7 +8975,8 @@
 /area/facility_hallway/discipline)
 "VH" = (
 /obj/machinery/door/airlock/highsecurity{
-	name = "Records Office"
+	name = "Records Office";
+	hackProof = 1
 	},
 /turf/open/floor/facility/dark,
 /area/department_main/extraction)
@@ -9751,12 +9757,12 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 4
 	},
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
-/obj/item/reagent_containers/hypospray/medipen/salacid,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
 /obj/structure/table/wood,
 /turf/open/floor/carpet/green,
 /area/department_main/control)
@@ -9930,7 +9936,8 @@
 	dir = 4
 	},
 /obj/machinery/door/airlock/vault{
-	name = "Dont Touch Me containment zone"
+	name = "Dont Touch Me containment zone";
+	hackProof = 1
 	},
 /turf/open/floor/plasteel/dark,
 /area/department_main/extraction)
@@ -28221,7 +28228,7 @@ jc
 jc
 jc
 jc
-TO
+vT
 ve
 ve
 dN

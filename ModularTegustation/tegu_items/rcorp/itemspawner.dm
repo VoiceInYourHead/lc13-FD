@@ -6,9 +6,8 @@
 	icon_state = "x4"
 	var/list/possible_items = list(
 	/obj/item/grenade/smokebomb,
-	/obj/item/ksyringe,
-	/obj/item/reagent_containers/hypospray/medipen/salacid,
-	/obj/item/reagent_containers/hypospray/medipen/mental,
+	/obj/item/reagent_containers/hypospray/medipen/safety/kcorp,
+	/obj/item/reagent_containers/hypospray/medipen/safety/lcorp,
 	/obj/item/stack/sheet/mineral/sandbags/ten,
 	/obj/item/flashlight/flare,
 	/obj/item/storage/belt/egopcorp,
@@ -92,6 +91,26 @@
 		return
 	new spawning(get_turf(src))
 
+//Randomize the captain's rhino
+/obj/effect/landmark/rhinocaptainspawner
+	name = "rhino captain spawner"
+	desc = "It spawns an item. Notify a coder. Thanks!"
+	icon = 'icons/effects/landmarks_static.dmi'
+	icon_state = "x4"
+	var/list/possible_mecha = list(
+		/obj/vehicle/sealed/mecha/combat/rhino/captain,
+		/obj/vehicle/sealed/mecha/combat/rhinomelee/captain,
+		/obj/vehicle/sealed/mecha/combat/durand,
+	)
+
+/obj/effect/landmark/rhinocaptainspawner/Initialize()
+	. = ..()
+	var/spawning = pick(possible_mecha)
+	if(prob(1))
+		spawning = /obj/vehicle/sealed/mecha/combat/tank/captain
+	if(SSmaptype.jobtype)
+		return
+	new spawning(get_turf(src))
 
 //Split into weapons and not weapons.
 /obj/effect/landmark/wallspawner

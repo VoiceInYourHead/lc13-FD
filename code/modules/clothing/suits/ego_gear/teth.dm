@@ -1,8 +1,6 @@
 // TETH Armor should be kept at ~20 total armor.
 
-/* Lead Developer's note:
-Think before you code!
-Any attempt to code risk class armor will result in a 10 day Github ban.*/
+/*Developer's note - All LC13 armor has 50% of its red_damage armor as fire armor by default. */
 
 /obj/item/clothing/suit/armor/ego_gear/teth
 	icon = 'icons/obj/clothing/ego_gear/abnormality/teth.dmi'
@@ -25,7 +23,7 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "The archetype was already charred from the moment of extraction. \
 	Although the exterior is scorched, it has no adverse effects on the E.G.O’s performance."
 	icon_state = "match"
-	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = 0) // 20
+	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = 0, FIRE = 30) // 20
 
 /obj/item/clothing/suit/armor/ego_gear/teth/fragment
 	name = "fragments from somewhere"
@@ -206,12 +204,12 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	name = "capote"
 	desc = "It suffered for such a long time... Unable to do anything about the raging thirst, the flesh endlessly burning and searing."
 	icon_state = "capote"
-	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -30, BLACK_DAMAGE = -10, PALE_DAMAGE = 0) // 0
+	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = -30, BLACK_DAMAGE = -10, PALE_DAMAGE = 0, FIRE = 30) // 0
 
-/obj/item/clothing/suit/armor/ego_gear/teth/fourleaf_clover
-	name = "four-leaf clover"
+/obj/item/clothing/suit/armor/ego_gear/teth/sticking
+	name = "sticking"
 	desc = "Waiting for the prey to fall into a trap is a vital skill to learn for those who cannot face direct conflict."
-	icon_state = "fourleaf_clover"
+	icon_state = "sticking"
 	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 20, BLACK_DAMAGE = 10, PALE_DAMAGE = 0) // 20
 
 /obj/item/clothing/suit/armor/ego_gear/teth/patriot
@@ -227,9 +225,9 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	icon_state = "zauberhorn"
 	armor = list(RED_DAMAGE = -30, WHITE_DAMAGE = 20, BLACK_DAMAGE = 30, PALE_DAMAGE = 0) // 20
 
-/obj/item/clothing/suit/armor/ego_gear/teth/visions
-	name = "visions of future past"
-	desc = "It's looking right at you."
+/obj/item/clothing/suit/armor/ego_gear/teth/skinprophet
+	name = "9:2"
+	desc = "A red, veiny suit adorned with reptilian eyes. It's looking right at you."
 	icon_state = "visions"
 	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 40, BLACK_DAMAGE = -30, PALE_DAMAGE = 0) // 0
 
@@ -244,3 +242,53 @@ Any attempt to code risk class armor will result in a 10 day Github ban.*/
 	desc = "Some things are too good to be true."
 	icon_state = "faelantern"
 	armor = list(RED_DAMAGE = 20, WHITE_DAMAGE = 30, BLACK_DAMAGE = -30, PALE_DAMAGE = 0) // 20
+
+/obj/item/clothing/suit/armor/ego_gear/teth/kikimora
+	name = "kiki mora"
+	desc = "A dress spun by unusual hands. Rough but resistant to stains."
+	icon_state = "kikimora"
+	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = -10, BLACK_DAMAGE = 30, PALE_DAMAGE = -10)
+
+/obj/item/clothing/suit/armor/ego_gear/teth/luckdraw
+	name = "luck of the draw"
+	desc = "How many have lost it all to a simple game of chance?"
+	icon_state = "luckdraw"
+	armor = list(RED_DAMAGE = 0, WHITE_DAMAGE = 10, BLACK_DAMAGE = 30, PALE_DAMAGE = -20) // 20
+
+/obj/item/clothing/suit/armor/ego_gear/teth/denial
+	name = "denial"
+	desc = "Spare a thought for the poor employees at the branches that fail, trapped and abandoned - buried alive."
+	icon_state = "denial"
+	armor = list(RED_DAMAGE = -10, WHITE_DAMAGE = 10, BLACK_DAMAGE = 20, PALE_DAMAGE = -20)
+
+/obj/item/clothing/suit/armor/ego_gear/teth/rapunzel
+	name = "rapunzel"
+	desc = "When you have no means of escape, you must forge your own path."
+	icon_state = "tangle"
+	armor = list(RED_DAMAGE = 0, WHITE_DAMAGE = 20, BLACK_DAMAGE = 0, PALE_DAMAGE = 0)
+
+/obj/item/clothing/suit/armor/ego_gear/teth/clayman
+	name = "Creative Freedom"
+	desc = "Make yourself a canvas and your creativity can't be limited."
+	icon_state = "creativefreedom"
+	armor = list(RED_DAMAGE = 10, WHITE_DAMAGE = 10, BLACK_DAMAGE = -10, PALE_DAMAGE = 10)
+
+/obj/item/clothing/suit/armor/ego_gear/teth/desert
+	name = "desert wind"
+	desc = "Dirty rag armor, better than nothing."
+	icon_state = "desert"
+	flags_inv = NONE
+	armor = list(RED_DAMAGE = 40, WHITE_DAMAGE = 0, BLACK_DAMAGE = -20, PALE_DAMAGE = -20, FIRE = 30) // 20
+
+/obj/item/clothing/suit/armor/ego_gear/teth/white_gossypium
+	name = "White Gossypium"
+	desc = "Made of strong, resilient cotton. It fills you with nostalgia."
+	icon_state = "white_gossypium"
+	armor = list(RED_DAMAGE = 30, WHITE_DAMAGE = 30, BLACK_DAMAGE = -40, PALE_DAMAGE = 0, FIRE = 0) //20. Made out of flammable cotton so fire resist sucks ass.
+
+/obj/item/clothing/suit/armor/ego_gear/teth/fury
+	name = "blind fury"
+	desc = "And all she saw was red."
+	icon_state = "fury"
+	//all in on red, minor negatives on all else
+	armor = list(RED_DAMAGE = 50, WHITE_DAMAGE = -20, BLACK_DAMAGE = -20, PALE_DAMAGE = -20) // -10

@@ -69,14 +69,16 @@
 		for(var/mob/living/L in T.contents)
 			if(L in beenHit)
 				continue
-			L.apply_damage(160, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+			L.apply_damage(140, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+			L.apply_dark_flame(14)
 			beenHit |= L
 			visible_message("<span class='boldwarning'>[src] pierces through [L]!</span>")
 			to_chat(L, "<span class='userdanger'>[src] slams through you!</span>")
 		for(var/mob/living/L in nearMiss)
 			if(L in beenHit)
 				continue
-			L.apply_damage(80, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+			L.apply_damage(70, BLACK_DAMAGE, null, L.run_armor_check(null, BLACK_DAMAGE), spread_damage = TRUE)
+			L.apply_dark_flame(6)
 			beenHit |= L
 			visible_message("<span class='warning'>[src] just barely brushes past [L]!</span>")
 			to_chat(L, "<span class='danger'>[src] grazes your side!</span>")
@@ -256,6 +258,7 @@
 /obj/effect/sled/proc/FadeOut()
 	animate(src, alpha = 0, time = 5)
 	QDEL_IN(src, 5)
+
 /obj/effect/titania_aura
 	name = "titania"
 	desc = "A gargantuan fairy."
@@ -271,22 +274,6 @@
 	alpha = 255
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
-/obj/effect/temp_visual/floor_cracks
-	icon = 'ModularTegustation/Teguicons/tegu_effects.dmi'
-	icon_state = "cracks_dark"
-	duration = 30
-	layer = ABOVE_MOB_LAYER
-
-/obj/effect/temp_visual/ice_spike
-	icon = 'ModularTegustation/Teguicons/32x48.dmi'
-	icon_state = "ice_spike1"
-	duration = 5
-	layer = ABOVE_MOB_LAYER
-
-/obj/effect/temp_visual/ice_spike/Initialize()
-	. = ..()
-	icon_state = pick("ice_spike1", "ice_spike2", "ice_spike3")
-
 /obj/effect/areaflavor_snow
 	icon = 'icons/effects/weather_effects.dmi'
 	icon_state = "snowfall_calm"
@@ -296,17 +283,63 @@
 	alpha = 150
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
-/obj/effect/area_heal
-	name = "large healing aura"
-	desc = "A large area of restorative energy."
-	icon = 'ModularTegustation/Teguicons/lc13_effects64x64.dmi'
-	icon_state = "healarea_fade"
-	pixel_x = -16
-	base_pixel_x = -16
-	pixel_y = -16
-	base_pixel_y = -16
-	density = FALSE
+/*
+* Turf Fire
+* subtypes used by Ardor Moth and Liu
+* Commonly used as a attack effect.
+*/
+/obj/effect/turf_fire
+	gender = PLURAL
+	name = "fire"
+	desc = "a burning pyre."
+	icon = 'icons/effects/effects.dmi'
+	icon_state = "turf_fire"
 	anchored = TRUE
-	layer = BELOW_MOB_LAYER
-	alpha = 200
-	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
+	layer = TURF_LAYER
+	plane = FLOOR_PLANE
+	base_icon_state = "turf_fire"
+	var/damaging = FALSE
+	//Lifespan of the fire effect.
+	var/burn_time = 30 SECONDS
+	//Fire check timer and how long until we check again.
+	var/fire_turf_check_time = 4
+	//Total health only used in reaction to getting extinguished
+	var/fire_health = 4
+
+/obj/effect/turf_fire/Initialize()
+	. = ..()
+	QDEL_IN(src, burn_time)
+	Burn()
+
+//Red and not burn, burn is a special damage type.
+/obj/effect/turf_fire/Crossed(atom/movable/AM)
+	. = ..()
+	if(isliving(AM) && !damaging)
+		damaging = TRUE
+		Burn()
+
+/obj/effect/turf_fire/proc/Burn()
+	//if the fire damaged a mob.
+	var/dealt_damage = FALSE
+	for(var/mob/living/H in get_turf(src))
+		if(!H)
+			continue
+		//arbitrary max fire damage so corpses still get burned
+		if(H.getFireLoss() < 1000 && H.stat != DEAD)
+			DoDamage(H)
+			dealt_damage = TRUE
+	if(!dealt_damage)
+		damaging = FALSE
+		return
+	addtimer(CALLBACK(src, PROC_REF(Burn)), fire_turf_check_time)
+
+//The Damage Proc
+/obj/effect/turf_fire/proc/DoDamage(mob/living/fuel)
+	fuel.adjust_fire_stacks(2)
+	fuel.IgniteMob()
+
+//Overridable proc for special inextinguishable fires.
+/obj/effect/turf_fire/proc/WaterReact()
+	fire_health -= 1
+	if(fire_health <= 0)
+		qdel(src)

@@ -50,6 +50,10 @@
 			pixel_x = -16
 			base_pixel_x = -16
 
+			//Moves at 1/3rd speed to give R-Corp a fighting chance; Abnos can play significantly more agressively
+			base_delay_amount = 28
+			minimum_delay_amount = 12
+
 /mob/payload/proc/GetPath()
 	if(!target)
 		switch(team)
@@ -152,7 +156,7 @@
 			++extra_cost
 	return abs(x - T.x) + abs(y - T.y) + extra_cost
 
-/turf/proc/PayloadTurfTest(caller, turf/T, ID)
+/turf/proc/PayloadTurfTest(requester, turf/T, ID)
 	if(!T || T.density)
 		return FALSE
 	var/adir = get_dir(src, T)
@@ -161,14 +165,14 @@
 		if(!W.CanAStarPass(ID, adir))
 			return FALSE
 	for(var/obj/structure/railing/R in src)
-		if(!R.CanAStarPass(ID, adir, caller))
+		if(!R.CanAStarPass(ID, adir, requester))
 			return FALSE
 	for(var/obj/machinery/door/D in T)
 		return TRUE
 	for(var/obj/structure/barricade/B in T)
 		return TRUE
 	for(var/obj/O in T)
-		if(!O.CanAStarPass(ID, rdir, caller))
+		if(!O.CanAStarPass(ID, rdir, requester))
 			return FALSE
 	return TRUE
 

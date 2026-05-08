@@ -77,6 +77,13 @@
 	if(mob)
 		mob.focus?.key_down(_key, src)
 		mob.update_mouse_pointer()
+		
+		// Check action keybinds
+		SEND_SIGNAL(mob, COMSIG_MOB_KEYDOWN, full_key)
+		for(var/datum/action/action in mob.actions)
+			if(action.full_key == full_key)
+				action.keydown()
+				break
 
 
 /client/verb/keyUp(_key as text)
@@ -108,9 +115,3 @@
 	if(mob)
 		mob.focus?.key_up(_key, src)
 		mob.update_mouse_pointer()
-
-
-// Called every game tick
-/client/keyLoop()
-	holder?.keyLoop(src)
-	mob?.focus?.keyLoop(src)

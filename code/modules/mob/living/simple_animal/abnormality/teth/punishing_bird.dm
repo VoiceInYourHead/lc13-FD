@@ -6,20 +6,21 @@
 	icon_living = "pbird_breach"
 	icon_dead = "pbird_dead"
 	portrait = "punishing_bird"
+	del_on_death = FALSE
 	turns_per_move = 2
 	response_help_continuous = "brushes aside"
 	response_help_simple = "brush aside"
 	response_disarm_continuous = "flails at"
 	response_disarm_simple = "flail at"
 	density = FALSE
-	maxHealth = 600
-	health = 600
+	maxHealth = 120
+	health = 120
 	damage_coeff = list(RED_DAMAGE = 2, WHITE_DAMAGE = 2, BLACK_DAMAGE = 2, PALE_DAMAGE = 2)
 	see_in_dark = 10
 	move_to_delay = 2
-	harm_intent_damage = 10
+	harm_intent_damage = 5
 	melee_damage_lower = 1
-	melee_damage_upper = 2
+	melee_damage_upper = 1
 	rapid_melee = 2
 	stat_attack = SOFT_CRIT
 	attack_verb_continuous = "bites"
@@ -42,8 +43,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = list(55, 55, 50, 50, 50),
 		ABNORMALITY_WORK_REPRESSION = list(30, 20, 10, 0, 0),
 	)
-	work_damage_amount = 5
+	work_damage_upper = 4
+	work_damage_lower = 2
 	work_damage_type = RED_DAMAGE
+	max_boxes = 12
 
 	ego_list = list(
 		/datum/ego_datum/weapon/beak,
@@ -58,21 +61,27 @@
 		/mob/living/simple_animal/hostile/abnormality/judgement_bird = 3,
 	)
 
+	can_affect_min = FALSE
+
 	observation_prompt = "A bird stares at you. What is the name of this bird?"
-	observation_choices = list("Little bird", "Punishing bird")
-	correct_choices = list("Little bird", "Punishing bird")
-	observation_success_message = "The small bird accepts whatever name you decide to give it. Its nature can never change now."
+	observation_choices = list(
+		"Little bird" = list(TRUE, "The small bird accepts whatever name you decide to give it. Its nature can never change now."),
+		"Punishing bird" = list(TRUE, "The small bird accepts whatever name you decide to give it. Its nature can never change now."),
+	)
+
+	do_not_possess = TRUE
 
 	var/list/enemies = list()
 	var/list/pecking_targets = list()
 	var/list/already_punished = list()
 	var/bird_angry = FALSE
 	/// Melee damage done to simple mobs when enraged
-	var/angry_damage = 100
+	var/angry_damage = 200
 	/// Melee damage done to humans when enraged
-	var/angry_damage_human = 500
+	var/angry_damage_human = 1200
 
 	var/death_timer
+	var/omw_to_apoc = FALSE
 
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/Initialize()
 	. = ..()
@@ -86,6 +95,8 @@
 
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/proc/TransformRed()
 	visible_message(span_danger("\The [src] turns its insides out as a giant bloody beak appears!"))
+	flick("pbird_transition", src)
+	AdjustStun(12, ignore_canstun = TRUE)
 	icon_state = "pbird_red"
 	icon_living = "pbird_red"
 	attack_verb_continuous = "eviscerates"
@@ -161,8 +172,8 @@
 			var/mob/living/carbon/le_target = pick(potential_mobs)
 			pecking_targets |= le_target
 
-/mob/living/simple_animal/hostile/abnormality/punishing_bird/AttackingTarget()
-	if(ishuman(target) && bird_angry)
+/mob/living/simple_animal/hostile/abnormality/punishing_bird/AttackingTarget(atom/attacked_target)
+	if(ishuman(attacked_target) && bird_angry)
 		melee_damage_lower = angry_damage_human
 		melee_damage_upper = angry_damage_human
 
@@ -174,8 +185,8 @@
 		melee_damage_lower = 1
 		melee_damage_upper = 2
 
-	if(isliving(target))
-		var/mob/living/L = target
+	if(isliving(attacked_target))
+		var/mob/living/L = attacked_target
 		if(!(L in enemies) && obj_damage > 0) // The target didn't attack us and we've transformed
 			to_chat(src, span_warning("You can't punish innocent people!"))
 			return
@@ -187,7 +198,7 @@
 			if(ishuman(L))
 				var/mob/living/carbon/human/H = L
 				if(H.sanity_lost)
-					H.adjustSanityLoss(-10) // Heal sanity
+					H.adjustSanityLoss(-4) // Heal sanity
 					return
 			if(prob(5) || L.health < L.maxHealth*0.5)
 				if(L in enemies)
@@ -203,6 +214,11 @@
 		return
 	return ..()
 
+/mob/living/simple_animal/hostile/abnormality/punishing_bird/death(gibbed)
+	animate(src, alpha = 0, time = 10 SECONDS)
+	QDEL_IN(src, 10 SECONDS)
+	..()
+
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/Found(atom/A)
 	if(isliving(A))
 		var/mob/living/L = A
@@ -213,7 +229,7 @@
 			return A
 
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/ListTargets()
-	if(!enemies.len && !pecking_targets.len)
+	if(omw_to_apoc || (!enemies.len && !pecking_targets.len))
 		return list()
 	var/list/see = ..()
 	var/list/targeting = list()
@@ -222,6 +238,11 @@
 		targeting |= pecking_targets
 	see &= targeting // Remove all entries that aren't in enemies
 	return see
+
+/mob/living/simple_animal/hostile/abnormality/punishing_bird/FindTarget(list/possible_targets, HasTargetsList)
+	if(omw_to_apoc) // Nah I'd Walk
+		return
+	. = ..()
 
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/HandleStructures()
 	. = ..()
@@ -280,6 +301,8 @@
 
 /mob/living/simple_animal/hostile/abnormality/punishing_bird/BreachEffect(mob/living/carbon/human/user, breach_type)
 	. = ..()
+	omw_to_apoc = FALSE
+	docile_confinement = FALSE
 	icon_state = initial(icon_state)
 	icon_living = initial(icon_living)
 	pixel_x = initial(pixel_x)

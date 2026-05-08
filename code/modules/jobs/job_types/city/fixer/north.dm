@@ -4,17 +4,15 @@
 /datum/job/fixer/northdirector
 	title = "North Office Director"
 	outfit = /datum/outfit/job/ndirector
-	department_head = list("your office")
-	faction = "Station"
-	supervisors = "your office"
 	selection_color = "#8f6791"
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JOB_DISPLAY_ORDER_FIXERLEAD
 	paycheck = 100
 	trusted_only = TRUE
-	access = list(ACCESS_XENOBIOLOGY, ACCESS_RC_ANNOUNCE) // Numero 55
+	access = list(ACCESS_XENOBIOLOGY, ACCESS_RC_ANNOUNCE)
 	minimal_access = list(ACCESS_XENOBIOLOGY, ACCESS_RC_ANNOUNCE)
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_FIXERS
 	maptype = list("city-small", "wonderlabs")
 
 	job_attribute_limit = 80
@@ -26,10 +24,9 @@
 								JUSTICE_ATTRIBUTE = 80
 								)
 
+
 /datum/job/fixer/northdirector/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
-	ADD_TRAIT(H, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)	//My guy you aren't even from this corporation
 	to_chat(M, "<span class='userdanger'>This is a roleplay role. You are not affiliated with L Corporation. \
 	Do not enter the lower levels of the facility without the manager's permission. Please use the beacon in your office to choose your association. \
 	Do not assist L Corporation without significant payment.</span>")
@@ -57,7 +54,6 @@
 	title = "North Office Fixer"
 	outfit = /datum/outfit/job/nfixer
 	department_head = list("office director")
-	faction = "Station"
 	supervisors = "your office director"
 	selection_color = "#bd7ebf"
 	total_positions = 0
@@ -66,8 +62,9 @@
 	display_order = JOB_DISPLAY_ORDER_FIXER
 	access = list(ACCESS_XENOBIOLOGY)
 	minimal_access = list(ACCESS_XENOBIOLOGY)
+	departments = DEPARTMENT_FIXERS
 	maptype = "wonderlabs"
-
+	mind_traits = list(TRAIT_WORK_FORBIDDEN)
 	job_attribute_limit = 60
 	//They actually need this for their weapons
 	roundstart_attributes = list(
@@ -79,8 +76,6 @@
 
 /datum/job/associate/after_spawn(mob/living/carbon/human/H, mob/M)
 	. = ..()
-	//Not fear immune you're basically some goober
-	ADD_TRAIT(H, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)	//My guy you aren't even from this corporation
 	to_chat(M, "<span class='userdanger'>Follow your Office Leader. You are not affiliated with L Corporation. \
 	Do not enter the lower levels of the facility without the manager's permission. </span>")
 	to_chat(M, "<span class='danger'>Avoid killing other players without a reason. </span>")

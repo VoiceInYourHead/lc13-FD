@@ -6,14 +6,14 @@
 	icon_living = "eris"
 	core_icon = "eris_egg"
 	portrait = "eris"
-	maxHealth = 1100
-	health = 1100
+	maxHealth = 300
+	health = 300
 	ranged = TRUE
 	attack_verb_continuous = "claws"
 	attack_verb_simple = "claw"
 	stat_attack = HARD_CRIT
-	melee_damage_lower = 11
-	melee_damage_upper = 12
+	melee_damage_lower = 3
+	melee_damage_upper = 5
 	move_to_delay = 2.6
 	damage_coeff = list(BRUTE = 1, RED_DAMAGE = 0.7, WHITE_DAMAGE = 1.3, BLACK_DAMAGE = 0.7, PALE_DAMAGE = 1)
 	speak_emote = list("croons")
@@ -29,9 +29,12 @@
 		ABNORMALITY_WORK_ATTACHMENT = 70,
 		ABNORMALITY_WORK_REPRESSION = list(50, 55, 55, 50, 45),
 	)
-	work_damage_amount = 10
+	work_damage_upper = 6
+	work_damage_lower = 3
 	work_damage_type = RED_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/lust
 
+	can_spawn = FALSE // Does Nothing.
 	ego_list = list(
 		/datum/ego_datum/weapon/coiling,
 		/datum/ego_datum/armor/coiling,
@@ -44,18 +47,29 @@
 		\"Well, how is it?\" <br>The monster, disguised as a human asks me. <br>\
 		There is a sweet, revolting scent in the air. <br>\
 		Raw meat and organs are piled high on the serving plates, being attacked by the occasional fly. <br>The monster in front of me dines with knife and fork.<br>\
-		A human head is on prominant display on my plate.<br> It belongs to someone who was assigned to work on \"Eris\", not too long ago.<br>\
+		A human head is on prominent display on my plate.<br> It belongs to someone who was assigned to work on \"Eris\", not too long ago.<br>\
 		\"Not hungry? Perhaps you'd like to visit my boudoir?\"<br>\
 		Vile, disgusting. <br>I want to get out of here."
-	observation_choices = list("Accept her proposal", "Run")
-	correct_choices = list("Run")
-	observation_success_message = "I get up from the table, make an excuse, and bolt for the door as fast as I can. <br>\
-		Surprisingly, it's not locked. <br>I hear the imitation of a young woman's voice on my way out. <br>\
-	\"Come back soon, sweetie!\"<br> \"You're always invited to dinner, and i'll be sure to serve you one day!\""
-	observation_fail_message = "How bad can it be? <br>I follow Eris as she leads me into a room. <br>\
-		Suffice to say, I died the moment I stepped into that room. <br>Literally."
+	observation_choices = list(
+		"Run" = list(TRUE, "I get up from the table, make an excuse, and bolt for the door as fast as I can. <br>\
+			Surprisingly, it's not locked. <br>I hear the imitation of a young woman's voice on my way out. <br>\
+			\"Come back soon, sweetie!\"<br> \"You're always invited to dinner, and i'll be sure to serve you one day!\""),
+		"Accept her proposal" = list(FALSE, "How bad can it be? <br>I follow Eris as she leads me into a room. <br>\
+			Hours later, Eris dines with another stranger. <br>My head is resting on that very same plate."),
+	)
 
 	var/girlboss_level = 0
+
+/mob/living/simple_animal/hostile/abnormality/eris/Login()
+	. = ..()
+	to_chat(src, "<h1>You are Eris, A Tank Role Abnormality.</h1><br>\
+		<b>|Humanoid Disguise|: You are only able to attack humans who only have a very low amount of health, or if they are dead.<br>\
+		If they attack a human who fulfills the above conditions, you will devor them, and gain a stack of 'Girl Boss'<br>\
+		<br>\
+		|Dine with me...|: Every second, you heal ALL targets that you can see.<br>\
+		Your healing increases depending on the amount of 'Girl Boss' you have.<br>\
+		<br>\
+		|Elegant Form|: When you are attacked by a human, deal WHITE damage to the attack. This damage is increase depending on your 'Girl Boss' stacks.</b>")
 
 //Okay, but here's the breach on death
 /mob/living/simple_animal/hostile/abnormality/eris/Initialize()
@@ -115,10 +129,10 @@
 	return FALSE
 
 /mob/living/simple_animal/hostile/abnormality/eris/AttackingTarget(atom/attacked_target)
-	if(ishuman(target))
-		var/mob/living/H = target
+	if(ishuman(attacked_target))
+		var/mob/living/H = attacked_target
 		if(H.stat >= SOFT_CRIT)
-			Dine(target)
+			Dine(attacked_target)
 			return
 	..()
 
@@ -126,11 +140,7 @@
 /mob/living/simple_animal/hostile/abnormality/eris/proc/Dine(mob/living/carbon/human/poorfuck)
 	manual_emote("unhinges her jaw, revealing many rows of teeth!")
 	playsound(get_turf(src), 'sound/abnormalities/bigbird/bite.ogg', 50, 1, 2)
-	if(SSmaptype.maptype == "limbus_labs")
-		for(var/obj/item/organ/O in poorfuck.getorganszone(BODY_ZONE_HEAD, TRUE))
-			O.Remove(poorfuck)
-			O.forceMove(get_turf(poorfuck))
-	poorfuck.dust()
+	poorfuck.dust(TRUE, TRUE)
 	new /obj/effect/gibspawner/generic/silent(get_turf(poorfuck))
 
 	//Lose sanity
@@ -164,11 +174,7 @@
 
 	playsound(get_turf(src), 'sound/abnormalities/bigbird/bite.ogg', 50, 1, 2)
 	new /obj/effect/gibspawner/generic/silent(get_turf(current_petter))
-	if(SSmaptype.maptype == "limbus_labs")
-		for(var/obj/item/organ/O in current_petter.getorganszone(BODY_ZONE_HEAD, TRUE))
-			O.Remove(current_petter)
-			O.forceMove(get_turf(current_petter))
-	current_petter.dust()
+	current_petter.dust(TRUE, TRUE)
 
 	SLEEP_CHECK_DEATH(20)
 	manual_emote("wipes her mouth with a hankerchief")
@@ -182,8 +188,8 @@
 	for(var/mob/living/H in view(10, get_turf(src)))
 		if(H.stat >= SOFT_CRIT)
 			continue
-		//Shamelessly fucking stolen from risk of rain's teddy bear. Maxes out at 20.
-		var/healamount = 20 * (TOUGHER_TIMES(girlboss_level))
+		//Shamelessly fucking stolen from risk of rain's teddy bear.
+		var/healamount = 2 * (TOUGHER_TIMES(girlboss_level))
 		H.adjustBruteLoss(-healamount)	//Healing for those around.
 		new /obj/effect/temp_visual/heal(get_turf(H), "#FF4444")
 
@@ -193,14 +199,14 @@
 	if(!ishuman(Proj.firer))
 		return
 	var/mob/living/carbon/human/H = Proj.firer
-	H.deal_damage(40*(TOUGHER_TIMES(girlboss_level)), WHITE_DAMAGE)
+	H.deal_damage(3*(TOUGHER_TIMES(girlboss_level)), WHITE_DAMAGE)
 
 
 /mob/living/simple_animal/hostile/abnormality/eris/attacked_by(obj/item/I, mob/living/user)
 	..()
 	if(!user)
 		return
-	user.deal_damage(40*(TOUGHER_TIMES(girlboss_level)), WHITE_DAMAGE)
+	user.deal_damage(3*(TOUGHER_TIMES(girlboss_level)), WHITE_DAMAGE)
 
 
 //Okay, but here's the work effects

@@ -5,8 +5,8 @@
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "radio"
 	portrait = "khz"
-	maxHealth = 400
-	health = 400
+	maxHealth = 100
+	health = 100
 	threat_level = HE_LEVEL
 	work_chances = list(
 		ABNORMALITY_WORK_INSTINCT = 40,
@@ -16,9 +16,12 @@
 		"Input One" = 0,		//These should never be used, but it's here for brevity
 		"Input Zero" = 0,
 	)
-	work_damage_amount = 12
+	work_damage_upper = 4
+	work_damage_lower = 3
 	work_damage_type = WHITE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/envy
 
+	can_spawn = FALSE // Does Nothing.
 	ego_list = list(
 		/datum/ego_datum/weapon/transmission,
 		/datum/ego_datum/armor/transmission,
@@ -29,6 +32,23 @@
 		/mob/living/simple_animal/hostile/abnormality/quiet_day = 1.5,
 		/mob/living/simple_animal/hostile/abnormality/mhz = 1.5,
 		/mob/living/simple_animal/hostile/abnormality/army = 1.5,
+	)
+
+	observation_prompt = "A faint buzzing enters your ears from your radio.<br>\
+		Sounds of gunshots. <br>Sounds of a battle. <br>\
+		\"Sierra... Oscar... Sierra...\" <br>\
+		What could this callsign mean? <br>\
+		Are you in danger, or is someone else? <br>What will you do?"
+	observation_choices = list(
+		"Tune your radio to 680 KHz" = list(TRUE, "Suddenly, you hear something from your radio, clear as day. <br>\
+			\"We hear you loud and clear.\" <br>\
+			\"You've done a great service.\" <br>\
+			The operator on the other end continues babbling, completely obscured by the returning static. <br>\
+			However, it seems you somehow managed solve their problem somehow."),
+		"Ignore it" = list(FALSE, "You turn off your radio and leave the room. <br>\
+			All abnormalities are dangerous, right? <br>\
+			This cry for help could just be a trick to make you let your guard down. <br>\
+			If there is anyone really out there, they are going to have to fend for themselves."),
 	)
 
 	var/input
@@ -59,7 +79,7 @@
 	//Heal everyone and reset the bit calculator
 	if(bitcalculator == input && isopen)
 		for(var/mob/living/carbon/human/H in GLOB.player_list)
-			H.adjustSanityLoss(-10)
+			H.adjustSanityLoss(-5)
 			to_chat(H, span_notice("You feel a pleasant sound."))
 
 	//If you fuck it up
@@ -67,7 +87,7 @@
 		for(var/mob/living/carbon/human/H in GLOB.player_list)
 			if(z != H.z)
 				continue
-			H.adjustSanityLoss(30)
+			H.adjustSanityLoss(20)
 			new /obj/effect/temp_visual/dir_setting/bloodsplatter(get_turf(H), pick(GLOB.alldirs))
 			to_chat(H, span_notice("You feel a crackling noise in your head."))
 	bitcalculator = 0
@@ -85,25 +105,25 @@
 	//Selecting input and playing sound effect
 	switch(output)
 		if(1)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip1.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip1.ogg', 300, 8)
 			input = 8	//01000
 		if(2)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip2.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip2.ogg', 300, 8)
 			input = 25	//11001
 		if(3)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip3.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip3.ogg', 300, 8)
 			input = 24	//11000
 		if(4)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip4.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip4.ogg', 300, 8)
 			input = 13	//01101
 		if(5)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip5.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip5.ogg', 300, 8)
 			input = 26	//11010
 		if(6)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip6.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip6.ogg', 300, 8)
 			input = 16	//10000
 		if(7)
-			playsound(get_turf(src), 'sound/abnormalities/khz/Clip7.ogg', 200, 8)
+			playsound(get_turf(src), 'sound/abnormalities/khz/Clip7.ogg', 300, 8)
 			input = 28	//11100
 
 //This is for sending messages back

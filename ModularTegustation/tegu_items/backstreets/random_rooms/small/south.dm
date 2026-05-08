@@ -1,15 +1,16 @@
 /obj/effect/spawner/room/backstreets/small_south
 	name = "small south backstreets spawner"
+	icon = 'ModularTegustation/Teguicons/room_spawners/7x7.dmi'
+	icon_state = ""
+	dir = SOUTH
 	room_width = 7
 	room_height = 5
 	room_type = "backstreets_small_south"
-
 
 /datum/map_template/random_room/backstreets/small_south
 	name = "A Small Drink - Small South"
 	room_id = "drink_sn"
 	mappath = "_maps/RandomRooms/backstreets/small_south/open_drink.dmm"
-	centerspawner = FALSE
 	template_width = 7
 	template_height = 5
 	stock = 3
@@ -45,6 +46,12 @@
 	room_id = "lcorp_tomb"
 	mappath = "_maps/RandomRooms/backstreets/small_south/lcorp_tomb.dmm"
 
+/datum/map_template/random_room/backstreets/small_south/locked_crate
+	name = "Locked Crate - Small South"
+	room_id = "locked_crate"
+	mappath = "_maps/RandomRooms/backstreets/small_south/locked_crate.dmm"
+	stock = 1
+
 /datum/map_template/random_room/backstreets/small_south/rat_ssa
 	name = "Rat - Small South A"
 	room_id = "rat_ssa"
@@ -54,3 +61,8 @@
 	name = "Robot - Small South A"
 	room_id = "robot_ssa"
 	mappath = "_maps/RandomRooms/backstreets/small_south/robot_ssa.dmm"
+
+/datum/map_template/random_room/backstreets/small_south/candlelit_dinner
+	name = "Candlelit Dinner - Small South A"
+	room_id = "candlelit_dinner"
+	mappath = "_maps/RandomRooms/backstreets/small_south/candlelit_dinner.dmm"

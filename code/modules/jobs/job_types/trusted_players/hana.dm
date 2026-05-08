@@ -12,7 +12,9 @@
 	trusted_only = TRUE
 	access = list(ACCESS_NETWORK, ACCESS_COMMAND, ACCESS_MANAGER, ACCESS_CHANGE_IDS)
 	minimal_access = list(ACCESS_NETWORK, ACCESS_COMMAND, ACCESS_MANAGER, ACCESS_CHANGE_IDS)
+	departments = DEPARTMENT_HANA
 	paycheck = 0
+	mind_traits = list(TRAIT_WORK_FORBIDDEN, TRAIT_COMBATFEAR_IMMUNE)
 	maptype = list("city", "fixers")
 	job_important = "You are the city's administrator, and have a small sort of power over the local association. \
 		You MUST assist new fixer offices in getting set up, as well as issuing fixer licenses. \
@@ -31,8 +33,6 @@
 	)
 
 /datum/job/hana/after_spawn(mob/living/carbon/human/outfit_owner, mob/M)
-	ADD_TRAIT(outfit_owner, TRAIT_WORK_FORBIDDEN, JOB_TRAIT)
-	ADD_TRAIT(outfit_owner, TRAIT_COMBATFEAR_IMMUNE, JOB_TRAIT)
 
 	//Don't give this shit to the interns, my lord
 	if(paycheck==0)
@@ -40,7 +40,7 @@
 //		add_verb(outfit_owner, /client/proc/hanaslayquest)
 	if(SSmaptype.maptype == "fixers")
 		for(var/datum/job/processing in SSjob.occupations)
-			if(istype(processing, /datum/job/associateroaming) && processing.total_positions<7)	//Can have a max of 7 of these
+			if(istype(processing, /datum/job/associateroaming) && processing.total_positions<6)	//Can have a max of 6 of these
 				processing.total_positions +=2
 
 	. = ..()
@@ -60,7 +60,7 @@
 	l_hand = /obj/item/clothing/suit/armor/ego_gear/city/hana
 	l_pocket = /obj/item/potential_tester
 
-	backpack_contents = list()
+	backpack_contents = list(/obj/item/office_marker)
 
 //Hana
 /datum/job/hana/boss
@@ -69,6 +69,7 @@
 	total_positions = 1
 	spawn_positions = 1
 	display_order = JOB_DISPLAY_ORDER_MANAGER
+	departments = DEPARTMENT_COMMAND | DEPARTMENT_HANA
 	paycheck = 0
 
 
@@ -134,7 +135,12 @@
 
 	minor_announce("Hana has issued a kill request on an unknown distortion. Payment will be given upon quest completion", "Hana Assignment:", TRUE)
 	var/T = pick(SScityevents.distortion)
+	if(T)
+		minor_announce("Found location", "Hana Assignment:", TRUE)
 	new /obj/effect/bloodpool(get_turf(T))
 	sleep(10)
 	var/spawning = pick(SScityevents.distortions_available)
 	new spawning (get_turf(T))
+	if(spawning)
+		minor_announce("Spawned enemy", "Hana Assignment:", TRUE)
+

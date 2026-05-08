@@ -178,6 +178,14 @@
 	port_id = "epsilon"
 	can_be_bought = FALSE
 
+/datum/map_template/shuttle/west
+	port_id = "west"
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/east
+	port_id = "east"
+	can_be_bought = FALSE
+
 /datum/map_template/shuttle/secondary
 	port_id = "secondary"
 	can_be_bought = FALSE
@@ -206,6 +214,10 @@
 	port_id = "deltamain"
 	can_be_bought = FALSE
 
+/datum/map_template/shuttle/district4/elevator
+	port_id = "district4"
+	can_be_bought = FALSE
+
 // Shuttles start here:
 
 /datum/map_template/shuttle/manager/elevator
@@ -215,6 +227,14 @@
 /datum/map_template/shuttle/epsilon/elevator
 	suffix = "elevator"
 	name = "epsilon elevator"
+
+/datum/map_template/shuttle/west/elevator
+	suffix = "elevator"
+	name = "west elevator"
+
+/datum/map_template/shuttle/east/elevator
+	suffix = "elevator"
+	name = "east elevator"
 
 /datum/map_template/shuttle/secondary/epsilon
 	suffix = "epsilon"
@@ -243,6 +263,14 @@
 /datum/map_template/shuttle/deltamain/elevator
 	suffix = "elevator"
 	name = "deltamain elevator"
+
+/datum/map_template/shuttle/manager_broken/elevator//enkephalin rush
+	suffix = "elevator"
+	name = "rustic manager elevator"
+
+/datum/map_template/shuttle/district4/elevator
+	suffix = "elevator"
+	name = "district 4 elevator"
 
 /datum/map_template/shuttle/emergency/backup
 	suffix = "backup"
@@ -725,3 +753,11 @@
 /datum/map_template/shuttle/snowdin/excavation
 	suffix = "excavation"
 	name = "Snowdin Excavation Elevator"
+
+/datum/map_template/shuttle/quest
+	port_id = "quest"
+	can_be_bought = FALSE
+
+/datum/map_template/shuttle/quest/bus
+	suffix = "coolbus"
+	name = "quest bus"

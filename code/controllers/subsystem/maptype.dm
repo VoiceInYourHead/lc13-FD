@@ -4,39 +4,50 @@
 //This has been deshittified. Thank you for your service.
 //-Kitsunemitsu
 
+//This sucks ass
+//-Crabby
+
+//We can make this better.
+//-Mr. H
+
 SUBSYSTEM_DEF(maptype)
 	name = "Map Type"
 	flags = SS_NO_FIRE
 	init_order = INIT_ORDER_MAPTYPE
 	var/maptype = "lc13"			//for the love of god, do not change the default we will all die -Bootlegbow
 	var/jobtype		//If a map RNGs which jobs are available, use this
+	var/list/map_tags = list()//For specific mechanics that maptypes don't cover. This needs to be an array with brackets [] in the json.
 
 	//All the map tags that delete all jobs and replace them with others.
-	var/list/clearmaps = list("rcorp", "city", "wcorp", "limbus_labs", "fixers")
+	var/list/clearmaps = list("rcorp", "city", "wcorp", "fixers", "office")
+
+	//LC13 Maps, this enables Traits and cores
+	var/list/lc_maps = list("standard", "fishing")
 
 	//All the map tags that are combat maps and need abnos to breach immediately
-	var/list/combatmaps = list("rcorp", "wcorp", "limbus_labs", "fixers")
+	var/list/combatmaps = list("rcorp", "wcorp", "fixers", "office")
 
 	//Ghosts should be possessbale at all times
-	var/list/autopossess = list("rcorp", "limbus_labs")
+	var/list/autopossess = list("rcorp")
 
 	//These end after a certain number of minutes.
-	var/list/autoend = list("rcorp", "wcorp", "fixers") //, "limbus_labs" - uncomment in case of merge conflicts
+	var/list/autoend = list("rcorp", "wcorp", "fixers", "office")
 
 	//This map is city stuff
-	var/list/citymaps = list("wonderlabs", "city", "fixers", "limbus_labs")
+	var/list/citymaps = list("wonderlabs", "city", "fixers", "office", "lcorp_city")
 
 	//This is for maps that incorporate space
 	var/list/spacemaps = list("skeld")
 
 	//This is for maps where crafting is enabled.
-	var/list/craftingmaps = list("skeld", "limbus_labs")
+	var/list/craftingmaps = list("skeld", "enkephalin_rush")
 
 	//Maps that give no fear. Everyone cannot work as is fear immune.
-	var/list/nofear = list("limbus_labs")
+	var/list/nofear = list()
 
 	//What departments are we looking at
-	var/list/departments = list("Command","Security","Service")
+	var/list/departments = list("Command", "Security", "Service")
+
 
 
 /datum/controller/subsystem/maptype/Initialize()
@@ -44,12 +55,20 @@ SUBSYSTEM_DEF(maptype)
 
 	//Badda Bing Badda Da. This makes the latejoin menu cleaner
 	switch(SSmaptype.maptype)
-		if("wonderlabs", "city", "fixers")
-			departments = list("Command", "Security", "Service", "Science")
-		if("limbus_labs")
-			departments = list("Command", "Security","Medical", "Science", "Service" )
-		if("rcorp", "wcorp")
-			departments = list("Command", "Security")
+		if("wonderlabs")
+			departments = list("Command", "Fixers", "Security", "Service")
+		if("city")
+			departments = list("Command", "Hana", "Association", "Syndicate", "Fixers", "Medical", "Security", "Service")
+		if("fixers")
+			departments = list("Command", "Hana", "Association", "Fixers", "Medical", "Service")
+		if("office")
+			departments = list("Command", "Fixers")
+		if("rcorp")
+			departments = list("Command", "R Corp", "Medical")
+		if("wcorp")
+			departments = list("Command", "W Corp")
+		if("lcorp_city")
+			departments = list("Command", "Security", "Service", "Association", "Fixers", "Medical")
 
 	var/list/all_jobs = subtypesof(/datum/job)
 	if(!all_jobs.len)
@@ -59,6 +78,9 @@ SUBSYSTEM_DEF(maptype)
 	//Make ghosts able to possess things
 	if(maptype in autopossess)
 		SSlobotomy_corp.enable_possession = TRUE
+	//Make sure the emergency system is disabled
+	if((maptype in combatmaps) || maptype == "enkephalin_rush")
+		SSlobotomy_emergency.should_calc_score = FALSE
 
 	//All the maptype specific stuff
 	switch(maptype)

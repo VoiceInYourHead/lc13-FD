@@ -11,8 +11,8 @@
 	righthand_file = 'icons/mob/inhands/equipment/tools_righthand.dmi'
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BELT
-	force = 3
-	throwforce = 5
+	force = 1
+	throwforce = 1
 	hitsound = "swing_hit"
 	usesound = list('sound/items/welder.ogg', 'sound/items/welder2.ogg')
 	drop_sound = 'sound/items/handling/weldingtool_drop.ogg'
@@ -74,7 +74,7 @@
 /obj/item/weldingtool/process(delta_time)
 	switch(welding)
 		if(0)
-			force = 3
+			force = 1
 			damtype = BRUTE
 			update_icon()
 			if(!can_off_process)
@@ -82,8 +82,8 @@
 			return
 	//Welders left on now use up fuel, but lets not have them run out quite that fast
 		if(1)
-			force = 15
-			damtype = BURN
+			force = 2
+			damtype = FIRE
 			burned_fuel_for += delta_time
 			if(burned_fuel_for >= WELDER_FUEL_BURN_INTERVAL)
 				use(1)
@@ -112,23 +112,6 @@
 	var/plasmaAmount = reagents.get_reagent_amount(/datum/reagent/toxin/plasma)
 	dyn_explosion(T, plasmaAmount/5)//20 plasma in a standard welder has a 4 power explosion. no breaches, but enough to kill/dismember holder
 	qdel(src)
-
-/obj/item/weldingtool/attack(mob/living/carbon/human/H, mob/user)
-	if(!istype(H))
-		return ..()
-
-	var/obj/item/bodypart/affecting = H.get_bodypart(check_zone(user.zone_selected))
-
-	if(affecting && affecting.status == BODYPART_ROBOTIC && user.a_intent != INTENT_HARM)
-		if(src.use_tool(H, user, 0, volume=50, amount=1))
-			if(user == H)
-				user.visible_message("<span class='notice'>[user] starts to fix some of the dents on [H]'s [affecting.name].</span>",
-					"<span class='notice'>You start fixing some of the dents on [H == user ? "your" : "[H]'s"] [affecting.name].</span>")
-				if(!do_mob(user, H, 50))
-					return
-			item_heal_robotic(H, user, 15, 0)
-	else
-		return ..()
 
 /obj/item/weldingtool/afterattack(atom/O, mob/user, proximity)
 	. = ..()
@@ -228,8 +211,8 @@
 		if(get_fuel() >= 1)
 			to_chat(user, "<span class='notice'>You switch [src] on.</span>")
 			playsound(loc, acti_sound, 50, TRUE)
-			force = 15
-			damtype = BURN
+			force = 2
+			damtype = FIRE
 			hitsound = 'sound/items/welder.ogg'
 			update_icon()
 			START_PROCESSING(SSobj, src)
@@ -245,7 +228,7 @@
 /obj/item/weldingtool/proc/switched_off(mob/user)
 	set_welding(FALSE)
 
-	force = 3
+	force = 1
 	damtype = BRUTE
 	hitsound = "swing_hit"
 	update_icon()

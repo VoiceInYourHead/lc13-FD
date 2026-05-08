@@ -15,7 +15,9 @@
 		"Employees with Prudence Level 1 squashed the spiderlings. Spider Bud turned those who harmed its children into cocoons.",
 		"When cleaning the unit as a part of Insight Work, the employee was quickly turned into a cocoon by Spider Bud.",
 		"For each person encased in a cocoon, Spider Bud's max PE available from work was increased by 2.",
-		"Employees were entirely unable to get a good work result from spider bud.",)
+		"Employees were entirely unable to get a good work result from spider bud, unless very special circumstances arose",
+		"Employees that destroyed or closelly watched a destruction of a cocoon made by Spider Bud had reported tiny spiders coming out of the cocoon and biting them, in rare cases this resulted in the employees death",
+	)
 
 //Scorched girl
 /obj/item/paper/fluff/info/teth/match
@@ -51,11 +53,15 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/dingledangle
 	abno_code = "T-04-111"
 	abno_info = list(
-		"When the work result was Bad, the employee was immediately consumed by Dingle-Dangle with a normal probability.",
-		"When employees with Prudence Level 3 or higher completed their work, they were consumed by Dingle-Dangle unless their Fortitude was Level 4 or higher.",
-		"When employees with Prudence Level 2 or lower completed their work with Dingle-Dangle, the Qliphoth Counter decreased.",
-		"These employees reported a sense of confusion as well heightened combat capabilities.",
-		"When the Qliphoth Counter reached 0, everyone in the facility was afflicted with delirium.")
+		"When the work result was Normal, the Qliphoth Counter lowered with a low probability.",
+		"When the work result was Bad, the Qliphoth Counter lowered.",
+		"When an employee panicked within the facility, the Qliphoth Counter decreased.",
+		"When any work type apart from Insight was finished by an employee with Prudence Level 3 or higher, they suddenly fell into a delirious panic.",
+		"When the Qliphoth Counter reached 0, an employee with Prudence Level 3 or higher reported a sense of confusion as well as increased mental strain.",
+		"When a delirious employee entered Dingle-Dangle's containment unit, they panicked",
+		"When an employee afflicted with delirium was panicking, they attempted to enter Dinge-Dangle's Containment Unit, thinking it was breaching.",
+		"When a delirious employee approached Dingle-Dangle, they were then slowly consumed by it."
+		)
 
 //Beauty and the Beast
 /obj/item/paper/fluff/info/teth/beauty
@@ -147,9 +153,9 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/cherry_blossoms
 	abno_code = "O-04-100"
 	abno_info = list(
-		"When the work result was Good, the Qliphoth Counter lowered.",
+		"When the work result was Good, the Qliphoth Counter lowered with a high probability.",
 		"When an employee panicked in the Containment Unit, the Qliphoth Counter lowered.",
-		"When the Qliphoth Counter reached 0, five employees were marked for death. Whilst under its effect, employees with the mark recieved 4x as much damage from all sources.",
+		"When the Qliphoth Counter reached 0, five employees were marked for death. Whilst under its effect, employees with the mark recieved 3x as much damage from all sources.",
 		"Upon the death of one of these employees, the HP and SP of every employee in the facility was healed, and all marks were removed.")
 
 //Gone with a Simple Smile
@@ -210,8 +216,9 @@
 	abno_code = "T-04-138"
 	abno_info = list(
 		"When an Agent finished Attachment work twice, My Sweet Home whispered in their mind.",
-		"Upon finising Attachment work thrice, the Agent was compelled to approach with the key.",
-		"Upon failing work or getting to three Attachments, the abnormality breached after melding with the Agent.")
+		"Upon finishing Attachment work thrice, the Agent was compelled to approach with the key.",
+		"When the work result was Bad or when an employee panicked during work, the same result would occur.",
+		"When Agent Oliva performed Attachment work on a different Abnormality, her attachment to My Sweet Home lessened.")
 
 //Meat Lantern
 /obj/item/paper/fluff/info/teth/meatlantern
@@ -219,7 +226,7 @@
 	abno_code = "O-04-84"
 	abno_info = list(
 		"When the work result was Bad, the Qliphoth Counter lowered.",
-		"When the work took less than 18 seconds to complete, the Qliphoth Counter lowered with a high probability.",
+		"When an Agent with Level 3 Temperance or above completed the work the Qliphoth Counter lowered.",
 		"The facility’s systems and the employees will be unable to detect the Abnormality when it escapes. Thus the manager will need to manually pinpoint it and order suppression directly.")
 
 //Lady facing the Wall
@@ -342,10 +349,11 @@
 	abno_type = /mob/living/simple_animal/hostile/abnormality/skin_prophet
 	abno_code = "T-03-189"
 	abno_info = list(
-		"On work failure, a candle was snuffed, and work damage was increased.",
-		"When Attachment or Repression was completed, if the employee had no buffs in the respective stat, they were turned to ash.",
-		"When Attachment or Repression work was done, the work rates were equal to the total stat buffs of the employee.",
-		"When Attachment or Repression work was completed with a good work result, the employee's respective buff was reduced to 0, and their stat maximum was increased by the same amount.",)
+		"When the work result was Normal, the Qliphoth Counter lowered with a low probability.",
+		"When the work result was Bad, the Qliphoth Counter lowered.",
+		"When work was completed successfully. a candle lit.",
+		"When all four candles were lit, successful Instinct or Insight work was impossible, but Repression work success rate increased.",
+		"When Repression work was completed, all lit candles were snuffed.",)
 
 //Faelantern
 /obj/item/paper/fluff/info/teth/faelantern
@@ -368,3 +376,101 @@
 		"When Insight Work was performed, the abnormality's physical condition improved. If the abnormality was in a \"Pristine\" state, the Qliphoth Counter lowered.",
 		"When the Qliphoth Counter reached zero, the physical condition of the abnormality improved significantly.",
 		"After its condition improves beyond a certain point, the abnormality will breach containment and travel through the facility on a horizontal path, dealing massive WHITE damage to everything it impacts.")
+
+//Kikimora
+/obj/item/paper/fluff/info/teth/kikimora
+	abno_type = /mob/living/simple_animal/hostile/abnormality/kikimora
+	abno_code = "F-02-202"
+	abno_info = list(
+		"Do not closely examine the entity.",
+		"When F-02-202 breached, cognitohazardous F-02-202-02 graffiti appeared in a random appartment.",
+		"Graffiti can be removed with regular cleaning products or a mop.",
+		"F-02-202-02 is a phenomenon that replaces spoken word until the subject is unintelligible.",
+		"Each time a cursed employee speaks there is a chance a word will be taken by F-02-202-02.",
+		"Intances of F-02-202-02 will share taken words.",
+		"Curing the F-02-202-02 requires the host to fall asleep with a offering of food ontop of them.",
+		"Testing has found F-02-202 rejects junk food and raw meat.",
+		"It is considered bad luck if F-02-202 does not accept the offering.",)
+
+//Dealer of the Damned
+/obj/item/paper/fluff/info/teth/dealerdamned
+	abno_type = /mob/living/simple_animal/hostile/abnormality/dealerdamned
+	abno_code = "T-01-272"
+	abno_info = list(
+		"When Agent Jamie poked T-01-272, the abnormality took some of Agent Jamie's health as a wager for a coin flip. When the coin landed heads, Jamie's health was refunded and the next work had a higher success rate. When the coin landed tails, nothing happened.",
+		"When Agent Jamie tried to coinflip a second time prior to working, T-01-272 refused.",
+		"When Gambling work was performed, T-01-272 and the agent engaged in a game of Russian Roulette.",
+		"If the agent survived the game of Russian Roulette, they were awarded with an unique E.G.O. Weapon.")
+
+//Forsaken Employee
+/obj/item/paper/fluff/info/teth/forsaken_employee
+	abno_type = /mob/living/simple_animal/hostile/abnormality/forsaken_employee
+	abno_code = "T-01-201" //We can change the number once we figure out the proper code
+	abno_info = list(
+		"When the work result was Bad, the Qliphoth Counter lowered.",
+		"When Foresaken Employee escaped, it spilled chemicals that inflict WHITE damage to employees that crossed it.",
+		)
+
+//Tangle
+/obj/item/paper/fluff/info/teth/tangle
+	abno_type = /mob/living/simple_animal/hostile/abnormality/tangle
+	abno_code = "F-01-191"
+	abno_info = list(
+		"Tangle had a bad reaction when working on a random EMPLOYEE, and their Qliphoth Counter lowered.",
+		"Working large amounts of instinct works on tangle ended in it's Qliphoth Counter being lowered.",)
+
+//Generic Brand Modelling Clay
+/obj/item/paper/fluff/info/teth/clayman
+	abno_type = /mob/living/simple_animal/hostile/abnormality/clayman
+	abno_code = "O-04-204"
+	abno_info = list(
+		"No meaningful difference between work types could be noticed on the first work.",
+		"During work and breaches, the damage type dealt seemed to vary from hit to hit.",
+		"However, each work increased the chances of a successful work on the revelant work by an estimated 10%, with other work being reduced by 5%",
+		"However, should any work type's base success rate reach 100%, O-04-204 would proceed to fall apart, putting all work rates at an equal but very low percentage.",
+		"When the work result was Bad and O-04-204 wasn't falling apart, the Qliphoth Counter lowered."
+	)
+	abno_work_damage_type = "Random"
+
+//Sirocco
+/obj/item/paper/fluff/info/teth/sirocco
+	abno_type = /mob/living/simple_animal/hostile/abnormality/sirocco
+	abno_code = "C-01-205"
+	abno_info = list(
+		"When the work result was Good, the Qliphoth Counter raised.",
+		"When the work result was Bad, the Qliphoth Counter lowered.",
+		"When the emergency situation in the facility went up, the Qliphoth Counter was lowered by the difference.",
+		"Once the Qliphoth Counter reaches 0, Sirocco leaves her containment cell to play.",
+		"Once the emergency situation in the facility returned to normal, Sirocco faded away after some time.",
+	)
+
+//Hurting Teddy Bear
+/obj/item/paper/fluff/info/teth/hurting_teddy
+	abno_type = /mob/living/simple_animal/hostile/abnormality/hurting_teddy
+	abno_code = "T-04-206" //T-04-16-02 in Limbus
+	abno_info = list(
+		"The first agent to work on Hurting Teddy Bear when it has no friends is marked as the abnormality's friend.",
+		"An agent marked as a friend reported increased success on works with the abnormality and, when they started a work on the abnormality, their health and sanity were slightly healed.",
+		"When a non-friend agent works on the abnormality after a friend is made, they reported worse success on all works and were impaled by a nail upon work completion.",
+		"Agents that have a nail in them report minor bleeding whenever they took any damage.",
+		"When Repression work was peformed, if the agent was friends with the abnormality, they cease to be friends with the abnormality and they were hexed in the process.",
+		"An agent hexed by the abnormality took more RED and BLACK damage until the effect wore off naturally.",
+		"When the work result was Neutral, the Qliphoth Counter lowered by 1 with a high probability",
+		"When the work result was Bad, the Qliphoth Counter lowered by 1."
+	)
+
+// Red Queen
+/obj/item/paper/fluff/info/teth/red_queen
+	abno_type = /mob/living/simple_animal/hostile/abnormality/red_queen
+	abno_code = "F-01-112"
+	abno_info = list(
+		"Due to F-01-112’s fickle nature, it prefers a different work type every shift but the desired work does not change during the shift.",
+		"F-01-112 does not seem to provide feedback on what work it likes and will only communicate its dislikes by attempting to behead those who aggravate it.",
+		"Instinct work is never disliked by F-01-112.",
+		"When the work result was Bad, F-01-112 would attempt to behead the employee, dealing massive RED damage.")
+	abno_work_rates = list(
+	ABNORMALITY_WORK_INSTINCT = "Common",
+	ABNORMALITY_WORK_INSIGHT = "Unknown",
+	ABNORMALITY_WORK_ATTACHMENT = "Unknown",
+	ABNORMALITY_WORK_REPRESSION = "Unknown" ,
+	)

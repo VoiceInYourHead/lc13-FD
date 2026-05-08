@@ -9,7 +9,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 
 	healing_factor = STANDARD_ORGAN_HEALING
-	decay_factor = STANDARD_ORGAN_DECAY * 0.9 // fails around 16.5 minutes, lungs are one of the last organs to die (of the ones we have)
+	decay_factor = STANDARD_ORGAN_DECAY * 0.25 // fails around 60 minutes, lungs are one of the last organs to die (of the ones we have)
 
 	low_threshold_passed = "<span class='warning'>You feel short of breath.</span>"
 	high_threshold_passed = "<span class='warning'>You feel some sort of constriction around your chest as your breathing becomes shallow and rapid.</span>"
@@ -63,7 +63,7 @@
 	var/cold_level_1_damage = COLD_GAS_DAMAGE_LEVEL_1 //Keep in mind with gas damage levels, you can set these to be negative, if you want someone to heal, instead.
 	var/cold_level_2_damage = COLD_GAS_DAMAGE_LEVEL_2
 	var/cold_level_3_damage = COLD_GAS_DAMAGE_LEVEL_3
-	var/cold_damage_type = BURN
+	var/cold_damage_type = FIRE
 
 	var/hot_message = "your face burning and a searing heat"
 	var/heat_level_1_threshold = 360
@@ -72,7 +72,7 @@
 	var/heat_level_1_damage = HEAT_GAS_DAMAGE_LEVEL_1
 	var/heat_level_2_damage = HEAT_GAS_DAMAGE_LEVEL_2
 	var/heat_level_3_damage = HEAT_GAS_DAMAGE_LEVEL_3
-	var/heat_damage_type = BURN
+	var/heat_damage_type = FIRE
 
 	var/crit_stabilizing_reagent = /datum/reagent/medicine/epinephrine
 
@@ -157,8 +157,6 @@
 			H.clear_alert("not_enough_oxy")
 
 	//Exhale
-	breath_gases[/datum/gas/oxygen][MOLES] -= gas_breathed
-	breath_gases[/datum/gas/carbon_dioxide][MOLES] += gas_breathed
 	gas_breathed = 0
 
 	//-- Nitrogen --//
@@ -222,8 +220,6 @@
 			H.clear_alert("not_enough_co2")
 
 	//Exhale
-	breath_gases[/datum/gas/carbon_dioxide][MOLES] -= gas_breathed
-	breath_gases[/datum/gas/oxygen][MOLES] += gas_breathed
 	gas_breathed = 0
 
 

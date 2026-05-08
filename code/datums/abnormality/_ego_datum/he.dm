@@ -21,10 +21,6 @@
 	item_path = /obj/item/ego_weapon/fury
 	cost = 40
 
-/datum/ego_datum/armor/fury
-	item_path = /obj/item/clothing/suit/armor/ego_gear/he/fury
-	cost = 40
-
 // Happy Teddy Bear - Bear Paw
 /datum/ego_datum/weapon/paw
 	item_path = /obj/item/ego_weapon/paw
@@ -83,7 +79,7 @@
 
 // Laetitia - Funny Prank
 /datum/ego_datum/weapon/prank
-	item_path = /obj/item/gun/ego_gun/prank
+	item_path = /obj/item/ego_weapon/ranged/prank
 	cost = 35
 
 /datum/ego_datum/armor/prank
@@ -123,7 +119,7 @@
 	cost = 35
 
 /datum/ego_datum/weapon/galaxy
-	item_path = /obj/item/gun/ego_gun/galaxy
+	item_path = /obj/item/ego_weapon/ranged/galaxy
 	cost = 35
 
 //Piscine Mermaid - Unrequited Love
@@ -132,7 +128,7 @@
 	cost = 35
 
 /datum/ego_datum/weapon/unrequited
-	item_path = /obj/item/gun/ego_gun/unrequited
+	item_path = /obj/item/ego_weapon/ranged/unrequited
 	cost = 35
 
 //Singing Machine - Harmony
@@ -142,7 +138,7 @@
 
 /datum/ego_datum/weapon/harmony
 	item_category = "Weapon (LMG)"
-	item_path = /obj/item/gun/ego_gun/harmony
+	item_path = /obj/item/ego_weapon/ranged/harmony
 	cost = 35
 
 /datum/ego_datum/weapon/rhythm
@@ -165,7 +161,7 @@
 	cost = 35
 
 /datum/ego_datum/weapon/gaze
-	item_path = /obj/item/gun/ego_gun/pistol/gaze
+	item_path = /obj/item/ego_weapon/ranged/pistol/gaze
 	cost = 35
 
 //F.A.N - Bare Metal
@@ -183,7 +179,7 @@
 	cost = 35
 
 /datum/ego_datum/weapon/transmission
-	item_path = /obj/item/gun/ego_gun/transmission
+	item_path = /obj/item/ego_weapon/ranged/transmission
 	cost = 35
 
 //Beanstalk without Jack - Giant
@@ -238,11 +234,11 @@
 	cost = 35
 
 /datum/ego_datum/weapon/song
-	item_path = /obj/item/gun/ego_gun/song
+	item_path = /obj/item/ego_weapon/ranged/song
 	cost = 35
 
 /datum/ego_datum/weapon/songmini
-	item_path = /obj/item/gun/ego_gun/pistol/songmini
+	item_path = /obj/item/ego_weapon/ranged/pistol/songmini
 	cost = 35
 
 //Golden False Apple - Legerdemain
@@ -256,7 +252,7 @@
 
 //Lady facing the Wall - Wedge
 /datum/ego_datum/weapon/wedge
-	item_path = /obj/item/gun/ego_gun/wedge
+	item_path = /obj/item/ego_weapon/ranged/wedge
 	cost = 35
 
 //You Must Become Strong - Get Strong
@@ -292,7 +288,7 @@
 	cost = 35
 
 /datum/ego_datum/weapon/syrinx
-	item_path = /obj/item/gun/ego_gun/syrinx
+	item_path = /obj/item/ego_weapon/ranged/syrinx
 	cost = 35
 
 /datum/ego_datum/weapon/trachea
@@ -326,13 +322,13 @@
 	item_path = /obj/item/ego_weapon/jackrabbit
 	cost = 35*/
 
-//KQE-1J-23 - Replica
-/datum/ego_datum/armor/replica
-	item_path = /obj/item/clothing/suit/armor/ego_gear/he/replica
+//KQE-1J-23 - Move-in Reg.
+/datum/ego_datum/armor/regs
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/regs
 	cost = 35
 
-/datum/ego_datum/weapon/replica
-	item_path = /obj/item/ego_weapon/replica
+/datum/ego_datum/weapon/regs
+	item_path = /obj/item/ego_weapon/regs
 	cost = 35
 
 //Wayward Passenger - Dimension Shredder
@@ -420,13 +416,13 @@
 	item_path = /obj/item/ego_weapon/morii
 	cost = 35
 
-//Will You Play - Voodoo doll
-/datum/ego_datum/armor/voodoo
-	item_path = /obj/item/clothing/suit/armor/ego_gear/he/voodoo
+//Will You Play - I'll go fer scissors. How 'bout you?
+/datum/ego_datum/armor/scissors
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/scissors
 	cost = 35
 
-/datum/ego_datum/weapon/voodoo
-	item_path = /obj/item/ego_weapon/mini/voodoo
+/datum/ego_datum/weapon/scissors
+	item_path = /obj/item/ego_weapon/mini/scissors
 	cost = 35
 
 //Eris - Coiling
@@ -447,13 +443,13 @@
 	item_path = /obj/item/ego_weapon/uturn
 	cost = 35
 
-//Steam Transport Machine - Nixie Divergence (PH)
-/datum/ego_datum/armor/nixie
-	item_path = /obj/item/clothing/suit/armor/ego_gear/he/nixie
+//Steam Transport Machine - Crushbound Past
+/datum/ego_datum/armor/crushbound
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/crushbound
 	cost = 35
 
-/datum/ego_datum/weapon/nixie
-	item_path = /obj/item/ego_weapon/nixie
+/datum/ego_datum/weapon/crushbound
+	item_path = /obj/item/ego_weapon/crushbound
 	cost = 35
 
 //Drifting Fox - Sunshower
@@ -465,11 +461,30 @@
 	item_path = /obj/item/ego_weapon/sunshower
 	cost = 35
 
-//Ardor Blossom Moth - Ardor Blossom Star
-/datum/ego_datum/armor/ardor_star
-	item_path = /obj/item/clothing/suit/armor/ego_gear/he/ardor_star
+//Alleyway Watchdog - Telepole
+/datum/ego_datum/armor/telepole
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/telepole
 	cost = 35
 
-/datum/ego_datum/weapon/ardor_star
-	item_path = /obj/item/gun/ego_gun/ardor_star
+/datum/ego_datum/weapon/telepole
+	item_path = /obj/item/ego_weapon/telepole
+	cost = 35
+
+// Teddy in Pain - Hex Nail
+/datum/ego_datum/weapon/hexnail
+	item_path = /obj/item/ego_weapon/hexnail
+	cost = 35
+
+/datum/ego_datum/armor/hexnail
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/hexnail
+	cost = 35
+
+// Sirocco - Desert Wind
+/datum/ego_datum/weapon/desert // rank-bumped
+	item_path = /obj/item/ego_weapon/desert
+	cost = 35
+
+// Der Fluchutze - Fell Bullet
+/datum/ego_datum/armor/fellbullet //the weapons are WAW
+	item_path = /obj/item/clothing/suit/armor/ego_gear/he/fellbullet
 	cost = 35

@@ -1,4 +1,5 @@
 GLOBAL_LIST_EMPTY(dead_players_during_shift)
+GLOBAL_LIST_EMPTY(hatcheries)
 /mob/living/carbon/human/gib_animation()
 	new /obj/effect/temp_visual/gib_animation(loc, dna.species.gib_anim)
 
@@ -20,6 +21,7 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 /mob/living/carbon/human/death(gibbed)
 	if(stat == DEAD)
 		return
+	restoreSanity(FALSE)
 	stop_sound_channel(CHANNEL_HEARTBEAT)
 	var/obj/item/organ/heart/H = getorganslot(ORGAN_SLOT_HEART)
 	if(H)
@@ -39,10 +41,11 @@ GLOBAL_LIST_EMPTY(dead_players_during_shift)
 
 	if(SSticker.HasRoundStarted())
 		SSblackbox.ReportDeath(src)
-		log_message("has died (BRUTE: [src.getBruteLoss()], BURN: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()], CLONE: [src.getCloneLoss()])", LOG_ATTACK)
+		log_message("has died (BRUTE: [src.getBruteLoss()], FIRE: [src.getFireLoss()], TOX: [src.getToxLoss()], OXY: [src.getOxyLoss()], CLONE: [src.getCloneLoss()])", LOG_ATTACK)
 
 	med_hud_set_sanity() // Change it to death state
-	to_chat(src, span_warning("You have died. To continue playing, use the \"Respawn\" verb in the OOC tab."))
+	to_chat(src, span_warning("You have died. You can wait for someone to salvage your body, or click <a href='byond://winset?command=Jump-to-Hatchery'>here</a> to jump to a hatchery to respawn if your body was lost or destroyed.</font></span>"))
+	to_chat(src, span_warning("To play as someone else, use the \"Respawn\" verb in the OOC tab."))
 
 /mob/living/carbon/human/proc/makeSkeleton()
 	ADD_TRAIT(src, TRAIT_DISFIGURED, TRAIT_GENERIC)

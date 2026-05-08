@@ -5,10 +5,10 @@
 	icon = 'ModularTegustation/Teguicons/32x32.dmi'
 	icon_state = "reaper"
 	portrait = "missed_reaper"
-	maxHealth = 400
-	health = 400
-	melee_damage_lower = 35
-	melee_damage_upper = 45
+	maxHealth = 100
+	health = 100
+	melee_damage_lower = 7
+	melee_damage_upper = 9
 	melee_damage_type = PALE_DAMAGE
 	attack_verb_continuous = "pierces"
 	attack_verb_simple = "pierce"
@@ -22,8 +22,10 @@
 		ABNORMALITY_WORK_ATTACHMENT = 55,
 		ABNORMALITY_WORK_REPRESSION = list(50, 45, 40, 0, 0),
 	)
-	work_damage_amount = 8
+	work_damage_upper = 6
+	work_damage_lower = 4
 	work_damage_type = PALE_DAMAGE
+	chem_type = /datum/reagent/abnormality/sin/pride
 
 	ego_list = list(
 		/datum/ego_datum/weapon/grasp,
@@ -35,13 +37,12 @@
 	light_power = 5
 	light_range = 2
 
-	observation_prompt = "She was so pale at the end, she looked more like a porcealin doll than the little girl I knew, \
+	observation_prompt = "She was so pale at the end, she looked more like a porcelain doll than the little girl I knew, \
 		laughing and smiling that bright colourful smile I loved so much. <br>I sat next to her bed, powerless to do anything."
-	observation_choices = list("Hold her hand")
-	correct_choices = list("Hold her hand")
-	observation_success_message = "Her skin was clammy and cool to the touch and not a trace of a pulse to be found, she passed the night before. <br>\
-		It didn't mean anything. <br>In the corner of the room, I saw the reaper bow his head in apology."
-
+	observation_choices = list(
+		"Hold her hand" = list(TRUE, "Her skin was clammy and cool to the touch and not a trace of a pulse to be found, she passed the night before. <br>\
+			It didn't mean anything. <br>In the corner of the room, I saw the reaper bow his head in apology."),
+	)
 
 	var/meltdown_cooldown //no spamming the meltdown effect
 	var/meltdown_cooldown_time = 15 SECONDS
